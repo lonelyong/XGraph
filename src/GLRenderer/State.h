@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "glrenderer_global.h"
 

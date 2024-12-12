@@ -27,12 +27,12 @@ class GLRENDERER_API Depth : public StateAttribute {
     Depth(double near, double far, Func func = LESS, bool mask = true);
 
   public:
-    virtual Type getType() const;
+    virtual Type getType() const override;
 
   protected:
-    virtual void apply(State& state) const;
+    virtual void apply(State& state) const override;
 
-    virtual void restore(State& state) const;
+    virtual void restore(State& state) const override;
 
   private:
     VI_OBJECT_DATA;

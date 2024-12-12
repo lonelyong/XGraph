@@ -1,6 +1,7 @@
 #include "BoundingBox.h"
 
 #include <cmath>
+#include <utility>
 
 namespace glr {
 namespace {

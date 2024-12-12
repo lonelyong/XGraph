@@ -19,8 +19,8 @@ class GLRENDERER_API Texture : public PixelData {
 
     enum FilterParameter
     {
-        MIN_FILTER,
-        MAX_FILTER
+        MIN_FILTER = GL_TEXTURE_MIN_FILTER,
+        MAX_FILTER = GL_TEXTURE_MAG_FILTER
     };
 
     enum FilterMode
@@ -47,9 +47,9 @@ class GLRENDERER_API Texture : public PixelData {
     enum WrapParameter
     {
 
-        WRAP_S,
-        WRAP_T,
-        WRAP_R
+        WRAP_S = GL_TEXTURE_WRAP_S,
+        WRAP_T = GL_TEXTURE_WRAP_T,
+        WRAP_R = GL_TEXTURE_WRAP_R
     };
 
   public:

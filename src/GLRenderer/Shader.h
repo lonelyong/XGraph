@@ -106,7 +106,7 @@ class GLRENDERER_API Shader : public GLObject {
     static Shader* create(const std::string& vs_path, const std::string& gs_path, const std::string& fs_path);
 
   protected:
-    GLuint onCreate(State& state);
+    GLuint onCreate(State& state) override;
     void   onRelease(State& state) override;
 
   private:

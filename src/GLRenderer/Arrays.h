@@ -18,7 +18,7 @@ namespace glr {
         using item_type = T;                                                                                           \
                                                                                                                        \
       public:                                                                                                          \
-        virtual Type    getType() const;                                                                               \
+        virtual Type    getType() const override;                                                                               \
         virtual GLsizei getSize() const override;                                                                      \
         virtual GLsizei getSizeOfItem() const override;                                                                \
         virtual void*   getData() override;                                                                            \
