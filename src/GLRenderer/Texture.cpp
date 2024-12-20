@@ -10,6 +10,8 @@ struct Texture::Data {
 
     FilterMode filter_min = LINEAR;
     FilterMode filter_max = LINEAR;
+
+    InternalFormat internal_format = IF_RGBA;
 };
 
 Texture::Texture()
@@ -81,5 +83,15 @@ Texture::WrapMode Texture::getWrap(WrapParameter param) const {
     else if (param == WRAP_R)
         return d->wrap_r;
     return d->wrap_s;
+}
+
+void Texture::setInternalFormat(InternalFormat fmt) {
+    if (d->internal_format == fmt) return;
+    d->internal_format = fmt;
+    dirty();
+}
+
+Texture::InternalFormat Texture::getInternalFormat() const {
+    return d->internal_format;
 }
 } // namespace glr

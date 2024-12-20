@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "glrenderer_global.h"
 
@@ -25,6 +25,7 @@ class GLRENDERER_API Texture : public PixelData {
 
     enum FilterMode
     {
+        FILTER_UNSET           = GL_ZERO,
         LINEAR                 = GL_LINEAR,
         LINEAR_MIPMAP_LINEAR   = GL_LINEAR_MIPMAP_LINEAR,
         LINEAR_MIPMAP_NEAREST  = GL_LINEAR_MIPMAP_NEAREST,
@@ -35,6 +36,7 @@ class GLRENDERER_API Texture : public PixelData {
 
     enum WrapMode
     {
+        WRAP_UNSET      = GL_ZERO,
         // Not support in gl3
         CLAMP           = 0x2900,
         CLAMP_TO_EDGE   = GL_CLAMP_TO_EDGE,
@@ -66,6 +68,10 @@ class GLRENDERER_API Texture : public PixelData {
     void setWrap(WrapParameter param, WrapMode mode);
 
     WrapMode getWrap(WrapParameter param) const;
+
+    // 如果设置了IMAGE，将使用IMAGE的格式
+    void           setInternalFormat(InternalFormat fmt);
+    InternalFormat getInternalFormat() const;
 
   protected:
     virtual void onBind(State& state) override;

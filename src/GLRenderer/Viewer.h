@@ -17,13 +17,15 @@ class GLRENDERER_API Viewer : public Object {
     virtual ~Viewer();
 
   public:
-    void      frame();
-    int       run();
-    void      setMasterRenderer(Renderer* renderer);
-    Renderer* getMasterRenderer() const;
-    void      addRenderer(Renderer* renderer);
-    int       getNbRenderers() const;
-    Renderer* getRendererAt(int idx) const;
+    virtual int frame();
+    virtual int run();
+    void        setMasterRenderer(Renderer* renderer);
+    Renderer*   getMasterRenderer() const;
+    void        addRenderer(Renderer* renderer);
+    int         getNbRenderers() const;
+    Renderer*   getRendererAt(int idx) const;
+    void        removeRenderer(Renderer* renderer);
+    void        clearRenderers();
 
   private:
     VI_OBJECT_DATA;

@@ -1,5 +1,6 @@
 #include "RttRenderer.h"
 
+#include <exception>
 #include <iostream>
 
 #include <glad/glad.h>
@@ -9,17 +10,14 @@
 #include <vine/core/Ptr.h>
 
 #include "FrameBufferObject.h"
-#include "Texture2D.h"
+#include "RenderInfo.h"
+#include "GraphicContext.h"
 
 namespace glr {
 VI_OBJECT_META_IMPL(RttRenderer, Renderer);
 
 struct RttRenderer::Data {
-    GLFWwindow*             wnd  = nullptr;
-    GLuint                  fbo_ = 0;
-    vine::RefPtr<Texture2D> color_buffer_;
-    GLsizei                 w = 640, h = 360;
-    bool                    is_initialized = false;
+    vine::RefPtr<FrameBufferObject> fbo = nullptr;
 };
 
 RttRenderer::RttRenderer()
@@ -29,50 +27,27 @@ RttRenderer::RttRenderer()
 RttRenderer::~RttRenderer() {
 }
 
-void RttRenderer::resize(int w, int h) {
-    if (w < 0 || h < 0) throw std::exception();
-    d->w = w;
-    d->h = h;
+int RttRenderer::render(RenderInfo& info) {
+    if (!d->fbo) return -1;
+
+    auto ctx = getContext();
+
+    if (!ctx) return -1;
+
+    d->fbo->bind(*ctx->getState());
+
+    auto code = Renderer::render(info);
+
+    d->fbo->unbind(*ctx->getState());
+    return code;
 }
 
-GLsizei RttRenderer::getWidth() const {
-    return d->w;
+void RttRenderer::setFbo(FrameBufferObject* fbo) {
+    d->fbo = fbo;
 }
 
-GLsizei RttRenderer::getHeight() const {
-    return d->h;
-}
-
-void RttRenderer::initialize() {
-    if (!glfwInit()) {
-        throw std::exception("GLFW init failed");
-    }
-
-    auto w = 1, h = 1;
-
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-    auto wnd = glfwCreateWindow(800, 600, "RttRenderer", NULL, NULL);
-    glfwMakeContextCurrent(wnd);
-    if (!glad_glClear && !gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-        glfwDestroyWindow(wnd);
-        glfwTerminate();
-        std::cout << "Failed to initialize GLAD" << std::endl;
-        throw std::exception("GLAD init failed");
-    }
-    d->wnd            = wnd;
-    d->is_initialized = true;
-}
-
-bool RttRenderer::isInitialized() const {
-    return d->is_initialized;
-}
-
-Texture* RttRenderer::getColorBuffer() const {
-    return d->color_buffer_.get();
+FrameBufferObject* RttRenderer::getFbo() const {
+    return d->fbo.get();
 }
 
 } // namespace glr

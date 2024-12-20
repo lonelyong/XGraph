@@ -2,22 +2,22 @@
 
 #include "glrenderer_global.h"
 
+#include "Viewer.h"
+
 namespace glr {
 class Viewer;
 
-class GLRENDERER_API SdlViewer {
+class GLRENDERER_API SdlViewer : public Viewer{
   public:
     SdlViewer();
     virtual ~SdlViewer();
 
   public:
-    Viewer* getViewer() const;
-
     void initialize();
 
     bool isInitialized() const;
 
-    void run();
+    virtual int run() override;
 
   private:
     struct Data;

@@ -32,7 +32,7 @@ class GLRENDERER_API Renderer : public EventReceiver {
     virtual ~Renderer();
 
   public:
-    void render(RenderInfo& info);
+    virtual int render(RenderInfo& info);
 
     Camera* getCamera() const;
     void    setCamera(Camera* cam);
@@ -60,6 +60,9 @@ class GLRENDERER_API Renderer : public EventReceiver {
 
     void setUseMasterProjectionMatrix(bool val);
     bool getUseMasterProjectionMatrix() const;
+
+    void setFreeze(bool val);
+    bool getFreezed() const;
 
     virtual bool handleEvent(Event* e) override;
     virtual void update(UpdateContext* ctx) override;

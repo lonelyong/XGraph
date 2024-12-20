@@ -1,5 +1,7 @@
 #include "Image.h"
 
+#include <memory>
+
 #include <glad/glad.h>
 #include <vine/core/Exception.h>
 
@@ -96,7 +98,7 @@ void Image::setImage(int w, int h, Format format, const unsigned char* data, int
     }
 }
 
-Image::Format Image::getFormat() const {
+Image::Format Image::getInternalTextureFormat() const {
     return d->format;
 }
 
@@ -127,7 +129,16 @@ unsigned char* Image::data() const {
     return d->data;
 }
 
+int Image::size() const {
+    return d->w * d->h * getPixelSizeOfFormat(d->format);
+}
+
 bool Image::isNull() const {
     return d->data == nullptr;
+}
+
+Image* Image::readPixels(int x, int y, int w, int h, int fmt, int type) {
+
+    return nullptr;
 }
 } // namespace glr

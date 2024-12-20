@@ -9,10 +9,9 @@ namespace glr {
 VI_OBJECT_META_IMPL(Texture2D, Texture);
 
 struct Texture2D::Data {
-    GLsizei             w         = 0;
-    GLsizei             h         = 0;
-    GLint               in_format = GL_RGB;
-    vine::RefPtr<Image> img       = nullptr;
+    GLsizei             w   = 0;
+    GLsizei             h   = 0;
+    vine::RefPtr<Image> img = nullptr;
 };
 
 Texture2D::Texture2D()
@@ -54,20 +53,18 @@ void Texture2D::setImage(Image* image) {
     if (image == d->img) return;
 
     d->img = image;
-    d->w   = 0;
-    d->h   = 0;
     if (image) {
         d->w = image->getWidth();
         d->h = image->getHeight();
     }
+    else {
+        d->w = 0;
+        d->h = 0;
+    }
     dirty();
 }
 
-bool Texture2D::save(const std::string& path) const {
-    return false;
-}
-
-GLuint Texture2D::onCreate(State& ctx) {
+GLuint Texture2D::onCreate(State& state) {
     GLuint id = 0;
     glGenTextures(1, &id);
     glBindTexture(getType(), id);
@@ -77,30 +74,27 @@ GLuint Texture2D::onCreate(State& ctx) {
     glTexParameteri(getType(), GL_TEXTURE_WRAP_T, getWrap(WRAP_T));
 
     void* img_data = nullptr;
-    GLint w, h, fmt, in_format;
+    GLint w = d->w, h = d->h, internal_fmt = getInternalFormat(), src_type = 0, src_format = 0;
 
     if (d->img.get()) {
-        img_data  = d->img->data();
-        w         = d->img->getWidth();
-        h         = d->img->getHeight();
-        fmt       = d->img->getGLFormat();
-        in_format = fmt;
-    }
-    else {
-        w         = d->w;
-        h         = d->h;
-        fmt       = GL_RGB;
-        in_format = d->in_format;
+        img_data     = d->img->data();
+        w            = d->img->getWidth();
+        h            = d->img->getHeight();
+        internal_fmt = d->img->getInternalTextureFormat();
     }
 
     if (w && h) {
-        glTexImage2D(GL_TEXTURE_2D, 0, in_format, w, h, 0, fmt, GL_UNSIGNED_BYTE, img_data);
+        glTexImage2D(getType(), 0, internal_fmt, w, h, 0, src_format, src_type, img_data);
     }
-
+    glBindTexture(getType(), 0);
     return id;
 }
 
-bool Texture2D::onUpdate(State& ctx) {
+bool Texture2D::onUpdate(State& state) {
+    release(state);
+    if (!isCreated(state)) {
+        create(state);
+    }
     return true;
 }
 

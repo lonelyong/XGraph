@@ -93,6 +93,7 @@ bool AppInitializer::isGlfwInitialized() const {
 bool AppInitializer::isGladInitialized() const {
     return s_is_glad_initialized;
 }
+
 bool AppInitializer::isQtInitialized() const {
     return s_is_qt_initialized;
 }

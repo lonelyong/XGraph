@@ -18,11 +18,15 @@
 #include "Viewer.h"
 
 namespace glr {
-namespace {
-class GlfwGraphicContext : public GraphicContext {
+class GraphicContextGlfwImpl : public GraphicContextGlfw {
   public:
-    GlfwGraphicContext() {}
-    virtual ~GlfwGraphicContext() {
+    GraphicContextGlfwImpl(const Traits& traits)
+      : wnd_(nullptr)
+      , traits_(traits)
+      , size_({})
+      , cursor_pt_({}) {}
+
+    virtual ~GraphicContextGlfwImpl() {
         if (wnd_) {
             // d->ctx->releaseGLObjects();
             glfwDestroyWindow(wnd_);
@@ -30,17 +34,20 @@ class GlfwGraphicContext : public GraphicContext {
     }
 
   public:
-    virtual void makeCurrent() override { glfwMakeContextCurrent(wnd_); }
+    virtual void makeCurrent() override {
+        if (!isRealized()) realize();
+        glfwMakeContextCurrent(wnd_);
+    }
 
     virtual void swapBuffers() override { glfwSwapBuffers(wnd_); }
 
-    virtual void realize() {
+    virtual void realize() override {
         if (isRealized()) return;
-        auto w = 800, h = 600;
+        auto w = traits_.width, h = traits_.height;
 
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-        auto wnd = glfwCreateWindow(800, 600, "GlfwViewer", NULL, NULL);
-        
+        auto wnd = glfwCreateWindow(w, h, "GlfwViewer", NULL, NULL);
+
         using GLFWFrameBufferSizeCallback = std::function<void(GLFWwindow*, int, int)>;
         using GLFWKeyCallback = std::function<void(GLFWwindow * window, int key, int scancode, int action, int mods)>;
         using GLFWMouseButtonCallback = std::function<void(GLFWwindow*, int, int, int)>;
@@ -99,7 +106,9 @@ class GlfwGraphicContext : public GraphicContext {
 
         wnd_  = wnd;
         size_ = glm::vec2(w, h);
-        glfwShowWindow(wnd_);
+        if (traits_.visible) {
+            glfwShowWindow(wnd_);
+        }
         GraphicContext::realize();
     }
 
@@ -129,6 +138,7 @@ class GlfwGraphicContext : public GraphicContext {
     }
 
     void framebuffer_size_callback(GLFWwindow* wnd, int w, int h) {
+        size_ = glm::vec2(w, h);
         if (w == 0 || h == 0) return;
         notify(Event::createResizeEvent(this, w, h));
     }
@@ -157,17 +167,20 @@ class GlfwGraphicContext : public GraphicContext {
     void scroll_callback(GLFWwindow* wnd, double x, double y) { notify(Event::createMouseWheelEvent(this, y)); }
 
   private:
+    Traits      traits_;
     GLFWwindow* wnd_;
     glm::vec2   size_;
     glm::vec2   cursor_pt_;
 };
-} // namespace
+
+GraphicContextGlfw* GraphicContextGlfw::create(const Traits& traits) {
+    return new GraphicContextGlfwImpl(traits);
+}
 
 struct GlfwViewer::Data {
-    vine::RefPtr<Viewer>             viewer;
-    vine::RefPtr<Renderer>           renderer;
-    vine::RefPtr<GlfwGraphicContext> ctx;
-    bool                             is_initialized = false;
+    vine::RefPtr<Renderer>               renderer;
+    vine::RefPtr<GraphicContextGlfwImpl> ctx;
+    bool                                 is_initialized = false;
 };
 
 GlfwViewer::GlfwViewer()
@@ -182,11 +195,10 @@ GlfwViewer::~GlfwViewer() {
 void GlfwViewer::initialize() {
     if (d->is_initialized) return;
 
-    auto viewer   = new Viewer();
     auto renderer = new Renderer();
     auto cam      = renderer->getCamera();
     auto cm       = new StandardCameraManipulator(cam);
-    auto ctx      = new GlfwGraphicContext();
+    auto ctx      = new GraphicContextGlfwImpl({});
 
     renderer->setContext(ctx);
     renderer->setCameraManipulator(cm);
@@ -197,7 +209,7 @@ void GlfwViewer::initialize() {
     cam->setClearColor(glm::vec4(0., 0., 0., 1.));
     cam->setClearMask(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-    viewer->addRenderer(renderer);
+    addRenderer(renderer);
     ctx->realize();
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -210,7 +222,6 @@ void GlfwViewer::initialize() {
     glFrontFace(GL_CCW);
     glDepthFunc(GL_LESS);
 
-    d->viewer         = viewer;
     d->renderer       = renderer;
     d->ctx            = ctx;
     d->is_initialized = true;
@@ -220,21 +231,22 @@ bool GlfwViewer::isInitialized() const {
     return d->is_initialized;
 }
 
-Viewer* GlfwViewer::getViewer() const {
-    return d->viewer.get();
-}
-
-void GlfwViewer::run() {
+int GlfwViewer::run() {
     if (!isInitialized()) {
         initialize();
     }
+    if (!isInitialized()) {
+        return -1;
+    }
+
     auto& ctx = *d->ctx.get();
     ctx.makeCurrent();
     while (!ctx.isWindowShouldClose()) {
         ctx.pollEvents();
-        d->viewer->frame();
+        frame();
         ctx.swapBuffers();
     }
+    return 0;
 }
 
 } // namespace glr

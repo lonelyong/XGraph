@@ -3,10 +3,12 @@
 #include "glrenderer_global.h"
 
 #include "Buffer.h"
+#include "State.h"
 
 namespace glr {
 class RenderBuffer;
 class Texture;
+class PixelData;
 
 class GLRENDERER_API FrameBufferObject : public Buffer {
     VI_OBJECT_META;
@@ -35,14 +37,16 @@ class GLRENDERER_API FrameBufferObject : public Buffer {
     void attachRenderBuffer(BufferComponent comp, RenderBuffer* buffer);
     void attachTexture(BufferComponent comp, Texture* tex);
 
+    RenderBuffer* getRenderBuffer(BufferComponent comp) const;
+    Texture*      getTexture(BufferComponent comp) const;
+    PixelData*    getComponent(BufferComponent comp) const;
+
   protected:
     virtual GLuint onCreate(State& state) override;
     virtual void   onRelease(State& state) override;
     virtual bool   onUpdate(State& state) override;
     virtual void   onBind(State& state) override;
     virtual void   onUnbind(State& state) override;
-
-
 
   private:
     VI_OBJECT_DATA;

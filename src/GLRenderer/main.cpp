@@ -11,6 +11,7 @@
 #include "AppInitializer.h"
 #include "Camera.h"
 #include "CubeMap.h"
+#include "FrameBufferObject.h"
 #include "Geometry.h"
 #include "GlfwViewer.h"
 #include "GraphicContext.h"
@@ -24,6 +25,7 @@
 #include "QtViewer.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
+#include "RttRenderer.h"
 #include "Scene.h"
 #include "Shader.h"
 #include "SkyBox.h"
@@ -153,17 +155,47 @@ int main(int argc, char** argv) {
 
     auto scene = new glr::Scene();
 
-#define GLFW_VIEWER_
+#define RTT_VIEWER
 
 #ifdef GLFW_VIEWER
     glr::GlfwViewer v;
     v.initialize();
     auto renderer = v.getViewer()->getMasterRenderer();
+
+#elif defined(RTT_VIEWER)
+    auto                            viewer = new glr::Viewer();
+    glr::GraphicContextGlfw::Traits traits;
+    traits.width   = 1;
+    traits.height  = 1;
+    traits.visible = false;
+
+    auto ctx = glr::GraphicContextGlfw::create(traits);
+
+    auto renderer = new glr::RttRenderer();
+    renderer->setContext(ctx);
+
+    auto fbo = new glr::FrameBufferObject();
+
+    auto comp_color = new glr::Texture2D();
+    auto comp_depth = new glr::Texture2D();
+
+    comp_color->setWidth(800);
+    comp_color->setHeight(600);
+    comp_depth->setWidth(800);
+    comp_depth->setHeight(600);
+
+    fbo->attachTexture(glr::FrameBufferObject::COLOR_ATTACHMENT0, comp_color);
+    fbo->attachTexture(glr::FrameBufferObject::DEPTH_ATTACHMENT, comp_depth);
+
+    renderer->setFbo(fbo);
+
+    viewer->addRenderer(renderer);
+
 #else
     // QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication      app(argc, argv);
     glr::QtMainWindow wnd;
-    auto              renderer = wnd.getViewer()->getViewer()->getMasterRenderer();
+    auto              renderer = wnd.getViewer()->getMasterRenderer();
 #endif
 
     if (argc > 1) {
@@ -195,6 +227,11 @@ int main(int argc, char** argv) {
 #ifdef GLFW_VIEWER
     renderer->setScene(scene);
     v.run();
+#elif defined(RTT_VIEWER)
+    renderer->setScene(scene);
+    while (true) {
+        viewer->frame();
+    }
 #else
     renderer->setScene(scene);
     wnd.show();

@@ -35,6 +35,7 @@ struct Renderer::Data {
     bool                            use_master_view_matrix = false;
     bool                            use_master_proj_matrix = false;
     bool                            is_first_frame         = true;
+    bool                            is_freezed             = false;
 };
 
 Renderer::Renderer()
@@ -71,11 +72,11 @@ void Renderer::setCameraManipulator(CameraManipulator* cm) {
     d->cm = cm;
 }
 
-void Renderer::render(RenderInfo& info) {
-    if (!d->ctx){
-        return;
+int Renderer::render(RenderInfo& info) {
+    if (!d->ctx || d->is_freezed) {
+        return -1;
     }
-    
+
     if (d->is_first_frame) {
         d->is_first_frame = false;
     }
@@ -105,16 +106,16 @@ void Renderer::render(RenderInfo& info) {
     auto& ctx       = *d->ctx;
     auto& state     = *ctx.getState();
 
-    auto scene = d->use_master_scene ? master_renderer->getScene() : d->scene;
+    auto scene = d->use_master_scene ? master_renderer->getScene() : d->scene.get();
     if (!scene) {
-        return;
+        return 0;
     }
 
     auto nb_models = scene->getNbChildren();
     for (size_t i = 0; i < nb_models; ++i) {
         auto model = scene->getChildAt(i)->cast<Model>();
-        
-        if(!model){
+
+        if (!model) {
             continue;
         }
         auto stateset = model->getStateSet();
@@ -142,6 +143,7 @@ void Renderer::render(RenderInfo& info) {
             state.restoreAttributes(stateset);
         }
     }
+    return 0;
 }
 
 void Renderer::setRenderOrder(RenderOrder order) {
@@ -192,6 +194,14 @@ bool Renderer::getUseMasterProjectionMatrix() const {
     return d->use_master_proj_matrix;
 }
 
+void Renderer::setFreeze(bool val) {
+    d->is_freezed = val;
+}
+
+bool Renderer::getFreezed() const {
+    return d->is_freezed;
+}
+
 bool Renderer::handleEvent(Event* e) {
     auto handled = EventReceiver::handleEvent(e);
 
@@ -201,8 +211,8 @@ bool Renderer::handleEvent(Event* e) {
         }
     }
 
-    if(false == handled){
-        if(d->scene.hasValue()){
+    if (false == handled) {
+        if (d->scene.hasValue()) {
             handled |= d->scene->handleEvent(e);
         }
     }
@@ -212,7 +222,7 @@ bool Renderer::handleEvent(Event* e) {
 
 void Renderer::update(UpdateContext* ctx) {
     EventReceiver::update(ctx);
-    if(d->scene.hasValue()){
+    if (d->scene.hasValue()) {
         d->scene->update(ctx);
     }
 }

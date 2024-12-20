@@ -17,7 +17,16 @@ class GLRENDERER_API RenderBuffer : public PixelData {
   public:
     RenderBuffer();
 
+  public:
     FrameBufferObject* getFrameBuffer() const;
+
+    void setWidth(GLsizei w);
+
+    void setHeight(GLsizei h);
+
+    GLsizei getWidth() const;
+
+    GLsizei getHeight() const;
 
   protected:
     virtual bool onUpdate(State& state) override;

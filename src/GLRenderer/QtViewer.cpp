@@ -35,7 +35,7 @@ class GraphicContextQt : public GraphicContext {
 } // namespace
 
 struct QtViewer::Data {
-    vine::RefPtr<Viewer>         viewer;
+    // vine::RefPtr<Viewer>         viewer;
     vine::RefPtr<Renderer>       renderer;
     vine::RefPtr<GraphicContext> ctx;
 };
@@ -54,16 +54,16 @@ QtViewer::QtViewer()
     // format.setRenderableType(QSurfaceFormat::RenderableType::OpenGL);
     // setFormat(format);
 
-    auto viewer   = new Viewer();
+    // auto viewer   = new Viewer();
     auto renderer = new Renderer();
     auto ctx      = new GraphicContextQt(this);
     auto cam      = renderer->getCamera();
     auto cm       = new StandardCameraManipulator(cam);
     renderer->setContext(ctx);
     renderer->setCameraManipulator(cm);
-    viewer->addRenderer(renderer);
 
-    d->viewer   = viewer;
+    addRenderer(renderer);
+
     d->renderer = renderer;
     d->ctx      = ctx;
 }
@@ -72,8 +72,13 @@ QtViewer::~QtViewer() {
     delete d;
 }
 
-Viewer* QtViewer::getViewer() const {
-    return d->viewer.get();
+int QtViewer::frame() {
+    update();
+    return 0;
+}
+
+int QtViewer::run() {
+    return 0;
 }
 
 void QtViewer::initializeGL() {
@@ -112,7 +117,7 @@ void QtViewer::resizeGL(int w, int h) {
 }
 
 void QtViewer::paintGL() {
-    d->viewer->frame();
+    Viewer::frame();
 }
 
 void QtViewer::resizeEvent(QResizeEvent* e) {

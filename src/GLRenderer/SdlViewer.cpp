@@ -6,9 +6,9 @@
 
 #include <glad/glad.h>
 
-#include <glm/glm.hpp>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_syswm.h>
+#include <glm/glm.hpp>
 
 #include <vine/core/Ptr.h>
 
@@ -23,7 +23,11 @@ namespace glr {
 namespace {
 class SdlGraphicContext : public GraphicContext {
   public:
-    SdlGraphicContext() {}
+    SdlGraphicContext()
+      : sdl_wnd_(nullptr)
+      , sdl_ctx_(nullptr)
+      , done_(false)
+      , size_(800, 600) {}
 
     virtual ~SdlGraphicContext() {
         if (sdl_wnd_) {
@@ -53,10 +57,12 @@ class SdlGraphicContext : public GraphicContext {
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
-        auto w = 800, h = 600;
-
-        auto* sdl_wnd =
-            SDL_CreateWindow("SdlViewer", 0, 0, w, h, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
+        auto* sdl_wnd = SDL_CreateWindow("SdlViewer",
+                                         0,
+                                         0,
+                                         size_.x,
+                                         size_.y,
+                                         SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
         if (sdl_wnd == NULL) {
             throw std::exception("Unable to create SDL window");
         }
@@ -105,13 +111,13 @@ class SdlGraphicContext : public GraphicContext {
         }
     }
 
-    bool isDone() { return done_; }
+    bool isDone() const { return done_; }
 
   private:
     SDL_Window*   sdl_wnd_;
     SDL_GLContext sdl_ctx_;
-    glm::vec2     size_;
-    bool          done_ = false;
+    glm::ivec2    size_;
+    bool          done_;
 };
 } // namespace
 
@@ -133,7 +139,6 @@ SdlViewer::~SdlViewer() {
 void SdlViewer::initialize() {
     if (d->is_initialized) return;
 
-    auto viewer   = new Viewer();
     auto renderer = new Renderer();
     auto cam      = renderer->getCamera();
     auto cm       = new StandardCameraManipulator(cam);
@@ -146,7 +151,7 @@ void SdlViewer::initialize() {
     cam->setClearColor(glm::vec4(0., 0., 0., 1.));
     cam->setClearMask(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-    viewer->addRenderer(renderer);
+    addRenderer(renderer);
     ctx->realize();
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -159,7 +164,6 @@ void SdlViewer::initialize() {
     glFrontFace(GL_CCW);
     glDepthFunc(GL_LESS);
 
-    d->viewer         = viewer;
     d->renderer       = renderer;
     d->ctx            = ctx;
     d->is_initialized = true;
@@ -169,13 +173,12 @@ bool SdlViewer::isInitialized() const {
     return d->is_initialized;
 }
 
-Viewer* SdlViewer::getViewer() const {
-    return d->viewer.get();
-}
-
-void SdlViewer::run() {
+int SdlViewer::run() {
     if (!isInitialized()) {
         initialize();
+    }
+    if (!isInitialized()) {
+        return -1;
     }
     auto& ctx = *d->ctx.get();
     ctx.makeCurrent();
@@ -184,5 +187,6 @@ void SdlViewer::run() {
         d->viewer->frame();
         ctx.swapBuffers();
     }
+    return 0;
 }
 } // namespace glr

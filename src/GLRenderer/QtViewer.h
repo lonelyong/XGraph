@@ -4,15 +4,17 @@
 
 #include <QOpenGLWidget>
 
+#include "Viewer.h"
+
 namespace glr {
 class Viewer;
-class GLRENDERER_API QtViewer : public QOpenGLWidget {
+class GLRENDERER_API QtViewer : public QOpenGLWidget, public Viewer {
   public:
     QtViewer();
     virtual ~QtViewer();
 
-  public:
-    Viewer* getViewer() const;
+    virtual int frame() override;
+    virtual int run() override;
 
   protected:
     virtual void initializeGL() override;

@@ -31,8 +31,6 @@ class GLRENDERER_API Texture2D : public Texture {
 
     void setImage(Image* image);
 
-    bool save(const std::string& path) const;
-
   protected:
     virtual GLuint onCreate(State& state) override;
 

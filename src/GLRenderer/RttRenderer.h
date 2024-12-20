@@ -8,7 +8,7 @@
 
 namespace glr {
 class Renderer;
-class Texture;
+class FrameBufferObject;
 class GLRENDERER_API RttRenderer : public Renderer {
     VI_OBJECT_META;
 
@@ -17,17 +17,11 @@ class GLRENDERER_API RttRenderer : public Renderer {
     virtual ~RttRenderer();
 
   public:
-    void resize(int w, int h);
+    virtual int render(RenderInfo& info) override;
 
-    GLsizei getWidth() const;
+    void setFbo(FrameBufferObject* fbo);
 
-    GLsizei getHeight() const;
-
-    Texture* getColorBuffer() const;
-
-    void initialize();
-
-    bool isInitialized() const;
+    FrameBufferObject* getFbo() const;
 
   private:
     VI_OBJECT_DATA;

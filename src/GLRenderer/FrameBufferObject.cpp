@@ -46,6 +46,30 @@ void FrameBufferObject::attachTexture(BufferComponent comp, Texture* tex) {
         iter->second = tex;
 }
 
+RenderBuffer* FrameBufferObject::getRenderBuffer(BufferComponent comp) const {
+    auto iter = d->components.find(comp);
+    if (iter == d->components.end()) {
+        return nullptr;
+    }
+    return iter->second->cast<RenderBuffer>();
+}
+
+Texture* FrameBufferObject::getTexture(BufferComponent comp) const {
+    auto iter = d->components.find(comp);
+    if (iter == d->components.end()) {
+        return nullptr;
+    }
+    return iter->second->cast<Texture>();
+}
+
+PixelData* FrameBufferObject::getComponent(BufferComponent comp) const{
+    auto iter = d->components.find(comp);
+    if (iter == d->components.end()) {
+        return nullptr;
+    }
+    return iter->second.get();
+}
+
 GLuint FrameBufferObject::onCreate(State& state) {
     GLuint id;
     glGenFramebuffers(1, &id);

@@ -67,6 +67,7 @@ int GraphicContext::getId() const {
 }
 
 void GraphicContext::makeCurrent() {
+    if (!isRealized()) realize();
 }
 
 State* GraphicContext::getState() const {

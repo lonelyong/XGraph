@@ -6,8 +6,6 @@
 #include <vine/core/Ptr.h>
 
 #include "Callbacks.h"
-#include "Camera.h"
-#include "CameraManipulator.h"
 #include "GraphicContext.h"
 #include "RenderInfo.h"
 #include "Renderer.h"
@@ -28,7 +26,7 @@ Viewer::~Viewer() {
     delete d;
 }
 
-void Viewer::frame() {
+int Viewer::frame() {
     std::map<GraphicContext*, std::vector<Renderer*>> ctxs;
     for (auto& renderer : d->renderers) {
         auto  ctx = renderer->getContext();
@@ -85,6 +83,7 @@ void Viewer::frame() {
             renderer->render(info);
         }
     }
+    return 0;
 }
 
 int Viewer::run() {
@@ -106,6 +105,8 @@ Renderer* Viewer::getMasterRenderer() const {
 }
 
 void Viewer::addRenderer(Renderer* renderer) {
+    if (!renderer) return;
+
     if (!d->master_renderer) {
         d->master_renderer = renderer;
     }
@@ -121,5 +122,16 @@ int Viewer::getNbRenderers() const {
 
 Renderer* Viewer::getRendererAt(int idx) const {
     return d->renderers.at(idx).get();
+}
+
+void Viewer::removeRenderer(Renderer* renderer) {
+    auto iter = std::find(d->renderers.begin(), d->renderers.end(), renderer);
+    if (iter != d->renderers.end()) {
+        d->renderers.erase(iter);
+    }
+}
+
+void Viewer::clearRenderers() {
+    d->renderers.clear();
 }
 } // namespace glr
