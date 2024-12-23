@@ -4,8 +4,8 @@
 #include <osg/MatrixTransform>
 #include <osg/ShapeDrawable>
 
-#include "StdUtils/Environment.h"
-#include "StdUtils/Text.h"
+#include "XGComm/Environment.h"
+#include "XGComm/Text.h"
 
 #include "BrepLoader.h"
 #include "CoordGenerator.h"
@@ -156,7 +156,7 @@ int main(int argc, char** argv) {
     }
 
     namespace fs = std::filesystem;
-    fs::current_path(stdutils::getApplicationDir());
+    fs::current_path(xg::getApplicationDir());
 
     auto   coord = createCoord(100, 2, 20, 4, true);
     Viewer v;

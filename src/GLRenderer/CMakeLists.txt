@@ -19,7 +19,7 @@ target_link_libraries(${CURRENT_TARGET_NAME}
         glm::glm
         vi::Core vi::Ge
     PRIVATE
-        StdUtils 
+        XGComm 
         glfw
         assimp::assimp 
         SDL2::SDL2 
@@ -32,12 +32,12 @@ target_link_libraries(${CURRENT_TARGET_NAME}
 target_compile_definitions(${CURRENT_TARGET_NAME} 
     PRIVATE 
         CURRENT_MODULE_NAME="${CURRENT_TARGET_NAME}" 
-        CURRENT_RES_DIR="${XGRAPH_RES_ROOT_DIR}${CURRENT_TARGET_NAME}"
+        CURRENT_RES_DIR="${XG_RES_ROOT}${CURRENT_TARGET_NAME}"
         GLRENDERER_LIB
 )
 
 set(RES_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/res/)
-set(RES_OUTPUT_DIR ${CONFIG_GLSTART_RES_OUTPUT_DIR}/${CURRENT_TARGET_NAME}/)
+set(RES_OUTPUT_DIR ${CONFIG_XG_RES_OUTPUT_DIR}/${CURRENT_TARGET_NAME}/)
 set(RES_SHADER_OUTPUT_DIR ${RES_OUTPUT_DIR}shaders/)
 set(RES_IMAGE_OUTPUT_DIR ${RES_OUTPUT_DIR}images/)
 file(GLOB RES_FILES LIST_DIRECTORIES true ${RES_SRC_DIR}*)

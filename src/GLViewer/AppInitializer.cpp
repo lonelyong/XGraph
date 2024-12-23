@@ -8,7 +8,7 @@
 #include <osgDB/Registry>
 #include <osg/Notify>
 
-#include "StdUtils/Environment.h"
+#include "XGComm/Environment.h"
 
 namespace glv {
 namespace {
@@ -76,7 +76,7 @@ void AppInitializer::initOpenSceneGraph() {
     }
     osg::setNotifyLevel(osg::DEBUG_FP);
     auto paths = osgDB::Registry::instance()->getLibraryFilePathList();
-    auto new_plugin_dir = stdutils::getApplicationDir();
+    auto new_plugin_dir = xg::getApplicationDir();
     new_plugin_dir += "\\plugins\\osg";
     paths.insert(paths.begin(), new_plugin_dir);
     osgDB::Registry::instance()->setLibraryFilePathList(paths);

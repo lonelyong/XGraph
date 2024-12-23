@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-
-namespace stdutils{
+namespace xg{
     std::string getApplicationDir();
 }

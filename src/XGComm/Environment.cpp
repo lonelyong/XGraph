@@ -3,8 +3,7 @@
 #ifdef _WIN32
 #include <Windows.h>
 #endif
-
-namespace stdutils
+namespace xg
 {
     std::string getApplicationDir()
     {

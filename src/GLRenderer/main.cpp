@@ -6,7 +6,7 @@
 #include <vine/core/Ptr.h>
 #include <vine/ge/Rect2d.h>
 
-#include "StdUtils/Resources.h"
+#include "XGComm/Resources.h"
 
 #include "AppInitializer.h"
 #include "Camera.h"
@@ -123,7 +123,7 @@ void CreateSampleShapes(glr::Scene* scene) {
     auto img = new glr::Model();
     {
         auto tex = new glr::Texture2D();
-        tex->setImage("C:\\Users\\sa\\Downloads\\1.jpg");
+        tex->setImage("f:\\Users\\sa\\Downloads\\1.jpg");
         auto geom_img =
             glr::Geometry::createTexturedQuad(0,
                                               1,

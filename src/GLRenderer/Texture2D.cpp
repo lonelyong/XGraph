@@ -85,8 +85,8 @@ GLuint Texture2D::onCreate(State& state) {
         src_format   = d->img->getDataFormat();
     }
     else {
-        src_format = computeInternalFormatType(InternalFormat(internal_fmt));
-        src_type   = computeInternalFormatDataType(InternalFormat(internal_fmt));
+        src_format = computeDataFormat(InternalFormat(internal_fmt));
+        src_type   = computeDataType(InternalFormat(internal_fmt));
     }
     if (w && h) {
         glTexImage2D(getType(), 0, internal_fmt, w, h, 0, src_format, src_type, img_data);

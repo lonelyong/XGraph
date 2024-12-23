@@ -12,13 +12,13 @@
 namespace glr {
 
 #define DEF_ARR(N, T)                                                                                                  \
-    class GLRENDERER_API N##Array : public Array, public std::vector<T> {                                                             \
+    class GLRENDERER_API N##Array : public Array, public std::vector<T> {                                              \
         VI_OBJECT_META                                                                                                 \
       public:                                                                                                          \
         using item_type = T;                                                                                           \
                                                                                                                        \
       public:                                                                                                          \
-        virtual Type    getType() const override;                                                                               \
+        virtual Type    getType() const override;                                                                      \
         virtual GLsizei getSize() const override;                                                                      \
         virtual GLsizei getSizeOfItem() const override;                                                                \
         virtual void*   getData() override;                                                                            \

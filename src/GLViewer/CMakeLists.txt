@@ -38,7 +38,7 @@ endif()
 
 target_link_libraries(${CURRENT_TARGET_NAME} 
     PRIVATE 
-        StdUtils 
+        XGComm 
         glfw 
         ${OPENSCENEGRAPH_LIBRARIES} 
         ${osgVerse_LIBRARIES} 

@@ -22,7 +22,7 @@ target_link_directories(${CURRENT_TARGET_NAME}
 
 target_link_libraries(${CURRENT_TARGET_NAME} 
     PRIVATE 
-        StdUtils 
+        XGComm 
         glfw
         ${PCL_LIBRARIES}  
         assimp::assimp 

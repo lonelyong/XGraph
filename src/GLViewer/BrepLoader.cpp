@@ -27,7 +27,7 @@
 #include <TopoDS_Face.hxx>
 #include <TopoDS_Shape.hxx>
 
-#include "StdUtils/Text.h"
+#include "XGComm/Text.h"
 
 #include "ModelDefs.h"
 
@@ -140,7 +140,7 @@ osg::MatrixTransform* BrepLoader::loadFile(const std::string& file) {
         reader = new IGESControl_Reader();
     }
     if (!reader) return nullptr;
-    auto u8path = stdutils::gbkToUtf8(file);
+    auto u8path = xg::gbkToUtf8(file);
     auto status = reader->ReadFile(u8path.data());
     if (status != IFSelect_RetDone) return nullptr;
 

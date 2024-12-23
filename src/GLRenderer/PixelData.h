@@ -9,42 +9,6 @@ class GLRENDERER_API PixelData : public Buffer {
     VI_OBJECT_META;
 
   public:
-    /*
-      glReadPixels
-      glTexImage2D
-      glTexSubImage2D
-
-      某些类型也可以作为内部格式使用，如GL_RGBA, GL_RGB
-    */
-    enum InternalFormatType
-    {
-        IFT_RED             = GL_RED,
-        IFT_GREEN           = GL_GREEN,
-        IFT_BLUE            = GL_BLUE,
-        IFT_RG              = GL_RG,
-        IFT_RGB             = GL_RGB,
-        IFT_BGR             = GL_BGR,
-        IFT_RGBA            = GL_RGBA,
-        IFT_BGRA            = GL_BGRA,
-        IFT_DEPTH_COMPONENT = GL_DEPTH_COMPONENT,
-        IFT_STENCIL_INDEX   = GL_STENCIL_INDEX,
-        IFT_DEPTH_STENCIL   = GL_DEPTH_STENCIL,
-
-        // 内部格式的类型为以下类型的的内部格式，内部存储的为整数，在着色器中读取这些格式的纹理时，得到的是整数。
-        IFT_RED_INTEGER   = GL_RED_INTEGER,
-        IFT_GREEN_INTEGER = GL_GREEN_INTEGER,
-        IFT_BLUE_INTEGER  = GL_BLUE_INTEGER,
-        IFT_RG_INTEGER    = GL_RG_INTEGER,
-        IFT_RGB_INTEGER   = GL_RGB_INTEGER,
-        IFT_BGR_INTEGER   = GL_BGR_INTEGER,
-        IFT_RGBA_INTEGER  = GL_RGBA_INTEGER,
-        IFT_BGRA_INTEGER  = GL_BGRA_INTEGER,
-
-        // GL2
-        IFT_LUMINANCE_ALPHA = GL_LUMINANCE_ALPHA,
-        IFT_LUMINANCE       = GL_LUMINANCE
-    };
-
     enum InternalFormat
     {
         //
@@ -126,6 +90,42 @@ class GLRENDERER_API PixelData : public Buffer {
         IF_DEPTH32F_STENCIL8 = GL_DEPTH32F_STENCIL8
     };
 
+    /*
+      glReadPixels
+      glTexImage2D
+      glTexSubImage2D
+
+      某些类型也可以作为内部格式使用，如GL_RGBA, GL_RGB
+    */
+    enum DataFormat
+    {
+        DF_RED             = GL_RED,
+        DF_GREEN           = GL_GREEN,
+        DF_BLUE            = GL_BLUE,
+        DF_RG              = GL_RG,
+        DF_RGB             = GL_RGB,
+        DF_BGR             = GL_BGR,
+        DF_RGBA            = GL_RGBA,
+        DF_BGRA            = GL_BGRA,
+        DF_DEPTH_COMPONENT = GL_DEPTH_COMPONENT,
+        DF_STENCIL_INDEX   = GL_STENCIL_INDEX,
+        DF_DEPTH_STENCIL   = GL_DEPTH_STENCIL,
+
+        // 内部格式的类型为以下类型的的内部格式，内部存储的为整数，在着色器中读取这些格式的纹理时，得到的是整数。
+        DF_RED_INTEGER   = GL_RED_INTEGER,
+        DF_GREEN_INTEGER = GL_GREEN_INTEGER,
+        DF_BLUE_INTEGER  = GL_BLUE_INTEGER,
+        DF_RG_INTEGER    = GL_RG_INTEGER,
+        DF_RGB_INTEGER   = GL_RGB_INTEGER,
+        DF_BGR_INTEGER   = GL_BGR_INTEGER,
+        DF_RGBA_INTEGER  = GL_RGBA_INTEGER,
+        DF_BGRA_INTEGER  = GL_BGRA_INTEGER,
+
+        // GL2
+        DF_LUMINANCE_ALPHA = GL_LUMINANCE_ALPHA,
+        DF_LUMINANCE       = GL_LUMINANCE
+    };
+
     enum DataType
     {
         DT_UNKNOW                         = GL_ZERO,
@@ -158,8 +158,8 @@ class GLRENDERER_API PixelData : public Buffer {
   public:
     PixelData();
 
-    static InternalFormatType computeInternalFormatType(InternalFormat ifmt);
-    static DataType           computeInternalFormatDataType(InternalFormat ifmt);
+    static DataFormat computeDataFormat(InternalFormat ifmt);
+    static DataType   computeDataType(InternalFormat ifmt);
 
   private:
     VI_OBJECT_DATA;

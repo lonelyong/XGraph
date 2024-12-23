@@ -16,33 +16,33 @@ PixelData::PixelData()
   : d(new Data()) {
 }
 
-PixelData::InternalFormatType PixelData::computeInternalFormatType(InternalFormat ifmt) {
+PixelData::DataFormat PixelData::computeDataFormat(InternalFormat ifmt) {
     switch (ifmt) {
     case IF_RED:
     case IF_R8:
     case IF_R16:
     case IF_R16F:
     {
-        return IFT_RED;
+        return DF_RED;
     }
     case IF_R8I:
     case IF_R8UI:
     case IF_R16I:
     case IF_R16UI:
     {
-        return IFT_RED_INTEGER;
+        return DF_RED_INTEGER;
     }
     case IF_RG16I:
     case IF_RG16UI:
     {
-        return IFT_RG_INTEGER;
+        return DF_RG_INTEGER;
     }
     case IF_RG:
     case IF_RG8:
     case IF_RG16:
     case IF_RG16F:
     {
-        return IFT_RG;
+        return DF_RG;
     }
 
     case IF_RGB:
@@ -56,7 +56,7 @@ PixelData::InternalFormatType PixelData::computeInternalFormatType(InternalForma
     case IF_SRGB:
     case IF_SRGB8:
     {
-        return IFT_RGB;
+        return DF_RGB;
     }
     case IF_RGB8I:
     case IF_RGB8UI:
@@ -65,7 +65,7 @@ PixelData::InternalFormatType PixelData::computeInternalFormatType(InternalForma
     case IF_RGB32I:
     case IF_RGB32UI:
     {
-        return IFT_RGB_INTEGER;
+        return DF_RGB_INTEGER;
     }
     case IF_RGBA8:
     case IF_RGBA12:
@@ -73,7 +73,7 @@ PixelData::InternalFormatType PixelData::computeInternalFormatType(InternalForma
     case IF_RGBA16F:
     case IF_RGBA32F:
     {
-        return IFT_RGBA;
+        return DF_RGBA;
     }
 
     case IF_RGBA8I:
@@ -83,7 +83,7 @@ PixelData::InternalFormatType PixelData::computeInternalFormatType(InternalForma
     case IF_RGBA32I:
     case IF_RGBA32UI:
     {
-        return IFT_RGBA_INTEGER;
+        return DF_RGBA_INTEGER;
     }
     case IF_DEPTH_COMPONENT:
     case IF_DEPTH_COMPONENT16:
@@ -91,7 +91,7 @@ PixelData::InternalFormatType PixelData::computeInternalFormatType(InternalForma
     case IF_DEPTH_COMPONENT32:
     case IF_DEPTH_COMPONENT32F:
     {
-        return IFT_DEPTH_COMPONENT;
+        return DF_DEPTH_COMPONENT;
     }
     case IF_STENCIL_INDEX:
     case IF_STENCIL_INDEX1:
@@ -99,19 +99,19 @@ PixelData::InternalFormatType PixelData::computeInternalFormatType(InternalForma
     case IF_STENCIL_INDEX8:
     case IF_STENCIL_INDEX16:
     {
-        return IFT_STENCIL_INDEX;
+        return DF_STENCIL_INDEX;
     }
     case IF_GL_DEPTH_STENCIL:
     case IF_DEPTH24_STENCIL8:
     case IF_DEPTH32F_STENCIL8:
     {
-        return IFT_DEPTH_STENCIL;
+        return DF_DEPTH_STENCIL;
     }
-    default: return InternalFormatType(ifmt);
+    default: return DataFormat(ifmt);
     }
 }
 
-PixelData::DataType PixelData::computeInternalFormatDataType(InternalFormat ifmt) {
+PixelData::DataType PixelData::computeDataType(InternalFormat ifmt) {
     switch (ifmt) {
     case IF_RED:
     case IF_R8:
