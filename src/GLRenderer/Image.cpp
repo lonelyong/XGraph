@@ -98,19 +98,34 @@ void Image::setImage(int w, int h, Format format, const unsigned char* data, int
     }
 }
 
-Image::Format Image::getInternalTextureFormat() const {
+Image::Format Image::getFormat() const {
     return d->format;
 }
 
-int Image::getGLFormat() const {
+int Image::getInternalTextureFormat() const {
+    switch (d->format) {
+    case R8: return GL_R8;
+    case G8: return GL_R8;
+    case B8: return GL_R8;
+    case RGB888: return GL_RGB8;
+    case RGBA8888: return GL_RGBA8;
+    default: return GL_ZERO;
+    }
+}
+
+int Image::getDataFormat() const {
     switch (d->format) {
     case R8: return GL_RED;
-    case G8: return GL_GREEN;
-    case B8: return GL_BLUE;
+    case G8: return GL_RED;
+    case B8: return GL_RED;
     case RGB888: return GL_RGB;
     case RGBA8888: return GL_RGBA;
     default: return GL_ZERO;
     }
+}
+
+int Image::getDataType() const {
+    return GL_UNSIGNED_BYTE;
 }
 
 int Image::getWidth() const {
@@ -138,7 +153,11 @@ bool Image::isNull() const {
 }
 
 Image* Image::readPixels(int x, int y, int w, int h, int fmt, int type) {
+    auto buffer = new unsigned char[w * h * 4];
+    glReadPixels(x, y, w, h, fmt, type, buffer);
+    auto img = new Image();
+    img->setImage(w, h, RGBA8888, buffer);
 
-    return nullptr;
+    return img;
 }
 } // namespace glr

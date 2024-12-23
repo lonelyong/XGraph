@@ -10,7 +10,6 @@ VI_OBJECT_META_IMPL(CubeMap, Texture);
 
 struct CubeMap::Data {
     std::vector<vine::RefPtr<Image>> imgs;
-    GLint                            in_format = GL_RGB;
 };
 
 CubeMap::CubeMap()
@@ -62,11 +61,12 @@ GLuint CubeMap::onCreate(State& state) {
 
         auto w        = img->getWidth();
         auto h        = img->getHeight();
-        auto fmt      = img->getGLFormat();
-        auto in_fmt   = d->in_format;
+        auto fmt      = img->getInternalTextureFormat();
+        auto src_fmt  = d->imgs[i]->getDataFormat();
+        auto src_type = d->imgs[i]->getDataType();
         auto img_data = img->data();
 
-        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, in_fmt, w, h, 0, fmt, GL_UNSIGNED_BYTE, img_data);
+        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, fmt, w, h, 0, src_fmt, src_type, img_data);
     }
 
     return id;

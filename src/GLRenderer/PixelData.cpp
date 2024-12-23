@@ -1,4 +1,4 @@
-#include "PixelData.h"
+ï»¿#include "PixelData.h"
 
 #include <map>
 
@@ -123,7 +123,7 @@ PixelData::DataType PixelData::computeInternalFormatDataType(InternalFormat ifmt
     case IF_RGBA8:
     case IF_SRGB8:
     {
-        // ÄÚ²¿´æ´¢µÄÊÇÕûÊı£¬shaderÖĞ¶ÁÈ¡´ËÖÖÀàĞÍµÄÎÆÀíÊ±£¬»á×ª»»ÎªĞ¡Êı
+        // å†…éƒ¨å­˜å‚¨çš„æ˜¯æ•´æ•°ï¼Œshaderä¸­è¯»å–æ­¤ç§ç±»å‹çš„çº¹ç†æ—¶ï¼Œä¼šè½¬æ¢ä¸ºå°æ•°
         return DT_UNSIGNED_BYTE;
     }
     case IF_R8I:
@@ -178,7 +178,7 @@ PixelData::DataType PixelData::computeInternalFormatDataType(InternalFormat ifmt
     {
         return DT_UNSIGNED_INT;
     }
-    // glReadPixels²»½ÓÊÜ
+    // glReadPixelsä¸æ¥å—
     case IF_RGB10:
     case IF_RGB12:
     case IF_RGBA12:

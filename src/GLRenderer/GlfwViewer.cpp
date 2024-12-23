@@ -199,6 +199,7 @@ void GlfwViewer::initialize() {
     auto cam      = renderer->getCamera();
     auto cm       = new StandardCameraManipulator(cam);
     auto ctx      = new GraphicContextGlfwImpl({});
+    ctx->realize();
 
     renderer->setContext(ctx);
     renderer->setCameraManipulator(cm);
@@ -210,7 +211,6 @@ void GlfwViewer::initialize() {
     cam->setClearMask(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
     addRenderer(renderer);
-    ctx->realize();
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     glEnable(GL_DEPTH_TEST);

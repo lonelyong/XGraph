@@ -33,6 +33,8 @@
 #include "Texture2D.h"
 #include "Uniform.h"
 #include "Viewer.h"
+#include "ImageLoader.h"
+#include "CameraManipulator.h"
 
 void CreateSampleShapes(glr::Scene* scene) {
     using ResMgr = glr::ResourceManager;
@@ -160,7 +162,7 @@ int main(int argc, char** argv) {
 #ifdef GLFW_VIEWER
     glr::GlfwViewer v;
     v.initialize();
-    auto renderer = v.getViewer()->getMasterRenderer();
+    auto renderer = v.getMasterRenderer();
 
 #elif defined(RTT_VIEWER)
     auto                            viewer = new glr::Viewer();
@@ -170,24 +172,47 @@ int main(int argc, char** argv) {
     traits.visible = false;
 
     auto ctx = glr::GraphicContextGlfw::create(traits);
+    ctx->realize();
+    ctx->makeCurrent();
+
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_PROGRAM_POINT_SIZE);
+    // glEnable(GL_CULL_FACE);
+    glDisable(GL_CULL_FACE);
+    // glCullFace(GL_BACK);
+    glFrontFace(GL_CCW);
+    glDepthFunc(GL_LESS);
 
     auto renderer = new glr::RttRenderer();
     renderer->setContext(ctx);
 
+    auto cam = renderer->getCamera();
+    cam->setViewport(0., 0., 800, 600);
+    cam->setClearDepth(1.0);
+    cam->setClearStencil(1);
+    cam->setClearColor(glm::vec4(0., 0., 0., 1.));
+    cam->setClearMask(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+    cam->setViewMatrixAsLookAt(glm::vec3(5, 5, 5), glm::vec3(), glm::vec3(-1, 0, 1));
+    auto cm  = new glr::StandardCameraManipulator(cam);
     auto fbo = new glr::FrameBufferObject();
 
     auto comp_color = new glr::Texture2D();
     auto comp_depth = new glr::Texture2D();
 
+    comp_color->setInternalFormat(glr::PixelData::IF_RGBA8);
     comp_color->setWidth(800);
     comp_color->setHeight(600);
     comp_depth->setWidth(800);
     comp_depth->setHeight(600);
+    comp_depth->setInternalFormat(glr::PixelData::IF_DEPTH_COMPONENT24);
 
     fbo->attachTexture(glr::FrameBufferObject::COLOR_ATTACHMENT0, comp_color);
     fbo->attachTexture(glr::FrameBufferObject::DEPTH_ATTACHMENT, comp_depth);
 
     renderer->setFbo(fbo);
+    renderer->setCameraManipulator(cm);
 
     viewer->addRenderer(renderer);
 
@@ -231,6 +256,10 @@ int main(int argc, char** argv) {
     renderer->setScene(scene);
     while (true) {
         viewer->frame();
+        fbo->bind(*ctx->getState()); 
+        glReadBuffer(GL_COLOR_ATTACHMENT0);
+        auto img = glr::Image::readPixels(0, 0, 800, 600, GL_RGBA, GL_UNSIGNED_BYTE);
+        glr::ImageLoader().saveAsBmp(img, "d:/1.bmp");
     }
 #else
     renderer->setScene(scene);

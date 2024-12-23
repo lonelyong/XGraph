@@ -1,6 +1,7 @@
 #include "FrameBufferObject.h"
 
 #include <map>
+#include <iostream>
 
 #include <vine/core/Exception.h>
 #include <vine/core/Ptr.h>
@@ -86,6 +87,11 @@ GLuint FrameBufferObject::onCreate(State& state) {
         }
         buffer->unbind(state);
     }
+
+    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+        std::cerr << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
+    }
+
     return id;
 }
 

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "glrenderer_global.h"
 
@@ -14,7 +14,7 @@ class GLRENDERER_API PixelData : public Buffer {
       glTexImage2D
       glTexSubImage2D
 
-      ĳЩ����Ҳ������Ϊ�ڲ���ʽʹ�ã���GL_RGBA, GL_RGB
+      某些类型也可以作为内部格式使用，如GL_RGBA, GL_RGB
     */
     enum InternalFormatType
     {
@@ -30,7 +30,7 @@ class GLRENDERER_API PixelData : public Buffer {
         IFT_STENCIL_INDEX   = GL_STENCIL_INDEX,
         IFT_DEPTH_STENCIL   = GL_DEPTH_STENCIL,
 
-        // �ڲ���ʽ������Ϊ�������͵ĵ��ڲ���ʽ���ڲ��洢��Ϊ����������ɫ���ж�ȡ��Щ��ʽ������ʱ���õ�����������
+        // 内部格式的类型为以下类型的的内部格式，内部存储的为整数，在着色器中读取这些格式的纹理时，得到的是整数。
         IFT_RED_INTEGER   = GL_RED_INTEGER,
         IFT_GREEN_INTEGER = GL_GREEN_INTEGER,
         IFT_BLUE_INTEGER  = GL_BLUE_INTEGER,
@@ -48,7 +48,7 @@ class GLRENDERER_API PixelData : public Buffer {
     enum InternalFormat
     {
         //
-        // ���³�������������Ϊ�ڲ���ʽʹ�ã���Ϊû����ȷָ�����ȣ�һ���ھɰ�GL�л���ʹ��
+        // 以下常量，不建议作为内部格式使用，因为没有明确指定精度，一般在旧版GL中会有使用
         IF_DEPTH_COMPONENT  = GL_DEPTH_COMPONENT,
         IF_GL_DEPTH_STENCIL = GL_DEPTH_STENCIL,
         IF_STENCIL_INDEX    = GL_STENCIL_INDEX,
@@ -58,18 +58,18 @@ class GLRENDERER_API PixelData : public Buffer {
         IF_RGBA             = GL_RGBA,
         //
 
-        // 8��β���ڲ��洢Ϊ�޷������������������õ�����С��
+        // 8结尾：内部存储为无符号整数，纹理采样得到的是小数
         IF_R8     = GL_R8,
         IF_RG8    = GL_RG8,
         IF_RGB8   = GL_RGB8,
         IF_RGBA8  = GL_RGBA8,
-        // 16��β���ڲ��洢Ϊ�޷������������������õ���������
+        // 16结尾：内部存储为无符号整数，纹理采样得到的是整数
         IF_R16    = GL_R16,
         IF_RG16   = GL_RG16,
         IF_RGB16  = GL_RGB16,
         IF_RGBA16 = GL_RGBA16,
 
-        // I��β���ڲ���ʽ�ڲ��洢Ϊ���������������õ���Ҳ������
+        // I结尾的内部格式内部存储为整数，纹理采样得到的也是整数
         IF_R8I     = GL_R8I,
         IF_RGB8I   = GL_RGB8I,
         IF_RGBA8I  = GL_RGBA8I,
@@ -98,7 +98,7 @@ class GLRENDERER_API PixelData : public Buffer {
         IF_RGB32F  = GL_RGB32F,
         IF_RGBA32F = GL_RGBA32F,
 
-        // glReadPixels������
+        // glReadPixels不接受
         IF_RGB10  = GL_RGB10,
         IF_RGB12  = GL_RGB12,
         IF_RGBA12 = GL_RGBA12,
@@ -110,9 +110,9 @@ class GLRENDERER_API PixelData : public Buffer {
         // DEPTH
         IF_DEPTH_COMPONENT16  = GL_DEPTH_COMPONENT16,
         IF_DEPTH_COMPONENT24  = GL_DEPTH_COMPONENT24,
-        // �ڲ��洢Ϊ���������Ƚ���Զ��
+        // 内部存储为整数，精度近高远低
         IF_DEPTH_COMPONENT32  = GL_DEPTH_COMPONENT32,
-        // �ڲ��洢Ϊ�����������ȸ��ߣ�Զ��ƽ�澫����Ծ���
+        // 内部存储为浮点数，精度更高，远近平面精度相对均匀
         IF_DEPTH_COMPONENT32F = GL_DEPTH_COMPONENT32F,
 
         // STENCIL

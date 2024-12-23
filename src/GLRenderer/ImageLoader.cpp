@@ -5,7 +5,9 @@
 #include <set>
 
 #define STB_IMAGE_IMPLEMENTATION
+#define STB_IMAGE_WRITE_IMPLEMENTATION
 #include <stb_image.h>
+#include <stb_image_write.h>
 
 #include "Image.h"
 
@@ -50,10 +52,10 @@ Image* ImageLoader::loadFile(const std::string& file) {
     }
     else {
         namespace fs = std::filesystem;
-        if(!fs::exists(file)){
+        if (!fs::exists(file)) {
             std::cerr << "Image load failed(not found):" << file << std::endl;
         }
-        else{
+        else {
             std::cerr << "Image load failed:" << file << std::endl;
         }
     }
@@ -62,6 +64,10 @@ Image* ImageLoader::loadFile(const std::string& file) {
 
 void ImageLoader::setFlipVertically(bool val) {
     d->filp_v = val;
+}
+
+void ImageLoader::saveAsBmp(Image* img, const std::string& path) {
+    stbi_write_bmp(path.data(), img->getWidth(), img->getHeight(), img->getChannels(), img->data());
 }
 
 } // namespace glr

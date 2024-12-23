@@ -22,6 +22,8 @@ class GLRENDERER_API ImageLoader {
      */
     Image* loadFile(const std::string& file);
 
+    void saveAsBmp(Image* img, const std::string& path);
+
     void setFlipVertically(bool val);
 
   public:
