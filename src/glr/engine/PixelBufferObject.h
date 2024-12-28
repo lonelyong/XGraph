@@ -1,0 +1,31 @@
+#pragma once
+
+#include <glr/glrenderer_global.h>
+
+#include <glr/engine/BufferObject.h>
+
+namespace glr {
+class GLR_API PixelBufferObject : public BufferObject {
+    VI_OBJECT_META;
+
+    enum Mode
+    {
+        MODE_PACK,
+        MODE_UNPACK,
+    };
+
+  public:
+    PixelBufferObject(Mode m = MODE_PACK);
+
+  public:
+    virtual Target getTarget() const override;
+    virtual Usage  getUsage() const override;
+
+  protected:
+    virtual GLuint onCreate(State& state) override;
+    virtual bool   onUpdate(State& state) override;
+
+  private:
+    VI_OBJECT_DATA;
+};
+} // namespace glr

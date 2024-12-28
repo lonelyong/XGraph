@@ -1,0 +1,31 @@
+#pragma once
+
+#include <glr/glrenderer_global.h>
+
+#include <string>
+#include <vector>
+
+#include <glr/engine/Texture.h>
+
+namespace glr {
+class Image;
+class GLR_API CubeMap : public Texture {
+    VI_OBJECT_META;
+
+  public:
+    CubeMap();
+    virtual ~CubeMap();
+
+  public:
+    virtual Type getType() const override;
+    void         setImages(const std::vector<std::string>& imgs);
+    void         setImages(const std::vector<Image*>& imgs);
+
+  protected:
+    virtual GLuint onCreate(State& ctx) override;
+    virtual bool   onUpdate(State& ctx) override;
+
+  private:
+    VI_OBJECT_DATA;
+};
+} // namespace glr

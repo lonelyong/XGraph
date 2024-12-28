@@ -1,0 +1,45 @@
+#pragma once
+
+#include <glr/glrenderer_global.h>
+
+#include <glr/engine/PixelData.h>
+
+namespace glr {
+
+class FrameBufferObject;
+
+class GLR_API RenderBuffer : public PixelData {
+
+    VI_OBJECT_META;
+
+    friend class FrameBufferObject;
+
+  public:
+    RenderBuffer();
+
+  public:
+    FrameBufferObject* getFrameBuffer() const;
+
+    void setWidth(GLsizei w);
+
+    void setHeight(GLsizei h);
+
+    GLsizei getWidth() const;
+
+    GLsizei getHeight() const;
+
+  protected:
+    virtual bool onUpdate(State& state) override;
+
+    virtual void onBind(State& state) override;
+
+    virtual void onUnbind(State& state) override;
+
+    virtual GLuint onCreate(State& state) override;
+
+    virtual void onRelease(State& state) override;
+
+  private:
+    VI_OBJECT_DATA;
+};
+} // namespace glr

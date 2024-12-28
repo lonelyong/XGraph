@@ -1,0 +1,178 @@
+#pragma once
+
+#include <iterator>
+
+#include <glm/vec2.hpp>
+#include <glm/vec3.hpp>
+#include <glm/vec4.hpp>
+
+#include <glr/engine/BufferObject.h>
+
+namespace glr {
+
+class GLR_API ArrayBuffer : public BufferObject {
+    VI_OBJECT_META;
+
+  public:
+    enum Type
+    {
+        ARRAY_UNKNOW = 0,
+
+        ARRAY_INT8,
+        ARRAY_INT16,
+        ARRAY_INT32,
+
+        ARRAY_UINT8,
+        ARRAY_UINT16,
+        ARRAY_UINT32,
+
+        ARRAY_FLOAT,
+        ARRAY_DOUBLE,
+
+        ARRAY_VEC2F,
+        ARRAY_VEC3F,
+        ARRAY_VEC4F,
+
+        ARRAY_VEC2I,
+        ARRAY_VEC3I,
+        ARRAY_VEC4I,
+
+        ARRAY_VEC2D,
+        ARRAY_VEC3D,
+        ARRAY_VEC4D
+    };
+
+  public:
+    virtual Type        getType() const        = 0;
+    virtual GLsizei     size() const           = 0;
+    virtual void        resize(GLsizei size)   = 0;
+    virtual void        reserve(GLsizei size)  = 0;
+    virtual void        clear()                = 0;
+    virtual GLsizei     capacity() const       = 0;
+    virtual bool        empty() const          = 0;
+    virtual void*       data_ptr()             = 0;
+    virtual const void* data_ptr() const       = 0;
+    virtual GLsizei     sizeOfItem() const     = 0;
+    virtual void*       valueAt(GLsizei index) = 0;
+};
+
+template <typename T> class GLR_API Array : public ArrayBuffer {
+    VI_OBJECT_META;
+
+  public:
+    using item_type = T;
+
+  public:
+    Array();
+    virtual ~Array();
+
+    class GLR_API iterator {
+      public:
+        using iterator_category = std::random_access_iterator_tag;
+        using value_type        = T;
+        using difference_type   = GLsizei;
+        using pointer           = T*;
+        using reference         = T&;
+
+        iterator(Array<T>* arr, GLsizei pos);
+        iterator(const Array<T>::iterator& otehr);
+
+        void      operator++();
+        void      operator++(difference_type i);
+        void      operator--();
+        void      operator--(difference_type i);
+        iterator  operator+(difference_type d) const;
+        iterator  operator-(difference_type d) const;
+        iterator& operator+=(difference_type d);
+        iterator& operator-=(difference_type d);
+        difference_type operator-(const Array<T>::iterator& other) const;
+        
+        reference operator*();
+        reference operator->();
+
+        bool operator!=(const Array<T>::iterator& it) const;
+        bool operator==(const Array<T>::iterator& it) const;
+
+      private:
+        Array<T>* arr_;
+        GLsizei   pos_;
+    };
+    class GLR_API const_iterator {
+      public:
+        const_iterator(const Array<T>* arr, GLsizei pos);
+        const_iterator(const Array<T>::const_iterator& otehr);
+
+        void     operator++();
+        void     operator++(int i);
+        void     operator--();
+        void     operator--(int i);
+        const T& operator*() const;
+        bool     operator!=(const Array<T>::const_iterator& it) const;
+        bool     operator==(const Array<T>::const_iterator& it) const;
+
+      private:
+        const Array<T>* arr_;
+        GLsizei         pos_;
+    };
+
+    friend class iterator;
+    friend class const_iterator;
+
+  public:
+    virtual Type                      getType() const override;
+    virtual GLsizei                   size() const override;
+    virtual T*                        data();
+    virtual const T*                  data() const;
+    virtual void*                     data_ptr() override;
+    virtual const void*               data_ptr() const override;
+    virtual T&                        at(GLsizei index);
+    virtual const T&                  at(GLsizei index) const;
+    virtual void*                     valueAt(GLsizei index) override;
+    virtual void                      resize(GLsizei size) override;
+    virtual void                      reserve(GLsizei size) override;
+    virtual void                      clear() override;
+    virtual void                      push_back(const T& val);
+    template <typename... TArgs> void emplace_back(TArgs&&... args) { push_back(T(args...)); }
+    virtual T&                        front();
+    virtual const T&                  front() const;
+    virtual T&                        back();
+    virtual const T&                  back() const;
+    virtual GLsizei                   capacity() const override;
+    virtual GLsizei                   sizeOfItem() const override;
+    virtual iterator                  begin();
+    virtual const_iterator            cbegin() const;
+    virtual iterator                  end();
+    virtual const_iterator            cend() const;
+
+    virtual Target getTarget() const override;
+    virtual Usage  getUsage() const override;
+
+    bool empty() const;
+
+  protected:
+    virtual GLuint onCreate(State& state) override;
+    virtual bool   onUpdate(State& state) override;
+
+  private:
+    VI_OBJECT_DATA;
+};
+
+using Int8Array   = Array<int8_t>;
+using Int16Array  = Array<int16_t>;
+using Int32Array  = Array<int32_t>;
+using UInt8Array  = Array<uint8_t>;
+using UInt16Array = Array<uint16_t>;
+using UInt32Array = Array<uint32_t>;
+using FloatArray  = Array<float>;
+using DoubleArray = Array<double>;
+using Vec2fArray  = Array<glm::vec2>;
+using Vec3fArray  = Array<glm::vec3>;
+using Vec4fArray  = Array<glm::vec4>;
+using Vec2iArray  = Array<glm::ivec2>;
+using Vec3iArray  = Array<glm::ivec3>;
+using Vec4iArray  = Array<glm::ivec4>;
+using Vec2dArray  = Array<glm::dvec2>;
+using Vec3dArray  = Array<glm::dvec3>;
+using Vec4dArray  = Array<glm::dvec4>;
+
+} // namespace glr
