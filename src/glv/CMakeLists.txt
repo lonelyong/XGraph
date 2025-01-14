@@ -5,7 +5,7 @@ find_package(opencascade REQUIRED)
 find_package(assimp REQUIRED)
 find_package(PCL CONFIG REQUIRED)
 find_package(VTK REQUIRED)
-# find_package(osgVerse REQUIRED)
+find_package(osgVerse REQUIRED)
 
 file(GLOB_RECURSE SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 file(GLOB_RECURSE HEADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.h)

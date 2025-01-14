@@ -38,7 +38,10 @@ constexpr const char* S_PICK_VS_STR = R"(
 #version 330 core
 layout(location = 0) in vec3 position;
 layout(location = 3) in vec4 color;
+uniform mat4 osg_ModelViewMatrix;
+uniform mat4 osg_ProjectionMatrix;
 uniform mat4 osg_ModelViewProjectionMatrix;
+uniform mat3 osg_NormalMatrix;
 out vec4 frag_color;
 void main(){
   gl_Position = osg_ModelViewProjectionMatrix * vec4(position.x, position.y, position.z, 1.0);
@@ -156,7 +159,6 @@ Viewer::Viewer()
     gc->getState()->resetVertexAttributeAlias(true);
     // gc->getState()->setUseVertexAttributeAliasing(true);
     gc->getState()->setUseModelViewAndProjectionUniforms(true);
-    // gc->getState()->setUseVertexAttributeAliasing(true);
 
     auto cam = rep_->viewer_impl->getCamera();
     cam->setGraphicsContext(gc);
@@ -183,64 +185,65 @@ Viewer::Viewer()
     rep_->viewer_impl->setSceneData(rep_->root);
 
 
-    // Main light
-    auto light0 = new osgVerse::LightDrawable;
-    light0->setColor(osg::Vec3(1.0f, 1.0f, 1.0f));
-    light0->setDirection(osg::Vec3(0.02f, 0.1f, -1.0f));
-    light0->setDirectional(true);
-    light0->setEyeSpace(false);
+    //// Main light
+    //auto light0 = new osgVerse::LightDrawable;
+    //light0->setColor(osg::Vec3(1.0f, 1.0f, 1.0f));
+    //light0->setDirection(osg::Vec3(0.02f, 0.1f, -1.0f));
+    //light0->setDirectional(true);
+    //light0->setEyeSpace(false);
 
-    auto light1 = new osgVerse::LightDrawable;
-    light1->setColor(osg::Vec3(1.5f, 1.5f, 1.5f));
-    light1->setDirection(osg::Vec3(1.f, 0.1f, 0.0f));
-    light1->setDirectional(true);
-    light1->setEyeSpace(false);
+    //auto light1 = new osgVerse::LightDrawable;
+    //light1->setColor(osg::Vec3(1.5f, 1.5f, 1.5f));
+    //light1->setDirection(osg::Vec3(1.f, 0.1f, 0.0f));
+    //light1->setDirectional(true);
+    //light1->setEyeSpace(false);
 
-    auto lightGeode = new osg::Geode;
-    lightGeode->addDrawable(light0);
-    // lightGeode->addDrawable(light1);
-    addNode(lightGeode);
+    //auto lightGeode = new osg::Geode;
+    //lightGeode->addDrawable(light0);
+    //// lightGeode->addDrawable(light1);
+    //addNode(lightGeode);
 
-    class ViewerEventCallback : public osgGA::GUIEventHandler {
-      public:
-        ViewerEventCallback(osgVerse::LightDrawable* light0)
-          : light0_(light0) {}
-        virtual bool handle(const osgGA::GUIEventAdapter& ea,
-                            osgGA::GUIActionAdapter&      aa,
-                            osg::Object*,
-                            osg::NodeVisitor*) override {
-            if (ea.getEventType() == osgGA::GUIEventAdapter::FRAME) {
-                osg::Vec3 eye, center, up, dir;
-                aa.asView()->getCamera()->getViewMatrixAsLookAt(eye, center, up);
-                // dir = center - eye;
-                dir = -eye;
-                dir.normalize();
-                // dir = dir * osg::Matrix::rotate(osg::PI_4 / 4, up);
-                light0_->setDirection(dir);
-            }
-            return false;
-        }
+    //class ViewerEventCallback : public osgGA::GUIEventHandler {
+    //  public:
+    //    ViewerEventCallback(osgVerse::LightDrawable* light0)
+    //      : light0_(light0) {}
+    //    virtual bool handle(const osgGA::GUIEventAdapter& ea,
+    //                        osgGA::GUIActionAdapter&      aa,
+    //                        osg::Object*,
+    //                        osg::NodeVisitor*) override {
+    //        if (ea.getEventType() == osgGA::GUIEventAdapter::FRAME) {
+    //            osg::Vec3 eye, center, up, dir;
+    //            aa.asView()->getCamera()->getViewMatrixAsLookAt(eye, center, up);
+    //            // dir = center - eye;
+    //            dir = -eye;
+    //            dir.normalize();
+    //            // dir = dir * osg::Matrix::rotate(osg::PI_4 / 4, up);
+    //            light0_->setDirection(dir);
+    //        }
+    //        return false;
+    //    }
 
-      private:
-        osgVerse::LightDrawable* light0_;
-    };
+    //  private:
+    //    osgVerse::LightDrawable* light0_;
+    //};
 
-    rep_->viewer_impl->addEventHandler(new ViewerEventCallback(light0));
+    //rep_->viewer_impl->addEventHandler(new ViewerEventCallback(light0));
 
-    osgVerse::StandardPipelineParameters params(SHADER_DIR, SKYBOX_DIR "barcelona.hdr");
-    params.enablePostEffects = true;
-    params.enableAO          = false;
-    // osgVerse::setupStandardPipeline(pipeline, rep_->viewer_impl.get(), params);
+    //osgVerse::StandardPipelineParameters params(SHADER_DIR, SKYBOX_DIR + "barcelona.hdr");
+    //params.enablePostEffects = false;
+    //params.enableAO          = false;
+    ////osgVerse::setupStandardPipeline(pipeline, rep_->viewer_impl.get(), params);
 
     // // Post pipeline settings
-    // auto shadow = static_cast<osgVerse::ShadowModule*>(pipeline->getModule("Shadow"));
-    // if (shadow && shadow->getFrustumGeode())
-    // {
-    //     addNode(shadow->getFrustumGeode(), FORWARD_SCENE_MASK);
-    // }
+    // //auto shadow = static_cast<osgVerse::ShadowModule*>(pipeline->getModule("Shadow"));
+    // //if (shadow && shadow->getFrustumGeode())
+    // //{
+    // //    setPipelineMask(shadow->getFrustumGeode(), FORWARD_SCENE_MASK);
+    // //    addNode(shadow->getFrustumGeode());
+    // //}
 
-    auto light = static_cast<osgVerse::LightModule*>(pipeline->getModule("Light"));
-    if (light) light->setMainLight(light0, "Shadow");
+    //auto light = static_cast<osgVerse::LightModule*>(pipeline->getModule("Light"));
+    //if (light) light->setMainLight(light0, "Shadow");
 }
 
 void Viewer::run() {

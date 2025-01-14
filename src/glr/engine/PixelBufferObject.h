@@ -5,6 +5,7 @@
 #include <glr/engine/BufferObject.h>
 
 namespace glr {
+class Image;
 class GLR_API PixelBufferObject : public BufferObject {
     VI_OBJECT_META;
 
@@ -20,6 +21,8 @@ class GLR_API PixelBufferObject : public BufferObject {
   public:
     virtual Target getTarget() const override;
     virtual Usage  getUsage() const override;
+
+    bool setImage(Image* img);
 
   protected:
     virtual GLuint onCreate(State& state) override;

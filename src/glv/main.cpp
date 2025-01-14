@@ -167,42 +167,42 @@ int main(int argc, char** argv) {
     v.addNode(coord);
     v.addCamera(hud_coord, false, false);
 
-    MeshCutterVTK mesh_cutter;
-    mesh_cutter.setMesh("R:\\models\\0731-43#-right.stl");
-    mesh_cutter.setPlane(osg::Vec3(0, 0, 30), osg::Vec3(0, 0, 1));
-    mesh_cutter.update();
+    //MeshCutterVTK mesh_cutter;
+    //mesh_cutter.setMesh("R:\\models\\0731-43#-right.stl");
+    //mesh_cutter.setPlane(osg::Vec3(0, 0, 30), osg::Vec3(0, 0, 1));
+    //mesh_cutter.update();
 
-    osg::Vec3Array*  pnts = new osg::Vec3Array();
-    std::vector<int> nparts;
+    //osg::Vec3Array*  pnts = new osg::Vec3Array();
+    //std::vector<int> nparts;
 
-    mesh_cutter.getOrderedPoints(*pnts, nparts);
+    //mesh_cutter.getOrderedPoints(*pnts, nparts);
 
-    std::vector<osg::Vec3> pnts2;
-    pnts2.reserve(pnts->size());
+    //std::vector<osg::Vec3> pnts2;
+    //pnts2.reserve(pnts->size());
 
-    for(int i = 0; i < nparts.front(); i++){
+    //for(int i = 0; i < nparts.front(); i++){
 
-        pnts2.push_back(pnts->at(i));
-    } 
+    //    pnts2.push_back(pnts->at(i));
+    //} 
 
-    // auto dc = createDottedCurve(pnts2, {}, {});
+    //// auto dc = createDottedCurve(pnts2, {}, {});
 
-    auto dc = new DottedCurve();
-    dc->setInputPoints(pnts2);
-    // dc->setIsClosed(true);
-    dc->downsample(30, 120, 6);
-    v.addNode(dc->createGeometry());
+    //auto dc = new DottedCurve();
+    //dc->setInputPoints(pnts2);
+    //// dc->setIsClosed(true);
+    //dc->downsample(30, 120, 6);
+    //v.addNode(dc->createGeometry());
 
-    auto pnts3 = dc->getPoints();
+    //auto pnts3 = dc->getPoints();
 
-    auto dc2 = createDottedCurve(pnts3, {}, {});
-    auto dc2_model = dc2->createGeometry();
-    // dc2_model->setMatrix(osg::Matrix::translate(0,0,-50));
-    v.addNode(dc2_model);
+    //auto dc2 = createDottedCurve(pnts3, {}, {});
+    //auto dc2_model = dc2->createGeometry();
+    //// dc2_model->setMatrix(osg::Matrix::translate(0,0,-50));
+    //v.addNode(dc2_model);
 
-    auto mesh = mesh_cutter.createGeometry(true, true, osg::Vec4(1, 0, 0, 1), osg::Vec4(0, 1, 0, 1));
-    mesh->setMatrix(osg::Matrix::translate(300,0,0));
-    v.addNode(mesh);
+    //auto mesh = mesh_cutter.createGeometry(true, true, osg::Vec4(1, 0, 0, 1), osg::Vec4(0, 1, 0, 1));
+    //mesh->setMatrix(osg::Matrix::translate(300,0,0));
+    //v.addNode(mesh);
 
     v.fitToScreen();
     v.run();

@@ -198,7 +198,7 @@ osg::MatrixTransform* BrepLoader::loadFile(const std::string& file) {
     for (int i = 1; i <= face_map.Extent(); i++) {
         auto&           face = TopoDS::Face(face_map(i));
         TopLoc_Location loc;
-        auto            mesh = BRep_Tool::Triangulation(face, loc);
+        auto&           mesh = BRep_Tool::Triangulation(face, loc);
         if (mesh.IsNull()) continue;
 
         auto vertices = new osg::Vec3Array();
@@ -242,7 +242,7 @@ osg::MatrixTransform* BrepLoader::loadFile(const std::string& file) {
             auto edge_index = edge_map.FindIndex(edge);
             if (all_edge_indices.find(edge_index) == all_edge_indices.end()) continue;
             all_edge_indices.erase(edge_index);
-            auto polygon = BRep_Tool::PolygonOnTriangulation(edge, mesh, loc);
+            auto& polygon = BRep_Tool::PolygonOnTriangulation(edge, mesh, loc);
             if (polygon.IsNull()) continue;
             auto& nodes     = polygon->Nodes();
             auto  edge_geom = new osg::Geometry();
@@ -283,7 +283,7 @@ osg::MatrixTransform* BrepLoader::loadFile(const std::string& file) {
     root->addChild(edge_geod);
 
     setPipelineMask(edge_geod, FORWARD_SCENE_MASK);
-    setPipelineMask(face_geod, DEFERRED_SCENE_MASK | SHADOW_CASTER_MASK);
+    setPipelineMask(face_geod, DEFERRED_SCENE_MASK /* | SHADOW_CASTER_MASK*/);
 
     return root;
 }

@@ -75,11 +75,11 @@ void AppInitializer::initOpenSceneGraph() {
         return;
     }
     osg::setNotifyLevel(osg::DEBUG_FP);
-    auto paths = osgDB::Registry::instance()->getLibraryFilePathList();
+    auto& paths = osgDB::Registry::instance()->getLibraryFilePathList();
     auto new_plugin_dir = xg::getApplicationDir();
     new_plugin_dir += "\\plugins\\osg";
     paths.insert(paths.begin(), new_plugin_dir);
-    osgDB::Registry::instance()->setLibraryFilePathList(paths);
+    //osgDB::Registry::instance()->setLibraryFilePathList(paths);
 }
 
 bool AppInitializer::isGlfwInitialized() const {

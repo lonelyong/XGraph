@@ -3,6 +3,7 @@
 #include <map>
 
 #include <glr/engine/GraphicContext.h>
+#include <glr/engine/Image.h>
 #include <glr/engine/State.h>
 
 namespace glr {
@@ -11,6 +12,7 @@ VI_OBJECT_META_IMPL(PixelBufferObject, BufferObject);
 struct PixelBufferObject::Data {
     std::map<int, bool> dirties;
     Mode                m = MODE_PACK;
+    vine::RefPtr<Image> img;
 };
 
 PixelBufferObject::PixelBufferObject(Mode m)
@@ -30,12 +32,18 @@ GLuint PixelBufferObject::onCreate(State& state) {
     auto id = BufferObject::onCreate(state);
     if (id != GL_ZERO) {
         if (getTarget() == TARGET_PIXEL_PACK_BUFFER) {
-            
         }
     }
     return id;
 }
 
+bool PixelBufferObject::setImage(Image* img) {
+    if (d->m == MODE_PACK) return false;
+    if (d->img == img) return true;
+    d->img = img;
+}
+
 bool PixelBufferObject::onUpdate(State& state) {
+    return true;
 }
 } // namespace glr
