@@ -27,9 +27,9 @@
 #include <TopoDS_Face.hxx>
 #include <TopoDS_Shape.hxx>
 
-#include "XGComm/Text.h"
+#include "xgcomm/Text.h"
 
-#include "ModelDefs.h"
+#include "glv/modeling/ModelDefs.h"
 
 namespace glv {
 namespace {
@@ -176,7 +176,7 @@ osg::MatrixTransform* BrepLoader::loadFile(const std::string& file) {
     auto edge_geod   = new osg::Geode();
     auto face_colors = new osg::Vec4Array();
     auto edge_colors = new osg::Vec4Array();
-    face_colors->push_back(osg::Vec4(220.f / 255, 223.f / 255, 227.f / 255, 1.f));
+    face_colors->push_back(osg::Vec4(220.f / 255, 223.f / 255, 0.f / 255, 1.f));
     edge_colors->push_back(osg::Vec4(0.2f, 0.2f, 0.2f, 1.f));
 
     IMeshTools_Parameters params;

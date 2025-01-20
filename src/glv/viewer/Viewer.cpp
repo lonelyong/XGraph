@@ -1,7 +1,10 @@
 ﻿#include "Viewer.h"
 
+#include <string>
+
 #include <glad/glad.h>
 
+#include <osg/Camera>
 #include <osgDB/WriteFile>
 #include <osgGA/StateSetManipulator>
 #include <osgGA/TerrainManipulator>
@@ -14,16 +17,18 @@
 #include <osgVerse/Pipeline/ShadowModule.h>
 #include <osgVerse/Pipeline/SkyBox.h>
 
-namespace glv {
+#include "GLDebugOperation.h"
 
+namespace glv {
 namespace {
+
 class ViewerEx : public osgViewer::Viewer {
   public:
     ViewerEx(osgVerse::Pipeline* pipeline)
       : pipeline_(pipeline) {}
 
   protected:
-    virtual osg::GraphicsOperation* createRenderer(osg::Camera* camera) {
+    virtual osg::GraphicsOperation* createRenderer(osg::Camera* camera) override {
         if (pipeline_.valid())
             return pipeline_->createRenderer(camera);
         else
@@ -38,10 +43,18 @@ constexpr const char* S_PICK_VS_STR = R"(
 #version 330 core
 layout(location = 0) in vec3 position;
 layout(location = 3) in vec4 color;
-uniform mat4 osg_ModelViewMatrix;
-uniform mat4 osg_ProjectionMatrix;
-uniform mat4 osg_ModelViewProjectionMatrix;
-uniform mat3 osg_NormalMatrix;
+
+//uniform mat4 osg_ModelViewMatrix;
+//uniform mat4 osg_ProjectionMatrix;
+//uniform mat4 osg_ModelViewProjectionMatrix;
+//uniform mat3 osg_NormalMatrix;
+
+//// call setUseModelViewAndProjectionUniforms(true) osg will replace gl_ to osg_
+//uniform mat4 gl_ModelViewMatrix;
+//uniform mat4 gl_ProjectionMatrix;
+//uniform mat4 gl_ModelViewProjectionMatrix;
+//uniform mat3 gl_NormalMatrix;
+
 out vec4 frag_color;
 void main(){
   gl_Position = osg_ModelViewProjectionMatrix * vec4(position.x, position.y, position.z, 1.0);
@@ -68,20 +81,22 @@ class PickCameraPostDrawCallback : public osg::Camera::DrawCallback {
             auto cam       = renderInfo.getCurrentCamera();
             auto vp        = cam->getViewport();
             auto img       = new osg::Image();
-            glBindFramebuffer(GL_FRAMEBUFFER, 1);
+
+
+            // glBindFramebuffer(GL_FRAMEBUFFER, 1);
             GLint fbo_id;
             glGetIntegerv(GL_FRAMEBUFFER_BINDING, &fbo_id);
             glReadBuffer(GL_COLOR_ATTACHMENT0);
             img->readPixels(0, 0, vp->width(), vp->height(), GL_RGBA, GL_UNSIGNED_BYTE);
 
-            glBindFramebuffer(GL_FRAMEBUFFER, 0);
+            // glBindFramebuffer(GL_FRAMEBUFFER, 0);
             osgDB::writeImageFile(*img, "d:/1.bmp");
             img->unref();
         }
     }
 };
 
-osg::Camera* createPickCamera(PickCameraPostDrawCallback* postdraw) {
+osg::Camera* createPickCamera() {
 
     auto prog = new osg::Program();
     prog->addShader(new osg::Shader(osg::Shader::VERTEX, S_PICK_VS_STR));
@@ -94,15 +109,16 @@ osg::Camera* createPickCamera(PickCameraPostDrawCallback* postdraw) {
     cam->setClearMask(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     cam->getOrCreateStateSet()->setAttributeAndModes(prog, osg::StateAttribute::ON | osg::StateAttribute::PROTECTED);
     cam->setRenderTargetImplementation(osg::Camera::FRAME_BUFFER_OBJECT);
-    cam->setPostDrawCallback(postdraw);
+    cam->setPostDrawCallback(new PickCameraPostDrawCallback());
 
 
-    auto depth_buffer = new osg::RenderBuffer(1280, 720, GL_DEPTH_COMPONENT24);
-    auto color_buffer = new osg::RenderBuffer(1280, 720, GL_RGBA8);
-    // auto fbo = new osg::FrameBufferObject();
-    // fbo->setAttachment(osg::Camera::DEPTH_BUFFER, osg::FrameBufferAttachment(depth_buffer));
-    // fbo->setAttachment(osg::Camera::COLOR_BUFFER0, osg::FrameBufferAttachment(color_buffer));
-    // cam->getOrCreateStateSet()->setAttributeAndModes(fbo);
+
+    // auto depth_buffer = new osg::RenderBuffer(1280, 720, GL_DEPTH_COMPONENT24);
+    // auto color_buffer = new osg::RenderBuffer(1280, 720, GL_RGBA8);
+    //  auto fbo = new osg::FrameBufferObject();
+    //  fbo->setAttachment(osg::Camera::DEPTH_BUFFER, osg::FrameBufferAttachment(depth_buffer));
+    //  fbo->setAttachment(osg::Camera::COLOR_BUFFER0, osg::FrameBufferAttachment(color_buffer));
+    //  cam->getOrCreateStateSet()->setAttributeAndModes(fbo);
 
     // auto depth_buffer = new osg::Texture2D();
     // depth_buffer->setInternalFormat(GL_DEPTH_COMPONENT24);
@@ -131,11 +147,6 @@ struct Viewer::Rep {
 
 Viewer::Viewer()
   : rep_(new Rep()) {
-    static bool is_verse_initialized = false;
-    if (!is_verse_initialized) {
-        osgVerse::globalInitialize(0, 0);
-        is_verse_initialized = true;
-    }
     auto pipeline     = new osgVerse::Pipeline();
     rep_->root        = new osg::Group();
     rep_->viewer_impl = new ViewerEx(pipeline);
@@ -156,15 +167,18 @@ Viewer::Viewer()
     auto gc                  = osg::GraphicsContext::createGraphicsContext(traits);
     // false: gl_Vertex=0,gl_Normal=2,gl_Color=3
     // true : gl_Vertex=0,gl_Normal=1,gl_Color=2
-    gc->getState()->resetVertexAttributeAlias(true);
+    // default: true
+    gc->getState()->resetVertexAttributeAlias(false);
     // gc->getState()->setUseVertexAttributeAliasing(true);
     gc->getState()->setUseModelViewAndProjectionUniforms(true);
+    // 使resetVertexAttributeAlias所作的映射生效
+    gc->getState()->setUseVertexAttributeAliasing(true);
 
     auto cam = rep_->viewer_impl->getCamera();
     cam->setGraphicsContext(gc);
     cam->setViewport(0, 0, traits->width, traits->height);
     cam->setProjectionMatrixAsPerspective(30, (double)traits->width / traits->height, 1, 1000);
-    cam->setViewMatrixAsLookAt(osg::Vec3(200, 0, 0), osg::Vec3(), osg::Vec3(0, 1, 0));
+    cam->setViewMatrixAsLookAt(osg::Vec3d(200, 0, 0), osg::Vec3d(), osg::Vec3d(0, 1, 0));
 
     auto camm = new osgGA::TrackballManipulator(osgGA::StandardManipulator::DEFAULT_SETTINGS |
                                                 osgGA::StandardManipulator::SET_CENTER_ON_WHEEL_FORWARD_MOVEMENT);
@@ -172,7 +186,7 @@ Viewer::Viewer()
     camm->setAutoComputeHomePosition(false);
     camm->setByMatrix(cam->getViewMatrix());
 
-    auto pick_cam = createPickCamera(new PickCameraPostDrawCallback());
+    auto pick_cam = createPickCamera();
     pick_cam->setGraphicsContext(gc);
     addCamera(pick_cam, true, true, true, true);
 
@@ -183,55 +197,56 @@ Viewer::Viewer()
         new osgGA::StateSetManipulator(rep_->viewer_impl->getCamera()->getOrCreateStateSet()));
     rep_->viewer_impl->setThreadingModel(osgViewer::Viewer::SingleThreaded);
     rep_->viewer_impl->setSceneData(rep_->root);
+    rep_->viewer_impl->setRealizeOperation(new GLDebugOperation());
 
 
     //// Main light
-    //auto light0 = new osgVerse::LightDrawable;
-    //light0->setColor(osg::Vec3(1.0f, 1.0f, 1.0f));
-    //light0->setDirection(osg::Vec3(0.02f, 0.1f, -1.0f));
-    //light0->setDirectional(true);
-    //light0->setEyeSpace(false);
+    // auto light0 = new osgVerse::LightDrawable;
+    // light0->setColor(osg::Vec3(1.0f, 1.0f, 1.0f));
+    // light0->setDirection(osg::Vec3(0.02f, 0.1f, -1.0f));
+    // light0->setDirectional(true);
+    // light0->setEyeSpace(false);
 
-    //auto light1 = new osgVerse::LightDrawable;
-    //light1->setColor(osg::Vec3(1.5f, 1.5f, 1.5f));
-    //light1->setDirection(osg::Vec3(1.f, 0.1f, 0.0f));
-    //light1->setDirectional(true);
-    //light1->setEyeSpace(false);
+    // auto light1 = new osgVerse::LightDrawable;
+    // light1->setColor(osg::Vec3(1.5f, 1.5f, 1.5f));
+    // light1->setDirection(osg::Vec3(1.f, 0.1f, 0.0f));
+    // light1->setDirectional(true);
+    // light1->setEyeSpace(false);
 
-    //auto lightGeode = new osg::Geode;
-    //lightGeode->addDrawable(light0);
+    // auto lightGeode = new osg::Geode;
+    // lightGeode->addDrawable(light0);
     //// lightGeode->addDrawable(light1);
-    //addNode(lightGeode);
+    // addNode(lightGeode);
 
-    //class ViewerEventCallback : public osgGA::GUIEventHandler {
-    //  public:
-    //    ViewerEventCallback(osgVerse::LightDrawable* light0)
-    //      : light0_(light0) {}
-    //    virtual bool handle(const osgGA::GUIEventAdapter& ea,
-    //                        osgGA::GUIActionAdapter&      aa,
-    //                        osg::Object*,
-    //                        osg::NodeVisitor*) override {
-    //        if (ea.getEventType() == osgGA::GUIEventAdapter::FRAME) {
-    //            osg::Vec3 eye, center, up, dir;
-    //            aa.asView()->getCamera()->getViewMatrixAsLookAt(eye, center, up);
-    //            // dir = center - eye;
-    //            dir = -eye;
-    //            dir.normalize();
-    //            // dir = dir * osg::Matrix::rotate(osg::PI_4 / 4, up);
-    //            light0_->setDirection(dir);
-    //        }
-    //        return false;
-    //    }
+    // class ViewerEventCallback : public osgGA::GUIEventHandler {
+    //   public:
+    //     ViewerEventCallback(osgVerse::LightDrawable* light0)
+    //       : light0_(light0) {}
+    //     virtual bool handle(const osgGA::GUIEventAdapter& ea,
+    //                         osgGA::GUIActionAdapter&      aa,
+    //                         osg::Object*,
+    //                         osg::NodeVisitor*) override {
+    //         if (ea.getEventType() == osgGA::GUIEventAdapter::FRAME) {
+    //             osg::Vec3 eye, center, up, dir;
+    //             aa.asView()->getCamera()->getViewMatrixAsLookAt(eye, center, up);
+    //             // dir = center - eye;
+    //             dir = -eye;
+    //             dir.normalize();
+    //             // dir = dir * osg::Matrix::rotate(osg::PI_4 / 4, up);
+    //             light0_->setDirection(dir);
+    //         }
+    //         return false;
+    //     }
 
     //  private:
     //    osgVerse::LightDrawable* light0_;
     //};
 
-    //rep_->viewer_impl->addEventHandler(new ViewerEventCallback(light0));
+    // rep_->viewer_impl->addEventHandler(new ViewerEventCallback(light0));
 
-    //osgVerse::StandardPipelineParameters params(SHADER_DIR, SKYBOX_DIR + "barcelona.hdr");
-    //params.enablePostEffects = false;
-    //params.enableAO          = false;
+    // osgVerse::StandardPipelineParameters params(SHADER_DIR, SKYBOX_DIR + "barcelona.hdr");
+    // params.enablePostEffects = false;
+    // params.enableAO          = false;
     ////osgVerse::setupStandardPipeline(pipeline, rep_->viewer_impl.get(), params);
 
     // // Post pipeline settings
@@ -242,8 +257,8 @@ Viewer::Viewer()
     // //    addNode(shadow->getFrustumGeode());
     // //}
 
-    //auto light = static_cast<osgVerse::LightModule*>(pipeline->getModule("Light"));
-    //if (light) light->setMainLight(light0, "Shadow");
+    // auto light = static_cast<osgVerse::LightModule*>(pipeline->getModule("Light"));
+    // if (light) light->setMainLight(light0, "Shadow");
 }
 
 void Viewer::run() {

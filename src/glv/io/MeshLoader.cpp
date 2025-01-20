@@ -1,15 +1,17 @@
 #include "MeshLoader.h"
+
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
 #include <filesystem>
 
-#include "ModelDefs.h"
 #include <osg/Geode>
 #include <osg/Geometry>
 #include <osg/Material>
 #include <osg/MatrixTransform>
 #include <osgUtil/SmoothingVisitor>
+
+#include "glv/modeling/ModelDefs.h"
 
 namespace glv {
 

@@ -1,5 +1,5 @@
 #include "CoordGenerator.h"
-#include "ModelDefs.h"
+
 #include <osg/AutoTransform>
 #include <osg/Camera>
 #include <osg/Geode>
@@ -8,6 +8,8 @@
 #include <osg/MatrixTransform>
 #include <osg/Shape>
 #include <osg/ShapeDrawable>
+
+#include "ModelDefs.h"
 
 namespace glv {
 namespace {
@@ -29,6 +31,9 @@ struct Initializer {
 
 osg::MatrixTransform*
 createCoord(double cyli_len, double cyli_r, double cone_len, double cone_r, bool auto_rotate_to_screen) {
+    auto colors = new osg::Vec4Array();
+    colors->push_back(osg::Vec4(1.f, 1.f, 1.f, 1.f));
+
     auto axis_cyli = new osg::ShapeDrawable(new osg::Cylinder(osg::Vec3(0, 0, cyli_len / 2.), cyli_r, cyli_len));
     auto axis_cone = new osg::ShapeDrawable(new osg::Cone(osg::Vec3(0, 0, cyli_len + cone_len / 3.), cone_r, cone_len));
     auto axis_geod = new osg::Geode();

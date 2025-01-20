@@ -1,4 +1,5 @@
 #include "ModelDefs.h"
+
 #include <osgVerse/Pipeline/Pipeline.h>
 
 namespace glv {

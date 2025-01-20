@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "ModelDefs.h"
+
 namespace osg {
 class Node;
 class Camera;

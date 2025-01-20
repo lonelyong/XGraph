@@ -1,5 +1,5 @@
-
 #include "CurveGenerator.h"
+
 #include <osg/Geode>
 #include <osg/Geometry>
 #include <osg/MatrixTransform>

@@ -3,12 +3,18 @@
 #include <iostream>
 
 #include <glad/glad.h>
+
 #include <GLFW/glfw3.h>
 
-#include <osgDB/Registry>
 #include <osg/Notify>
+#include <osgDB/Registry>
 
-#include "XGComm/Environment.h"
+#include <osgVerse/pipeline/Global.h>
+#include <osgVerse/pipeline/Utilities.h>
+
+#include "xgcomm/Environment.h"
+
+#include "ConsoleNotifyHandler.h"
 
 namespace glv {
 namespace {
@@ -36,7 +42,7 @@ void AppInitializer::initGlfw() {
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, params_.gl_ver_maj);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, params_.gl_ver_min);
-        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     if (params_.gl_use_core_profile) {
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     }
@@ -74,12 +80,19 @@ void AppInitializer::initOpenSceneGraph() {
     if (isOpenSceneGraphInitialized()) {
         return;
     }
-    osg::setNotifyLevel(osg::DEBUG_FP);
-    auto& paths = osgDB::Registry::instance()->getLibraryFilePathList();
-    auto new_plugin_dir = xg::getApplicationDir();
+
+    USE_VERSE_PLUGINS();
+
+
+    osgVerse::globalInitialize(0, 0);
+    osg::initNotifyLevel();
+    osg::setNotifyLevel(osg::INFO);
+    osg::setNotifyHandler(new ConsoleNotifyHandler());
+    auto& paths          = osgDB::Registry::instance()->getLibraryFilePathList();
+    auto  new_plugin_dir = xg::getApplicationDir();
     new_plugin_dir += "\\plugins\\osg";
     paths.insert(paths.begin(), new_plugin_dir);
-    //osgDB::Registry::instance()->setLibraryFilePathList(paths);
+    // osgDB::Registry::instance()->setLibraryFilePathList(paths);
 }
 
 bool AppInitializer::isGlfwInitialized() const {

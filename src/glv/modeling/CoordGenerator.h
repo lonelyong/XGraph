@@ -1,4 +1,3 @@
-
 #pragma once
 #include <osg/Vec3d>
 

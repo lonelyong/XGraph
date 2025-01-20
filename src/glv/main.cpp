@@ -4,30 +4,32 @@
 #include <osg/MatrixTransform>
 #include <osg/ShapeDrawable>
 
-#include "XGComm/Environment.h"
-#include "XGComm/Text.h"
+#include "xgcomm/Environment.h"
+#include "xgcomm/Text.h"
 
-#include "BrepLoader.h"
-#include "CoordGenerator.h"
-#include "CurveGenerator.h"
-#include "DottedCurve.h"
-#include "AppInitializer.h"
-#include "MeshCutterVTK.h"
-#include "MeshLoader.h"
-#include "ModelDefs.h"
-#include "PointCloudLoader.h"
-#include "Viewer.h"
+#include "glv/io/BrepLoader.h"
+#include "glv/io/MeshLoader.h"
+#include "glv/io/PointCloudLoader.h"
+#include "glv/modeling/CoordGenerator.h"
+#include "glv/modeling/CurveGenerator.h"
+#include "glv/modeling/DottedCurve.h"
+#include "glv/modeling/MeshCutterVTK.h"
+#include "glv/modeling/ModelDefs.h"
+
+#include "glv/viewer/Viewer.h"
+
+#include "glv/app/AppInitializer.h"
 
 int main(int argc, char** argv) {
 
     using namespace glv;
 
     AppInitializationParameters params;
-    AppInitializer initializer(params);
+    AppInitializer              initializer(params);
     initializer.initGlfw();
     initializer.initGlad();
     initializer.initOpenSceneGraph();
-    
+
     osg::Group* model = nullptr;
     if (argc == 1) {
         model = new osg::Group();
@@ -164,45 +166,45 @@ int main(int argc, char** argv) {
     auto hud_coord = createHudCoord(v.getMasterCamera(), 60, 2, 12, 4);
 
     v.addNode(model);
-    v.addNode(coord);
+    // v.addNode(coord);
     v.addCamera(hud_coord, false, false);
 
-    //MeshCutterVTK mesh_cutter;
-    //mesh_cutter.setMesh("R:\\models\\0731-43#-right.stl");
-    //mesh_cutter.setPlane(osg::Vec3(0, 0, 30), osg::Vec3(0, 0, 1));
-    //mesh_cutter.update();
+    // MeshCutterVTK mesh_cutter;
+    // mesh_cutter.setMesh("R:\\models\\0731-43#-right.stl");
+    // mesh_cutter.setPlane(osg::Vec3(0, 0, 30), osg::Vec3(0, 0, 1));
+    // mesh_cutter.update();
 
-    //osg::Vec3Array*  pnts = new osg::Vec3Array();
-    //std::vector<int> nparts;
+    // osg::Vec3Array*  pnts = new osg::Vec3Array();
+    // std::vector<int> nparts;
 
-    //mesh_cutter.getOrderedPoints(*pnts, nparts);
+    // mesh_cutter.getOrderedPoints(*pnts, nparts);
 
-    //std::vector<osg::Vec3> pnts2;
-    //pnts2.reserve(pnts->size());
+    // std::vector<osg::Vec3> pnts2;
+    // pnts2.reserve(pnts->size());
 
-    //for(int i = 0; i < nparts.front(); i++){
+    // for(int i = 0; i < nparts.front(); i++){
 
     //    pnts2.push_back(pnts->at(i));
-    //} 
+    //}
 
     //// auto dc = createDottedCurve(pnts2, {}, {});
 
-    //auto dc = new DottedCurve();
-    //dc->setInputPoints(pnts2);
+    // auto dc = new DottedCurve();
+    // dc->setInputPoints(pnts2);
     //// dc->setIsClosed(true);
-    //dc->downsample(30, 120, 6);
-    //v.addNode(dc->createGeometry());
+    // dc->downsample(30, 120, 6);
+    // v.addNode(dc->createGeometry());
 
-    //auto pnts3 = dc->getPoints();
+    // auto pnts3 = dc->getPoints();
 
-    //auto dc2 = createDottedCurve(pnts3, {}, {});
-    //auto dc2_model = dc2->createGeometry();
+    // auto dc2 = createDottedCurve(pnts3, {}, {});
+    // auto dc2_model = dc2->createGeometry();
     //// dc2_model->setMatrix(osg::Matrix::translate(0,0,-50));
-    //v.addNode(dc2_model);
+    // v.addNode(dc2_model);
 
-    //auto mesh = mesh_cutter.createGeometry(true, true, osg::Vec4(1, 0, 0, 1), osg::Vec4(0, 1, 0, 1));
-    //mesh->setMatrix(osg::Matrix::translate(300,0,0));
-    //v.addNode(mesh);
+    // auto mesh = mesh_cutter.createGeometry(true, true, osg::Vec4(1, 0, 0, 1), osg::Vec4(0, 1, 0, 1));
+    // mesh->setMatrix(osg::Matrix::translate(300,0,0));
+    // v.addNode(mesh);
 
     v.fitToScreen();
     v.run();

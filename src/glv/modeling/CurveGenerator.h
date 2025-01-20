@@ -1,8 +1,9 @@
-
 #pragma once
+
+#include <vector>
+
 #include <osg/Vec3>
 #include <osg/Vec4>
-#include <vector>
 
 namespace osg {
 class MatrixTransform;
