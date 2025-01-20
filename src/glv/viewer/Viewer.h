@@ -20,7 +20,7 @@ class Viewer {
     osg::Camera* getMasterCamera() const;
 
   private:
-    struct Rep;
-    Rep* const rep_;
+    struct Data;
+    Data* const d;
 };
 } // namespace glv

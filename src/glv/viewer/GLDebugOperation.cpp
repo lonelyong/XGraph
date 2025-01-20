@@ -5,8 +5,6 @@
 #include <osg/Notify>
 
 namespace glv {
-namespace {
-
 static void debugCallback(GLenum        source,
                           GLenum        type,
                           GLuint        id,
@@ -62,7 +60,6 @@ static void debugCallback(GLenum        source,
     default: OSG_NOTICE << "[DEFAULT] " << msg << std::endl; break;
     }
 }
-} // namespace
 
 GLDebugOperation::GLDebugOperation()
   : osg::Referenced(true)

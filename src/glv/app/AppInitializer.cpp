@@ -102,6 +102,7 @@ bool AppInitializer::isGlfwInitialized() const {
 bool AppInitializer::isGladInitialized() const {
     return s_is_glad_initialized;
 }
+
 bool AppInitializer::isOpenSceneGraphInitialized() const {
     return s_is_osg_initialized;
 }

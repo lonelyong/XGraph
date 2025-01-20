@@ -2,7 +2,11 @@
 #include <glad/glad.h>
 
 #include <osg/GraphicsThread>
-#include <osg/GraphicsContext>
+
+namespace osg {
+class GraphicsContext;
+
+}
 
 namespace glv {
 typedef void(APIENTRY* glDebugMessageCallbackCallbackPtr)(GLenum        source,
