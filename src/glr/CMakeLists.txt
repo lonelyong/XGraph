@@ -32,6 +32,9 @@ file(GLOB HEADER_FIELS_UTILS utils/*.h)
 file(GLOB SRC_FIELS_VIEWER viewer/*.cpp)
 file(GLOB HEADER_FIELS_VIEWER viewer/*.h)
 
+file(GLOB SRC_FIELS_APP app/*.cpp)
+file(GLOB HEADER_FIELS_APP app/*.h)
+
 file(GLOB RES_SHADER_FILES ${RES_SRC_DIR}shaders/*.*)
 file(GLOB RES_IMAGE_FILES ${RES_SRC_DIR}images/*.*)
 
@@ -50,6 +53,8 @@ add_executable(
     ${HEADER_FIELS_UTILS}
     ${SRC_FIELS_VIEWER}
     ${HEADER_FIELS_VIEWER}
+    ${SRC_FIELS_APP}
+    ${HEADER_FIELS_APP}
 )
 
 target_sources(${CURRENT_TARGET_NAME} PRIVATE ${RES_SHADER_FILES} ${RES_IMAGE_FILES})
@@ -59,6 +64,7 @@ source_group(io FILES ${HEADER_FIELS_IO} ${SRC_FIELS_IO})
 source_group(scene FILES ${HEADER_FIELS_SCENE} ${SRC_FIELS_SCENE})
 source_group(utils FILES ${HEADER_FIELS_UTILS} ${SRC_FIELS_UTILS})
 source_group(viewer FILES ${HEADER_FIELS_VIEWER} ${SRC_FIELS_VIEWER})
+source_group(app FILES ${HEADER_FIELS_APP} ${SRC_FIELS_APP})
 source_group(res/images FILES ${RES_IMAGE_FILES})
 source_group(res/shaders FILES ${RES_SHADER_FILES})
 source_group(third/glad FILES ${GLAD_SRC_FILES})

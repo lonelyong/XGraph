@@ -36,8 +36,8 @@ PickerCamera::PickerCamera()
     };
 
     auto prog = new osg::Program();
-    prog->addShader(new osg::Shader(osg::Shader::VERTEX, fn_create_shader(XG_RES("shaders/std_phong.vs.glsl"))));
-    prog->addShader(new osg::Shader(osg::Shader::FRAGMENT, fn_create_shader(XG_RES("shaders/std_phong.fs.glsl"))));
+    prog->addShader(new osg::Shader(osg::Shader::VERTEX, fn_create_shader(XG_RES("shaders/phong_comp.vs.glsl"))));
+    prog->addShader(new osg::Shader(osg::Shader::FRAGMENT, fn_create_shader(XG_RES("shaders/phong_comp.fs.glsl"))));
 
     setViewport(0, 0, 1280, 720);
     setRenderOrder(osg::Camera::POST_RENDER);
@@ -91,7 +91,7 @@ void CameraPostDrawCallback::operator()(osg::RenderInfo& renderInfo) const {
 
         GLint fbo_id;
         glGetIntegerv(GL_FRAMEBUFFER_BINDING, &fbo_id);
-        // 在调用DrawCallback之前，GL_FRAMEBUFFER已经Reset到Default
+        // 锟节碉拷锟斤拷DrawCallback之前锟斤拷GL_FRAMEBUFFER锟窖撅拷Reset锟斤拷Default
         glBindFramebuffer(GL_FRAMEBUFFER, 1);
         glReadBuffer(GL_COLOR_ATTACHMENT0);
         img->readPixels(0, 0, vp->width(), vp->height(), GL_RGBA, GL_UNSIGNED_BYTE);

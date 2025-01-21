@@ -20,7 +20,7 @@
 #include <glr/scene/Geometry.h>
 #include <glr/scene/Model.h>
 
-#include <glr/ResourceManager.h>
+//#include <glr/app/ResourceManager.h>
 
 namespace glr {
 
@@ -163,8 +163,8 @@ Model* parse(const PCPtr cloud) {
 
     auto pc = new Model();
     pc->addDrawable(geom);
-    pc->getOrCreateStateSet()->setShader(
-        ResourceManager::instance()->getInternalShader(ResourceManager::IS_PointCloud));
+    //pc->getOrCreateStateSet()->setShader(
+    //    ResourceManager::instance()->getInternalShader(ResourceManager::IS_PointCloud));
 
     return pc;
 }

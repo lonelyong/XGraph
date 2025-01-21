@@ -8,8 +8,8 @@
 
 #include <xgcomm/Resources.h>
 
-#include "AppInitializer.h"
-#include "ResourceManager.h"
+#include <glr/app/AppInitializer.h>
+#include <glr/app/ResourceManager.h>
 #include <glr/engine/Camera.h>
 #include <glr/engine/CameraManipulator.h>
 #include <glr/engine/CubeMap.h>
@@ -100,7 +100,6 @@ void CreateSampleShapes(glr::Scene* scene) {
 
     auto pc = new glr::Model();
     {
-        pc->getOrCreateStateSet()->setShader(resmgr->getInternalShader(ResMgr::IS_PointCloud));
         auto geom     = new glr::Geometry();
         auto vertices = new glr::Vec3fArray();
         auto colors   = new glr::Vec3fArray();
@@ -110,13 +109,14 @@ void CreateSampleShapes(glr::Scene* scene) {
         for (size_t i = 0; i < vertices->capacity(); i++) {
             vertices->push_back({ rand() / 10000. - posi_offset, rand() / 10000. - posi_offset, rand() / 10000. });
             colors->push_back({ rand() / static_cast<double>(INT16_MAX),
-                             rand() / static_cast<double>(INT16_MAX),
-                             rand() / static_cast<double>(INT16_MAX) });
+                                rand() / static_cast<double>(INT16_MAX),
+                                rand() / static_cast<double>(INT16_MAX) });
         }
         geom->addVertexAttribArray(0, vertices);
         geom->addVertexAttribArray(1, colors);
         geom->addPrimitiveSet(new glr::DrawArrays(glr::DrawArrays::MODE_POINTS, 0, vertices->size()));
         pc->addDrawable(geom);
+        pc->getOrCreateStateSet()->setShader(resmgr->getInternalShader(ResMgr::IS_PointCloud));
     }
 
 
@@ -225,8 +225,6 @@ int main(int argc, char** argv) {
 
     if (argc > 1) {
         auto file = argv[1];
-        // auto pcl = new glr::PointCloudLoader(file);
-        // renderer->addModel(pcl->getData());
 
         auto model = glr::MeshLoader().loadFile(file);
         auto light = new glr::Light();

@@ -10,8 +10,6 @@ void main(){
 /*
 //
 // Depth range in window coordinates, 
-// section 2.13.1 “Controlling the Viewport” in the 
-// OpenGL Graphics System Specification.
 //
 struct gl_DepthRangeParameters {
  float near; // n
