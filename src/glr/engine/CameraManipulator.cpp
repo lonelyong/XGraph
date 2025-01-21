@@ -20,6 +20,7 @@ struct StandardCameraManipulator::Data {
     double               near = 1., far = 1000., fov = 30.;
     ProjectionType       proj_type = Perspective;
     glm::vec2            prev_cursor_pt;
+    glm::vec2            start_cursor_pt;
     glm::vec3            eye, target, up;
 };
 
@@ -97,8 +98,7 @@ void StandardCameraManipulator::setViewMode(ViewMode mode) {
 
 };
 
-bool StandardCameraManipulator::onUpdateViewport(int w, int h, int& vx, int& vy, int& vw, int& vh)
-{
+bool StandardCameraManipulator::onUpdateViewport(int w, int h, int& vx, int& vy, int& vw, int& vh) {
     vx = 0;
     vy = 0;
     vw = w;
@@ -124,14 +124,18 @@ void StandardCameraManipulator::handleMouseReleased(MouseButton btn, int x, int 
 }
 
 void StandardCameraManipulator::handleMousePressed(MouseButton btn, int x, int y) {
+    d->prev_cursor_pt.x = x;
+    d->prev_cursor_pt.y = y;
     switch (btn) {
     case MouseButton::ButtonLeft:
     {
         d->is_rotation_started = true;
+        d->is_pan_started      = false;
     } break;
     case MouseButton::ButtonMiddle:
     {
         d->is_pan_started = true;
+        d->is_rotation_started = false;
     } break;
     case MouseButton::ButtonRight:
     {
@@ -194,7 +198,7 @@ void StandardCameraManipulator::handleResized(int w, int h) {
 
     int vx = 0, vy = 0, vw = w, vh = h;
 
-    if(onUpdateViewport(w, h, vx, vy, vw, vh)){
+    if (onUpdateViewport(w, h, vx, vy, vw, vh)) {
         d->vx = vx;
         d->vy = vy;
         d->vw = vw;

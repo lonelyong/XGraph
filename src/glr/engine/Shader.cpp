@@ -1,6 +1,10 @@
 #include <glr/engine/Shader.h>
 
+#include <cerrno>
+#include <cstdlib>
+#include <cstring>
 #include <fstream>
+#include <iosfwd>
 #include <iostream>
 #include <sstream>
 
@@ -10,17 +14,16 @@ std::string readCode(const std::string& path) {
     if (path.empty()) return {};
     std::string   code;
     std::ifstream fs;
-    fs.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-    try {
-        fs.open(path);
-        std::stringstream ss;
-        ss << fs.rdbuf();
-        fs.close();
-        code = ss.str();
+    // fs.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+    fs.open(path);
+    if (!fs.is_open()) {
+        std::cerr << "Failed to read shader file:" << path << ".(" << std::strerror(errno) << ")" << std::endl;
+        return code;
     }
-    catch (const std::exception& e) {
-        std::cerr << e.what() << '\n';
-    }
+    std::stringstream ss;
+    ss << fs.rdbuf();
+    fs.close();
+    code = ss.str();
     return code;
 }
 
