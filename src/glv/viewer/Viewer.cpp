@@ -112,7 +112,7 @@ Viewer::Viewer()
     d->impl       = impl;
     d->picker_cam = picker_cam;
 
-    addCamera(picker_cam, true, true, true, true);
+    //addCamera(picker_cam, true, true, true, true);
 
     //// Main light
     // auto light0 = new osgVerse::LightDrawable;

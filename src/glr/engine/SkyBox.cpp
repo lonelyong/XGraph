@@ -62,6 +62,7 @@ struct SkyBoxUpdateCallback : public UpdateCallback {
 };
 } // namespace
 
+// 平行投影会导致天空盒的显示不正确，因为天空盒的大小为1，而平行投影使得渲染天空盒的大小不变
 Model* createSkyBox(CubeMap* tex) {
     auto cube = Geometry::createCube(1, 0, -1, -1, -1);
     cube->addTexture(0, "tex", tex);

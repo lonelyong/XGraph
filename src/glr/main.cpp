@@ -158,6 +158,7 @@ int main(int argc, char** argv) {
     auto scene = new glr::Scene();
 
 #define RTT_VIEWER1
+#define GLFW_VIEWER1
 
 #ifdef GLFW_VIEWER
     glr::GlfwViewer v;

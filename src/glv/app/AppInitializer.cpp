@@ -86,7 +86,7 @@ void AppInitializer::initOpenSceneGraph() {
 
     osgVerse::globalInitialize(0, 0);
     osg::initNotifyLevel();
-    osg::setNotifyLevel(osg::INFO);
+    osg::setNotifyLevel(osg::DEBUG_FP);
     osg::setNotifyHandler(new ConsoleNotifyHandler());
     auto& paths          = osgDB::Registry::instance()->getLibraryFilePathList();
     auto  new_plugin_dir = xg::getApplicationDir();

@@ -17,11 +17,12 @@ struct StandardCameraManipulator::Data {
     bool                 is_cursor_move_started = false;
     int                  width = 1, height = 1.;
     int                  vx = 0, vy = 0, vw = 1, vh = 1;
-    double               near = 1., far = 1000., fov = 30.;
+    double               near = 1., far = 4000., fov = 30.;
     ProjectionType       proj_type = Perspective;
     glm::vec2            prev_cursor_pt;
-    glm::vec2            start_cursor_pt;
+    glm::vec2            first_cursor_pt;
     glm::vec3            eye, target, up;
+    glm::mat4            first_view_matrix;
 };
 
 StandardCameraManipulator::StandardCameraManipulator(Camera* cam)
@@ -114,18 +115,26 @@ glm::mat4 StandardCameraManipulator::computeProjectionMatrix() const {
     if (d->proj_type == Perspective)
         return glm::perspective<double>(glm::radians<double>(d->fov), ((double)d->vw) / d->vh, d->near, d->far);
     else
-        return glm::ortho<double>(-d->vw / 2., d->vw / 2., -d->vh / 2., d->vh / 2.);
+        return glm::ortho<double>(-d->vw / 100., d->vw / 100., -d->vh / 100., d->vh / 100., d->near, d->far);
 }
 
 void StandardCameraManipulator::handleMouseReleased(MouseButton btn, int x, int y) {
     d->is_pan_started         = false;
     d->is_rotation_started    = false;
     d->is_cursor_move_started = false;
+    d->prev_cursor_pt.x       = 0;
+    d->prev_cursor_pt.y       = 0;
+    d->first_cursor_pt.x      = 0;
+    d->first_cursor_pt.y      = 0;
 }
 
 void StandardCameraManipulator::handleMousePressed(MouseButton btn, int x, int y) {
     d->prev_cursor_pt.x = x;
     d->prev_cursor_pt.y = y;
+    d->first_cursor_pt.x = x;
+    d->first_cursor_pt.y = y;
+    d->first_view_matrix = d->camera->getViewMatrix();
+
     switch (btn) {
     case MouseButton::ButtonLeft:
     {
@@ -148,30 +157,71 @@ void StandardCameraManipulator::handleMouseMoved(int x, int y) {
     auto xx = static_cast<float>(x);
     auto yy = static_cast<float>(y);
     if (d->is_cursor_move_started) {
-        auto delta_x = xx - d->prev_cursor_pt.x;
-        auto delta_y = yy - d->prev_cursor_pt.y;
+        //auto delta_x = xx - d->prev_cursor_pt.x;
+        //auto delta_y = yy - d->prev_cursor_pt.y;
 
-        auto vm = d->camera->getViewMatrix();
+        //auto vm = d->camera->getViewMatrix();
+        //if (d->is_pan_started) {
+        //    auto m = glm::mat4(1.0f);
+        //    m      = glm::translate(m, glm::vec3(delta_x / 500, -delta_y / 500, 0));
+        //    vm     = m * vm;
+        //    d->camera->setViewMatrix(vm);
+        //}
+        //if (d->is_rotation_started) {
+        //    glm::mat4 mx(1.0f);
+        //    glm::mat4 my(1.0f);
+
+        //    mx = glm::rotate(mx, glm::radians(delta_x / 10), glm::vec3(0.0f, 1.0f, 0.0f));
+        //    my = glm::rotate(my, glm::radians(delta_y / 10), glm::vec3(1.0f, 0.0f, 0.0f));
+
+        //    vm *= mx;
+        //    vm *= my;
+
+        //    d->camera->setViewMatrix(vm);
+        //}
+        //d->prev_cursor_pt.x = xx;
+        //d->prev_cursor_pt.y = yy;
+
+        auto delta_x = xx - d->first_cursor_pt.x;
+        auto delta_y = yy - d->first_cursor_pt.y;
+        auto vm      = d->first_view_matrix;
+
         if (d->is_pan_started) {
             auto m = glm::mat4(1.0f);
-            m      = glm::translate(m, glm::vec3(delta_x / 500, -delta_y / 500, 0));
-            vm     = m * vm;
+            m      = glm::translate(m, glm::vec3(delta_x / 100, -delta_y / 100, 0));
+            // 相机相对于自身坐标系移动
+            // 移动距离可能需要根据鼠标在模型上点的位置计算相机偏移距离
+            vm     =  m * vm;
             d->camera->setViewMatrix(vm);
         }
+
         if (d->is_rotation_started) {
             glm::mat4 mx(1.0f);
             glm::mat4 my(1.0f);
+            
+            // 相机在世界坐标系中的姿态
+            auto ivm  = glm::inverse(vm);
+            ivm[3][0] = 0;
+            ivm[3][1] = 0;
+            ivm[3][2] = 0;
 
-            mx = glm::rotate(mx, glm::radians(delta_x / 10), glm::vec3(0.0f, 1.0f, 0.0f));
-            my = glm::rotate(my, glm::radians(delta_y / 10), glm::vec3(1.0f, 0.0f, 0.0f));
+            // 横向拖动绕相机y轴旋转
+            glm::vec4 yaxis(0, 1, 0, 1);
+            // 纵向拖动绕相机x轴旋转
+            glm::vec4 xaxis(1, 0, 0, 1);
 
-            vm *= mx;
-            vm *= my;
+            // 将旋转轴转换到世界坐标系
+            yaxis = ivm * yaxis;
+            xaxis = ivm * xaxis;
+
+            mx = glm::rotate(mx, glm::radians(delta_x / 10), glm::vec3(yaxis.x, yaxis.y, yaxis.z));
+            my = glm::rotate(my, glm::radians(delta_y / 10), glm::vec3(xaxis.x, xaxis.y, xaxis.z));
+
+            // 绕世界坐标系原点旋转
+            vm = vm * mx * my;
 
             d->camera->setViewMatrix(vm);
         }
-        d->prev_cursor_pt.x = xx;
-        d->prev_cursor_pt.y = yy;
     }
     else {
         d->is_cursor_move_started = true;

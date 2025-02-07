@@ -37,6 +37,7 @@ class GLR_API Camera : public Object {
 
     glm::vec3 getViewDir() const;
     glm::vec3 getViewPos() const;
+    glm::mat4 getInverseViewMatrix() const;
 
     void      setProjectionMatrix(const glm::mat4& mat);
     glm::mat4 getProjectionMatrix() const;

@@ -64,8 +64,12 @@ glm::mat4 Camera::getViewMatrix() const {
     return view_matrix_;
 }
 
+glm::mat4 Camera::getInverseViewMatrix() const {
+    return glm::inverse(view_matrix_);
+}
+
 glm::vec3 Camera::getViewDir() const {
-    return -glm::vec3(view_matrix_[0][2], view_matrix_[1][2], view_matrix_[2][2]);
+    return -glm::vec3(view_matrix_[2][0], view_matrix_[2][1], view_matrix_[2][2]);
 }
 
 glm::vec3 Camera::getViewPos() const {

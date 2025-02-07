@@ -233,6 +233,8 @@ osg::MatrixTransform* BrepLoader::loadFile(const std::string& file) {
         face_geom->setVertexArray(vertices);
         face_geom->setNormalArray(norms, osg::Array::BIND_PER_VERTEX);
         face_geom->addPrimitiveSet(indices);
+        //face_geom->setUseVertexBufferObjects(true);
+        //face_geom->setUseVertexArrayObject(true);
         // osgUtil::SmoothingVisitor().smooth(*face_geom);
         face_geod->addDrawable(face_geom);
 
@@ -266,8 +268,9 @@ osg::MatrixTransform* BrepLoader::loadFile(const std::string& file) {
 
             edge_geom->setVertexArray(vertices);
             edge_geom->setColorArray(edge_colors, osg::Array::BIND_OVERALL);
-
             edge_geom->setUseDisplayList(false);
+            //edge_geom->setUseVertexBufferObjects(true);
+            //edge_geom->setUseVertexArrayObject(true);
             edge_geod->addDrawable(edge_geom);
         }
     }

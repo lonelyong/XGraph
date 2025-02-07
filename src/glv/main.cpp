@@ -1,5 +1,6 @@
 ﻿#include <filesystem>
 #include <iostream>
+#include <cstring>
 
 #include <osg/MatrixTransform>
 #include <osg/ShapeDrawable>
@@ -23,6 +24,13 @@
 int main(int argc, char** argv) {
 
     using namespace glv;
+    
+    auto str  = "123你好";
+    auto str2 = L"123你好";
+    auto lstr = strlen(str);
+    auto sstr = sizeof(str);
+    auto lstr2 = wcslen(str2);
+    auto sstr2 = sizeof(str2);
 
     AppInitializationParameters params;
     AppInitializer              initializer(params);
@@ -167,7 +175,7 @@ int main(int argc, char** argv) {
 
     v.addNode(model);
     // v.addNode(coord);
-    v.addCamera(hud_coord, false, false);
+    //v.addCamera(hud_coord, false, false);
 
     // MeshCutterVTK mesh_cutter;
     // mesh_cutter.setMesh("R:\\models\\0731-43#-right.stl");
