@@ -97,7 +97,7 @@ void QtViewer::initializeGL() {
     cam->setViewport(0, 0, width(), height());
     cam->setClearDepth(1.0);
     cam->setClearStencil(1);
-    cam->setClearColor(glm::vec4(0., 0., 0., 1.));
+    cam->setClearColor(Vec4f(0., 0., 0., 1.));
     cam->setClearMask(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);

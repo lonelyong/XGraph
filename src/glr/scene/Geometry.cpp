@@ -84,15 +84,15 @@ void Geometry::draw(State& state) {
             else {
                 auto arr_type = arr->getType();
                 if (arr_type == ArrayBuffer::ARRAY_VEC2F) {
-                    glm::vec2 val = arr->empty() ? glm::vec2(0.f, 0.f) : *(glm::vec2*)arr->valueAt(0);
+                    Vec2f val = arr->empty() ? Vec2f(0.f, 0.f) : *(Vec2f*)arr->valueAt(0);
                     glVertexAttrib2f(loc, val.x, val.y);
                 }
                 else if (arr_type == ArrayBuffer::ARRAY_VEC3F) {
-                    glm::vec3 val = arr->empty() ? glm::vec3(0.f, 0.f, 0.f) : *(glm::vec3*)arr->valueAt(0);
+                    Vec3f val = arr->empty() ? Vec3f(0.f, 0.f, 0.f) : *(Vec3f*)arr->valueAt(0);
                     glVertexAttrib3f(loc, val.x, val.y, val.z);
                 }
                 else if (arr_type == ArrayBuffer::ARRAY_VEC4F) {
-                    glm::vec4 val = arr->empty() ? glm::vec4(0.f, 0.f, 0.f, 1.0f) : *(glm::vec4*)arr->valueAt(0);
+                    Vec4f val = arr->empty() ? Vec4f(0.f, 0.f, 0.f, 1.0f) : *(Vec4f*)arr->valueAt(0);
                     glVertexAttrib4f(loc, val.x, val.y, val.z, val.a);
                 }
                 else {
@@ -283,19 +283,19 @@ Geometry* Geometry::createTexturedQuad(int                     vertices_loc,
                                        const vine::ge::Rect2d& rect,
                                        const vine::ge::Rect2d& uv_rect) {
     auto vertices = new Vec3fArray();
-    vertices->push_back(glm::vec3(rect.x, rect.y, 0));
-    vertices->push_back(glm::vec3(rect.x + rect.w, rect.y, 0));
-    vertices->push_back(glm::vec3(rect.x + rect.w, rect.y + rect.h, 0));
-    vertices->push_back(glm::vec3(rect.x, rect.y + rect.h, 0));
+    vertices->push_back(Vec3f(rect.x, rect.y, 0));
+    vertices->push_back(Vec3f(rect.x + rect.w, rect.y, 0));
+    vertices->push_back(Vec3f(rect.x + rect.w, rect.y + rect.h, 0));
+    vertices->push_back(Vec3f(rect.x, rect.y + rect.h, 0));
 
     auto norms = new Vec3fArray();
-    norms->push_back(glm::vec3(0, 0, 1));
+    norms->push_back(Vec3f(0, 0, 1));
 
     auto texcoords = new Vec2fArray();
-    texcoords->push_back(glm::vec2(uv_rect.x, uv_rect.y));
-    texcoords->push_back(glm::vec2(uv_rect.x + uv_rect.w, uv_rect.y));
-    texcoords->push_back(glm::vec2(uv_rect.x + uv_rect.w, uv_rect.y + uv_rect.h));
-    texcoords->push_back(glm::vec2(uv_rect.x, uv_rect.y + uv_rect.h));
+    texcoords->push_back(Vec2f(uv_rect.x, uv_rect.y));
+    texcoords->push_back(Vec2f(uv_rect.x + uv_rect.w, uv_rect.y));
+    texcoords->push_back(Vec2f(uv_rect.x + uv_rect.w, uv_rect.y + uv_rect.h));
+    texcoords->push_back(Vec2f(uv_rect.x, uv_rect.y + uv_rect.h));
 
     auto geom = new Geometry();
     geom->addVertexAttribArray(vertices_loc, vertices);

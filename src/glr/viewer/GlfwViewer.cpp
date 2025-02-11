@@ -1,7 +1,6 @@
 #include "GlfwViewer.h"
 
 #include <functional>
-#include <glm/glm.hpp>
 #include <iostream>
 #include <memory>
 
@@ -105,7 +104,7 @@ class GraphicContextGlfwImpl : public GraphicContextGlfw {
             });
 
         wnd_  = wnd;
-        size_ = glm::vec2(w, h);
+        size_ = Vec2f(w, h);
         if (traits_.visible) {
             glfwShowWindow(wnd_);
         }
@@ -138,7 +137,7 @@ class GraphicContextGlfwImpl : public GraphicContextGlfw {
     }
 
     void framebuffer_size_callback(GLFWwindow* wnd, int w, int h) {
-        size_ = glm::vec2(w, h);
+        size_ = Vec2f(w, h);
         if (w == 0 || h == 0) return;
         notify(Event::createResizeEvent(this, w, h));
     }
@@ -160,7 +159,7 @@ class GraphicContextGlfwImpl : public GraphicContextGlfw {
     }
 
     void cursor_position_callback(GLFWwindow* wnd, double x, double y) {
-        cursor_pt_ = glm::vec2(x, y);
+        cursor_pt_ = Vec2f(x, y);
         notify(Event::createMouseMoveEvent(this, x, y));
     }
 
@@ -169,8 +168,8 @@ class GraphicContextGlfwImpl : public GraphicContextGlfw {
   private:
     Traits      traits_;
     GLFWwindow* wnd_;
-    glm::vec2   size_;
-    glm::vec2   cursor_pt_;
+    Vec2f   size_;
+    Vec2f   cursor_pt_;
 };
 
 GraphicContextGlfw* GraphicContextGlfw::create(const Traits& traits) {
@@ -207,7 +206,7 @@ void GlfwViewer::initialize() {
     cam->setViewport(0., 0., ctx->getWidth(), ctx->getHeight());
     cam->setClearDepth(1.0);
     cam->setClearStencil(1);
-    cam->setClearColor(glm::vec4(0., 0., 0., 1.));
+    cam->setClearColor(Vec4f(0., 0., 0., 1.));
     cam->setClearMask(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
     addRenderer(renderer);

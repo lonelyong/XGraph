@@ -4,10 +4,8 @@
 
 #include <vector>
 
-#include <glm/vec3.hpp>
-#include <glm/vec4.hpp>
-
 #include <glr/engine/StateAttribute.h>
+#include <glr/engine/types.h>
 
 namespace glr {
 class GraphicContext;
@@ -18,20 +16,20 @@ class GLR_API Light : public Object {
     Light();
 
   public:
-    glm::vec4 getAmbient() const;
-    void      setAmbient(const glm::vec4& color);
+    Vec4f getAmbient() const;
+    void  setAmbient(const Vec4f& color);
 
-    glm::vec4 getDiffuse() const;
-    void      setDiffuse(const glm::vec4& color);
+    Vec4f getDiffuse() const;
+    void  setDiffuse(const Vec4f& color);
 
-    glm::vec4 getSpecular() const;
-    void      setSpecular(const glm::vec4& color);
+    Vec4f getSpecular() const;
+    void  setSpecular(const Vec4f& color);
 
-    glm::vec3 getDirection() const;
-    void      setDirection(const glm::vec3& dir);
+    Vec3f getDirection() const;
+    void  setDirection(const Vec3f& dir);
 
-    glm::vec4 getPosition() const;
-    void      setPosition(const glm::vec4& pos);
+    Vec4f getPosition() const;
+    void  setPosition(const Vec4f& pos);
 
     float getConstantAttenuation() const;
     void  setConstantAttenuation(float val);
@@ -49,12 +47,12 @@ class GLR_API Light : public Object {
     void  setExponent(float val);
 
   private:
-    glm::vec4 a_, d_, s_;
-    glm::vec4 pos_;
-    glm::vec3 dir_;
-    float     k_c_, k_l_, k_q_;
-    float     expo_, co_;
-    bool      head_ = false;
+    Vec4f a_, d_, s_;
+    Vec4f pos_;
+    Vec3f dir_;
+    float k_c_, k_l_, k_q_;
+    float expo_, co_;
+    bool  head_ = false;
 };
 
 class GLR_API Lights : public StateAttribute {

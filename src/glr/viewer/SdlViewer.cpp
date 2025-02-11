@@ -8,7 +8,6 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_syswm.h>
-#include <glm/glm.hpp>
 
 #include <vine/core/Ptr.h>
 
@@ -116,7 +115,7 @@ class SdlGraphicContext : public GraphicContext {
   private:
     SDL_Window*   sdl_wnd_;
     SDL_GLContext sdl_ctx_;
-    glm::ivec2    size_;
+    Vec2i    size_;
     bool          done_;
 };
 } // namespace
@@ -148,7 +147,7 @@ void SdlViewer::initialize() {
     cam->setViewport(0., 0., ctx->getWidth(), ctx->getHeight());
     cam->setClearDepth(1.0);
     cam->setClearStencil(1);
-    cam->setClearColor(glm::vec4(0., 0., 0., 1.));
+    cam->setClearColor(Vec4f(0., 0., 0., 1.));
     cam->setClearMask(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
     addRenderer(renderer);

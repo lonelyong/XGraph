@@ -48,31 +48,31 @@ template <typename T> Array<T>::Type Array<T>::getType() const {
         return ARRAY_DOUBLE;
     }
 
-    else if constexpr (std::is_same<T, glm::vec2>::value) {
+    else if constexpr (std::is_same<T, Vec2f>::value) {
         return ARRAY_VEC2F;
     }
-    else if constexpr (std::is_same<T, glm::vec3>::value) {
+    else if constexpr (std::is_same<T, Vec3f>::value) {
         return ARRAY_VEC3F;
     }
-    else if constexpr (std::is_same<T, glm::vec4>::value) {
+    else if constexpr (std::is_same<T, Vec4f>::value) {
         return ARRAY_VEC4F;
     }
-    else if constexpr (std::is_same<T, glm::ivec2>::value) {
+    else if constexpr (std::is_same<T, Vec2i>::value) {
         return ARRAY_VEC2I;
     }
-    else if constexpr (std::is_same<T, glm::ivec3>::value) {
+    else if constexpr (std::is_same<T, Vec3i>::value) {
         return ARRAY_VEC3I;
     }
-    else if constexpr (std::is_same<T, glm::ivec4>::value) {
+    else if constexpr (std::is_same<T, Vec4i>::value) {
         return ARRAY_VEC4I;
     }
-    else if constexpr (std::is_same<T, glm::dvec2>::value) {
+    else if constexpr (std::is_same<T, Vec2d>::value) {
         return ARRAY_VEC2D;
     }
-    else if constexpr (std::is_same<T, glm::dvec3>::value) {
+    else if constexpr (std::is_same<T, Vec3d>::value) {
         return ARRAY_VEC3D;
     }
-    else if constexpr (std::is_same<T, glm::dvec4>::value) {
+    else if constexpr (std::is_same<T, Vec4d>::value) {
         return ARRAY_VEC4D;
     }
 
@@ -286,13 +286,13 @@ template class Array<uint16_t>;
 template class Array<uint32_t>;
 template class Array<float>;
 template class Array<double>;
-template class Array<glm::vec2>;
-template class Array<glm::vec3>;
-template class Array<glm::vec4>;
-template class Array<glm::ivec2>;
-template class Array<glm::ivec3>;
-template class Array<glm::ivec4>;
-template class Array<glm::dvec2>;
-template class Array<glm::dvec3>;
-template class Array<glm::dvec4>;
+template class Array<Vec2f>;
+template class Array<Vec3f>;
+template class Array<Vec4f>;
+template class Array<Vec2i>;
+template class Array<Vec3i>;
+template class Array<Vec4i>;
+template class Array<Vec2d>;
+template class Array<Vec3d>;
+template class Array<Vec4d>;
 } // namespace glr

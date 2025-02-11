@@ -8,6 +8,8 @@
 #include <iostream>
 #include <sstream>
 
+#include <glm/gtc/type_ptr.hpp>
+
 namespace glr {
 namespace {
 std::string readCode(const std::string& path) {
@@ -89,6 +91,80 @@ void Shader::setName(const std::string& name) {
     d->name = name;
 }
 
+template <typename T> void Shader::set(State& state, GLuint loc, const T& val) {
+    if constexpr (std::is_same<T, bool>::value) {
+        glUniform1i(loc, (int)val);
+    }
+    else if constexpr (std::is_same<T, Vec2b>::value) {
+        glUniform2i(loc, val.x, val.y);
+    }
+    else if constexpr (std::is_same<T, Vec3b>::value) {
+        glUniform3i(loc, val.x, val.y, val.z);
+    }
+    else if constexpr (std::is_same<T, Vec4b>::value) {
+        glUniform4i(loc, val.r, val.g, val.b, val.a);
+    }
+
+    else if constexpr (std::is_same<T, int>::value) {
+        glUniform1i(loc, val);
+    }
+    else if constexpr (std::is_same<T, unsigned int>::value) {
+        glUniform1ui(loc, val);
+    }
+    else if constexpr (std::is_same<T, Vec2i>::value) {
+        glUniform2i(loc, val.x, val.y);
+    }
+    else if constexpr (std::is_same<T, Vec3i>::value) {
+        glUniform3i(loc, val.x, val.y, val.z);
+    }
+    else if constexpr (std::is_same<T, Vec4i>::value) {
+        glUniform4i(loc, val.r, val.g, val.b, val.a);
+    }
+
+    else if constexpr (std::is_same<T, float>::value) {
+        glUniform1f(loc, val);
+    }
+    else if constexpr (std::is_same<T, Vec2f>::value) {
+        glUniform2f(loc, val.x, val.y);
+    }
+    else if constexpr (std::is_same<T, Vec3f>::value) {
+        glUniform3f(loc, val.x, val.y, val.z);
+    }
+    else if constexpr (std::is_same<T, Vec4f>::value) {
+        glUniform4f(loc, val.r, val.g, val.b, val.a);
+    }
+    else if constexpr (std::is_same<T, Mat3f>::value) {
+        glUniformMatrix3fv(loc, 1, GL_FALSE, glm::value_ptr(val));
+    }
+    else if constexpr (std::is_same<T, Mat4f>::value) {
+        glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(val));
+    }
+
+    else if constexpr (std::is_same<T, double>::value) {
+        glUniform1d(loc, val);
+    }
+    else if constexpr (std::is_same<T, Vec2d>::value) {
+        glUniform2d(loc, val.x, val.y);
+    }
+    else if constexpr (std::is_same<T, Vec3d>::value) {
+        glUniform3d(loc, val.x, val.y, val.z);
+    }
+    else if constexpr (std::is_same<T, Vec4d>::value) {
+        glUniform4d(loc, val.r, val.g, val.b, val.a);
+    }
+    else if constexpr (std::is_same<T, Mat3d>::value) {
+        // glUniformMatrix3dv(loc, 1, GL_FALSE, glm::value_ptr(val));
+        glUniformMatrix3fv(loc, 1, GL_FALSE, glm::value_ptr(Mat3f(val)));
+    }
+    else if constexpr (std::is_same<T, Mat4d>::value) {
+        // glUniformMatrix4dv(loc, 1, GL_FALSE, glm::value_ptr(val));
+        glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(Mat4f(val)));
+    }
+    else {
+        static_assert("type not supported");
+    }
+}
+
 GLuint Shader::onCreate(State& state) {
     unsigned int vs_id = 0, gs_id = 0, fs_id = 0;
     char         msg[512];
@@ -144,4 +220,31 @@ Shader* Shader::create(const std::string& vs_path, const std::string& gs_path, c
 
     return new Shader(vs_code, gs_code, fs_code);
 }
+
+template void Shader::set<bool>(State&, GLuint, const bool&);
+template void Shader::set<Vec2b>(State&, GLuint, const Vec2b&);
+template void Shader::set<Vec3b>(State&, GLuint, const Vec3b&);
+template void Shader::set<Vec4b>(State&, GLuint, const Vec4b&);
+
+template void Shader::set<int>(State&, GLuint, const int&);
+template void Shader::set<unsigned int>(State&, GLuint, const unsigned int&);
+template void Shader::set<Vec2i>(State&, GLuint, const Vec2i&);
+template void Shader::set<Vec3i>(State&, GLuint, const Vec3i&);
+template void Shader::set<Vec4i>(State&, GLuint, const Vec4i&);
+
+template void Shader::set<float>(State&, GLuint, const float&);
+template void Shader::set<Vec2f>(State&, GLuint, const Vec2f&);
+template void Shader::set<Vec3f>(State&, GLuint, const Vec3f&);
+template void Shader::set<Vec4f>(State&, GLuint, const Vec4f&);
+
+template void Shader::set<double>(State&, GLuint, const double&);
+template void Shader::set<Vec2d>(State&, GLuint, const Vec2d&);
+template void Shader::set<Vec3d>(State&, GLuint, const Vec3d&);
+template void Shader::set<Vec4d>(State&, GLuint, const Vec4d&);
+
+template void Shader::set<Mat3f>(State&, GLuint, const Mat3f&);
+template void Shader::set<Mat4f>(State&, GLuint, const Mat4f&);
+
+template void Shader::set<Mat3d>(State&, GLuint, const Mat3d&);
+template void Shader::set<Mat4d>(State&, GLuint, const Mat4d&);
 } // namespace glr

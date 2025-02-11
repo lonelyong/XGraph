@@ -123,7 +123,7 @@ Model* parse(const PCPtr cloud) {
     vertices->reserve(cloud->size());
     colors->reserve(cloud->size());
 
-    std::vector<glm::vec3> color_map;
+    std::vector<Vec3f> color_map;
     for (int i = 0; i < 256; i++) {
         auto r = rand() / 32767.;
         auto g = rand() / 32767.;

@@ -4,9 +4,9 @@
 #include <string>
 
 #include <glad/glad.h>
-#include <glm/fwd.hpp>
 
 #include <glr/engine/StateAttribute.h>
+#include <glr/engine/types.h>
 
 namespace glr {
 class GLR_API Uniform : public StateAttribute {
@@ -45,28 +45,28 @@ class GLR_API Uniform : public StateAttribute {
   public:
     Uniform();
     Uniform(const std::string& name, bool val);
-    Uniform(const std::string& name, const glm::bvec2& val);
-    Uniform(const std::string& name, const glm::bvec3& val);
-    Uniform(const std::string& name, const glm::bvec4& val);
+    Uniform(const std::string& name, const Vec2b& val);
+    Uniform(const std::string& name, const Vec3b& val);
+    Uniform(const std::string& name, const Vec4b& val);
 
     Uniform(const std::string& name, int val);
-    Uniform(const std::string& name, const glm::ivec2& val);
-    Uniform(const std::string& name, const glm::ivec3& val);
-    Uniform(const std::string& name, const glm::ivec4& val);
+    Uniform(const std::string& name, const Vec2i& val);
+    Uniform(const std::string& name, const Vec3i& val);
+    Uniform(const std::string& name, const Vec4i& val);
 
     Uniform(const std::string& name, float val);
-    Uniform(const std::string& name, const glm::fvec2& val);
-    Uniform(const std::string& name, const glm::fvec3& val);
-    Uniform(const std::string& name, const glm::fvec4& val);
-    Uniform(const std::string& name, const glm::fmat3x3& val);
-    Uniform(const std::string& name, const glm::fmat4x4& val);
+    Uniform(const std::string& name, const Vec2f& val);
+    Uniform(const std::string& name, const Vec3f& val);
+    Uniform(const std::string& name, const Vec4f& val);
+    Uniform(const std::string& name, const Mat3f& val);
+    Uniform(const std::string& name, const Mat4f& val);
 
     Uniform(const std::string& name, double val);
-    Uniform(const std::string& name, const glm::dvec2& val);
-    Uniform(const std::string& name, const glm::dvec3& val);
-    Uniform(const std::string& name, const glm::dvec4& val);
-    Uniform(const std::string& name, const glm::dmat3x3& val);
-    Uniform(const std::string& name, const glm::dmat4x4& val);
+    Uniform(const std::string& name, const Vec2d& val);
+    Uniform(const std::string& name, const Vec3d& val);
+    Uniform(const std::string& name, const Vec4d& val);
+    Uniform(const std::string& name, const Mat3d& val);
+    Uniform(const std::string& name, const Mat4d& val);
 
     virtual ~Uniform();
 
@@ -76,28 +76,28 @@ class GLR_API Uniform : public StateAttribute {
     ValueType getValueType() const;
 
     void setValue(bool val);
-    void setValue(const glm::bvec2& val);
-    void setValue(const glm::bvec3& val);
-    void setValue(const glm::bvec4& val);
+    void setValue(const Vec2b& val);
+    void setValue(const Vec3b& val);
+    void setValue(const Vec4b& val);
 
     void setValue(int val);
-    void setValue(const glm::ivec2& val);
-    void setValue(const glm::ivec3& val);
-    void setValue(const glm::ivec4& val);
+    void setValue(const Vec2i& val);
+    void setValue(const Vec3i& val);
+    void setValue(const Vec4i& val);
 
     void setValue(float val);
-    void setValue(const glm::fvec2& val);
-    void setValue(const glm::fvec3& val);
-    void setValue(const glm::fvec4& val);
-    void setValue(const glm::fmat3x3& val);
-    void setValue(const glm::fmat4x4& val);
+    void setValue(const Vec2f& val);
+    void setValue(const Vec3f& val);
+    void setValue(const Vec4f& val);
+    void setValue(const Mat3f& val);
+    void setValue(const Mat4f& val);
 
     void setValue(double val);
-    void setValue(const glm::dvec2& val);
-    void setValue(const glm::dvec3& val);
-    void setValue(const glm::dvec4& val);
-    void setValue(const glm::dmat3x3& val);
-    void setValue(const glm::dmat4x4& val);
+    void setValue(const Vec2d& val);
+    void setValue(const Vec3d& val);
+    void setValue(const Vec4d& val);
+    void setValue(const Mat3d& val);
+    void setValue(const Mat4d& val);
 
     virtual void apply(State& state) const override;
 

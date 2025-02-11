@@ -4,10 +4,8 @@
 
 #include <vector>
 
-#include <glm/glm.hpp>
-
-#include <glr/scene/BoundingBox.h>
 #include <glr/engine/StateSet.h>
+#include <glr/scene/BoundingBox.h>
 
 namespace glr {
 
@@ -18,7 +16,7 @@ class SceneNodePrivate {
   private:
     std::vector<SceneNode*> parent_nodes;
     vine::RefPtr<StateSet>  state_set = nullptr;
-    glm::mat4               matrix    = glm::mat4(1.0);
+    Mat4d                   matrix    = Mat4d(1.0);
     BoundingBox             bb;
     bool                    bound_is_dirty = true;
 

@@ -1,7 +1,9 @@
 #include <QApplication>
 #include <Windows.h>
-#include <glm/glm.hpp>
+
 #include <iostream>
+
+#include <glm/ext.hpp>
 
 #include <vine/core/Ptr.h>
 #include <vine/ge/Rect2d.h>
@@ -45,12 +47,12 @@ void CreateSampleShapes(glr::Scene* scene) {
         auto geom     = new glr::Geometry();
         auto vertices = new glr::Vec3fArray();
         {
-            vertices->push_back(glm::vec3());
-            vertices->push_back(glm::vec3(10, 0, 0));
-            vertices->push_back(glm::vec3());
-            vertices->push_back(glm::vec3(0, 10, 0));
-            vertices->push_back(glm::vec3());
-            vertices->push_back(glm::vec3(0, 0, 10));
+            vertices->push_back(glr::Vec3f());
+            vertices->push_back(glr::Vec3f(10, 0, 0));
+            vertices->push_back(glr::Vec3f());
+            vertices->push_back(glr::Vec3f(0, 10, 0));
+            vertices->push_back(glr::Vec3f());
+            vertices->push_back(glr::Vec3f(0, 0, 10));
         }
         geom->addVertexAttribArray(0, vertices);
         auto colors = new glr::Vec4fArray();
@@ -81,14 +83,14 @@ void CreateSampleShapes(glr::Scene* scene) {
         geom->addTexture(GL_TEXTURE0, "tex", tex);
 
         auto light = new glr::Light();
-        light->setPosition(glm::vec4(10, 10, 10, 1.));
-        light->setDirection(glm::vec3(2, 4, -1));
+        light->setPosition(glr::Vec4f(10, 10, 10, 1.));
+        light->setDirection(glr::Vec3f(2, 4, -1));
         auto lights = new glr::Lights();
         lights->addLight(light);
 
         cube->addDrawable(geom);
-        glm::mat4 m1(1.f);
-        m1 = glm::rotate(m1, glm::radians(90.f), glm::vec3(1.0f, 0.f, 0.f));
+        glr::Mat4d m1(1.);
+        m1 = glm::rotate(m1, glm::radians(90.), glr::Vec3d(1.0, 0., 0.));
         cube->setMatrix(m1);
         cube->getOrCreateStateSet()->setAttribute(new glr::Material());
         cube->getOrCreateStateSet()->setAttribute(lights);
@@ -132,7 +134,7 @@ void CreateSampleShapes(glr::Scene* scene) {
                                               vine::ge::Rect2d(0, 0, 1, 1));
 
         // auto colors = new glr::Vec4fArray();
-        // colors->push_back(glm::vec4(0,1,0,1));
+        // colors->push_back(Vec4f(0,1,0,1));
         // geom_img->addVertexAttribArray(2, colors);
 
         geom_img->addTexture(0, "tex", tex);
@@ -143,7 +145,7 @@ void CreateSampleShapes(glr::Scene* scene) {
 
     scene->addChild(axis);
     scene->addChild(pc);
-    scene->addChild(cube);
+    //scene->addChild(cube);
     scene->addChild(skybox);
     scene->addChild(img);
 }
@@ -193,9 +195,9 @@ int main(int argc, char** argv) {
     cam->setViewport(0., 0., 800, 600);
     cam->setClearDepth(1.0);
     cam->setClearStencil(1);
-    cam->setClearColor(glm::vec4(0., 0., 0., 1.));
+    cam->setClearColor(Vec4f(0., 0., 0., 1.));
     cam->setClearMask(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-    cam->setViewMatrixAsLookAt(glm::vec3(5, 5, 5), glm::vec3(), glm::vec3(-1, 0, 1));
+    cam->setViewMatrixAsLookAt(Vec3f(5, 5, 5), Vec3f(), Vec3f(-1, 0, 1));
     auto cm  = new glr::StandardCameraManipulator(cam);
     auto fbo = new glr::FrameBufferObject();
 
@@ -225,12 +227,11 @@ int main(int argc, char** argv) {
 #endif
 
     if (argc > 1) {
-        auto file = argv[1];
-
+        auto file  = argv[1];
         auto model = glr::MeshLoader().loadFile(file);
         auto light = new glr::Light();
-        light->setPosition(glm::vec4(10, 10, 10, 1.));
-        light->setDirection(glm::vec3(2, 4, -1));
+        light->setPosition(glr::Vec4f(10, 10, 10, 1.));
+        light->setDirection(glr::Vec3f(2, 4, -1));
         auto lights = new glr::Lights();
         lights->addLight(light);
         model->getOrCreateStateSet()->setAttribute(new glr::Material());

@@ -4,10 +4,8 @@
 
 #include <glad/glad.h>
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-
 #include <glr/engine/Object.h>
+#include <glr/engine/types.h>
 
 namespace glr {
 class GLR_API Camera : public Object {
@@ -17,8 +15,8 @@ class GLR_API Camera : public Object {
     Camera();
 
   public:
-    glm::vec4 getClearColor() const;
-    void      setClearColor(const glm::vec4& color);
+    Vec4f getClearColor() const;
+    void  setClearColor(const Vec4f& color);
 
     GLdouble getClearDepth() const;
     void     setClearDepth(GLdouble depth);
@@ -29,20 +27,20 @@ class GLR_API Camera : public Object {
     GLbitfield getClearMask() const;
     void       setClearMask(GLbitfield mask);
 
-    void getViewMatrixAsLookAt(glm::vec3& o_posi, glm::vec3& o_target, glm::vec3& o_up);
-    void setViewMatrixAsLookAt(const glm::vec3& posi, const glm::vec3& target, const glm::vec3& up);
+    void getViewMatrixAsLookAt(Vec3d& o_posi, Vec3d& o_target, Vec3d& o_up, double distance = 1.);
+    void setViewMatrixAsLookAt(const Vec3d& posi, const Vec3d& target, const Vec3d& up);
 
-    void      setViewMatrix(const glm::mat4& mat);
-    glm::mat4 getViewMatrix() const;
+    void  setViewMatrix(const Mat4d& mat);
+    Mat4d getViewMatrix() const;
 
-    glm::vec3 getViewDir() const;
-    glm::vec3 getViewPos() const;
-    glm::mat4 getInverseViewMatrix() const;
+    Vec3d getViewDir() const;
+    Vec3d getViewPos() const;
+    Mat4d getInverseViewMatrix() const;
 
-    void      setProjectionMatrix(const glm::mat4& mat);
-    glm::mat4 getProjectionMatrix() const;
+    void  setProjectionMatrix(const Mat4d& mat);
+    Mat4d getProjectionMatrix() const;
 
-    glm::mat4 getViewProjectionMatrix() const;
+    Mat4d getViewProjectionMatrix() const;
 
     void setViewport(int x, int y, int w, int h);
     void getViewport(int& x, int& y, int& w, int& h) const;
@@ -52,12 +50,13 @@ class GLR_API Camera : public Object {
     void applyAllExceptViewport() const;
 
   private:
-    glm::mat4  view_matrix_;
-    glm::mat4  proj_matrix_;
+    Mat4d      view_matrix_;
+    Mat4d      proj_matrix_;
+    Vec4f      clear_color_;
     GLdouble   clear_depth_;
     GLint      clear_stencil_;
-    glm::vec4  clear_color_;
     GLbitfield clear_mask_;
-    double     vp_x_, vp_y_, vp_w_, vp_h_;
+    GLint      vp_x_, vp_y_;
+    GLsizei    vp_w_, vp_h_;
 };
 } // namespace glr

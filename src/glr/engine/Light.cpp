@@ -8,11 +8,11 @@ namespace glr {
 VI_OBJECT_META_IMPL(Light, Object);
 
 Light::Light()
-  : a_(glm::vec4(0.05f, 0.05f, 0.05f, 1.0f))
-  , d_(glm::vec4(0.8f, 0.8f, 0.8f, 1.0f))
-  , s_(glm::vec4(0.05f, 0.05f, 0.05f, 1.0f))
-  , pos_(glm::vec4(0.f, 0.f, 1.f, 0.0f))
-  , dir_(glm::vec3(0.f, 0.f, -1.f))
+  : a_(Vec4f(0.05f, 0.05f, 0.05f, 1.0f))
+  , d_(Vec4f(0.8f, 0.8f, 0.8f, 1.0f))
+  , s_(Vec4f(0.05f, 0.05f, 0.05f, 1.0f))
+  , pos_(Vec4f(0.f, 0.f, 1.f, 0.0f))
+  , dir_(Vec3f(0.f, 0.f, -1.f))
   , k_c_(1.0f)
   , k_l_(0.0f)
   , k_q_(0.0f)
@@ -20,43 +20,43 @@ Light::Light()
   , co_(180) {
 }
 
-glm::vec4 Light::getAmbient() const {
+Vec4f Light::getAmbient() const {
     return a_;
 }
 
-void Light::setAmbient(const glm::vec4& color) {
+void Light::setAmbient(const Vec4f& color) {
     a_ = color;
 }
 
-glm::vec4 Light::getDiffuse() const {
+Vec4f Light::getDiffuse() const {
     return d_;
 }
 
-void Light::setDiffuse(const glm::vec4& color) {
+void Light::setDiffuse(const Vec4f& color) {
     d_ = color;
 }
 
-glm::vec4 Light::getSpecular() const {
+Vec4f Light::getSpecular() const {
     return s_;
 }
 
-void Light::setSpecular(const glm::vec4& color) {
+void Light::setSpecular(const Vec4f& color) {
     s_ = color;
 }
 
-glm::vec3 Light::getDirection() const {
+Vec3f Light::getDirection() const {
     return dir_;
 }
 
-void Light::setDirection(const glm::vec3& dir) {
+void Light::setDirection(const Vec3f& dir) {
     dir_ = glm::normalize(dir);
 }
 
-glm::vec4 Light::getPosition() const {
+Vec4f Light::getPosition() const {
     return pos_;
 }
 
-void Light::setPosition(const glm::vec4& pos) {
+void Light::setPosition(const Vec4f& pos) {
     pos_ = pos;
 }
 

@@ -2,7 +2,7 @@
 
 #include <glr/glrenderer_global.h>
 
-#include <glm/vec3.hpp>
+#include <glr/engine/types.h>
 
 namespace glr {
 class GLR_API BoundingBox {
@@ -11,19 +11,19 @@ class GLR_API BoundingBox {
     BoundingBox(double xmin, double ymin, double zmin, double xmax, double ymax, double zmax);
 
   public:
-    glm::vec3 getCenter() const;
-    double    getRadius() const;
-    double    getXLength() const;
-    double    getYLength() const;
-    double    getZLength() const;
+    Vec3d  getCenter() const;
+    double getRadius() const;
+    double getXLength() const;
+    double getYLength() const;
+    double getZLength() const;
 
     void combine(const BoundingBox& box);
-    void expandBy(const glm::vec3& pt);
+    void expandBy(const Vec3d& pt);
 
     void set(double xmin, double ymin, double zmin, double xmax, double ymax, double zmax);
 
   private:
-    glm::vec3 min_;
-    glm::vec3 max_;
+    Vec3d min_;
+    Vec3d max_;
 };
 } // namespace glr

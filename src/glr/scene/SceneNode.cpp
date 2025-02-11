@@ -17,11 +17,11 @@ SceneNode::~SceneNode() {
     delete d;
 }
 
-glm::mat4 SceneNode::getMatrix() const {
+Mat4d SceneNode::getMatrix() const {
     return d->matrix;
 }
 
-void SceneNode::setMatrix(const glm::mat4& mat) {
+void SceneNode::setMatrix(const Mat4d& mat) {
     d->matrix = mat;
 }
 

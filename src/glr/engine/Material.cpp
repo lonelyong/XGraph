@@ -7,42 +7,42 @@ namespace glr {
 VI_OBJECT_META_IMPL(Material, StateAttribute);
 
 Material::Material()
-  : a_(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f))
-  , d_(glm::vec4(0.8f, 0.8f, 0.8f, 1.0f))
-  , s_(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f))
-  , e_(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f))
+  : a_(Vec4f(0.1f, 0.1f, 0.1f, 1.0f))
+  , d_(Vec4f(0.8f, 0.8f, 0.8f, 1.0f))
+  , s_(Vec4f(1.0f, 1.0f, 1.0f, 1.0f))
+  , e_(Vec4f(0.0f, 0.0f, 0.0f, 1.0f))
   , sh_(32.0f) {
 }
 
-glm::vec4 Material::getAmbient() const {
+Vec4f Material::getAmbient() const {
     return a_;
 }
 
-void Material::setAmbient(const glm::vec4& color) {
+void Material::setAmbient(const Vec4f& color) {
     a_ = color;
 }
 
-glm::vec4 Material::getDiffuse() const {
+Vec4f Material::getDiffuse() const {
     return d_;
 }
 
-void Material::setDiffuse(const glm::vec4& color) {
+void Material::setDiffuse(const Vec4f& color) {
     d_ = color;
 }
 
-glm::vec4 Material::getSpecular() const {
+Vec4f Material::getSpecular() const {
     return s_;
 }
 
-void Material::setSpecular(const glm::vec4& color) {
+void Material::setSpecular(const Vec4f& color) {
     s_ = color;
 }
 
-glm::vec4 Material::getEmission() const {
+Vec4f Material::getEmission() const {
     return e_;
 }
 
-void Material::setEmission(const glm::vec4& color) {
+void Material::setEmission(const Vec4f& color) {
     e_ = color;
 }
 

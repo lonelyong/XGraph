@@ -15,6 +15,7 @@
 #include <osgGA/StateSetManipulator>
 #include <osgGA/TerrainManipulator>
 #include <osgGA/TrackballManipulator>
+#include <osgGA/FirstPersonManipulator>
 #include <osgViewer/Viewer>
 #include <osgViewer/ViewerEventHandlers>
 
@@ -94,6 +95,7 @@ Viewer::Viewer()
     auto camm = osg::ref_ptr(new Camm(Camm::DEFAULT_SETTINGS | Camm::SET_CENTER_ON_WHEEL_FORWARD_MOVEMENT));
     camm->setAutoComputeHomePosition(false);
     camm->setByMatrix(cam->getViewMatrix());
+    camm->setVerticalAxisFixed(true);
 
     auto picker_cam = osg::ref_ptr(new PickerCamera());
     picker_cam->setGraphicsContext(gc);

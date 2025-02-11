@@ -2,8 +2,6 @@
 
 #include <any>
 
-#include <glm/glm.hpp>
-
 #include <glr/engine/Shader.h>
 #include <glr/engine/State.h>
 
@@ -26,19 +24,19 @@ Uniform::Uniform(const std::string& name, bool val)
     d->val  = val;
     d->type = BOOL;
 }
-Uniform::Uniform(const std::string& name, const glm::bvec2& val)
+Uniform::Uniform(const std::string& name, const Vec2b& val)
   : Uniform() {
     d->name = name;
     d->val  = val;
     d->type = BVEC2;
 }
-Uniform::Uniform(const std::string& name, const glm::bvec3& val)
+Uniform::Uniform(const std::string& name, const Vec3b& val)
   : Uniform() {
     d->name = name;
     d->val  = val;
     d->type = BVEC3;
 }
-Uniform::Uniform(const std::string& name, const glm::bvec4& val)
+Uniform::Uniform(const std::string& name, const Vec4b& val)
   : Uniform() {
     d->name = name;
     d->val  = val;
@@ -52,19 +50,19 @@ Uniform::Uniform(const std::string& name, int val)
     d->val  = val;
     d->type = INT;
 }
-Uniform::Uniform(const std::string& name, const glm::ivec2& val)
+Uniform::Uniform(const std::string& name, const Vec2i& val)
   : Uniform() {
     d->name = name;
     d->val  = val;
     d->type = IVEC2;
 }
-Uniform::Uniform(const std::string& name, const glm::ivec3& val)
+Uniform::Uniform(const std::string& name, const Vec3i& val)
   : Uniform() {
     d->name = name;
     d->val  = val;
     d->type = IVEC3;
 }
-Uniform::Uniform(const std::string& name, const glm::ivec4& val)
+Uniform::Uniform(const std::string& name, const Vec4i& val)
   : Uniform() {
     d->name = name;
     d->val  = val;
@@ -78,31 +76,31 @@ Uniform::Uniform(const std::string& name, float val)
     d->val  = val;
     d->type = FLOAT;
 }
-Uniform::Uniform(const std::string& name, const glm::fvec2& val)
+Uniform::Uniform(const std::string& name, const Vec2f& val)
   : Uniform() {
     d->name = name;
     d->val  = val;
     d->type = FVEC2;
 }
-Uniform::Uniform(const std::string& name, const glm::fvec3& val)
+Uniform::Uniform(const std::string& name, const Vec3f& val)
   : Uniform() {
     d->name = name;
     d->val  = val;
     d->type = FVEC3;
 }
-Uniform::Uniform(const std::string& name, const glm::fvec4& val)
+Uniform::Uniform(const std::string& name, const Vec4f& val)
   : Uniform() {
     d->name = name;
     d->val  = val;
     d->type = FVEC4;
 }
-Uniform::Uniform(const std::string& name, const glm::fmat3x3& val)
+Uniform::Uniform(const std::string& name, const Mat3f& val)
   : Uniform() {
     d->name = name;
     d->val  = val;
     d->type = FMAT3X3;
 }
-Uniform::Uniform(const std::string& name, const glm::fmat4x4& mat)
+Uniform::Uniform(const std::string& name, const Mat4f& mat)
   : Uniform() {
     d->name = name;
     d->val  = mat;
@@ -115,31 +113,31 @@ Uniform::Uniform(const std::string& name, double val)
     d->val  = val;
     d->type = DOUBLE;
 }
-Uniform::Uniform(const std::string& name, const glm::dvec2& val)
+Uniform::Uniform(const std::string& name, const Vec2d& val)
   : Uniform() {
     d->name = name;
     d->val  = val;
     d->type = DVEC2;
 }
-Uniform::Uniform(const std::string& name, const glm::dvec3& val)
+Uniform::Uniform(const std::string& name, const Vec3d& val)
   : Uniform() {
     d->name = name;
     d->val  = val;
     d->type = DVEC3;
 }
-Uniform::Uniform(const std::string& name, const glm::dvec4& val)
+Uniform::Uniform(const std::string& name, const Vec4d& val)
   : Uniform() {
     d->name = name;
     d->val  = val;
     d->type = DVEC4;
 }
-Uniform::Uniform(const std::string& name, const glm::dmat3x3& val)
+Uniform::Uniform(const std::string& name, const Mat3d& val)
   : Uniform() {
     d->name = name;
     d->val  = val;
     d->type = DMAT3X3;
 }
-Uniform::Uniform(const std::string& name, const glm::dmat4x4& mat)
+Uniform::Uniform(const std::string& name, const Mat4d& mat)
   : Uniform() {
     d->name = name;
     d->val  = mat;
@@ -163,17 +161,17 @@ void Uniform::setValue(bool val) {
         d->val = val;
     }
 }
-void Uniform::setValue(const glm::bvec2& val) {
+void Uniform::setValue(const Vec2b& val) {
     if (d->type == BVEC2) {
         d->val = val;
     }
 }
-void Uniform::setValue(const glm::bvec3& val) {
+void Uniform::setValue(const Vec3b& val) {
     if (d->type == BVEC3) {
         d->val = val;
     }
 }
-void Uniform::setValue(const glm::bvec4& val) {
+void Uniform::setValue(const Vec4b& val) {
     if (d->type == BVEC4) {
         d->val = val;
     }
@@ -184,17 +182,17 @@ void Uniform::setValue(int val) {
         d->val = val;
     }
 }
-void Uniform::setValue(const glm::ivec2& val) {
+void Uniform::setValue(const Vec2i& val) {
     if (d->type == IVEC2) {
         d->val = val;
     }
 }
-void Uniform::setValue(const glm::ivec3& val) {
+void Uniform::setValue(const Vec3i& val) {
     if (d->type == IVEC3) {
         d->val = val;
     }
 }
-void Uniform::setValue(const glm::ivec4& val) {
+void Uniform::setValue(const Vec4i& val) {
     if (d->type == IVEC4) {
         d->val = val;
     }
@@ -205,27 +203,27 @@ void Uniform::setValue(float val) {
         d->val = val;
     }
 }
-void Uniform::setValue(const glm::fvec2& val) {
+void Uniform::setValue(const Vec2f& val) {
     if (d->type == FVEC2) {
         d->val = val;
     }
 }
-void Uniform::setValue(const glm::fvec3& val) {
+void Uniform::setValue(const Vec3f& val) {
     if (d->type == FVEC3) {
         d->val = val;
     }
 }
-void Uniform::setValue(const glm::fvec4& val) {
+void Uniform::setValue(const Vec4f& val) {
     if (d->type == FVEC4) {
         d->val = val;
     }
 }
-void Uniform::setValue(const glm::fmat3x3& val) {
+void Uniform::setValue(const Mat3f& val) {
     if (d->type == FMAT3X3) {
         d->val = val;
     }
 }
-void Uniform::setValue(const glm::fmat4x4& val) {
+void Uniform::setValue(const Mat4f& val) {
     if (d->type == FMAT4X4) {
         d->val = val;
     }
@@ -236,27 +234,27 @@ void Uniform::setValue(double val) {
         d->val = val;
     }
 }
-void Uniform::setValue(const glm::dvec2& val) {
+void Uniform::setValue(const Vec2d& val) {
     if (d->type == DVEC2) {
         d->val = val;
     }
 }
-void Uniform::setValue(const glm::dvec3& val) {
+void Uniform::setValue(const Vec3d& val) {
     if (d->type == DVEC3) {
         d->val = val;
     }
 }
-void Uniform::setValue(const glm::dvec4& val) {
+void Uniform::setValue(const Vec4d& val) {
     if (d->type == DVEC4) {
         d->val = val;
     }
 }
-void Uniform::setValue(const glm::dmat3x3& val) {
+void Uniform::setValue(const Mat3d& val) {
     if (d->type == DMAT3X3) {
         d->val = val;
     }
 }
-void Uniform::setValue(const glm::dmat4x4& val) {
+void Uniform::setValue(const Mat4d& val) {
     if (d->type == DMAT4X4) {
         d->val = val;
     }
@@ -268,28 +266,28 @@ void Uniform::apply(State& ctx) const {
     if (shader) {
         switch (d->type) {
         case BOOL: shader->set(ctx, d->name, std::any_cast<bool>(d->val)); break;
-        case BVEC2: shader->set(ctx, d->name, std::any_cast<glm::bvec2>(d->val)); break;
-        case BVEC3: shader->set(ctx, d->name, std::any_cast<glm::bvec3>(d->val)); break;
-        case BVEC4: shader->set(ctx, d->name, std::any_cast<glm::bvec4>(d->val)); break;
+        case BVEC2: shader->set(ctx, d->name, std::any_cast<Vec2b>(d->val)); break;
+        case BVEC3: shader->set(ctx, d->name, std::any_cast<Vec3b>(d->val)); break;
+        case BVEC4: shader->set(ctx, d->name, std::any_cast<Vec4b>(d->val)); break;
 
         case INT: shader->set(ctx, d->name, std::any_cast<int>(d->val)); break;
-        case IVEC2: shader->set(ctx, d->name, std::any_cast<glm::ivec2>(d->val)); break;
-        case IVEC3: shader->set(ctx, d->name, std::any_cast<glm::ivec3>(d->val)); break;
-        case IVEC4: shader->set(ctx, d->name, std::any_cast<glm::ivec4>(d->val)); break;
+        case IVEC2: shader->set(ctx, d->name, std::any_cast<Vec2i>(d->val)); break;
+        case IVEC3: shader->set(ctx, d->name, std::any_cast<Vec3i>(d->val)); break;
+        case IVEC4: shader->set(ctx, d->name, std::any_cast<Vec4i>(d->val)); break;
 
         case FLOAT: shader->set(ctx, d->name, std::any_cast<float>(d->val)); break;
-        case FVEC2: shader->set(ctx, d->name, std::any_cast<glm::fvec2>(d->val)); break;
-        case FVEC3: shader->set(ctx, d->name, std::any_cast<glm::fvec3>(d->val)); break;
-        case FVEC4: shader->set(ctx, d->name, std::any_cast<glm::fvec4>(d->val)); break;
-        case FMAT3X3: shader->set(ctx, d->name, std::any_cast<glm::fmat3x3>(d->val)); break;
-        case FMAT4X4: shader->set(ctx, d->name, std::any_cast<glm::fmat4x4>(d->val)); break;
+        case FVEC2: shader->set(ctx, d->name, std::any_cast<Vec2f>(d->val)); break;
+        case FVEC3: shader->set(ctx, d->name, std::any_cast<Vec3f>(d->val)); break;
+        case FVEC4: shader->set(ctx, d->name, std::any_cast<Vec4f>(d->val)); break;
+        case FMAT3X3: shader->set(ctx, d->name, std::any_cast<Mat3f>(d->val)); break;
+        case FMAT4X4: shader->set(ctx, d->name, std::any_cast<Mat4f>(d->val)); break;
 
         case DOUBLE: shader->set(ctx, d->name, std::any_cast<double>(d->val)); break;
-        case DVEC2: shader->set(ctx, d->name, std::any_cast<glm::dvec2>(d->val)); break;
-        case DVEC3: shader->set(ctx, d->name, std::any_cast<glm::dvec3>(d->val)); break;
-        case DVEC4: shader->set(ctx, d->name, std::any_cast<glm::dvec4>(d->val)); break;
-        case DMAT3X3: shader->set(ctx, d->name, std::any_cast<glm::dmat3x3>(d->val)); break;
-        case DMAT4X4: shader->set(ctx, d->name, std::any_cast<glm::dmat4x4>(d->val)); break;
+        case DVEC2: shader->set(ctx, d->name, std::any_cast<Vec2d>(d->val)); break;
+        case DVEC3: shader->set(ctx, d->name, std::any_cast<Vec3d>(d->val)); break;
+        case DVEC4: shader->set(ctx, d->name, std::any_cast<Vec4d>(d->val)); break;
+        case DMAT3X3: shader->set(ctx, d->name, std::any_cast<Mat3d>(d->val)); break;
+        case DMAT4X4: shader->set(ctx, d->name, std::any_cast<Mat4d>(d->val)); break;
         }
     }
 }

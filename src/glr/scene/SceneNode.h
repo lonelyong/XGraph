@@ -2,8 +2,6 @@
 
 #include <glr/glrenderer_global.h>
 
-#include <glm/mat4x4.hpp>
-
 #include <glr/engine/EventReceiver.h>
 #include <glr/scene/BoundingBox.h>
 
@@ -20,8 +18,8 @@ class GLR_API SceneNode : public EventReceiver {
     ~SceneNode();
 
   public:
-    glm::mat4 getMatrix() const;
-    void      setMatrix(const glm::mat4& mat);
+    Mat4d getMatrix() const;
+    void  setMatrix(const Mat4d& mat);
 
     StateSet* getOrCreateStateSet();
     StateSet* getStateSet();

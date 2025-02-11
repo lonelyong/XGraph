@@ -2,11 +2,8 @@
 
 #include <iterator>
 
-#include <glm/vec2.hpp>
-#include <glm/vec3.hpp>
-#include <glm/vec4.hpp>
-
 #include <glr/engine/BufferObject.h>
+#include <glr/engine/types.h>
 
 namespace glr {
 
@@ -165,14 +162,14 @@ using UInt16Array = Array<uint16_t>;
 using UInt32Array = Array<uint32_t>;
 using FloatArray  = Array<float>;
 using DoubleArray = Array<double>;
-using Vec2fArray  = Array<glm::vec2>;
-using Vec3fArray  = Array<glm::vec3>;
-using Vec4fArray  = Array<glm::vec4>;
-using Vec2iArray  = Array<glm::ivec2>;
-using Vec3iArray  = Array<glm::ivec3>;
-using Vec4iArray  = Array<glm::ivec4>;
-using Vec2dArray  = Array<glm::dvec2>;
-using Vec3dArray  = Array<glm::dvec3>;
-using Vec4dArray  = Array<glm::dvec4>;
+using Vec2fArray  = Array<Vec2f>;
+using Vec3fArray  = Array<Vec3f>;
+using Vec4fArray  = Array<Vec4f>;
+using Vec2iArray  = Array<Vec2i>;
+using Vec3iArray  = Array<Vec3i>;
+using Vec4iArray  = Array<Vec4i>;
+using Vec2dArray  = Array<Vec2d>;
+using Vec3dArray  = Array<Vec3d>;
+using Vec4dArray  = Array<Vec4d>;
 
 } // namespace glr

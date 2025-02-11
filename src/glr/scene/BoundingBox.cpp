@@ -5,10 +5,10 @@
 
 namespace glr {
 namespace {
-void swap(glm::vec3& min, glm::vec3& max) {
-    if (min.x > max.x) std::swap<float>(min.x, max.x);
-    if (min.y > max.y) std::swap<float>(min.y, max.y);
-    if (min.z > max.z) std::swap<float>(min.z, max.z);
+void swap(Vec3d& min, Vec3d& max) {
+    if (min.x > max.x) std::swap<double>(min.x, max.x);
+    if (min.y > max.y) std::swap<double>(min.y, max.y);
+    if (min.z > max.z) std::swap<double>(min.z, max.z);
 }
 } // namespace
 
@@ -23,8 +23,8 @@ BoundingBox::BoundingBox(double xmin, double ymin, double zmin, double xmax, dou
     swap(min_, max_);
 }
 
-glm::vec3 BoundingBox::getCenter() const {
-    return min_ + (max_ - min_) * glm::vec3(0.5);
+Vec3d BoundingBox::getCenter() const {
+    return min_ + (max_ - min_) * Vec3d(0.5);
 }
 
 double BoundingBox::getRadius() const {
@@ -50,7 +50,7 @@ void BoundingBox::combine(const BoundingBox& box) {
     swap(temp.max_, max_);
 }
 
-void BoundingBox::expandBy(const glm::vec3& pt) {
+void BoundingBox::expandBy(const Vec3d& pt) {
     auto temp = pt;
     swap(min_, temp);
     swap(temp, max_);

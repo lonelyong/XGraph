@@ -14,7 +14,7 @@ namespace glr {
 
 namespace ai = Assimp;
 namespace {
-glm::vec4 s_default_face_color = glm::vec4(0.88, 0.88, 0.88, 1.0);
+Vec4f s_default_face_color = Vec4f(0.88, 0.88, 0.88, 1.0);
 
 void aiProcessNode(Model* group, const aiScene* scene, aiNode* node) {
     for (int i = 0; i < node->mNumMeshes; i++) {
@@ -24,9 +24,9 @@ void aiProcessNode(Model* group, const aiScene* scene, aiNode* node) {
         if (mesh->HasPositions()) {
             auto vertices = new Vec3fArray();
             vertices->reserve(mesh->mNumVertices);
-            glm::vec4 prev_vertex_color = s_default_face_color;
+            Vec4f prev_vertex_color = s_default_face_color;
             for (int j = 0; j < mesh->mNumVertices; j++) {
-                vertices->push_back(glm::vec3(mesh->mVertices[j].x, mesh->mVertices[j].y, mesh->mVertices[j].z));
+                vertices->push_back(Vec3f(mesh->mVertices[j].x, mesh->mVertices[j].y, mesh->mVertices[j].z));
                 bb.expandBy(vertices->back());
             }
             geom->addVertexAttribArray(0, vertices);
@@ -36,7 +36,7 @@ void aiProcessNode(Model* group, const aiScene* scene, aiNode* node) {
             colors->reserve(mesh->mNumVertices);
             auto data = mesh->mColors[0];
             for (int j = 0; j < mesh->mNumVertices; j++) {
-                colors->push_back(glm::vec4(data[j].r, data[j].g, data[j].b, data[j].a));
+                colors->push_back(Vec4f(data[j].r, data[j].g, data[j].b, data[j].a));
             }
             geom->addVertexAttribArray(2, colors);
         }
@@ -52,7 +52,7 @@ void aiProcessNode(Model* group, const aiScene* scene, aiNode* node) {
             auto norms = new Vec3fArray();
             norms->reserve(mesh->mNumVertices);
             for (int j = 0; j < mesh->mNumVertices; j++) {
-                norms->push_back(glm::vec3(mesh->mNormals[j].x, mesh->mNormals[j].y, mesh->mNormals[j].z));
+                norms->push_back(Vec3f(mesh->mNormals[j].x, mesh->mNormals[j].y, mesh->mNormals[j].z));
             }
             geom->addVertexAttribArray(1, norms);
         }

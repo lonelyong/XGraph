@@ -1,4 +1,6 @@
-#include <glr/engine/SkyBox.h>
+ï»¿#include <glr/engine/SkyBox.h>
+
+#include <glm/ext.hpp>
 
 #include <vine/core/Ptr.h>
 
@@ -6,13 +8,13 @@
 #include <glr/engine/Camera.h>
 #include <glr/engine/CubeMap.h>
 #include <glr/engine/Depth.h>
-#include <glr/scene/Geometry.h>
-#include <glr/scene/Model.h>
 #include <glr/engine/Renderer.h>
 #include <glr/engine/Shader.h>
 #include <glr/engine/State.h>
 #include <glr/engine/StateSet.h>
 #include <glr/engine/Uniform.h>
+#include <glr/scene/Geometry.h>
+#include <glr/scene/Model.h>
 
 namespace glr {
 namespace {
@@ -50,9 +52,9 @@ struct SkyBoxUpdateCallback : public UpdateCallback {
         auto cam      = ctx->getCurrentRenderer()->getCamera();
 
         auto mat_v = cam->getViewMatrix();
-        mat_v[3]   = glm::vec4(0.f, 0.f, 0.f, 1.f);
-        glm::mat4 m1(1.);
-        m1         = glm::rotate(m1, glm::radians(90.f), glm::vec3(1.f, 0.f, 0.f));
+        mat_v[3]   = Vec4d(0.f, 0.f, 0.f, 1.f);
+        Mat4d m1(1.);
+        m1         = glm::rotate(m1, glm::radians(90.), Vec3d(1., 0., 0.));
         auto mat_p = cam->getProjectionMatrix();
 
         uniform_->setValue(mat_p * mat_v * m1);
@@ -62,14 +64,14 @@ struct SkyBoxUpdateCallback : public UpdateCallback {
 };
 } // namespace
 
-// Æ½ÐÐÍ¶Ó°»áµ¼ÖÂÌì¿ÕºÐµÄÏÔÊ¾²»ÕýÈ·£¬ÒòÎªÌì¿ÕºÐµÄ´óÐ¡Îª1£¬¶øÆ½ÐÐÍ¶Ó°Ê¹µÃäÖÈ¾Ìì¿ÕºÐµÄ´óÐ¡²»±ä
+// å¹³è¡ŒæŠ•å½±ä¼šå¯¼è‡´å¤©ç©ºç›’çš„æ˜¾ç¤ºä¸æ­£ç¡®ï¼Œå› ä¸ºå¤©ç©ºç›’çš„å¤§å°ä¸º1ï¼Œè€Œå¹³è¡ŒæŠ•å½±ä½¿å¾—æ¸²æŸ“å¤©ç©ºç›’çš„å¤§å°ä¸å˜
 Model* createSkyBox(CubeMap* tex) {
     auto cube = Geometry::createCube(1, 0, -1, -1, -1);
     cube->addTexture(0, "tex", tex);
     auto shader = new Shader(sky_box_vs, {}, sky_box_fs);
     auto model  = new Model();
 
-    auto uniform = new Uniform("matrix_mvp_", glm::mat4x4());
+    auto uniform = new Uniform("matrix_mvp_", Mat4d());
 
     model->addDrawable(cube);
     model->addUpdateCallback(new SkyBoxUpdateCallback(uniform));

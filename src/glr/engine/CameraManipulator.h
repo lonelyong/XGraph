@@ -2,10 +2,9 @@
 
 #include <glr/glrenderer_global.h>
 
-#include <glm/mat4x4.hpp>
-
 #include <glr/engine/Event.h>
 #include <glr/engine/Object.h>
+#include <glr/engine/types.h>
 
 namespace glr {
 class Camera;
@@ -38,10 +37,18 @@ class GLR_API CameraManipulator : public Object {
     virtual double getFov() const     = 0;
     virtual void   setFov(double fov) = 0;
 
-    virtual void getViewAsLookAt(glm::vec3& eye, glm::vec3& target, glm::vec3& up)                   = 0;
-    virtual void setViewAsLookAt(const glm::vec3& eye, const glm::vec3& target, const glm::vec3& up) = 0;
+    virtual void getViewAsLookAt(Vec3d& eye, Vec3d& target, Vec3d& up)                   = 0;
+    virtual void setViewAsLookAt(const Vec3d& eye, const Vec3d& target, const Vec3d& up) = 0;
 
     virtual void setViewMode(ViewMode mode) = 0;
+
+    virtual Camera* getCamera() const = 0;
+
+    virtual void setVerticalAxisFixed(bool fixed) = 0;
+    virtual bool getVerticalAxisFixed() const     = 0;
+
+    virtual void setHomePosition(const Vec3d& eye, const Vec3d& target, const Vec3d& up) = 0;
+    virtual void getHomePosition(Vec3d& eye, Vec3d& target, Vec3d& up)             = 0;
 };
 
 class GLR_API StandardCameraManipulator final : public CameraManipulator {
@@ -60,17 +67,25 @@ class GLR_API StandardCameraManipulator final : public CameraManipulator {
     virtual double getFov() const override;
     virtual void   setFov(double fov) override;
 
-    virtual void getViewAsLookAt(glm::vec3& eye, glm::vec3& target, glm::vec3& up) override;
-    virtual void setViewAsLookAt(const glm::vec3& eye, const glm::vec3& target, const glm::vec3& up) override;
+    virtual void getViewAsLookAt(Vec3d& eye, Vec3d& target, Vec3d& up) override;
+    virtual void setViewAsLookAt(const Vec3d& eye, const Vec3d& target, const Vec3d& up) override;
 
     virtual void setViewMode(ViewMode mode) override;
+
+    virtual Camera* getCamera() const override;
+
+    virtual void setVerticalAxisFixed(bool fixed) override;
+    virtual bool getVerticalAxisFixed() const override;
+
+    virtual void setHomePosition(const Vec3d& eye, const Vec3d& target, const Vec3d& up) override;
+    virtual void getHomePosition(Vec3d& eye, Vec3d& target, Vec3d& up) override;
 
   protected:
     virtual bool onUpdateViewport(int w, int h, int& vx, int& vy, int& vw, int& vh);
 
   private:
-    virtual glm::mat4 computeViewMatrix() const;
-    virtual glm::mat4 computeProjectionMatrix() const;
+    virtual Mat4d computeViewMatrix() const;
+    virtual Mat4d computeProjectionMatrix() const;
 
     void handleMousePressed(MouseButton btn, int x, int y);
     void handleMouseReleased(MouseButton btn, int x, int y);

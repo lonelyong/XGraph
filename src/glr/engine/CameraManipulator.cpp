@@ -1,33 +1,50 @@
-#include <glr/engine/CameraManipulator.h>
+Ôªø#include <glr/engine/CameraManipulator.h>
 
 #include <functional>
+
+#include <glm/ext.hpp>
+#include <glm/gtx/norm.hpp>
+#include <glm/gtx/vector_angle.hpp>
 
 #include <vine/core/Ptr.h>
 
 #include <glr/engine/Camera.h>
 
+
 namespace glr {
 VI_OBJECT_META_IMPL(CameraManipulator, Object);
 VI_OBJECT_META_IMPL(StandardCameraManipulator, CameraManipulator);
+
+static void fixVerticalAxis(Mat4d& mat);
 
 struct StandardCameraManipulator::Data {
     vine::RefPtr<Camera> camera;
     bool                 is_rotation_started    = false;
     bool                 is_pan_started         = false;
     bool                 is_cursor_move_started = false;
+    bool                 is_vertical_axis_fixed = true;
     int                  width = 1, height = 1.;
     int                  vx = 0, vy = 0, vw = 1, vh = 1;
     double               near = 1., far = 4000., fov = 30.;
     ProjectionType       proj_type = Perspective;
-    glm::vec2            prev_cursor_pt;
-    glm::vec2            first_cursor_pt;
-    glm::vec3            eye, target, up;
-    glm::mat4            first_view_matrix;
+    Vec2i                prev_cursor_pt;
+    Vec2i                first_cursor_pt;
+    Vec3d                eye, target, up;
+    Vec3d                home_eye, home_target, home_up;
+    // ÈªòËÆ§‰ª•‰∏ñÁïåÂéüÁÇπ‰∏∫center
+    Vec3d rotation_center_world;
+    Mat4d first_view_matrix;
 };
 
 StandardCameraManipulator::StandardCameraManipulator(Camera* cam)
   : d(new Data()) {
     d->camera = cam;
+    d->camera->getViewMatrixAsLookAt(d->eye, d->target, d->up, d->far);
+    d->camera->getViewport(d->vx, d->vy, d->vw, d->vh);
+
+    d->home_eye    = d->eye;
+    d->home_target = d->target;
+    d->home_up     = d->up;
 }
 
 StandardCameraManipulator::~StandardCameraManipulator() {
@@ -82,13 +99,13 @@ void StandardCameraManipulator::setFov(double fov) {
     d->fov = fov;
 };
 
-void StandardCameraManipulator::getViewAsLookAt(glm::vec3& eye, glm::vec3& target, glm::vec3& up) {
+void StandardCameraManipulator::getViewAsLookAt(Vec3d& eye, Vec3d& target, Vec3d& up) {
     eye    = d->eye;
     target = d->target;
     up     = d->up;
 };
 
-void StandardCameraManipulator::setViewAsLookAt(const glm::vec3& eye, const glm::vec3& target, const glm::vec3& up) {
+void StandardCameraManipulator::setViewAsLookAt(const Vec3d& eye, const Vec3d& target, const Vec3d& up) {
     d->eye    = eye;
     d->target = target;
     d->up     = up;
@@ -96,7 +113,30 @@ void StandardCameraManipulator::setViewAsLookAt(const glm::vec3& eye, const glm:
 };
 
 void StandardCameraManipulator::setViewMode(ViewMode mode) {
+}
 
+Camera* StandardCameraManipulator::getCamera() const {
+    return d->camera.get();
+}
+
+void StandardCameraManipulator::setVerticalAxisFixed(bool fixed) {
+    d->is_vertical_axis_fixed = fixed;
+}
+
+bool StandardCameraManipulator::getVerticalAxisFixed() const {
+    return d->is_vertical_axis_fixed;
+}
+
+void StandardCameraManipulator::setHomePosition(const Vec3d& eye, const Vec3d& target, const Vec3d& up) {
+    d->home_eye    = eye;
+    d->home_target = target;
+    d->home_up     = up;
+}
+
+void StandardCameraManipulator::getHomePosition(Vec3d& eye, Vec3d& target, Vec3d& up) {
+    eye    = d->eye;
+    target = d->target;
+    up     = d->up;
 };
 
 bool StandardCameraManipulator::onUpdateViewport(int w, int h, int& vx, int& vy, int& vw, int& vh) {
@@ -107,30 +147,20 @@ bool StandardCameraManipulator::onUpdateViewport(int w, int h, int& vx, int& vy,
     return true;
 }
 
-glm::mat4 StandardCameraManipulator::computeViewMatrix() const {
-    return glm::lookAt<float>(d->eye, d->target, d->up);
+Mat4d StandardCameraManipulator::computeViewMatrix() const {
+    return glm::lookAt<double>(d->eye, d->target, d->up);
 }
 
-glm::mat4 StandardCameraManipulator::computeProjectionMatrix() const {
+Mat4d StandardCameraManipulator::computeProjectionMatrix() const {
     if (d->proj_type == Perspective)
         return glm::perspective<double>(glm::radians<double>(d->fov), ((double)d->vw) / d->vh, d->near, d->far);
     else
         return glm::ortho<double>(-d->vw / 100., d->vw / 100., -d->vh / 100., d->vh / 100., d->near, d->far);
 }
 
-void StandardCameraManipulator::handleMouseReleased(MouseButton btn, int x, int y) {
-    d->is_pan_started         = false;
-    d->is_rotation_started    = false;
-    d->is_cursor_move_started = false;
-    d->prev_cursor_pt.x       = 0;
-    d->prev_cursor_pt.y       = 0;
-    d->first_cursor_pt.x      = 0;
-    d->first_cursor_pt.y      = 0;
-}
-
 void StandardCameraManipulator::handleMousePressed(MouseButton btn, int x, int y) {
-    d->prev_cursor_pt.x = x;
-    d->prev_cursor_pt.y = y;
+    d->prev_cursor_pt.x  = x;
+    d->prev_cursor_pt.y  = y;
     d->first_cursor_pt.x = x;
     d->first_cursor_pt.y = y;
     d->first_view_matrix = d->camera->getViewMatrix();
@@ -143,7 +173,7 @@ void StandardCameraManipulator::handleMousePressed(MouseButton btn, int x, int y
     } break;
     case MouseButton::ButtonMiddle:
     {
-        d->is_pan_started = true;
+        d->is_pan_started      = true;
         d->is_rotation_started = false;
     } break;
     case MouseButton::ButtonRight:
@@ -154,92 +184,168 @@ void StandardCameraManipulator::handleMousePressed(MouseButton btn, int x, int y
 }
 
 void StandardCameraManipulator::handleMouseMoved(int x, int y) {
-    auto xx = static_cast<float>(x);
-    auto yy = static_cast<float>(y);
-    if (d->is_cursor_move_started) {
-        //auto delta_x = xx - d->prev_cursor_pt.x;
-        //auto delta_y = yy - d->prev_cursor_pt.y;
-
-        //auto vm = d->camera->getViewMatrix();
-        //if (d->is_pan_started) {
-        //    auto m = glm::mat4(1.0f);
-        //    m      = glm::translate(m, glm::vec3(delta_x / 500, -delta_y / 500, 0));
-        //    vm     = m * vm;
-        //    d->camera->setViewMatrix(vm);
-        //}
-        //if (d->is_rotation_started) {
-        //    glm::mat4 mx(1.0f);
-        //    glm::mat4 my(1.0f);
-
-        //    mx = glm::rotate(mx, glm::radians(delta_x / 10), glm::vec3(0.0f, 1.0f, 0.0f));
-        //    my = glm::rotate(my, glm::radians(delta_y / 10), glm::vec3(1.0f, 0.0f, 0.0f));
-
-        //    vm *= mx;
-        //    vm *= my;
-
-        //    d->camera->setViewMatrix(vm);
-        //}
-        //d->prev_cursor_pt.x = xx;
-        //d->prev_cursor_pt.y = yy;
-
-        auto delta_x = xx - d->first_cursor_pt.x;
-        auto delta_y = yy - d->first_cursor_pt.y;
-        auto vm      = d->first_view_matrix;
-
-        if (d->is_pan_started) {
-            auto m = glm::mat4(1.0f);
-            m      = glm::translate(m, glm::vec3(delta_x / 100, -delta_y / 100, 0));
-            // œ‡ª˙œ‡∂‘”⁄◊‘…Ì◊¯±Íœµ“∆∂Ø
-            // “∆∂Øæ‡¿Îø…ƒ‹–Ë“™∏˘æ› Û±Í‘⁄ƒ£–Õ…œµ„µƒŒª÷√º∆À„œ‡ª˙∆´“∆æ‡¿Î
-            vm     =  m * vm;
-            d->camera->setViewMatrix(vm);
-        }
-
-        if (d->is_rotation_started) {
-            glm::mat4 mx(1.0f);
-            glm::mat4 my(1.0f);
-            
-            // œ‡ª˙‘⁄ ¿ΩÁ◊¯±Íœµ÷–µƒ◊ÀÃ¨
-            auto ivm  = glm::inverse(vm);
-            ivm[3][0] = 0;
-            ivm[3][1] = 0;
-            ivm[3][2] = 0;
-
-            // ∫·œÚÕœ∂Ø»∆œ‡ª˙y÷·–˝◊™
-            glm::vec4 yaxis(0, 1, 0, 1);
-            // ◊›œÚÕœ∂Ø»∆œ‡ª˙x÷·–˝◊™
-            glm::vec4 xaxis(1, 0, 0, 1);
-
-            // Ω´–˝◊™÷·◊™ªªµΩ ¿ΩÁ◊¯±Íœµ
-            yaxis = ivm * yaxis;
-            xaxis = ivm * xaxis;
-
-            mx = glm::rotate(mx, glm::radians(delta_x / 10), glm::vec3(yaxis.x, yaxis.y, yaxis.z));
-            my = glm::rotate(my, glm::radians(delta_y / 10), glm::vec3(xaxis.x, xaxis.y, xaxis.z));
-
-            // »∆ ¿ΩÁ◊¯±Íœµ‘≠µ„–˝◊™
-            vm = vm * mx * my;
-
-            d->camera->setViewMatrix(vm);
-        }
+    if (!d->is_pan_started && !d->is_rotation_started) {
+        return;
     }
-    else {
-        d->is_cursor_move_started = true;
-        d->prev_cursor_pt.x       = xx;
-        d->prev_cursor_pt.y       = yy;
+
+    auto xx      = static_cast<double>(x);
+    auto yy      = static_cast<double>(y);
+    auto delta_x = xx - d->first_cursor_pt.x;
+    auto delta_y = yy - d->first_cursor_pt.y;
+    auto vm      = d->first_view_matrix;
+
+
+    auto cam_in_world = glm::inverse(vm);
+    //// Áõ∏Êú∫Âú®‰∏ñÁïåÂùêÊ†áÁ≥ª‰∏≠ÁöÑÂßøÊÄÅ
+    // auto cam_ori  = cam_in_world;
+    // cam_ori[3][0] = 0;
+    // cam_ori[3][1] = 0;
+    // cam_ori[3][2] = 0;
+
+    auto cam_ori         = glm::quat_cast(cam_in_world);
+    auto cam_pos         = Vec3d(cam_in_world[3]);
+    auto cam_up_local    = Vec3d(0, 1, 0);
+    auto cam_right_local = Vec3d(1, 0, 0);
+    auto cam_up_world    = cam_ori * cam_up_local;
+    auto cam_right_world = cam_ori * cam_right_local;
+
+    if (d->is_pan_started) {
+        auto offset = Vec3d(delta_x / 100., -delta_y / 100., 0);
+        // vm     = glm::translate(Mat4d(1.0), offset) * vm;
+        vm          = glm::inverse(cam_in_world * glm::translate(Mat4d(1.0), -offset));
+        d->camera->setViewMatrix(vm);
     }
+
+    if (d->is_rotation_started) {
+#if 0
+        // Mat4d rotate_yaw(1.0);
+        // Mat4d rotate_pitch(1.0);
+        // rotate_yaw = glm::rotate(rotate_yaw, -glm::radians(delta_x / 10), Vec3d(cam_up_local.x, cam_up_local.y,
+        // cam_up_local.z)); rotate_pitch =
+        //     glm::rotate(rotate_pitch, -glm::radians(delta_y / 10), Vec3d(cam_right_local.x, cam_right_local.y,
+        //     cam_right_local.z));
+
+        //auto rotate_yaw   = glm::angleAxis(-glm::radians(delta_x / 10), cam_up_local);
+        //auto rotate_pitch = glm::angleAxis(-glm::radians(delta_y / 10), cam_right_local);
+
+        //if (d->is_vertical_axis_fixed) {
+        //    // fixVerticalAxis(m);
+        //}
+        ////auto new_cam_ori      = cam_ori * rotate_yaw * rotate_pitch;
+        ////// Ê≤øËá™Ë∫´zËΩ¥ÊñπÂêëÁßªÂä®
+        ////auto t                = glm::translate(Mat4d(1), Vec3d(0, 0, glm::length(cam_pos)));
+        ////auto new_cam_in_world = glm::toMat4(new_cam_ori) * t;
+
+        //auto move_to_origin = glm::translate(Mat4d(), -cam_pos);
+        //auto                           m              = glm::toMat4(rotate_yaw * rotate_pitch);
+        //auto new_cam_pos = m * 
+        //move_to_origin* cam_in_world* m * glm::translate();
+#else
+        Mat4d rotate_yaw(1.0);
+        Mat4d rotate_pitch(1.0);
+        Mat4d new_cam_in_world(1.0);
+
+#    if 0
+        rotate_yaw       = glm::rotate(rotate_yaw, glm::radians(-delta_x / 10), cam_up_world);
+        rotate_pitch     = glm::rotate(rotate_pitch, glm::radians(-delta_y / 10), Vec3d(cam_right_world));
+        new_cam_in_world = rotate_pitch * rotate_yaw * cam_in_world;
+
+        // Áªï‰∏ñÁïåÂùêÊ†áÁ≥ªÂéüÁÇπÊóãËΩ¨
+        // vm = vm * rotate_yaw * rotate_pitch;
+#    else
+        Vec3d z(0, 0, 1);
+
+        rotate_yaw = glm::rotate(rotate_yaw, glm::radians(-delta_x / 10), d->is_vertical_axis_fixed ? z : cam_up_world);
+
+        auto my_dy = glm::radians(-delta_y / 10);
+        auto i     = 0;
+
+        do {
+            rotate_pitch = glm::rotate(Mat4d(1.), my_dy, cam_right_world);
+
+            auto m = rotate_pitch * rotate_yaw * cam_in_world;
+            if (d->is_vertical_axis_fixed) {
+                fixVerticalAxis(m);
+            }
+
+            // check for viewer's up vector to be more than 90 degrees from "up" axis
+            auto new_cam_up_world = glm::quat_cast(m) * cam_up_local;
+            if (glm::dot(new_cam_up_world, z) > 0.) {
+
+                // apply new rotation
+                new_cam_in_world = m;
+                break;
+            }
+
+            my_dy /= 2.;
+            if (++i == 20) {
+                new_cam_in_world = rotate_yaw * cam_in_world;
+                break;
+            }
+
+        } while (true);
+
+#    endif
+        vm = glm::inverse(new_cam_in_world);
+#endif
+
+        d->camera->setViewMatrix(vm);
+    }
+
+    d->prev_cursor_pt.x = xx;
+    d->prev_cursor_pt.y = yy;
+}
+
+void StandardCameraManipulator::handleMouseReleased(MouseButton btn, int x, int y) {
+    if (d->is_pan_started || d->is_rotation_started) {
+        d->camera->getViewMatrixAsLookAt(d->eye, d->target, d->up, d->far);
+    }
+
+    d->is_pan_started         = false;
+    d->is_rotation_started    = false;
+    d->is_cursor_move_started = false;
+    d->prev_cursor_pt.x       = 0;
+    d->prev_cursor_pt.y       = 0;
+    d->first_cursor_pt.x      = 0;
+    d->first_cursor_pt.y      = 0;
 }
 
 void StandardCameraManipulator::handleMouseScrolled(int delta) {
-    auto      vm = d->camera->getViewMatrix();
-    glm::vec3 p, t, u, dir;
-    d->camera->getViewMatrixAsLookAt(p, t, u);
-    dir = t - p;
-    dir = dir * (delta / 10.f);
-    glm::mat4 m(1.0);
-    m = glm::translate(m, dir);
-    vm *= m;
+    auto vm = d->camera->getViewMatrix();
+
+#if 0 // Âú®‰∏ñÁïåÂùêÊ†áÁ≥ª‰∏≠Ê≤øÁõ∏Êú∫zËΩ¥ÊñπÂêëÁßªÂä®
+    // Vec3f p, t, u, dir;
+    // d->camera->getViewMatrixAsLookAt(p, t, u);
+    // dir = t - p;
+    // dir = dir * (delta / 10.f);
+    // Mat4d m(1.0);
+    // m = glm::translate(m, dir);
+    // vm *= m;
+#else // Âú®Áõ∏Êú∫ÂùêÊ†áÁ≥ª‰∏≠Ê≤øÁõ∏Êú∫zËΩ¥ÊñπÂêëÁßªÂä®
+    Vec3d dir(0, 0, 1);
+    dir = dir * (delta / 10.);
+
+    Mat4d m(1.0);
+
+#    if 0
+
+    m = glm::translate(m, -dir);
+
+    auto cam_in_world  = glm::inverse(vm);
+    auto cam_in_world2 = cam_in_world * m;
+    vm                 = glm::inverse(cam_in_world2);
+
+#    else
+
+    m  = glm::translate(m, dir);
+    vm = m * vm;
+
+#    endif
+
+#endif
+
     d->camera->setViewMatrix(vm);
+    d->camera->getViewMatrixAsLookAt(d->eye, d->target, d->up, d->far);
 }
 
 void StandardCameraManipulator::handleResized(int w, int h) {
@@ -256,5 +362,38 @@ void StandardCameraManipulator::handleResized(int w, int h) {
         d->camera->setViewport(vx, vy, vw, vh);
         d->camera->setProjectionMatrix(computeProjectionMatrix());
     }
+}
+
+static void fixVerticalAxis(Mat4d& mat) {
+    auto  quat = glm::quat_cast(mat);
+    Vec3d z(0., 0., 1.);
+    Vec3d up      = quat * Vec3d(0., 1., 0.);
+    Vec3d right   = quat * Vec3d(1., 0., 0.);
+    Vec3d forward = quat * Vec3d(0., 0., -1.);
+
+    Vec3d new_right1 = glm::cross(forward, z);
+    Vec3d new_right2 = glm::cross(up, z);
+    Vec3d new_right  = (glm::length2(new_right1) > glm::length2(new_right2)) ? new_right1 : new_right2;
+
+    // static bool last      = true;
+    // if (glm::dot(new_right, right) < 0.) {
+    //     new_right = -new_right;
+    //     if (!last) printf("\n<<<<<<------");
+    //     last = true;
+    // }
+    // else {
+    //     if (last) printf("\n------>>>>>>");
+    //     last = false;
+    // }
+
+    Quatd r(right, new_right);
+    quat = r * quat;
+
+    // ËøôÁßçËÆ°ÁÆóÊñπÂºèÊúâÈóÆÈ¢ò
+    // auto new_mat = glm::toMat4(quat);
+    // new_mat[3]   = mat[3];
+    // mat          = new_mat;
+
+    mat = glm::toMat4(r) * mat;
 }
 } // namespace glr
