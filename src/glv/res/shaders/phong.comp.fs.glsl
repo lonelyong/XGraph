@@ -1,10 +1,98 @@
-#version 330 compatibility
+﻿#version 460 compatibility
+
+/*
+in gl_PerFragment {
+    in float gl_FogFragCoord;  // 雾坐标
+    in vec4 gl_TexCoord[];     // 纹理坐标
+    in vec4 gl_Color;          // 片段颜色
+    in vec4 gl_SecondaryColor; // 次要颜色
+};
+
+out vec4 gl_FragColor;
+out vec4 gl_FragData[gl_MaxDrawBuffers];
+*/
 
 in vec4 frag_color;
+in vec3 frag_norm;
+in vec3 frag_posi;
+
 out vec4 FragColor;
+
+struct MaterialParameters {
+ vec4 emission; // Ecm
+ vec4 ambient; // Acm
+ vec4 diffuse; // Dcm
+ vec4 specular; // Scm
+ float shininess; // Srm
+};
+//uniform gl_MaterialParameters gl_FrontMaterial;
+//uniform gl_MaterialParameters gl_BackMaterial;
+
+struct LightSourceParameters {
+ vec4 ambient; // Acli
+ vec4 diffuse; // Dcli
+ vec4 specular; // Scli
+ vec4 position; // Ppli
+ vec4 halfVector; // Derived: Hi
+ vec3 spotDirection; // Sdli
+ float spotExponent; // Srli
+ float spotCutoff;   // Crli
+ // (range: [0.0,90.0], 180.0)
+ float spotCosCutoff; // Derived: cos(Crli)
+ // (range: [1.0,0.0],-1.0)
+ float constantAttenuation; // K0
+ float linearAttenuation;   // K1
+ float quadraticAttenuation;// K2
+};
+//uniform gl_LightSourceParameters gl_LightSource[gl_MaxLights];
+
+
+vec4 get_directional_light_contribution(gl_LightSourceParameters l, gl_MaterialParameters m){
+    vec3 v_dir =  (gl_ModelViewMatrixInverse * vec4(0, 0, -1, 0)).xyz;
+    vec3 l_dir = l.position.xyz;
+    vec3 reflect_dir = reflect(l_dir, frag_norm);
+    vec4 a = l.ambient * m.ambient;
+    vec4 d = l.diffuse * max(dot(l_dir, frag_norm), 0) * m.diffuse;
+    // Phong
+    // vec3 s = l.s.rgb * pow(max(dot(view_dir, reflect_dir), 0.0), mate.sh) * mate.s.rgb;
+    // Blinn_Phong
+    vec4 s = l.specular * pow(max(dot(normalize(l_dir + v_dir), frag_norm), 0.0), m.shininess) * m.specular;
+    return a + d + s;
+}
+
+vec4 get_spot_light_contribution(gl_LightSourceParameters l, gl_MaterialParameters m){
+    vec3 v_dir =  (gl_ModelViewMatrixInverse * vec4(0, 0, -1, 0)).xyz;
+    vec3 l_dir = normalize(frag_posi - l.position.xyz);
+    vec3 reflect_dir = reflect(l_dir, frag_norm);
+    vec4 a = l.ambient * m.ambient;
+    vec4 d = l.diffuse * max(dot(-l_dir, frag_norm), 0);
+    vec4 s = l.specular * pow(max(dot(v_dir, reflect_dir), 0.0), m.shininess) * m.specular;
+    return a + d + s;
+}
+
 void main(){
-    // vec4 color = gl_FrontMaterial.ambient;
-    FragColor = frag_color;
+// 固定管线模式下,Light默认为平行光
+if(gl_LightSource[0].position.w == 0){
+    FragColor = get_directional_light_contribution(gl_LightSource[1], gl_FrontMaterial);
+    
+    vec4 ldir = gl_LightSource[1].position;
+    vec4 vdir = gl_ModelViewMatrixInverse * vec4(0, 0, -1, 0);
+
+//  FragColor = gl_ModelViewMatrixInverse * vec4(0, 0, -1, 0);
+//  FragColor = gl_LightSource[1].diffuse;
+    FragColor = vec4(abs(ldir.x), abs(ldir.y), abs(ldir.z), 1.0);
+//    FragColor = vec4(abs(vdir.x), abs(vdir.y), abs(vdir.z), 1.0);
+    
+}
+else{
+    FragColor = get_spot_light_contribution(gl_LightSource[0], gl_FrontMaterial);
+}
+
+// vec4 color = gl_FrontMaterial.ambient;
+   
+//    FragColor = gl_FrontMaterial.diffuse;
+//    FragColor = vec4(gl_LightSource[0].position.xyz, 1.0);
+//    FragColor = gl_LightSource[0].position;
 }
 
 /*

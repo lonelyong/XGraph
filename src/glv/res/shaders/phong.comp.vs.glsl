@@ -1,9 +1,31 @@
-#version 330 compatibility
+#version 460 compatibility
 
 // layout(location = 0) in vec3 position;
 // layout(location = 3) in vec4 color;
 
-//// call setUseModelViewAndProjectionUniforms(true) osg will replace gl_ to osg_
+/*
+in int gl_VertexID;   // only present when not targeting Vulkan
+in int gl_InstanceID; // only present when not targeting Vulkan
+in int gl_DrawID;
+in int gl_BaseVertex;
+in int gl_BaseInstance;
+
+out gl_PerVertex {
+    vec4 gl_Position;
+    float gl_PointSize;
+    vec4 gl_ClipVertex;          // 用户裁剪平面坐标,与gl_ClipDistance、gl_CullDistance不能同时用
+    float gl_ClipDistance[];     // 逐片段裁剪,在光栅化阶段会裁剪所有 gl_ClipDistance[n] < 0 的片元;gl3.0
+    float gl_CullDistance[];     // 逐图元裁剪,如果一个图元的所有顶点 gl_CullDistance[n] < 0，则整个图元会被剔除;gl4.5;GL_ARB_cull_distance 
+    vec4 gl_FrontColor;          // 主颜色（正面）
+    vec4 gl_BackColor;           // 主颜色（背面）
+    vec4 gl_FrontSecondaryColor; // 次颜色（正面）
+    vec4 gl_BackSecondaryColor;  // 次颜色（背面）
+    vec4 gl_TexCoord[];          // 纹理坐标
+    float gl_FogFragCoord;       // 雾坐标
+};
+*/
+
+//// call State::setUseModelViewAndProjectionUniforms(true) to replace gl_ to osg_
 //uniform mat4 gl_ModelViewMatrix;
 //uniform mat4 gl_ProjectionMatrix;
 //uniform mat4 gl_ModelViewProjectionMatrix;
@@ -25,17 +47,25 @@ in vec4 gl_MultiTexCoord7;
 in float gl_FogCoord;
 */
 out vec4 frag_color;
+out vec3 frag_norm;
+out vec3 frag_posi;
+
 void main(){
-  // core profile
-  // gl_Position = gl_ModelViewProjectionMatrix * vec4(position.x, position.y, position.z, 1.0);
-  // frag_color = vec4(1, 1, 0, 1);
+  int a1 = gl_VertexID;
+  int a2 = gl_InstanceID;
+  int a3 = gl_DrawID;
+  int a4 = gl_BaseVertex;
+  int a5 = gl_BaseInstance;
 
   // 
   gl_Position = gl_ModelViewProjectionMatrix * vec4(gl_Vertex.x, gl_Vertex.y, gl_Vertex.z, 1.0);
-  frag_color = gl_Color; 
+  frag_color = gl_Color;
+  frag_norm = gl_Normal;
+  frag_posi = gl_Position.xyz;
 }
 
-/*
+/************************************************************************
+ ************************************************************************
 // These variables are present only in the compatibility profile.
 //
 // compatibility profile only

@@ -1,4 +1,4 @@
-#include "ConsoleNotifyHandler.h"
+﻿#include "ConsoleNotifyHandler.h"
 
 #include <cstdint>
 #include <cstdio>
@@ -6,9 +6,11 @@
 #include <iostream>
 #include <mutex>
 #include <string>
+#include <chrono>
 
 // before Windows.h, NOMINMAX
 #include <backward.hpp>
+
 
 #ifdef _WIN32
 #    include <Windows.h>

@@ -11,11 +11,11 @@
 #include <osg/Material>
 #include <osg/Texture2D>
 #include <osgDB/WriteFile>
+#include <osgGA/FirstPersonManipulator>
 #include <osgGA/StandardManipulator>
 #include <osgGA/StateSetManipulator>
 #include <osgGA/TerrainManipulator>
 #include <osgGA/TrackballManipulator>
-#include <osgGA/FirstPersonManipulator>
 #include <osgViewer/Viewer>
 #include <osgViewer/ViewerEventHandlers>
 
@@ -26,6 +26,7 @@
 
 #include "GLDebugOperation.h"
 #include "PickerCamera.h"
+#include <xgcomm/Resources.h>
 
 namespace glv {
 namespace {
@@ -72,8 +73,10 @@ Viewer::Viewer()
     traits->samples              = 4;
     traits->screenNum            = 0;
     traits->glContextProfileMask = GL_CONTEXT_COMPATIBILITY_PROFILE_BIT;
-    traits->glContextVersion     = "4.6";
-    traits->windowName           = "ModelViewer";
+    //  在使用gl3编译时使用
+    // traits->glContextVersion     = "3.3";
+
+    traits->windowName = "ModelViewer";
 
     auto gc  = osg::ref_ptr(osg::GraphicsContext::createGraphicsContext(traits));
     // false: gl_Vertex=0,gl_Normal=2,gl_Color=3
@@ -88,12 +91,12 @@ Viewer::Viewer()
     cam->setGraphicsContext(gc);
     cam->setViewport(0, 0, traits->width, traits->height);
     cam->setProjectionMatrixAsPerspective(30, (double)traits->width / traits->height, 1, 1000);
-    cam->setViewMatrixAsLookAt(osg::Vec3d(200, 0, 0), osg::Vec3d(), osg::Vec3d(0, 1, 0));
+    cam->setViewMatrixAsLookAt(osg::Vec3d(200, 200, 200), osg::Vec3d(), osg::Vec3d(-1, 0, 1));
 
     using Camm = osgGA::TrackballManipulator;
 
     auto camm = osg::ref_ptr(new Camm(Camm::DEFAULT_SETTINGS | Camm::SET_CENTER_ON_WHEEL_FORWARD_MOVEMENT));
-    camm->setAutoComputeHomePosition(false);
+    camm->setAutoComputeHomePosition(true);
     camm->setByMatrix(cam->getViewMatrix());
     camm->setVerticalAxisFixed(true);
 
@@ -101,20 +104,85 @@ Viewer::Viewer()
     picker_cam->setGraphicsContext(gc);
 
     impl->setCameraManipulator(camm);
+    impl->setCamera(cam);
     impl->addEventHandler(new osgViewer::StatsHandler());
     impl->addEventHandler(new osgViewer::WindowSizeHandler());
     impl->addEventHandler(new osgGA::StateSetManipulator(cam->getOrCreateStateSet()));
     impl->setThreadingModel(osgViewer::Viewer::SingleThreaded);
     impl->setSceneData(root);
     impl->setRealizeOperation(new GLDebugOperation());
+    impl->setLightingMode(osg::View::HEADLIGHT);
+
+    auto fn_create_shader = [](const char* file) {
+        std::ifstream ifs(file);
+        if (ifs.is_open()) {
+            std::ostringstream ss;
+            ss << ifs.rdbuf();
+            return ss.str();
+        }
+        return std::string();
+    };
+
+    auto root_prog = osg::ref_ptr(new osg::Program());
+    root_prog->addShader(new osg::Shader(osg::Shader::VERTEX, fn_create_shader(XG_RES("shaders/phong.comp.vs.glsl"))));
+    root_prog->addShader(
+        new osg::Shader(osg::Shader::FRAGMENT, fn_create_shader(XG_RES("shaders/phong.comp.fs.glsl"))));
 
     auto root_mat = osg::ref_ptr(new osg::Material());
+    root_mat->setColorMode(osg::Material::AMBIENT_AND_DIFFUSE);
+
+    root->getOrCreateStateSet()->setAttributeAndModes(root_prog, osg::StateAttribute::ON);
+    root->getOrCreateStateSet()->setAttributeAndModes(root_mat, osg::StateAttribute::ON);
+    root->getOrCreateStateSet()->setMode(GL_LIGHTING, 1);
+    root->getOrCreateStateSet()->setMode(GL_LIGHT1, 1);
+    root->getOrCreateStateSet()->setMode(GL_LIGHT0, 0);
+
+    auto main_light = new osg::Light();
+    main_light->setAmbient(osg::Vec4(1, 1, 0, 1));
+    main_light->setDiffuse(osg::Vec4(1, 0, 0, 1));
+    main_light->setLightNum(1);
+    main_light->setDataVariance(osg::Object::DYNAMIC);
+    main_light->setPosition(osg::Vec4(0, 1, 0, 0));
+
+    // auto main_ls = new osg::LightSource();
+    // main_ls->setLight(main_light);
+    // root->addChild(main_ls);
+
+    root->getOrCreateStateSet()->setAttributeAndModes(main_light, 1);
+
+    // gc->getState()->setGlobalDefaultAttribute(main_light);
+
+    struct RootNodeUpdateCallback : public osg::NodeCallback {
+        virtual void operator()(osg::Node* node, osg::NodeVisitor* nv) override {
+            osg::Vec3d eye, target, up, dir;
+            cam_->getViewMatrixAsLookAt(eye, target, up);
+            dir = target - eye;
+            dir.normalize();
+            light_->setPosition(osg::Vec4(dir.x(), dir.y(), dir.z(), 0.));
+        }
+        osg::ref_ptr<osg::Camera> cam_;
+        osg::ref_ptr<osg::Light>  light_;
+    };
+
+    // struct PreDrawCallback : public osg::Camera::DrawCallback {
+    //     virtual void operator()(osg::RenderInfo& renderInfo) const override {
+    //
+    //     }
+    // };
+
+    // cam->addPreDrawCallback(new PreDrawCallback());
+
+    auto callback    = new RootNodeUpdateCallback();
+    callback->cam_   = cam;
+    callback->light_ = main_light;
+
+    root->addUpdateCallback(callback);
 
     d->root_node  = root;
     d->impl       = impl;
     d->picker_cam = picker_cam;
 
-    //addCamera(picker_cam, true, true, true, true);
+    // addCamera(picker_cam, true, true, true, true);
 
     //// Main light
     // auto light0 = new osgVerse::LightDrawable;
@@ -234,6 +302,8 @@ void Viewer::fitToScreen() {
     auto cm = d->impl->getCameraManipulator();
     cm->computeHomePosition(d->impl->getCamera());
     cm->home(0);
+    cm->setByMatrix(cm->getMatrix() * osg::Matrix::rotate(osg::inRadians(45), osg::Vec3d(1, 0, 0)));
+    auto x = cm->getInverseMatrix();
 }
 
 osg::Camera* Viewer::getMasterCamera() const {

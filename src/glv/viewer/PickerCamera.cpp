@@ -1,4 +1,4 @@
-#include <glad/glad.h>
+﻿#include <glad/glad.h>
 
 #include "PickerCamera.h"
 
@@ -25,25 +25,10 @@ struct PickerCamera::Data {
 
 PickerCamera::PickerCamera()
   : d(new Data()) {
-    auto fn_create_shader = [](const char* file) {
-        std::ifstream ifs(file);
-        if (ifs.is_open()) {
-            std::ostringstream ss;
-            ss << ifs.rdbuf();
-            return ss.str();
-        }
-        return std::string();
-    };
-
-    auto prog = new osg::Program();
-    prog->addShader(new osg::Shader(osg::Shader::VERTEX, fn_create_shader(XG_RES("shaders/phong_comp.vs.glsl"))));
-    prog->addShader(new osg::Shader(osg::Shader::FRAGMENT, fn_create_shader(XG_RES("shaders/phong_comp.fs.glsl"))));
-
     setViewport(0, 0, 1280, 720);
     setRenderOrder(osg::Camera::POST_RENDER);
-    setClearColor(osg::Vec4(0, 0, 0, 1));
+    setClearColor(osg::Vec4(1, 1, 1, 1));
     setClearMask(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    getOrCreateStateSet()->setAttributeAndModes(prog, osg::StateAttribute::ON | osg::StateAttribute::PROTECTED);
     setRenderTargetImplementation(osg::Camera::FRAME_BUFFER_OBJECT);
     setPostDrawCallback(new CameraPostDrawCallback());
 
@@ -91,11 +76,17 @@ void CameraPostDrawCallback::operator()(osg::RenderInfo& renderInfo) const {
 
         GLint fbo_id;
         glGetIntegerv(GL_FRAMEBUFFER_BINDING, &fbo_id);
-        // �ڵ���DrawCallback֮ǰ��GL_FRAMEBUFFER�Ѿ�Reset��Default
+        // 相机的drawcallback调用之后，会reset FBO to default
         glBindFramebuffer(GL_FRAMEBUFFER, 1);
         glReadBuffer(GL_COLOR_ATTACHMENT0);
         img->readPixels(0, 0, vp->width(), vp->height(), GL_RGBA, GL_UNSIGNED_BYTE);
 
+		auto ver = glGetString(GL_VERSION);
+        GLint  mask;
+        glGetIntegerv(GL_CONTEXT_FLAGS, &mask);
+        if (mask & GL_CONTEXT_COMPATIBILITY_PROFILE_BIT) {
+            int x = 1;
+        }
         // glBindFramebuffer(GL_FRAMEBUFFER, 0);
         osgDB::writeImageFile(*img, "d:/1.bmp");
     }

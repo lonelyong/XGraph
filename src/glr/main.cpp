@@ -145,7 +145,7 @@ void CreateSampleShapes(glr::Scene* scene) {
 
     scene->addChild(axis);
     scene->addChild(pc);
-    //scene->addChild(cube);
+    scene->addChild(cube);
     scene->addChild(skybox);
     scene->addChild(img);
 }

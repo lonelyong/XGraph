@@ -9,6 +9,7 @@
 #include <vine/core/Ptr.h>
 
 #include <glr/engine/Camera.h>
+#include <glr/engine/Math.h>
 
 
 namespace glr {
@@ -16,13 +17,14 @@ VI_OBJECT_META_IMPL(CameraManipulator, Object);
 VI_OBJECT_META_IMPL(StandardCameraManipulator, CameraManipulator);
 
 static void fixVerticalAxis(Mat4d& mat);
+static void fixVerticalAxis(Camera* cam);
 
 struct StandardCameraManipulator::Data {
     vine::RefPtr<Camera> camera;
     bool                 is_rotation_started    = false;
     bool                 is_pan_started         = false;
     bool                 is_cursor_move_started = false;
-    bool                 is_vertical_axis_fixed = true;
+    bool                 is_vertical_axis_fixed = false;
     int                  width = 1, height = 1.;
     int                  vx = 0, vy = 0, vw = 1, vh = 1;
     double               near = 1., far = 4000., fov = 30.;
@@ -39,6 +41,9 @@ struct StandardCameraManipulator::Data {
 StandardCameraManipulator::StandardCameraManipulator(Camera* cam)
   : d(new Data()) {
     d->camera = cam;
+    if (d->is_vertical_axis_fixed) {
+        fixVerticalAxis(cam);
+    }
     d->camera->getViewMatrixAsLookAt(d->eye, d->target, d->up, d->far);
     d->camera->getViewport(d->vx, d->vy, d->vw, d->vh);
 
@@ -121,6 +126,9 @@ Camera* StandardCameraManipulator::getCamera() const {
 
 void StandardCameraManipulator::setVerticalAxisFixed(bool fixed) {
     d->is_vertical_axis_fixed = fixed;
+    if (fixed) {
+        fixVerticalAxis(d->camera.get());
+    }
 }
 
 bool StandardCameraManipulator::getVerticalAxisFixed() const {
@@ -190,10 +198,14 @@ void StandardCameraManipulator::handleMouseMoved(int x, int y) {
 
     auto xx      = static_cast<double>(x);
     auto yy      = static_cast<double>(y);
-    auto delta_x = xx - d->first_cursor_pt.x;
-    auto delta_y = yy - d->first_cursor_pt.y;
+    auto dx = xx - d->first_cursor_pt.x;
+    auto dy = yy - d->first_cursor_pt.y;
     auto vm      = d->first_view_matrix;
 
+    vm = d->camera->getViewMatrix();
+
+    dx = xx - d->prev_cursor_pt.x;
+    dy = yy - d->prev_cursor_pt.y;
 
     auto cam_in_world = glm::inverse(vm);
     //// 相机在世界坐标系中的姿态
@@ -210,7 +222,7 @@ void StandardCameraManipulator::handleMouseMoved(int x, int y) {
     auto cam_right_world = cam_ori * cam_right_local;
 
     if (d->is_pan_started) {
-        auto offset = Vec3d(delta_x / 100., -delta_y / 100., 0);
+        auto offset = Vec3d(dx / 100., -dy / 100., 0);
         // vm     = glm::translate(Mat4d(1.0), offset) * vm;
         vm          = glm::inverse(cam_in_world * glm::translate(Mat4d(1.0), -offset));
         d->camera->setViewMatrix(vm);
@@ -220,13 +232,13 @@ void StandardCameraManipulator::handleMouseMoved(int x, int y) {
 #if 0
         // Mat4d rotate_yaw(1.0);
         // Mat4d rotate_pitch(1.0);
-        // rotate_yaw = glm::rotate(rotate_yaw, -glm::radians(delta_x / 10), Vec3d(cam_up_local.x, cam_up_local.y,
+        // rotate_yaw = glm::rotate(rotate_yaw, -glm::radians(dx / 10), Vec3d(cam_up_local.x, cam_up_local.y,
         // cam_up_local.z)); rotate_pitch =
-        //     glm::rotate(rotate_pitch, -glm::radians(delta_y / 10), Vec3d(cam_right_local.x, cam_right_local.y,
+        //     glm::rotate(rotate_pitch, -glm::radians(dy / 10), Vec3d(cam_right_local.x, cam_right_local.y,
         //     cam_right_local.z));
 
-        //auto rotate_yaw   = glm::angleAxis(-glm::radians(delta_x / 10), cam_up_local);
-        //auto rotate_pitch = glm::angleAxis(-glm::radians(delta_y / 10), cam_right_local);
+        //auto rotate_yaw   = glm::angleAxis(-glm::radians(dx / 10), cam_up_local);
+        //auto rotate_pitch = glm::angleAxis(-glm::radians(dy / 10), cam_right_local);
 
         //if (d->is_vertical_axis_fixed) {
         //    // fixVerticalAxis(m);
@@ -246,8 +258,8 @@ void StandardCameraManipulator::handleMouseMoved(int x, int y) {
         Mat4d new_cam_in_world(1.0);
 
 #    if 0
-        rotate_yaw       = glm::rotate(rotate_yaw, glm::radians(-delta_x / 10), cam_up_world);
-        rotate_pitch     = glm::rotate(rotate_pitch, glm::radians(-delta_y / 10), Vec3d(cam_right_world));
+        rotate_yaw       = glm::rotate(rotate_yaw, glm::radians(-dx / 10), cam_up_world);
+        rotate_pitch     = glm::rotate(rotate_pitch, glm::radians(-dy / 10), Vec3d(cam_right_world));
         new_cam_in_world = rotate_pitch * rotate_yaw * cam_in_world;
 
         // 绕世界坐标系原点旋转
@@ -255,29 +267,27 @@ void StandardCameraManipulator::handleMouseMoved(int x, int y) {
 #    else
         Vec3d z(0, 0, 1);
 
-        rotate_yaw = glm::rotate(rotate_yaw, glm::radians(-delta_x / 10), d->is_vertical_axis_fixed ? z : cam_up_world);
+        rotate_yaw = glm::rotate(rotate_yaw, glm::radians(-dx / 10), d->is_vertical_axis_fixed ? z : cam_up_world);
 
-        auto my_dy = glm::radians(-delta_y / 10);
-        auto i     = 0;
+        auto _dy = glm::radians(-dy / 10);
+        auto i  = 0;
 
         do {
-            rotate_pitch = glm::rotate(Mat4d(1.), my_dy, cam_right_world);
+            rotate_pitch = glm::rotate(Mat4d(1.), _dy, cam_right_world);
 
             auto m = rotate_pitch * rotate_yaw * cam_in_world;
             if (d->is_vertical_axis_fixed) {
                 fixVerticalAxis(m);
             }
 
-            // check for viewer's up vector to be more than 90 degrees from "up" axis
-            auto new_cam_up_world = glm::quat_cast(m) * cam_up_local;
-            if (glm::dot(new_cam_up_world, z) > 0.) {
+            if (glm::dot(Vec3d(m[1]), z) > 1e-6) {
 
                 // apply new rotation
                 new_cam_in_world = m;
                 break;
             }
 
-            my_dy /= 2.;
+            _dy /= 2.;
             if (++i == 20) {
                 new_cam_in_world = rotate_yaw * cam_in_world;
                 break;
@@ -373,18 +383,16 @@ static void fixVerticalAxis(Mat4d& mat) {
 
     Vec3d new_right1 = glm::cross(forward, z);
     Vec3d new_right2 = glm::cross(up, z);
+    // 两向量夹角越小，叉乘结果的模越小
     Vec3d new_right  = (glm::length2(new_right1) > glm::length2(new_right2)) ? new_right1 : new_right2;
 
-    // static bool last      = true;
-    // if (glm::dot(new_right, right) < 0.) {
-    //     new_right = -new_right;
-    //     if (!last) printf("\n<<<<<<------");
-    //     last = true;
-    // }
-    // else {
-    //     if (last) printf("\n------>>>>>>");
-    //     last = false;
-    // }
+    // new_right = new_right1;
+    // if (glm::length2(new_right) < 1e-6) return;
+
+    // 夹角大于90度
+    if (glm::dot(new_right, right) < 0.) {
+        new_right = -new_right;
+    }
 
     Quatd r(right, new_right);
     quat = r * quat;
@@ -395,5 +403,12 @@ static void fixVerticalAxis(Mat4d& mat) {
     // mat          = new_mat;
 
     mat = glm::toMat4(r) * mat;
+}
+
+static void fixVerticalAxis(Camera* cam) {
+    if (!cam) return;
+    auto m = cam->getInverseViewMatrix();
+    fixVerticalAxis(m);
+    cam->setViewMatrix(glm::inverse(m));
 }
 } // namespace glr
