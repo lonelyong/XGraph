@@ -6,7 +6,8 @@ layout(location=1) in vec3 color;
 uniform mat4 matrix_mvp;
 
 out vec4 frag_color;
-out int point_id;
+// flat in, flat out，'flat'关键字不能一个有一个没有，不然某些驱动会报错
+flat out int point_id;
 
 void main(){
     gl_Position = matrix_mvp * vec4(position.x, position.y, position.z, 1.0);

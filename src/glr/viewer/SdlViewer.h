@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <glr/glrenderer_global.h>
 
@@ -13,8 +13,7 @@ class GLR_API SdlViewer : public Viewer{
     virtual ~SdlViewer();
 
   public:
-    void initialize();
-
+    bool initialize();
     bool isInitialized() const;
 
     virtual int run() override;

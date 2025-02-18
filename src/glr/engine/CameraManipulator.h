@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <glr/glrenderer_global.h>
 
@@ -48,7 +48,7 @@ class GLR_API CameraManipulator : public Object {
     virtual bool getVerticalAxisFixed() const     = 0;
 
     virtual void setHomePosition(const Vec3d& eye, const Vec3d& target, const Vec3d& up) = 0;
-    virtual void getHomePosition(Vec3d& eye, Vec3d& target, Vec3d& up)             = 0;
+    virtual void getHomePosition(Vec3d& eye, Vec3d& target, Vec3d& up)                   = 0;
 };
 
 class GLR_API StandardCameraManipulator final : public CameraManipulator {
@@ -79,6 +79,8 @@ class GLR_API StandardCameraManipulator final : public CameraManipulator {
 
     virtual void setHomePosition(const Vec3d& eye, const Vec3d& target, const Vec3d& up) override;
     virtual void getHomePosition(Vec3d& eye, Vec3d& target, Vec3d& up) override;
+
+    virtual void init(int w, int h);
 
   protected:
     virtual bool onUpdateViewport(int w, int h, int& vx, int& vy, int& vw, int& vh);

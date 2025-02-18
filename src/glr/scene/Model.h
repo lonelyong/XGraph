@@ -1,14 +1,14 @@
-#pragma once
+﻿#pragma once
 
 #include <glr/glrenderer_global.h>
 
-#include <glr/scene/SceneNodeGroup.h>
+#include <glr/scene/Group.h>
 
 namespace glr {
 class Drawable;
 class Event;
 
-class GLR_API Model : public SceneNodeGroup {
+class GLR_API Model : public Group {
     VI_OBJECT_META;
 
   public:
@@ -16,8 +16,6 @@ class GLR_API Model : public SceneNodeGroup {
     virtual ~Model();
 
   public:
-    virtual void addChild(SceneNode* node) override;
-
     void addDrawable(Drawable* drawable);
     void removeDrawable(Drawable* drawable);
 

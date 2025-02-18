@@ -164,14 +164,6 @@ Viewer::Viewer()
         osg::ref_ptr<osg::Light>  light_;
     };
 
-    // struct PreDrawCallback : public osg::Camera::DrawCallback {
-    //     virtual void operator()(osg::RenderInfo& renderInfo) const override {
-    //
-    //     }
-    // };
-
-    // cam->addPreDrawCallback(new PreDrawCallback());
-
     auto callback    = new RootNodeUpdateCallback();
     callback->cam_   = cam;
     callback->light_ = main_light;

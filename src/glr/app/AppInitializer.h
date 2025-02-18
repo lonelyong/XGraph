@@ -1,11 +1,11 @@
-#pragma once
+﻿#pragma once
 
 #include <glr/glrenderer_global.h>
 
 namespace glr {
 struct GLR_API AppInitializationParameters {
     int  gl_ver_maj          = 4;
-    int  gl_ver_min          = 6;
+    int  gl_ver_min          = 1;
     bool gl_use_core_profile = true;
 };
 
@@ -14,11 +14,11 @@ class GLR_API AppInitializer {
     AppInitializer(const AppInitializationParameters& params);
 
   public:
-    virtual void initGlfw();
+    virtual bool initGlfw();
 
-    virtual void initGlad();
+    virtual bool initGlad();
 
-    virtual void initQt();
+    virtual bool initQt();
 
     virtual bool isGlfwInitialized() const;
 

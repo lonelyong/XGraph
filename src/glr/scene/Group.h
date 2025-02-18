@@ -1,30 +1,33 @@
-
+﻿
 #pragma once
 
 #include <glr/glrenderer_global.h>
 
-#include <glr/scene/SceneNode.h>
+#include <glr/scene/Node.h>
 
 namespace glr {
 class StateSet;
 
-class GLR_API SceneNodeGroup : public SceneNode {
+class GLR_API Group : public Node {
     VI_OBJECT_META;
 
-  public:
-    SceneNodeGroup();
-    ~SceneNodeGroup();
+  protected:
+    Group();
 
   public:
-    virtual void addChild(SceneNode* node);
-    virtual void removeChild(SceneNode* node);
-    int          getNbChildren() const;
-    SceneNode*   getChildAt(int idx) const;
+    ~Group();
+
+
+  public:
+    int        getNbChildren() const;
+    Node* getChildAt(int idx) const;
 
     virtual bool handleEvent(Event* e) override;
     virtual void update(UpdateContext* ctx) override;
 
   protected:
+    virtual void addChild(Node* node);
+    virtual void removeChild(Node* node);
     virtual void onComputeBoundingBox(BoundingBox& bb) const override;
 
   private:

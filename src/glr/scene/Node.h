@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <glr/glrenderer_global.h>
 
@@ -7,15 +7,15 @@
 
 namespace glr {
 class StateSet;
-class SceneNodeGroup;
-class SceneNodePrivate;
-class GLR_API SceneNode : public EventReceiver {
+class Group;
+class NodePrivate;
+class GLR_API Node : public EventReceiver {
     VI_OBJECT_META;
-    friend class SceneNodeGroup;
+    friend class Group;
 
   public:
-    SceneNode();
-    ~SceneNode();
+    Node();
+    ~Node();
 
   public:
     Mat4d getMatrix() const;
@@ -24,8 +24,8 @@ class GLR_API SceneNode : public EventReceiver {
     StateSet* getOrCreateStateSet();
     StateSet* getStateSet();
 
-    int        getNbParents() const;
-    SceneNode* getParentAt(int idx) const;
+    int   getNbParents() const;
+    Node* getParentAt(int idx) const;
 
     BoundingBox getBoundingBox() const;
 
@@ -37,6 +37,6 @@ class GLR_API SceneNode : public EventReceiver {
     virtual void onComputeBoundingBox(BoundingBox& bb) const;
 
   private:
-    SceneNodePrivate* const d;
+    NodePrivate* const d;
 };
 } // namespace glr

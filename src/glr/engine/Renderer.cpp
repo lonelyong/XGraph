@@ -1,4 +1,4 @@
-#include <glr/engine/Renderer.h>
+﻿#include <glr/engine/Renderer.h>
 
 #include <functional>
 
@@ -79,9 +79,10 @@ int Renderer::render(RenderInfo& info) {
 
     d->ctx->makeCurrent();
 
-    glDepthRange(0.0, 1.0);
-    glDepthFunc(GL_LESS);
-    glDepthMask(GL_TRUE);
+    //glEnable(GL_DEPTH_TEST);
+    //glDepthFunc(GL_LESS);
+    //glDepthMask(GL_TRUE);
+    //glDepthRange(0.0, 1.0);
 
     auto master_renderer = info.getMasterRenderer();
     auto master_cam      = master_renderer->getCamera();
@@ -136,7 +137,7 @@ int Renderer::render(RenderInfo& info) {
             drawable->draw(state);
         }
         if (stateset) {
-            state.restore();
+            state.restoreAttributes(stateset);
         }
     }
     return 0;

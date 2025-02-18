@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <glr/glrenderer_global.h>
 
@@ -41,7 +41,7 @@ class GLR_API GraphicContext : public Object {
     virtual int getWidth() const  = 0;
     virtual int getHeight() const = 0;
 
-    virtual void realize();
+    virtual bool realize();
     virtual bool isRealized() const;
     virtual void makeCurrent();
     virtual void swapBuffers();

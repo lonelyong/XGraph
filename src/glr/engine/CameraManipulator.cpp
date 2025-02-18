@@ -25,8 +25,8 @@ struct StandardCameraManipulator::Data {
     bool                 is_pan_started         = false;
     bool                 is_cursor_move_started = false;
     bool                 is_vertical_axis_fixed = false;
-    int                  width = 1, height = 1.;
-    int                  vx = 0, vy = 0, vw = 1, vh = 1;
+    int                  width = 800, height = 600;
+    int                  vx = 0, vy = 0, vw = 800, vh = 600;
     double               near = 1., far = 4000., fov = 30.;
     ProjectionType       proj_type = Perspective;
     Vec2i                prev_cursor_pt;
@@ -164,6 +164,10 @@ Mat4d StandardCameraManipulator::computeProjectionMatrix() const {
         return glm::perspective<double>(glm::radians<double>(d->fov), ((double)d->vw) / d->vh, d->near, d->far);
     else
         return glm::ortho<double>(-d->vw / 100., d->vw / 100., -d->vh / 100., d->vh / 100., d->near, d->far);
+}
+
+void StandardCameraManipulator::init(int w, int h) {
+    handleResized(w, h);
 }
 
 void StandardCameraManipulator::handleMousePressed(MouseButton btn, int x, int y) {

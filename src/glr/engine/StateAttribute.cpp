@@ -1,4 +1,4 @@
-#include <glr/engine/StateAttribute.h>
+﻿#include <glr/engine/StateAttribute.h>
 
 namespace glr {
 VI_OBJECT_META_IMPL(StateAttribute, Object);

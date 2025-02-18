@@ -1,11 +1,15 @@
-#include <glr/engine/GraphicContext.h>
+﻿#include <glr/engine/GraphicContext.h>
 
 #include <queue>
+
+#include <iostream>
 
 #include <vine/core/Ptr.h>
 
 #include <glr/engine/GLVersion.h>
 #include <glr/engine/State.h>
+
+#include <glad/glad.h>
 
 namespace glr {
 VI_OBJECT_META_IMPL(GraphicContext, Object);
@@ -13,6 +17,16 @@ VI_OBJECT_META_IMPL(GraphicContext, Object);
 struct GraphicContext::EventQueue::Data {
     std::queue<vine::RefPtr<Event>> events;
 };
+static void debugMessageCallback(GLenum        source,
+                                 GLenum        type,
+                                 GLuint        id,
+                                 GLenum        severity,
+                                 GLsizei       length,
+                                 const GLchar* message,
+                                 const void*   userParam) {
+    auto ctx = static_cast<const GraphicContext*>(userParam);
+    std::cout << message << std::endl;
+}
 
 GraphicContext::EventQueue::EventQueue()
   : d(new Data()) {
@@ -77,12 +91,13 @@ GraphicContext* GraphicContext::getContextById(int id) {
     return nullptr;
 }
 
-void GraphicContext::realize() {
-    if (d->is_initialized) return;
+bool GraphicContext::realize() {
+    if (d->is_initialized) return true;
 
-
+    glDebugMessageCallback(debugMessageCallback, this);
 
     d->is_initialized = true;
+    return true;
 }
 
 bool GraphicContext::isRealized() const {

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <glr/glrenderer_global.h>
 
@@ -21,7 +21,7 @@ class GraphicContextGlfw : public GraphicContext {
 
     virtual void swapBuffers() override = 0;
 
-    virtual void realize() override = 0;
+    virtual bool realize() override = 0;
 
     virtual int getWidth() const override = 0;
 
@@ -37,7 +37,7 @@ class GLR_API GlfwViewer : public Viewer {
     virtual ~GlfwViewer();
 
   public:
-    void initialize();
+    bool initialize();
 
     bool isInitialized() const;
 

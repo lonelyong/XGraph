@@ -1,4 +1,4 @@
-#include <QApplication>
+﻿#include <QApplication>
 #include <Windows.h>
 
 #include <iostream>
@@ -36,9 +36,10 @@
 #include <glr/viewer/GlfwViewer.h>
 #include <glr/viewer/QtMainWindow.h>
 #include <glr/viewer/QtViewer.h>
+#include <glr/viewer/SdlViewer.h>
 #include <glr/viewer/Viewer.h>
 
-void CreateSampleShapes(glr::Scene* scene) {
+void CreateSampleScene(glr::Scene* scene) {
     using ResMgr = glr::ResourceManager;
     auto resmgr  = ResMgr::instance();
 
@@ -143,14 +144,18 @@ void CreateSampleShapes(glr::Scene* scene) {
         img->getOrCreateStateSet()->setShader(resmgr->getInternalShader(ResMgr::IS_Base));
     }
 
-    scene->addChild(axis);
-    scene->addChild(pc);
-    scene->addChild(cube);
-    scene->addChild(skybox);
-    scene->addChild(img);
+    scene->addModel(axis);
+    scene->addModel(pc);
+    scene->addModel(cube);
+    scene->addModel(skybox);
+    scene->addModel(img);
 }
 
 int main(int argc, char** argv) {
+    // MESA3D 确保使用软件驱动
+    _putenv_s("LIBGL_ALWAYS_SOFTWARE", "1");
+    _putenv_s("MESA_LOADER_DRIVER_OVERRIDE", "swrast");
+
     glr::AppInitializationParameters params;
     glr::AppInitializer              initializer(params);
     initializer.initGlfw();
@@ -160,13 +165,22 @@ int main(int argc, char** argv) {
     auto scene = new glr::Scene();
 
 #define RTT_VIEWER1
-#define GLFW_VIEWER1
+#define GLFW_VIEWER
+#define SDL_VIEWER1
 
 #ifdef GLFW_VIEWER
     glr::GlfwViewer v;
-    v.initialize();
+    if (!v.initialize()) {
+        return -1;
+    }
     auto renderer = v.getMasterRenderer();
 
+#elif defined(SDL_VIEWER)
+    glr::SdlViewer v;
+    if (!v.initialize()) {
+        return -1;
+    }
+    auto renderer = v.getMasterRenderer();
 #elif defined(RTT_VIEWER)
     auto                            viewer = new glr::Viewer();
     glr::GraphicContextGlfw::Traits traits;
@@ -239,17 +253,17 @@ int main(int argc, char** argv) {
         model->getOrCreateStateSet()->setAttribute(new glr::Uniform("use_texture", false));
         model->getOrCreateStateSet()->setShader(
             glr::ResourceManager::instance()->getInternalShader(glr::ResourceManager::IS_Base));
-        scene->addChild(model);
+        scene->addModel(model);
     }
     else {
-        CreateSampleShapes(scene);
+        CreateSampleScene(scene);
     }
 
     auto x = renderer->isKindOf<vine::Object>();
     auto y = renderer->toString();
-    std::cout << 1 << std::endl;
+    renderer->getCameraManipulator()->setVerticalAxisFixed(true);
 
-#ifdef GLFW_VIEWER
+#if defined(GLFW_VIEWER) or defined(SDL_VIEWER)
     renderer->setScene(scene);
     v.run();
 #elif defined(RTT_VIEWER)

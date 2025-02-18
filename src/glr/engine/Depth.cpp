@@ -1,4 +1,4 @@
-#include <glr/engine/Depth.h>
+﻿#include <glr/engine/Depth.h>
 
 namespace glr {
 VI_OBJECT_META_IMPL(Depth, StateAttribute);
@@ -37,12 +37,6 @@ void Depth::apply(State& state) const {
 }
 
 void Depth::restore(State& state) const {
-    if (d->prev_func != GL_LESS) {
-        int x = 1;
-    }
-    if (d->prev_mask != GL_TRUE) {
-        int y = 2;
-    }
     glDepthFunc(d->prev_func);
     glDepthMask(d->prev_mask);
     glDepthRange(d->prev_near_far[0], d->prev_near_far[1]);

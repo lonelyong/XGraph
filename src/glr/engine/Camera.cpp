@@ -12,8 +12,8 @@ Camera::Camera()
   , clear_mask_(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT)
   , vp_x_(0.)
   , vp_y_(0.)
-  , vp_w_(1.0)
-  , vp_h_(1.0) {
+  , vp_w_(800)
+  , vp_h_(600) {
     view_matrix_ = glm::lookAt<double>(Vec3d(10., 10., 10.), Vec3d(0., 0., 0.), Vec3d(-1., 0., 1.));
     proj_matrix_ = glm::perspective<double>(glm::radians(30.0), vp_w_ / vp_h_, 0.1, 1000.0);
 }

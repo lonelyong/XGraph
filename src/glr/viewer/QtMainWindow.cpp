@@ -1,4 +1,4 @@
-#include "QtMainWindow.h"
+﻿#include "QtMainWindow.h"
 
 #include <QMenuBar>
 #include <QStatusBar>

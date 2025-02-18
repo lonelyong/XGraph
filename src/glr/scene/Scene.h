@@ -1,12 +1,12 @@
-#pragma once
+﻿#pragma once
 
 #include <glr/glrenderer_global.h>
 
-#include <glr/scene/SceneNodeGroup.h>
+#include <glr/scene/Group.h>
 
 namespace glr {
 class Model;
-class GLR_API Scene : public SceneNodeGroup {
+class GLR_API Scene : public Group {
     VI_OBJECT_META;
 
   public:
@@ -14,6 +14,12 @@ class GLR_API Scene : public SceneNodeGroup {
     virtual ~Scene();
 
   public:
+    void addModel(Model* drawable);
+    void removeModel(Model* drawable);
+
+    int    getNbModels() const;
+    Model* getModelAt(int index) const;
+
   private:
     VI_OBJECT_DATA;
 };

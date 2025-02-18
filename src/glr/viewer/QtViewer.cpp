@@ -1,4 +1,4 @@
-#include <glad/glad.h>
+﻿#include <glad/glad.h>
 
 #include "QtViewer.h"
 
@@ -109,6 +109,7 @@ void QtViewer::initializeGL() {
 
     glFrontFace(GL_CCW);
     glDepthFunc(GL_LESS);
+    return;
 }
 
 void QtViewer::resizeGL(int w, int h) {

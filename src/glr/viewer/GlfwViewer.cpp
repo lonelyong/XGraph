@@ -1,4 +1,4 @@
-#include "GlfwViewer.h"
+﻿#include "GlfwViewer.h"
 
 #include <functional>
 #include <iostream>
@@ -40,12 +40,18 @@ class GraphicContextGlfwImpl : public GraphicContextGlfw {
 
     virtual void swapBuffers() override { glfwSwapBuffers(wnd_); }
 
-    virtual void realize() override {
-        if (isRealized()) return;
+    virtual bool realize() override {
+        if (isRealized()) return true;
         auto w = traits_.width, h = traits_.height;
 
+        // glfwWindowHint(GLFW_CONTEXT_CREATION_API, GLFW_EGL_CONTEXT_API);
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
         auto wnd = glfwCreateWindow(w, h, "GlfwViewer", NULL, NULL);
+        if (!wnd) {
+            std::cout << "Failed to create a render window using GLFW." << std::endl;
+            return false;
+        }
+        glfwMakeContextCurrent(wnd);
 
         using GLFWFrameBufferSizeCallback = std::function<void(GLFWwindow*, int, int)>;
         using GLFWKeyCallback = std::function<void(GLFWwindow * window, int key, int scancode, int action, int mods)>;
@@ -106,9 +112,15 @@ class GraphicContextGlfwImpl : public GraphicContextGlfw {
         wnd_  = wnd;
         size_ = Vec2f(w, h);
         if (traits_.visible) {
+            auto monitor = glfwGetPrimaryMonitor();
+            if (monitor) {
+                int mx, my, mw, mh;
+                glfwGetMonitorWorkarea(monitor, &mx, &my, &mw, &mh);
+                glfwSetWindowPos(wnd, (mw - w) * 0.5, (mh - h) * 0.5);
+            }
             glfwShowWindow(wnd_);
         }
-        GraphicContext::realize();
+        return GraphicContext::realize();
     }
 
     virtual int getWidth() const override { return size_.x; }
@@ -163,13 +175,13 @@ class GraphicContextGlfwImpl : public GraphicContextGlfw {
         notify(Event::createMouseMoveEvent(this, x, y));
     }
 
-    void scroll_callback(GLFWwindow* wnd, double x, double y) { notify(Event::createMouseWheelEvent(this, y)); }
+    void scroll_callback(GLFWwindow* wnd, double x, double y) { notify(Event::createMouseWheelEvent(this, y * 10)); }
 
   private:
     Traits      traits_;
     GLFWwindow* wnd_;
-    Vec2f   size_;
-    Vec2f   cursor_pt_;
+    Vec2f       size_;
+    Vec2f       cursor_pt_;
 };
 
 GraphicContextGlfw* GraphicContextGlfw::create(const Traits& traits) {
@@ -191,39 +203,43 @@ GlfwViewer::~GlfwViewer() {
     delete d;
 }
 
-void GlfwViewer::initialize() {
-    if (d->is_initialized) return;
+bool GlfwViewer::initialize() {
+    if (d->is_initialized) return true;
 
-    auto renderer = new Renderer();
+    auto renderer = vine::RefPtr(new Renderer());
     auto cam      = renderer->getCamera();
-    auto cm       = new StandardCameraManipulator(cam);
-    auto ctx      = new GraphicContextGlfwImpl({});
+    auto cm       = vine::RefPtr(new StandardCameraManipulator(cam));
+    auto ctx      = vine::RefPtr(new GraphicContextGlfwImpl({}));
     ctx->realize();
 
-    renderer->setContext(ctx);
-    renderer->setCameraManipulator(cm);
+    if (!ctx->isRealized()) return false;
 
-    cam->setViewport(0., 0., ctx->getWidth(), ctx->getHeight());
+    renderer->setContext(ctx.get());
+    renderer->setCameraManipulator(cm.get());
+
     cam->setClearDepth(1.0);
     cam->setClearStencil(1);
     cam->setClearColor(Vec4f(0., 0., 0., 1.));
     cam->setClearMask(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-    addRenderer(renderer);
+    cm->init(ctx->getWidth(), ctx->getHeight());
 
+    addRenderer(renderer.get());
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    glEnable(GL_DEPTH_TEST);
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_PROGRAM_POINT_SIZE);
     // glEnable(GL_CULL_FACE);
     glDisable(GL_CULL_FACE);
     // glCullFace(GL_BACK);
     glFrontFace(GL_CCW);
+    glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
+    glDepthRange(0, 1);
 
     d->renderer       = renderer;
     d->ctx            = ctx;
     d->is_initialized = true;
+    return true;
 }
 
 bool GlfwViewer::isInitialized() const {
@@ -239,7 +255,6 @@ int GlfwViewer::run() {
     }
 
     auto& ctx = *d->ctx.get();
-    ctx.makeCurrent();
     while (!ctx.isWindowShouldClose()) {
         ctx.pollEvents();
         frame();

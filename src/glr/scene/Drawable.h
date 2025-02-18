@@ -1,12 +1,12 @@
-#pragma once
+﻿#pragma once
 
 #include <glr/glrenderer_global.h>
 
-#include <glr/scene/SceneNode.h>
+#include <glr/scene/Node.h>
 
 namespace glr {
 class State;
-class GLR_API Drawable : public SceneNode {
+class GLR_API Drawable : public Node {
     VI_OBJECT_META;
 
   public:
