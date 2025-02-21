@@ -1,4 +1,4 @@
-#include <glr/engine/StateSet.h>
+﻿#include <glr/engine/StateSet.h>
 
 #include <vector>
 
@@ -43,6 +43,14 @@ void StateSet::setAttribute(StateAttribute* attr) {
     }
     else {
         found_at->attr = attr;
+    }
+}
+
+void StateSet::removeAttribute(StateAttribute* attr) {
+    if (!attr) return;
+    auto found_at = std::find(d->attrs.begin(), d->attrs.end(), attr);
+    if (found_at != d->attrs.end()) {
+        d->attrs.erase(found_at);
     }
 }
 

@@ -1,8 +1,6 @@
-#pragma once
+﻿#pragma once
 
 #include <glr/glrenderer_global.h>
-
-#include <glad/glad.h>
 
 #include <glr/engine/Renderer.h>
 

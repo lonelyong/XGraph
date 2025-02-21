@@ -3,7 +3,8 @@ SET(CURRENT_TARGET_NAME glr)
 find_package(PCL CONFIG REQUIRED)
 find_package(OpenCV CONFIG REQUIRED)
 find_package(assimp CONFIG REQUIRED)
-find_package(sdl2 CONFIG REQUIRED)
+# find_package(sdl2 CONFIG REQUIRED)
+find_package(SDL3 CONFIG REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets OpenGL OpenGLWidgets)
 find_package(Vine REQUIRED)
 
@@ -29,9 +30,6 @@ file(GLOB HEADER_FIELS_SCENE scene/*.h)
 file(GLOB SRC_FIELS_UTILS utils/*.cpp)
 file(GLOB HEADER_FIELS_UTILS utils/*.h)
 
-file(GLOB SRC_FIELS_VIEWER viewer/*.cpp)
-file(GLOB HEADER_FIELS_VIEWER viewer/*.h)
-
 file(GLOB SRC_FIELS_APP app/*.cpp)
 file(GLOB HEADER_FIELS_APP app/*.h)
 
@@ -51,8 +49,6 @@ add_executable(
     ${HEADER_FIELS_SCENE}
     ${SRC_FIELS_UTILS}
     ${HEADER_FIELS_UTILS}
-    ${SRC_FIELS_VIEWER}
-    ${HEADER_FIELS_VIEWER}
     ${SRC_FIELS_APP}
     ${HEADER_FIELS_APP}
 )
@@ -63,11 +59,16 @@ source_group(engine FILES ${HEADER_FIELS_ENGINE} ${SRC_FIELS_ENGINE})
 source_group(io FILES ${HEADER_FIELS_IO} ${SRC_FIELS_IO})
 source_group(scene FILES ${HEADER_FIELS_SCENE} ${SRC_FIELS_SCENE})
 source_group(utils FILES ${HEADER_FIELS_UTILS} ${SRC_FIELS_UTILS})
-source_group(viewer FILES ${HEADER_FIELS_VIEWER} ${SRC_FIELS_VIEWER})
 source_group(app FILES ${HEADER_FIELS_APP} ${SRC_FIELS_APP})
 source_group(res/images FILES ${RES_IMAGE_FILES})
 source_group(res/shaders FILES ${RES_SHADER_FILES})
 source_group(third/glad FILES ${GLAD_SRC_FILES})
+
+target_include_directories(${CURRENT_TARGET_NAME}
+    PRIVATE
+        ${GLAD_INCLUDE_DIR}
+        ${STB_INCLUDE_DIR}
+)
 
 target_link_libraries(${CURRENT_TARGET_NAME}
     PUBLIC
@@ -77,7 +78,7 @@ target_link_libraries(${CURRENT_TARGET_NAME}
         xgcomm 
         glfw
         assimp::assimp 
-        SDL2::SDL2 
+        SDL3::SDL3 
         Qt6::Core Qt6::Gui Qt6::Widgets Qt6::OpenGL Qt6::OpenGLWidgets
         ${PCL_LIBRARIES} 
         ${OpenCV_LIBS}

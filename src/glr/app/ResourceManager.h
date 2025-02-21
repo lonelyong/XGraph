@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <glr/glrenderer_global.h>
 
@@ -12,16 +12,16 @@ class GLR_API ResourceManager {
   public:
     enum InternalShader
     {
-        IS_Base = 0,
-        IS_Geometry,
-        IS_PointCloud,
-        IS_SkyBox
+        EXAMPLE_SAHDER_BASE = 0,
+        EXAMPLE_SAHDER_STD_PHONG,
+        EXAMPLE_SAHDER_POINT_CLOUD,
+        EXAMPLE_SAHDER_SKY_BOX
     };
 
     enum InternalCubeMap
     {
-        ICM_CubeMap1,
-        ICM_CubeMap2
+        EXAMPLE_CUBE_MAP1,
+        EXAMPLE_CUBE_MAP2
     };
 
   private:

@@ -1,4 +1,4 @@
-#include <glr/io/PointCloudLoader.h>
+﻿#include <glr/io/PointCloudLoader.h>
 
 #include <algorithm>
 #include <filesystem>
@@ -164,7 +164,7 @@ Model* parse(const PCPtr cloud) {
     auto pc = new Model();
     pc->addDrawable(geom);
     //pc->getOrCreateStateSet()->setShader(
-    //    ResourceManager::instance()->getInternalShader(ResourceManager::IS_PointCloud));
+    //    ResourceManager::instance()->getInternalShader(ResourceManager::EXAMPLE_SAHDER_POINT_CLOUD));
 
     return pc;
 }

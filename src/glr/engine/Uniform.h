@@ -1,15 +1,15 @@
-#pragma once
+﻿#pragma once
 #include <glr/glrenderer_global.h>
 
 #include <string>
 
 #include <glad/glad.h>
 
-#include <glr/engine/StateAttribute.h>
+#include <glr/engine/UniformBase.h>
 #include <glr/engine/types.h>
 
 namespace glr {
-class GLR_API Uniform : public StateAttribute {
+class GLR_API Uniform : public UniformBase {
     VI_OBJECT_META;
 
   public:
@@ -75,6 +75,8 @@ class GLR_API Uniform : public StateAttribute {
 
     ValueType getValueType() const;
 
+    const std::string& getName() const;
+
     void setValue(bool val);
     void setValue(const Vec2b& val);
     void setValue(const Vec3b& val);
@@ -104,4 +106,5 @@ class GLR_API Uniform : public StateAttribute {
   private:
     VI_OBJECT_DATA;
 };
+
 } // namespace glr

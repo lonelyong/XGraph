@@ -50,14 +50,11 @@ void Camera::setViewMatrixAsLookAt(const Vec3d& posi, const Vec3d& target, const
     view_matrix_ = glm::lookAt(posi, target, up);
 }
 void Camera::getViewMatrixAsLookAt(Vec3d& o_posi, Vec3d& o_target, Vec3d& o_up, double distance) {
-    auto& m  = view_matrix_;
-    o_posi   = -Vec3d(m[3][0], m[3][1], m[3][2]);
-    o_up     = Vec3d(m[1][0], m[1][1], m[1][2]);
-    auto dir = -Vec3d(m[2][0], m[2][1], m[2][2]);
-    dir.x *= distance;
-    dir.y *= distance;
-    dir.z *= distance;
-    o_target = o_posi + dir;
+    auto m   = glm::inverse(view_matrix_);
+    o_posi   = Vec3d(m[3]);
+    o_up     = Vec3d(m[1]);
+    auto dir = -Vec3d(m[2]);
+    o_target = o_posi + dir * distance;
 }
 
 void Camera::setViewMatrix(const Mat4d& mat) {
@@ -71,10 +68,12 @@ Mat4d Camera::getInverseViewMatrix() const {
 }
 
 Vec3d Camera::getViewDir() const {
-    return -Vec3d(view_matrix_[2][0], view_matrix_[2][1], view_matrix_[2][2]);
+    auto m = glm::inverse(view_matrix_);
+    return -m[2];
 }
 Vec3d Camera::getViewPos() const {
-    return -Vec3d(view_matrix_[3][0], view_matrix_[3][1], view_matrix_[3][2]);
+    auto m = glm::inverse(view_matrix_);
+    return m[3];
 }
 
 void Camera::getViewport(int& x, int& y, int& w, int& h) const {

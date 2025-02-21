@@ -1,12 +1,13 @@
-#include <glr/engine/Uniform.h>
+﻿#include <glr/engine/Uniform.h>
 
 #include <any>
+#include <string>
 
 #include <glr/engine/Shader.h>
 #include <glr/engine/State.h>
 
 namespace glr {
-VI_OBJECT_META_IMPL(Uniform, StateAttribute);
+VI_OBJECT_META_IMPL(Uniform, UniformBase);
 
 struct Uniform::Data {
     std::string name;
@@ -154,6 +155,10 @@ StateAttribute::Type Uniform::getType() const {
 
 Uniform::ValueType Uniform::getValueType() const {
     return d->type;
+}
+
+const std::string& Uniform::getName() const {
+    return d->name;
 }
 
 void Uniform::setValue(bool val) {

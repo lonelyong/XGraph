@@ -1,4 +1,4 @@
-SET(CURRENT_TARGET_NAME glv)
+﻿SET(CURRENT_TARGET_NAME glv)
 
 find_package(OpenSceneGraph REQUIRED COMPONENTS osgDB osgText osgGA osgUtil osgViewer)
 find_package(opencascade REQUIRED)
@@ -12,9 +12,6 @@ file(GLOB HEADER_FILES *.h)
 
 file(GLOB SRC_FIELS_IO io/*.cpp)
 file(GLOB HEADER_FIELS_IO io/*.h)
-
-file(GLOB SRC_FIELS_VIEWER viewer/*.cpp)
-file(GLOB HEADER_FIELS_VIEWER viewer/*.h)
 
 file(GLOB SRC_FIELS_MODELING modeling/*.cpp)
 file(GLOB HEADER_FIELS_MODELING modeling/*.h)
@@ -37,8 +34,6 @@ add_executable(
     ${HEADER_FIELS_IO} 
     ${SRC_FIELS_MODELING} 
     ${HEADER_FIELS_MODELING}
-    ${SRC_FIELS_VIEWER}
-    ${HEADER_FIELS_VIEWER}
     ${SRC_FIELS_APP}
     ${HEADER_FIELS_APP}
     
@@ -49,7 +44,6 @@ add_executable(
 target_sources(${CURRENT_TARGET_NAME} PRIVATE ${RES_SHADER_FILES} ${RES_IMAGE_FILES})
 
 source_group(io FILES ${HEADER_FIELS_IO} ${SRC_FIELS_IO})
-source_group(viewer FILES ${HEADER_FIELS_VIEWER} ${SRC_FIELS_VIEWER})
 source_group(modeling FILES ${HEADER_FIELS_MODELING} ${SRC_FIELS_MODELING})
 source_group(app FILES ${SRC_FIELS_APP} ${HEADER_FIELS_APP})
 source_group(res/images FILES ${RES_IMAGE_FILES})
@@ -57,18 +51,25 @@ source_group(res/shaders FILES ${RES_SHADER_FILES})
 source_group(third/glad FILES ${GLAD_SRC_FILES})
 source_group(third/backward FILES ${BACKWARD_SRC_FILES})
 
+
+target_include_directories(${CURRENT_TARGET_NAME}
+    PRIVATE 
+        ${BACKWARD_INCLUDE_DIR}
+        ${GLAD_INCLUDE_DIR}
+)
+
 target_link_libraries(${CURRENT_TARGET_NAME} 
     PRIVATE 
-        xgcomm 
-        glfw 
+        xgcomm
+        assimp::assimp
+        TKernel TKXSBase TKMesh TKBRep TKDESTEP TKDEIGES TKMath TKGeomBase TKGeomAlgo TKG3d
+        VTK::CommonCore VTK::IOPLY VTK::FiltersCore VTK::IOGeometry
+
         ${OPENSCENEGRAPH_LIBRARIES} 
         ${osgVerse_LIBRARIES} 
-        ${PCL_LIBRARIES}  
-        assimp::assimp 
-        TKernel TKXSBase TKMesh TKBRep TKDESTEP TKDEIGES TKMath TKGeomBase TKGeomAlgo TKG3d 
-        imm32.lib 
+        ${PCL_LIBRARIES}
+        
         opengl32.lib
-        VTK::CommonCore VTK::IOPLY VTK::FiltersCore VTK::IOGeometry
 )
 
 target_include_directories(${CURRENT_TARGET_NAME} 
@@ -97,7 +98,7 @@ target_compile_definitions(${CURRENT_TARGET_NAME}
     PRIVATE 
         CURRENT_MODULE_NAME="${CURRENT_TARGET_NAME}" 
         CURRENT_RES_DIR="${XG_RES_ROOT}${CURRENT_TARGET_NAME}"
-        GLRENDERER_LIB
+        GLVENDERER_LIB
 )
 
 add_custom_command(TARGET ${CURRENT_TARGET_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory ${RES_SHADER_OUTPUT_DIR})

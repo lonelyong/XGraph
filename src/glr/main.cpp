@@ -1,171 +1,61 @@
 ﻿#include <QApplication>
-#include <Windows.h>
 
 #include <iostream>
 
 #include <glm/ext.hpp>
 
-#include <vine/core/Ptr.h>
-#include <vine/ge/Rect2d.h>
-
 #include <xgcomm/Resources.h>
 
-#include <glr/app/AppInitializer.h>
+#include <glad/glad.h>
+
+#include <glr/app/Application.h>
+#include <glr/app/ExampleModels.h>
+#include <glr/app/GlfwViewer.h>
+#include <glr/app/QtMainWindow.h>
+#include <glr/app/QtViewer.h>
 #include <glr/app/ResourceManager.h>
+#include <glr/app/SdlViewer.h>
+#include <glr/app/Viewer.h>
 #include <glr/engine/Camera.h>
 #include <glr/engine/CameraManipulator.h>
-#include <glr/engine/CubeMap.h>
 #include <glr/engine/FrameBufferObject.h>
 #include <glr/engine/GraphicContext.h>
-#include <glr/engine/Image.h>
-#include <glr/engine/Light.h>
-#include <glr/engine/Material.h>
+#include <glr/engine/PhongLight.h>
+#include <glr/engine/PhongMaterial.h>
 #include <glr/engine/Renderer.h>
 #include <glr/engine/RttRenderer.h>
-#include <glr/engine/Shader.h>
-#include <glr/engine/SkyBox.h>
+#include <glr/engine/State.h>
 #include <glr/engine/StateSet.h>
 #include <glr/engine/Texture2D.h>
 #include <glr/engine/Uniform.h>
-#include <glr/io/ImageLoader.h>
 #include <glr/io/MeshLoader.h>
-#include <glr/io/PointCloudLoader.h>
-#include <glr/scene/Geometry.h>
 #include <glr/scene/Model.h>
 #include <glr/scene/Scene.h>
-#include <glr/viewer/GlfwViewer.h>
-#include <glr/viewer/QtMainWindow.h>
-#include <glr/viewer/QtViewer.h>
-#include <glr/viewer/SdlViewer.h>
-#include <glr/viewer/Viewer.h>
 
 void CreateSampleScene(glr::Scene* scene) {
-    using ResMgr = glr::ResourceManager;
-    auto resmgr  = ResMgr::instance();
-
-    auto axis = new glr::Model();
-    {
-        auto geom     = new glr::Geometry();
-        auto vertices = new glr::Vec3fArray();
-        {
-            vertices->push_back(glr::Vec3f());
-            vertices->push_back(glr::Vec3f(10, 0, 0));
-            vertices->push_back(glr::Vec3f());
-            vertices->push_back(glr::Vec3f(0, 10, 0));
-            vertices->push_back(glr::Vec3f());
-            vertices->push_back(glr::Vec3f(0, 0, 10));
-        }
-        geom->addVertexAttribArray(0, vertices);
-        auto colors = new glr::Vec4fArray();
-        {
-            colors->emplace_back(1.f, 0.f, 0.0f, 1.0f);
-            colors->emplace_back(1.f, 0.f, 0.0f, 1.0f);
-            colors->emplace_back(0.f, 1.f, 0.0f, 1.0f);
-            colors->emplace_back(0.f, 1.f, 0.0f, 1.0f);
-            colors->emplace_back(0.f, 0.f, 1.0f, 1.0f);
-            colors->emplace_back(0.f, 0.f, 1.0f, 1.0f);
-        }
-        geom->addVertexAttribArray(2, colors);
-        geom->addPrimitiveSet(new glr::DrawArrays(glr::PrimitiveSet::MODE_LINES, 0, vertices->size()));
-        axis->addDrawable(geom);
-        axis->getOrCreateStateSet()->setAttribute(new glr::Material());
-        axis->getOrCreateStateSet()->setShader(
-            glr::ResourceManager::instance()->getInternalShader(glr::ResourceManager::IS_Base));
-        axis->getOrCreateStateSet()->setAttribute(new glr::Uniform("use_texture", false));
-    }
-
-    auto cube = new glr::Model();
-    {
-        auto geom   = glr::Geometry::createCube(1, 0, 1, -1, 3);
-        auto colors = new glr::Vec4fArray();
-        colors->push_back({ 0.8f, 0.8f, 0.8f, 1.0f });
-        geom->addVertexAttribArray(2, colors);
-        auto tex = glr::ResourceManager::instance()->getInternalCubeMap(glr::ResourceManager::ICM_CubeMap1);
-        geom->addTexture(GL_TEXTURE0, "tex", tex);
-
-        auto light = new glr::Light();
-        light->setPosition(glr::Vec4f(10, 10, 10, 1.));
-        light->setDirection(glr::Vec3f(2, 4, -1));
-        auto lights = new glr::Lights();
-        lights->addLight(light);
-
-        cube->addDrawable(geom);
-        glr::Mat4d m1(1.);
-        m1 = glm::rotate(m1, glm::radians(90.), glr::Vec3d(1.0, 0., 0.));
-        cube->setMatrix(m1);
-        cube->getOrCreateStateSet()->setAttribute(new glr::Material());
-        cube->getOrCreateStateSet()->setAttribute(lights);
-        cube->getOrCreateStateSet()->setShader(
-            glr::ResourceManager::instance()->getInternalShader(glr::ResourceManager::IS_Geometry));
-    }
-
-    auto skybox = glr::createSkyBox(resmgr->getInternalCubeMap(ResMgr::ICM_CubeMap2));
-
-    auto pc = new glr::Model();
-    {
-        auto geom     = new glr::Geometry();
-        auto vertices = new glr::Vec3fArray();
-        auto colors   = new glr::Vec3fArray();
-        vertices->reserve(1000);
-        colors->reserve(vertices->capacity());
-        auto posi_offset = INT16_MAX / 10000.f / 2.f;
-        for (size_t i = 0; i < vertices->capacity(); i++) {
-            vertices->push_back({ rand() / 10000. - posi_offset, rand() / 10000. - posi_offset, rand() / 10000. });
-            colors->push_back({ rand() / static_cast<double>(INT16_MAX),
-                                rand() / static_cast<double>(INT16_MAX),
-                                rand() / static_cast<double>(INT16_MAX) });
-        }
-        geom->addVertexAttribArray(0, vertices);
-        geom->addVertexAttribArray(1, colors);
-        geom->addPrimitiveSet(new glr::DrawArrays(glr::DrawArrays::MODE_POINTS, 0, vertices->size()));
-        pc->addDrawable(geom);
-        pc->getOrCreateStateSet()->setShader(resmgr->getInternalShader(ResMgr::IS_PointCloud));
-    }
-
-
-    auto img = new glr::Model();
-    {
-        auto tex = new glr::Texture2D();
-        tex->setImage("f:\\Users\\sa\\Downloads\\1.jpg");
-        auto geom_img =
-            glr::Geometry::createTexturedQuad(0,
-                                              1,
-                                              3,
-                                              vine::ge::Rect2d(0, 0, tex->getWidth() / 100., tex->getHeight() / 100.),
-                                              vine::ge::Rect2d(0, 0, 1, 1));
-
-        // auto colors = new glr::Vec4fArray();
-        // colors->push_back(Vec4f(0,1,0,1));
-        // geom_img->addVertexAttribArray(2, colors);
-
-        geom_img->addTexture(0, "tex", tex);
-        img->addDrawable(geom_img);
-        img->getOrCreateStateSet()->setAttribute(new glr::Uniform("use_texture", true));
-        img->getOrCreateStateSet()->setShader(resmgr->getInternalShader(ResMgr::IS_Base));
-    }
-
-    scene->addModel(axis);
-    scene->addModel(pc);
-    scene->addModel(cube);
-    scene->addModel(skybox);
-    scene->addModel(img);
+    using namespace glr;
+    scene->addModel(ExampleModels::createAxis(20, Vec3d()));
+    scene->addModel(ExampleModels::createPointCloud(1000));
+    scene->addModel(ExampleModels::createCube(5, Vec3d(), true));
+    scene->addModel(ExampleModels::createCube(5, Vec3d(5, 0, 0), false));
+    scene->addModel(ExampleModels::createSkyBox());
+    scene->addModel(ExampleModels::createImage(""));
 }
 
 int main(int argc, char** argv) {
-    // MESA3D 确保使用软件驱动
-    _putenv_s("LIBGL_ALWAYS_SOFTWARE", "1");
-    _putenv_s("MESA_LOADER_DRIVER_OVERRIDE", "swrast");
-
     glr::AppInitializationParameters params;
-    glr::AppInitializer              initializer(params);
-    initializer.initGlfw();
-    initializer.initGlad();
-    initializer.initQt();
+    params.mesa_always_software = true;
 
-    auto scene = new glr::Scene();
+    glr::Application app(params);
+    app.initGlfw();
+    app.initGlad();
+    app.initQt();
+
+    auto         scene  = new glr::Scene();
+    glr::Viewer* viewer = nullptr;
 
 #define RTT_VIEWER1
-#define GLFW_VIEWER
+#define GLFW_VIEWER1
 #define SDL_VIEWER1
 
 #ifdef GLFW_VIEWER
@@ -173,16 +63,16 @@ int main(int argc, char** argv) {
     if (!v.initialize()) {
         return -1;
     }
-    auto renderer = v.getMasterRenderer();
+    viewer = &v;
 
 #elif defined(SDL_VIEWER)
     glr::SdlViewer v;
     if (!v.initialize()) {
         return -1;
     }
-    auto renderer = v.getMasterRenderer();
+    viewer = &v;
 #elif defined(RTT_VIEWER)
-    auto                            viewer = new glr::Viewer();
+    glr::Viewer                     v;
     glr::GraphicContextGlfw::Traits traits;
     traits.width   = 1;
     traits.height  = 1;
@@ -209,9 +99,9 @@ int main(int argc, char** argv) {
     cam->setViewport(0., 0., 800, 600);
     cam->setClearDepth(1.0);
     cam->setClearStencil(1);
-    cam->setClearColor(Vec4f(0., 0., 0., 1.));
+    cam->setClearColor(glr::Vec4f(0., 0., 0., 1.));
     cam->setClearMask(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-    cam->setViewMatrixAsLookAt(Vec3f(5, 5, 5), Vec3f(), Vec3f(-1, 0, 1));
+    cam->setViewMatrixAsLookAt(glr::Vec3f(5, 5, 5), glr::Vec3f(), glr::Vec3f(-1, 0, 1));
     auto cm  = new glr::StandardCameraManipulator(cam);
     auto fbo = new glr::FrameBufferObject();
 
@@ -231,37 +121,45 @@ int main(int argc, char** argv) {
     renderer->setFbo(fbo);
     renderer->setCameraManipulator(cm);
 
-    viewer->addRenderer(renderer);
+    v.addRenderer(renderer);
+    viewer = &v;
 
 #else
     // QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QApplication      app(argc, argv);
+    QApplication      qapp(argc, argv);
     glr::QtMainWindow wnd;
-    auto              renderer = wnd.getViewer()->getMasterRenderer();
+    viewer = wnd.getViewer();
 #endif
 
     if (argc > 1) {
         auto file  = argv[1];
         auto model = glr::MeshLoader().loadFile(file);
-        auto light = new glr::Light();
-        light->setPosition(glr::Vec4f(10, 10, 10, 1.));
-        light->setDirection(glr::Vec3f(2, 4, -1));
-        auto lights = new glr::Lights();
+        auto light = new glr::PhongLight();
+        light->setPosition(glr::Vec4f(10, 10, 10, 0.));
+        light->setSpotDirection(glr::Vec3f(2, 4, -1));
+        auto lights = new glr::PhongLights();
         lights->addLight(light);
-        model->getOrCreateStateSet()->setAttribute(new glr::Material());
+        model->getOrCreateStateSet()->setAttribute(new glr::PhongMaterial());
         model->getOrCreateStateSet()->setAttribute(lights);
         model->getOrCreateStateSet()->setAttribute(new glr::Uniform("use_texture", false));
         model->getOrCreateStateSet()->setShader(
-            glr::ResourceManager::instance()->getInternalShader(glr::ResourceManager::IS_Base));
+            glr::ResourceManager::instance()->getInternalShader(glr::ResourceManager::EXAMPLE_SAHDER_BASE));
         scene->addModel(model);
     }
     else {
         CreateSampleScene(scene);
     }
 
-    auto x = renderer->isKindOf<vine::Object>();
-    auto y = renderer->toString();
+    auto light  = new glr::PhongLight();
+    auto lights = new glr::PhongLights();
+    lights->addLight(light);
+
+    auto renderer = viewer->getMasterRenderer();
+
+    renderer->getContext()->getState()->getDefaultStateSet()->setAttribute(lights);
+    renderer->getContext()->getState()->getDefaultStateSet()->setAttribute(new glr::PhongMaterial());
     renderer->getCameraManipulator()->setVerticalAxisFixed(true);
+
 
 #if defined(GLFW_VIEWER) or defined(SDL_VIEWER)
     renderer->setScene(scene);
@@ -278,7 +176,7 @@ int main(int argc, char** argv) {
 #else
     renderer->setScene(scene);
     wnd.show();
-    app.exec();
+    qapp.exec();
 #endif
     return 0;
 }

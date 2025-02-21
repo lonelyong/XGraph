@@ -1,4 +1,4 @@
-#include "ResourceManager.h"
+﻿#include "ResourceManager.h"
 
 #include <map>
 
@@ -37,16 +37,16 @@ Shader* ResourceManager::getShader(const std::string& name) {
 }
 
 Shader* ResourceManager::getInternalShader(InternalShader shader) {
-    if (shader == IS_Base) {
+    if (shader == EXAMPLE_SAHDER_BASE) {
         return getShader("Base");
     }
-    else if (shader == IS_Geometry) {
-        return getShader("MeshShape");
+    else if (shader == EXAMPLE_SAHDER_STD_PHONG) {
+        return getShader("StdPhong");
     }
-    else if (shader == IS_PointCloud) {
+    else if (shader == EXAMPLE_SAHDER_POINT_CLOUD) {
         return getShader("PointCloud");
     }
-    else if (shader == IS_SkyBox) {
+    else if (shader == EXAMPLE_SAHDER_SKY_BOX) {
         return getShader("SkyBox");
     }
     return nullptr;
@@ -54,7 +54,7 @@ Shader* ResourceManager::getInternalShader(InternalShader shader) {
 
 CubeMap* ResourceManager::getInternalCubeMap(InternalCubeMap map) {
     std::vector<std::string> files;
-    if (map == ICM_CubeMap1) {
+    if (map == EXAMPLE_CUBE_MAP1) {
         files.push_back(XG_RES("images/right.jpg"));
         files.push_back(XG_RES("images/left.jpg"));
         files.push_back(XG_RES("images/top.jpg"));
@@ -62,7 +62,7 @@ CubeMap* ResourceManager::getInternalCubeMap(InternalCubeMap map) {
         files.push_back(XG_RES("images/front.jpg"));
         files.push_back(XG_RES("images/back.jpg"));
     }
-    else if (map == ICM_CubeMap2) {
+    else if (map == EXAMPLE_CUBE_MAP2) {
         files.push_back(XG_RES("images/posx.jpg"));
         files.push_back(XG_RES("images/negx.jpg"));
         files.push_back(XG_RES("images/posy.jpg"));

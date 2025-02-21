@@ -77,36 +77,40 @@ int Renderer::render(RenderInfo& info) {
         d->is_first_frame = false;
     }
 
-    d->ctx->makeCurrent();
-
-    //glEnable(GL_DEPTH_TEST);
-    //glDepthFunc(GL_LESS);
-    //glDepthMask(GL_TRUE);
-    //glDepthRange(0.0, 1.0);
+    // glEnable(GL_DEPTH_TEST);
+    // glDepthFunc(GL_LESS);
+    // glDepthMask(GL_TRUE);
+    // glDepthRange(0.0, 1.0);
 
     auto master_renderer = info.getMasterRenderer();
     auto master_cam      = master_renderer->getCamera();
-
-
-    if (d->use_master_viewport) {
-        master_cam->applyViewport();
-        d->camera->applyAllExceptViewport();
-    }
-    else {
-        d->camera->apply();
-    }
-
-    auto  matrix_v  = d->use_master_view_matrix ? master_cam->getViewMatrix() : d->camera->getViewMatrix();
-    auto  matrix_p  = d->use_master_proj_matrix ? master_cam->getProjectionMatrix() : d->camera->getProjectionMatrix();
-    auto  matrix_vp = matrix_p * matrix_v;
-    auto  view_dir  = d->use_master_view_matrix ? master_cam->getViewDir() : d->camera->getViewDir();
-    auto& ctx       = *d->ctx;
-    auto& state     = *ctx.getState();
+    auto cam             = d->camera.get();
 
     auto scene = d->use_master_scene ? master_renderer->getScene() : d->scene.get();
     if (!scene) {
         return 0;
     }
+
+    if (d->use_master_viewport) {
+        int x, y, w, h;
+        master_cam->getViewport(x, y, w, h);
+        cam->setViewport(w, y, w, h);
+    }
+
+    if (d->use_master_view_matrix) {
+        cam->setViewMatrix(master_cam->getViewMatrix());
+    }
+
+    if (d->use_master_proj_matrix) {
+        cam->setProjectionMatrix(master_cam->getProjectionMatrix());
+    }
+
+
+    auto& ctx   = *d->ctx;
+    auto& state = *ctx.getState();
+
+    ctx.makeCurrent();
+    state.pushCamera(cam);
 
     auto nb_models = scene->getNbChildren();
     for (size_t i = 0; i < nb_models; ++i) {
@@ -118,28 +122,16 @@ int Renderer::render(RenderInfo& info) {
 
         auto stateset = model->getStateSet();
         auto matrix_m = model->getMatrix();
-
-        if (stateset) {
-            state.save();
-            state.applyShader(stateset);
-            state.applyAttributes(stateset);
-            auto shader = state.getCurrentShader();
-            if (shader) {
-                shader->set(state, "matrix_m", matrix_m);
-                shader->set(state, "matrix_v", matrix_v);
-                shader->set(state, "matrix_mv", matrix_v * matrix_m);
-                shader->set(state, "matrix_mvp", matrix_vp * matrix_m);
-                shader->set(state, "view_dir", view_dir);
-            }
-        }
+        state.pushStateSet(stateset);
+        state.pushModelMatrix(matrix_m);
         for (int i = 0; i < model->getNbDrawables(); i++) {
             auto drawable = model->getDrawableAt(i);
             drawable->draw(state);
         }
-        if (stateset) {
-            state.restoreAttributes(stateset);
-        }
+        state.popModelMatrix();
+        state.popStateSet(stateset);
     }
+    state.popCamera(cam);
     return 0;
 }
 

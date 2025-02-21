@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.26)
+﻿cmake_minimum_required(VERSION 3.26)
 
 
 project(XGraph 
@@ -43,6 +43,7 @@ set(THIRD_PARTY_LIBS
 foreach(lib_name ${THIRD_PARTY_LIBS})
     list(APPEND CMAKE_PREFIX_PATH "${THIRD_PARTY_DIR}${lib_name}")
 endforeach()
+
 find_package(glm REQUIRED)
 find_package(glfw3 REQUIRED)
 
@@ -54,10 +55,6 @@ set(GLAD_SRC_DIR "${THIRD_PARTY_DIR}glad/src")
 set(BACKWARD_INCLUDE_DIR "${THIRD_PARTY_DIR}backward")
 file(GLOB GLAD_SRC_FILES ${GLAD_SRC_DIR}/glad.c ${GLAD_SRC_DIR}/glad_wgl.c)
 file(GLOB BACKWARD_SRC_FILES ${BACKWARD_INCLUDE_DIR}/*.hpp ${BACKWARD_INCLUDE_DIR}/*.cpp)
-
-include_directories(${GLAD_INCLUDE_DIR})
-include_directories(${STB_INCLUDE_DIR})
-include_directories(${BACKWARD_INCLUDE_DIR})
 
 add_subdirectory(src)
 enable_testing()

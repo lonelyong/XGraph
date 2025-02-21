@@ -15,14 +15,15 @@ class GLR_API StateAttribute : public Object {
   public:
     enum Type
     {
-        ATTR_MATERIAL,
+        ATTR_PHONG_MATERIAL,
         ATTR_DEPTH,
         ATTR_LIGHTING,
         ATTR_SPOT_LIGHTS,
         ATTR_DIRECTIONAL_LIGHTS,
         ATTR_LIGHTS,
         ATTR_SHADER,
-        ATTR_UNIFORM
+        ATTR_UNIFORM,
+        ATTR_SUBROUTINE
     };
 
   public:

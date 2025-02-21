@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <glr/glrenderer_global.h>
 
@@ -17,6 +17,7 @@ class GLR_API StateSet : public Object {
 
   public:
     void setAttribute(StateAttribute* attr);
+    void removeAttribute(StateAttribute* attr);
 
     StateAttribute* getAttribute(StateAttribute::Type type) const;
 

@@ -1,0 +1,25 @@
+﻿#pragma once
+
+#include <glr/glrenderer_global.h>
+
+#include <glr/app/Viewer.h>
+
+namespace glr {
+class Viewer;
+
+class GLR_API SdlViewer : public Viewer{
+  public:
+    SdlViewer();
+    virtual ~SdlViewer();
+
+  public:
+    bool initialize();
+    bool isInitialized() const;
+
+    virtual int run() override;
+
+  private:
+    struct Data;
+    Data* const d;
+};
+}; // namespace glr

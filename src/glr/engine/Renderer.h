@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <glr/glrenderer_global.h>
 
@@ -31,9 +31,8 @@ class GLR_API Renderer : public EventReceiver {
 
   public:
     virtual int render(RenderInfo& info);
-
-    Camera* getCamera() const;
-    void    setCamera(Camera* cam);
+    Camera*     getCamera() const;
+    void        setCamera(Camera* cam);
 
     GraphicContext* getContext() const;
     void            setContext(GraphicContext* ctx);

@@ -21,6 +21,7 @@ namespace {
 const char* sky_box_vs = R"(
 #version 330 core
 layout(location=0) in vec3 position;
+// the pos of camera is (0,0,0)
 uniform mat4 matrix_mvp_;
 out vec3 frag_tex_coord;
 void main(){
@@ -29,19 +30,19 @@ void main(){
     gl_Position = posi;
     frag_tex_coord = position;
 }
-        )";
+)";
 const char* sky_box_fs = R"(
 #version 330 core
 #extension GL_ARB_shader_image_load_store : enable
 layout(early_fragment_tests) in;
-uniform samplerCube tex;
+uniform samplerCube tex_cube;
 in vec3 frag_tex_coord;
 out vec4 FragColor;
 void main(){
-    vec4 color = texture(tex, frag_tex_coord);
+    vec4 color = texture(tex_cube, frag_tex_coord);
     FragColor = color;
 }
-        )";
+)";
 
 struct SkyBoxUpdateCallback : public UpdateCallback {
     SkyBoxUpdateCallback(Uniform* uniform) { uniform_ = uniform; }
@@ -66,13 +67,13 @@ struct SkyBoxUpdateCallback : public UpdateCallback {
 
 // 平行投影会导致天空盒的显示不正确，因为天空盒的大小为1，而平行投影使得渲染天空盒的大小不变
 Model* createSkyBox(CubeMap* tex) {
-    auto cube = Geometry::createCube(1, 0, -1, -1, -1);
-    cube->addTexture(0, "tex", tex);
-    auto shader = new Shader(sky_box_vs, {}, sky_box_fs);
-    auto model  = new Model();
-
+    auto shader  = new Shader(sky_box_vs, {}, sky_box_fs);
     auto uniform = new Uniform("matrix_mvp_", Mat4d());
+    auto cube    = Geometry::createCube(1, false);
+    cube->addTexture(0, "tex_cube", tex);
+    cube->setVertexAttribLocation(0);
 
+    auto model = new Model();
     model->addDrawable(cube);
     model->addUpdateCallback(new SkyBoxUpdateCallback(uniform));
     model->getOrCreateStateSet()->setShader(shader);

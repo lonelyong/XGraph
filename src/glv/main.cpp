@@ -1,6 +1,6 @@
-﻿#include <filesystem>
+﻿#include <cstring>
+#include <filesystem>
 #include <iostream>
-#include <cstring>
 
 #include <osg/MatrixTransform>
 #include <osg/ShapeDrawable>
@@ -19,24 +19,15 @@
 
 #include "glv/viewer/Viewer.h"
 
-#include "glv/app/AppInitializer.h"
+#include "glv/app/Application.h"
 
 int main(int argc, char** argv) {
 
     using namespace glv;
-    
-    auto str  = "123你好";
-    auto str2 = L"123你好";
-    auto lstr = strlen(str);
-    auto sstr = sizeof(str);
-    auto lstr2 = wcslen(str2);
-    auto sstr2 = sizeof(str2);
 
     AppInitializationParameters params;
-    AppInitializer              initializer(params);
-    initializer.initGlfw();
-    initializer.initGlad();
-    initializer.initOpenSceneGraph();
+
+    Application app(params);
 
     osg::Group* model = nullptr;
     if (argc == 1) {
@@ -171,11 +162,11 @@ int main(int argc, char** argv) {
     auto   coord = createCoord(100, 2, 20, 4, true);
     Viewer v;
 
-    auto hud_coord = createHudCoord(v.getMasterCamera(), 60, 2, 12, 4);
+    auto hud_coord = createHudCoord(v.getCamera(), 60, 2, 12, 4);
 
     v.addNode(model);
     // v.addNode(coord);
-    //v.addCamera(hud_coord, false, false);
+    // v.addCamera(hud_coord, false, false);
 
     // MeshCutterVTK mesh_cutter;
     // mesh_cutter.setMesh("R:\\models\\0731-43#-right.stl");

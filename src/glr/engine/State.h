@@ -3,6 +3,7 @@
 #include <glr/glrenderer_global.h>
 
 #include <glr/engine/Object.h>
+#include <glr/engine/types.h>
 
 namespace glr {
 class GLObject;
@@ -22,21 +23,37 @@ class GLR_API State : public Object {
 
   public:
     Shader*         getCurrentShader() const;
+    Camera*         getCurrentCamera() const;
     GraphicContext* getContext() const;
 
-    void applyShader(StateSet* ss);
-    void applyAttributes(StateSet* ss);
-    void restoreAttributes(StateSet* ss);
+    // void pushShader(StateSet* ss);
+    // void popShader(StateSet* ss);
+
+    void pushCamera(Camera* cam);
+    void popCamera(Camera* cam);
+
+    void pushStateSet(StateSet* ss);
+    void popStateSet(StateSet* ss);
+
+    void pushModelMatrix(const Mat4d& m);
+    void popModelMatrix();
 
     void attachGLObject(GLObject* obj);
     void detachGLObject(GLObject* obj);
     void releaseGLObjects();
 
-    void setUseMvpUniforms(bool val);
+    // xg_matrix_v
+    // xg_matrix_mvp...
     bool getUseMvpUniforms() const;
+    void setUseMvpUniforms(bool val);
 
-    void save();
-    void restore();
+    // xg_is_lighting_enabled
+    void setUseStateUniforms(bool val);
+    bool getUseStateUniforms() const;
+
+    StateSet* getDefaultStateSet() const;
+
+    void updateMvpUniforms();
 
   private:
     VI_OBJECT_DATA;
