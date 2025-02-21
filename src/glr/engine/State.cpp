@@ -161,7 +161,7 @@ void State::pushStateSet(StateSet* ss) {
     for (auto& kv : attrs) {
         kv.second->apply(*this);
     }
-    for (auto& kv : attrs) {
+    for (auto& kv : named_attrs) {
         kv.second->apply(*this);
     }
 }

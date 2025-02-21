@@ -6,6 +6,7 @@
 
 #include <glr/engine/Shader.h>
 #include <glr/engine/StateAttribute.h>
+#include <glr/engine/UniformBase.h>
 
 namespace glr {
 namespace {
@@ -14,7 +15,16 @@ struct StateAttr {
 
     StateAttr(StateAttribute* sa) { attr = sa; }
 
-    bool operator==(StateAttribute* sa) const { return attr.get() == sa || attr.get()->getType() == sa->getType(); }
+    bool operator==(StateAttribute* sa) const {
+        if (!sa) return false;
+
+        if (sa->isKindOf(UniformBase::desc()) && attr->isKindOf(UniformBase::desc())) {
+            return sa->cast<UniformBase>()->getName() == attr->cast<UniformBase>()->getName();
+        }
+        else {
+            return attr.get()->getType() == sa->getType();
+        }
+    }
 
     bool operator!=(StateAttribute* sa) { return !(*this == sa); }
 };

@@ -239,14 +239,11 @@ void Geometry::clearPrimitiveSets() {
 }
 
 void Geometry::draw(State& state) {
-    if (d->vbos.empty()) return;
+    //if (d->vbos.empty()) return;
     if (d->primitives.empty()) return;
 
     auto shader = state.getCurrentShader();
     if (!d->vao) {
-        d->vao = new VertexArrayObject();
-        d->vao->bind(state);
-
         auto vbos = d->vbos;
 
         if (d->vertex_array.get())
@@ -266,6 +263,13 @@ void Geometry::draw(State& state) {
                     vbos[kv.second] == kv.first;
             }
         }
+
+        if (vbos.empty()) {
+            return;
+        }
+
+        d->vao = new VertexArrayObject();
+        d->vao->bind(state);
 
         // VBOs
         for (auto& kv : vbos) {
