@@ -1,5 +1,5 @@
-#pragma once
-#include <glr/glrenderer_global.h>
+﻿#pragma once
+#include <glr/glr_global.h>
 
 #include <Windows.h>
 

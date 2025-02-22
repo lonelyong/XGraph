@@ -17,7 +17,7 @@
 #include "glv/modeling/MeshCutterVTK.h"
 #include "glv/modeling/ModelDefs.h"
 
-#include "glv/viewer/Viewer.h"
+#include "glv/app/Viewer.h"
 
 #include "glv/app/Application.h"
 

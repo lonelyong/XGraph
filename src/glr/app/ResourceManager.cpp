@@ -4,6 +4,7 @@
 
 #include <vine/core/Ptr.h>
 
+#include <xgcomm/Environment.h>
 #include <xgcomm/Resources.h>
 
 #include <glr/engine/CubeMap.h>
@@ -23,11 +24,13 @@ ResourceManager* ResourceManager::instance() {
 
 Shader* ResourceManager::getShader(const std::string& name) {
     if (s_shaders.find(name) == s_shaders.end()) {
-        auto vs = "shaders/" + name + ".vs.glsl";
-        auto gs = "shaders/" + name + ".gs.glsl";
-        auto fs = "shaders/" + name + ".fs.glsl";
+        auto vs     = "shaders/" + name + ".vs.glsl";
+        auto gs     = "shaders/" + name + ".gs.glsl";
+        auto fs     = "shaders/" + name + ".fs.glsl";
+        auto appdir = xg::getApplicationDir();
+        appdir += "/";
 
-        auto shader = Shader::create(XG_RES("") + vs, XG_RES("") + gs, XG_RES("") + fs);
+        auto shader = Shader::create(appdir + XG_RES("") + vs, appdir + XG_RES("") + gs, appdir + XG_RES("") + fs);
         if (shader) {
             s_shaders.insert({ name, shader });
         }
@@ -53,22 +56,24 @@ Shader* ResourceManager::getInternalShader(InternalShader shader) {
 }
 
 CubeMap* ResourceManager::getInternalCubeMap(InternalCubeMap map) {
+    auto appdir = xg::getApplicationDir();
+    appdir += "/";
     std::vector<std::string> files;
     if (map == EXAMPLE_CUBE_MAP1) {
-        files.push_back(XG_RES("images/right.jpg"));
-        files.push_back(XG_RES("images/left.jpg"));
-        files.push_back(XG_RES("images/top.jpg"));
-        files.push_back(XG_RES("images/bottom.jpg"));
-        files.push_back(XG_RES("images/front.jpg"));
-        files.push_back(XG_RES("images/back.jpg"));
+        files.push_back(appdir + XG_RES("images/right.jpg"));
+        files.push_back(appdir + XG_RES("images/left.jpg"));
+        files.push_back(appdir + XG_RES("images/top.jpg"));
+        files.push_back(appdir + XG_RES("images/bottom.jpg"));
+        files.push_back(appdir + XG_RES("images/front.jpg"));
+        files.push_back(appdir + XG_RES("images/back.jpg"));
     }
     else if (map == EXAMPLE_CUBE_MAP2) {
-        files.push_back(XG_RES("images/posx.jpg"));
-        files.push_back(XG_RES("images/negx.jpg"));
-        files.push_back(XG_RES("images/posy.jpg"));
-        files.push_back(XG_RES("images/negy.jpg"));
-        files.push_back(XG_RES("images/posz.jpg"));
-        files.push_back(XG_RES("images/negz.jpg"));
+        files.push_back(appdir + XG_RES("images/posx.jpg"));
+        files.push_back(appdir + XG_RES("images/negx.jpg"));
+        files.push_back(appdir + XG_RES("images/posy.jpg"));
+        files.push_back(appdir + XG_RES("images/negy.jpg"));
+        files.push_back(appdir + XG_RES("images/posz.jpg"));
+        files.push_back(appdir + XG_RES("images/negz.jpg"));
     }
     else
         return nullptr;

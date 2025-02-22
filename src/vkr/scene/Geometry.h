@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include <vkr/vkrenderer_global.h>
+#include <vkr/vkr_global.h>
 
 #include <map>
 #include <set>

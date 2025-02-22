@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <string>
 
 namespace xg {
@@ -13,4 +13,6 @@ std::string unicodeToUtf8(const std::wstring& str);
 std::string gbkToUtf8(const std::string& str);
 
 std::string utf8ToGbk(const std::string& str);
+
+std::string ansiToUtf8(const std::string str);
 } // namespace xg

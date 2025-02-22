@@ -70,7 +70,7 @@ Model* createSkyBox(CubeMap* tex) {
     auto shader  = new Shader(sky_box_vs, {}, sky_box_fs);
     auto uniform = new Uniform("matrix_mvp_", Mat4d());
     auto cube    = Geometry::createCube(1, false);
-    cube->addTexture(0, "tex_cube", tex);
+    cube->addTexture(GL_TEXTURE0, "tex_cube", tex);
     cube->setVertexAttribLocation(0);
 
     auto model = new Model();

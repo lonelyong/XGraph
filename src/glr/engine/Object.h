@@ -1,6 +1,6 @@
-#pragma once
+﻿#pragma once
 
-#include <glr/glrenderer_global.h>
+#include <glr/glr_global.h>
 
 #include <vine/core/Class.h>
 #include <vine/core/Object.h>

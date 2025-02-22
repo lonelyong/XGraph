@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include <glr/glrenderer_global.h>
+#include <glr/glr_global.h>
 
 namespace glr {
 struct GLR_API AppInitializationParameters {

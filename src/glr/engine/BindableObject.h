@@ -1,6 +1,6 @@
-#pragma once
+﻿#pragma once
 
-#include <glr/glrenderer_global.h>
+#include <glr/glr_global.h>
 
 #include <glr/engine/GLObject.h>
 

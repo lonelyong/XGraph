@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include <glr/glrenderer_global.h>
+#include <glr/glr_global.h>
 
 #include <glr/engine/Object.h>
 #include <glr/engine/types.h>
@@ -54,6 +54,8 @@ class GLR_API State : public Object {
     StateSet* getDefaultStateSet() const;
 
     void updateMvpUniforms();
+
+    void apply();
 
   private:
     VI_OBJECT_DATA;

@@ -27,9 +27,9 @@
 #include <TopoDS_Face.hxx>
 #include <TopoDS_Shape.hxx>
 
-#include "xgcomm/Text.h"
+#include <xgcomm/Text.h>
 
-#include "glv/modeling/ModelDefs.h"
+#include <glv/modeling/ModelDefs.h>
 
 namespace glv {
 namespace {

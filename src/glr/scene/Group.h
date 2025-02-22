@@ -1,7 +1,7 @@
 ﻿
 #pragma once
 
-#include <glr/glrenderer_global.h>
+#include <glr/glr_global.h>
 
 #include <glr/scene/Node.h>
 
@@ -19,13 +19,12 @@ class GLR_API Group : public Node {
 
 
   public:
-    int        getNbChildren() const;
-    Node* getChildAt(int idx) const;
-
     virtual bool handleEvent(Event* e) override;
     virtual void update(UpdateContext* ctx) override;
 
   protected:
+    int          getNbChildren() const;
+    Node*        getChildAt(int idx) const;
     virtual void addChild(Node* node);
     virtual void removeChild(Node* node);
     virtual void onComputeBoundingBox(BoundingBox& bb) const override;

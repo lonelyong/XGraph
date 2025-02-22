@@ -28,11 +28,11 @@
 #include <vkr/scene/Geometry.h>
 #include <vkr/scene/Model.h>
 #include <vkr/scene/Scene.h>
-#include <vkr/viewer/GlfwViewer.h>
-#include <vkr/viewer/QtMainWindow.h>
-#include <vkr/viewer/QtViewer.h>
-#include <vkr/viewer/SdlViewer.h>
-#include <vkr/viewer/Viewer.h>
+#include <vkr/app/GlfwViewer.h>
+#include <vkr/app/QtMainWindow.h>
+#include <vkr/app/QtViewer.h>
+#include <vkr/app/SdlViewer.h>
+#include <vkr/app/Viewer.h>
 
 void CreateSampleScene(vkr::Scene* scene) {
 }

@@ -104,9 +104,9 @@ int Renderer::render(RenderInfo& info) {
         return 0;
     }
 
-    auto nb_models = scene->getNbChildren();
+    auto nb_models = scene->getNbModels();
     for (size_t i = 0; i < nb_models; ++i) {
-        auto model = scene->getChildAt(i)->cast<Model>();
+        auto model = scene->getModelAt(i)->cast<Model>();
 
         if (!model) {
             continue;

@@ -1,4 +1,4 @@
-#include "MeshLoader.h"
+﻿#include "MeshLoader.h"
 
 #include <filesystem>
 
@@ -29,7 +29,7 @@ void aiProcessNode(Model* group, const aiScene* scene, aiNode* node) {
                 vertices->push_back(Vec3f(mesh->mVertices[j].x, mesh->mVertices[j].y, mesh->mVertices[j].z));
                 bb.expandBy(vertices->back());
             }
-            geom->addVertexAttribArray(0, vertices);
+            geom->setVertexArray(vertices);
         }
         if (mesh->HasVertexColors(0)) {
             auto colors = new Vec4fArray();
@@ -38,12 +38,12 @@ void aiProcessNode(Model* group, const aiScene* scene, aiNode* node) {
             for (int j = 0; j < mesh->mNumVertices; j++) {
                 colors->push_back(Vec4f(data[j].r, data[j].g, data[j].b, data[j].a));
             }
-            geom->addVertexAttribArray(2, colors);
+            geom->setColorArray(colors);
         }
         else {
             auto colors = new Vec4fArray();
             colors->push_back(s_default_face_color);
-            geom->addVertexAttribArray(2, colors);
+            geom->setColorArray(colors);
         }
         if (mesh->HasTextureCoords(0)) {
             // todo
@@ -54,7 +54,7 @@ void aiProcessNode(Model* group, const aiScene* scene, aiNode* node) {
             for (int j = 0; j < mesh->mNumVertices; j++) {
                 norms->push_back(Vec3f(mesh->mNormals[j].x, mesh->mNormals[j].y, mesh->mNormals[j].z));
             }
-            geom->addVertexAttribArray(1, norms);
+            geom->setNormalArray(norms);
         }
 
         if (mesh->HasFaces()) {
@@ -93,12 +93,14 @@ bool MeshLoader::isSupported(const std::string& file) {
 }
 
 Model* MeshLoader::loadFile(const std::string& file) {
-    auto         root = new Model();
     ai::Importer im;
     auto scene = im.ReadFile(file, aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_GenSmoothNormals);
     if (scene) {
-        aiProcessNode(root, scene, scene->mRootNode);
+        auto model = new Model();
+
+        aiProcessNode(model, scene, scene->mRootNode);
+        return model;
     }
-    return root;
+    return nullptr;
 }
 } // namespace glr

@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include <glr/glrenderer_global.h>
+#include <glr/glr_global.h>
 
 #include <map>
 #include <set>
@@ -42,7 +42,7 @@ class GLR_API Geometry : public Drawable {
     void         setColorArray(ArrayBuffer* data);
 
     int          getNbTexCoordArrays() const;
-    ArrayBuffer* getTexCoordArray(int index) const;
+    ArrayBuffer* getTexCoordArrayAt(int index) const;
     void         addTexCoordArray(ArrayBuffer* data);
     void         removeTexCoordArray(ArrayBuffer* data);
     void         clearTexCoordArrays();
@@ -60,19 +60,30 @@ class GLR_API Geometry : public Drawable {
     void setTexCoordAttribLocation(ArrayBuffer* data, int loc);
 
     int          getNbVertexAttribArrays() const;
-    ArrayBuffer* getVertexAttribArray(int index) const;
+    ArrayBuffer* getVertexAttribArrayAt(int index) const;
     void         addVertexAttribArray(GLuint loc, ArrayBuffer* data);
-    void         removeVertexAttribArray(ArrayBuffer* data);
-    void         removeVertexAttribArray(GLuint loc);
-    void         clearVertexAttribArrays();
+    /**
+     * @brief 如果data绑定到了多个location,则都会被移除
+     * @param data
+     */
+    void removeVertexAttribArray(ArrayBuffer* data);
+    void removeVertexAttribArray(GLuint loc);
+    void clearVertexAttribArrays();
 
     int      getNbTextures() const;
-    Texture* getTexture(int index) const;
+    Texture* getTextureAt(int index) const;
+    GLuint   getTextureUnitAt(int index) const;
     void     addTexture(GLuint unit, GLuint loc, Texture* tex);
     void     addTexture(GLuint unit, const std::string& name, Texture* tex);
-    void     removeTexture(Texture* tex);
-    void     removetexture(GLuint unit);
-    void     clearTextures();
+    void     setTextureAttribLocation(GLuint unit, GLuint loc);
+    void     setTextureAttribLocation(GLuint unit, const std::string& loc);
+    /**
+     * @brief 如果纹理绑定了多个单元，则都会被移除
+     * @param tex
+     */
+    void removeTexture(Texture* tex);
+    void removetexture(GLuint unit);
+    void clearTextures();
 
     int           getNbPrimitiveSets() const;
     PrimitiveSet* getPrimitiveSet(int index) const;

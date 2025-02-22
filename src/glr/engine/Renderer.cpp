@@ -112,20 +112,21 @@ int Renderer::render(RenderInfo& info) {
     ctx.makeCurrent();
     state.pushCamera(cam);
 
-    auto nb_models = scene->getNbChildren();
+    auto nb_models = scene->getNbModels();
     for (size_t i = 0; i < nb_models; ++i) {
-        auto model = scene->getChildAt(i)->cast<Model>();
+        auto model = scene->getModelAt(i)->cast<Model>();
 
         if (!model) {
             continue;
         }
 
-        auto stateset = model->getStateSet();
         auto matrix_m = model->getMatrix();
+        auto stateset = model->getStateSet();
         state.pushStateSet(stateset);
         state.pushModelMatrix(matrix_m);
-        for (int i = 0; i < model->getNbDrawables(); i++) {
-            auto drawable = model->getDrawableAt(i);
+        state.apply();
+        for (int j = 0; j < model->getNbDrawables(); ++j) {
+            auto drawable = model->getDrawableAt(j);
             drawable->draw(state);
         }
         state.popModelMatrix();

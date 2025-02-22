@@ -1,10 +1,10 @@
 ﻿//#pragma once
 //
-//#include <vkr/vkrenderer_global.h>
+//#include <vkr/vkr_global.h>
 //
 //#include <QOpenGLWidget>
 //
-//#include <vkr/viewer/Viewer.h>
+//#include <vkr/app/Viewer.h>
 //
 //namespace vkr {
 //class Viewer;

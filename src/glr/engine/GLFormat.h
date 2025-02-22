@@ -1,6 +1,6 @@
-#pragma once
+﻿#pragma once
 
-#include <glr/glrenderer_global.h>
+#include <glr/glr_global.h>
 
 namespace glr {
 class GLR_API GLFormat {

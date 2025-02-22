@@ -14,12 +14,15 @@
 #include <glr/scene/Geometry.h>
 #include <glr/scene/Model.h>
 
+#include <glr/app/DefaultUniformStore.h>
+#include <glr/app/GeometryConfigurer.h>
+
 namespace glr {
 
 using ResMgr = ResourceManager;
 
 Model* ExampleModels::createAxis(float len, const Vec3d& posi) {
-    auto shader   = ResMgr::instance()->getInternalShader(ResourceManager::EXAMPLE_SAHDER_STD_PHONG);
+    auto shader   = ResMgr::instance()->getInternalShader(ResMgr::EXAMPLE_SAHDER_STD_PHONG);
     auto vertices = new Vec3fArray();
     {
         vertices->push_back(Vec3f());
@@ -42,26 +45,26 @@ Model* ExampleModels::createAxis(float len, const Vec3d& posi) {
     mat = glm::translate(mat, posi);
 
     auto geom = new Geometry();
-    geom->addVertexAttribArray(0, vertices);
-    geom->addVertexAttribArray(2, colors);
+    geom->setVertexArray(vertices);
+    geom->setColorArray(colors);
     geom->addPrimitiveSet(new DrawArrays(PrimitiveSet::MODE_LINES, 0, vertices->size()));
 
     auto axis = new Model();
     axis->addDrawable(geom);
     axis->setMatrix(mat);
     axis->getOrCreateStateSet()->setShader(shader);
-
+    axis->getOrCreateStateSet()->setAttribute(DefaultUniformStore::instance()->getLightingDisabled());
+    GeometryConfigurer::configureStdPhong(geom, axis->getOrCreateStateSet());
     return axis;
 }
 
 Model* ExampleModels::createCube(float len, const Vec3d& posi, bool with_tex) {
-    auto shader        = ResMgr::instance()->getInternalShader(ResourceManager::EXAMPLE_SAHDER_STD_PHONG);
-    auto tex_coord_loc = with_tex ? 4 : -1;
+    auto shader = ResMgr::instance()->getInternalShader(ResMgr::EXAMPLE_SAHDER_STD_PHONG);
 
-    auto geom = Geometry::createCube(1, true);
+    auto geom = Geometry::createCube(len, true);
     if (with_tex) {
-        auto tex = ResMgr::instance()->getInternalCubeMap(ResourceManager::EXAMPLE_CUBE_MAP1);
-        geom->addTexture(GL_TEXTURE0, "tex_cube", tex);
+        auto tex = ResMgr::instance()->getInternalCubeMap(ResMgr::EXAMPLE_CUBE_MAP1);
+        geom->addTexture(GL_TEXTURE0, 0, tex);
     }
     else {
         auto colors = new Vec4fArray();
@@ -80,10 +83,9 @@ Model* ExampleModels::createCube(float len, const Vec3d& posi, bool with_tex) {
     auto cube = new Model();
     cube->addDrawable(geom);
     cube->setMatrix(mat);
-    cube->getOrCreateStateSet()->setAttribute(
-        new Subroutine(Subroutine::FRAGMENT, with_tex ? "fetchTextureCube" : "fetchVertexColor"));
     cube->getOrCreateStateSet()->setShader(shader);
 
+    GeometryConfigurer::configureStdPhong(geom, cube->getOrCreateStateSet());
     return cube;
 }
 
@@ -122,15 +124,21 @@ Model* ExampleModels::createImage(const char* file) {
     auto tex = new Texture2D();
     tex->setImage(file);
 
-    auto img_size = Rect2d(0, 0, tex->getWidth() / 100., tex->getHeight() / 100.);
+    auto img_size = Rect2d(0, 0, tex->getWidth() / 400., tex->getHeight() / 400.);
     auto geom_img = Geometry::createTexturedQuad(img_size, Rect2d(0, 0, 1, 1));
-    geom_img->addTexture(0, "tex_2d", tex);
-    geom_img->setVertexAttribLocation(0);
-    geom_img->setNormalAttribLocation(0);
+    geom_img->addTexture(0, 0, tex);
+
+    Mat4d mat(1.0);
+    mat = glm::rotate(mat, glm::radians(15.), Vec3d(1.0, 1., 0.));
+    mat = glm::translate(mat, Vec3d(1, 2, 3));
 
     auto img = new Model();
+    img->setMatrix(mat);
     img->addDrawable(geom_img);
     img->getOrCreateStateSet()->setShader(shader);
+    img->getOrCreateStateSet()->setAttribute(DefaultUniformStore::instance()->getLightingDisabled());
+
+    GeometryConfigurer::configureStdPhong(geom_img, img->getOrCreateStateSet());
     return img;
 }
 } // namespace glr

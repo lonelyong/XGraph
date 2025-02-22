@@ -19,15 +19,17 @@ constexpr int TEX_COORD_LOC = 10;
 struct Geometry::Data {
     vine::RefPtr<VertexArrayObject>             vao;
     std::map<GLuint, vine::RefPtr<ArrayBuffer>> vbos;
-    std::map<GLuint, vine::RefPtr<Texture>>     textures;
-    std::map<GLuint, GLuint>                    texture_locs;
-    std::map<GLuint, std::string>               texture_names;
-    std::vector<vine::RefPtr<PrimitiveSet>>     primitives;
+
+    std::vector<std::pair<GLuint, vine::RefPtr<Texture>>> textures;
+    std::map<GLuint, GLuint>                              texture_locs;
+    std::map<GLuint, std::string>                         texture_names;
+
+    std::vector<vine::RefPtr<PrimitiveSet>> primitives;
 
     vine::RefPtr<ArrayBuffer>                                 vertex_array;
     vine::RefPtr<ArrayBuffer>                                 normal_array;
     vine::RefPtr<ArrayBuffer>                                 color_array;
-    std::vector<std::pair<vine::RefPtr<ArrayBuffer>, GLuint>> tex_coords_arrays;
+    std::vector<std::pair<vine::RefPtr<ArrayBuffer>, int>> tex_coords_arrays;
 
     int vertex_attrib_loc = -1;
     int normal_attrib_loc = -1;
@@ -71,7 +73,7 @@ int Geometry::getNbTexCoordArrays() const {
     return d->tex_coords_arrays.size();
 }
 
-ArrayBuffer* Geometry::getTexCoordArray(int index) const {
+ArrayBuffer* Geometry::getTexCoordArrayAt(int index) const {
     return d->tex_coords_arrays[index].first.get();
 }
 
@@ -134,56 +136,82 @@ void Geometry::setTexCoordAttribLocation(ArrayBuffer* data, int loc) {
 }
 
 int Geometry::getNbTextures() const {
-    return 0;
+    return d->textures.size();
 }
 
-Texture* Geometry::getTexture(int index) const {
-    return nullptr;
+Texture* Geometry::getTextureAt(int index) const {
+    return d->textures.at(index).second.get();
+}
+
+GLuint Geometry::getTextureUnitAt(int index) const {
+    return d->textures.at(index).first;
 }
 
 void Geometry::addTexture(GLuint unit, GLuint loc, Texture* tex) {
-    auto found_at = d->textures.find(unit);
-    if (found_at != d->textures.end()) {
-        auto t = found_at->second;
-        if (t == tex) return;
+    auto found_at = std::find_if(d->textures.begin(), d->textures.end(), [unit](auto& kv) { return kv.first == unit; });
+    if (found_at == d->textures.end()) {
+        d->textures.push_back({ unit, tex });
+        d->texture_locs.insert({ unit, loc });
     }
-    d->textures[unit]     = tex;
-    d->texture_locs[unit] = loc;
+    else {
+        found_at->second      = tex;
+        d->texture_locs[unit] = loc;
+    }
 }
 
 void Geometry::addTexture(GLuint unit, const std::string& name, Texture* tex) {
-    auto found_at = d->textures.find(unit);
-    if (found_at != d->textures.end()) {
-        auto t = found_at->second;
-        if (t == tex) return;
+    auto found_at = std::find_if(d->textures.begin(), d->textures.end(), [unit](auto& kv) { return kv.first == unit; });
+    if (found_at == d->textures.end()) {
+        d->textures.push_back({ unit, tex });
+        d->texture_names.insert({ unit, name });
     }
-    d->textures[unit]      = tex;
-    d->texture_names[unit] = name;
+    else {
+        found_at->second       = tex;
+        d->texture_names[unit] = name;
+    }
+}
+
+void Geometry::setTextureAttribLocation(GLuint unit, GLuint loc) {
+    d->texture_locs[unit] = loc;
+    d->texture_names.erase(unit);
+}
+
+void Geometry::setTextureAttribLocation(GLuint unit, const std::string& loc) {
+    d->texture_names[unit] = loc;
+    d->texture_locs.erase(unit);
 }
 
 void Geometry::removeTexture(Texture* tex) {
     auto textures = d->textures;
     for (auto& kv : textures) {
         if (kv.second == tex) {
-            d->textures.erase(kv.first);
+            d->textures.erase(
+                std::find_if(d->textures.begin(), d->textures.end(), [tex](auto& kv) { return kv.second == tex; }));
+            d->texture_locs.erase(kv.first);
+            d->texture_names.erase(kv.first);
             return;
         }
     }
 }
 
 void Geometry::removetexture(GLuint unit) {
-    d->textures.erase(unit);
+    d->textures.erase(
+        std::find_if(d->textures.begin(), d->textures.end(), [unit](auto& kv) { return kv.first == unit; }));
+    d->texture_locs.erase(unit);
+    d->texture_names.erase(unit);
 }
 
 void Geometry::clearTextures() {
     d->textures.clear();
+    d->texture_locs.clear();
+    d->texture_names.clear();
 }
 
 int Geometry::getNbVertexAttribArrays() const {
     return d->vbos.size();
 }
 
-ArrayBuffer* Geometry::getVertexAttribArray(int index) const {
+ArrayBuffer* Geometry::getVertexAttribArrayAt(int index) const {
     return d->vbos[index].get();
 }
 
@@ -239,7 +267,7 @@ void Geometry::clearPrimitiveSets() {
 }
 
 void Geometry::draw(State& state) {
-    //if (d->vbos.empty()) return;
+    // if (d->vbos.empty()) return;
     if (d->primitives.empty()) return;
 
     auto shader = state.getCurrentShader();
@@ -260,7 +288,7 @@ void Geometry::draw(State& state) {
                 if (kv.second == -1)
                     vbos[loc++] = kv.first;
                 else
-                    vbos[kv.second] == kv.first;
+                    vbos[kv.second] = kv.first;
             }
         }
 

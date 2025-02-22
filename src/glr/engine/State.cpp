@@ -86,13 +86,11 @@ Camera* State::getCurrentCamera() const {
 }
 
 void State::pushCamera(Camera* cam) {
-    if (!cam) return;
-    if (!d->cameras.empty() && d->cameras.top() == cam) {
+    if (cam) {
         d->cameras.push(cam);
-        return;
+        cam->apply();
+        updateMvpUniforms();
     }
-    d->cameras.push(cam);
-    updateMvpUniforms();
 }
 
 void State::popCamera(Camera* cam) {
@@ -101,6 +99,7 @@ void State::popCamera(Camera* cam) {
 
 void State::pushModelMatrix(const Mat4d& m) {
     d->model_matrices.push(m);
+    updateMvpUniforms();
 }
 
 void State::popModelMatrix() {
@@ -108,61 +107,13 @@ void State::popModelMatrix() {
 }
 
 void State::pushStateSet(StateSet* ss) {
-    if (!ss) return;
-    // 相同StateSet不用重新应用
-    if (!d->statesets.empty() && d->statesets.top() == ss) {
+    if (ss) {
         d->statesets.push(ss);
-        return;
-    }
-
-    d->statesets.push(ss);
-
-    auto shader = ss->getShader();
-    if (shader) {
-        shader->use(*this);
-        d->shaders.push(shader);
-    }
-
-    updateMvpUniforms();
-
-    auto                   sss = d->statesets;
-    std::vector<StateSet*> sss_;
-
-    while (!sss.empty()) {
-        sss_.push_back(sss.top().get());
-        sss.pop();
-    }
-
-    struct CStrCmp {
-        bool operator()(const char* a, const char* b) const { return std::strcmp(a, b) < 0; }
-    };
-
-    std::map<StateAttribute::Type, StateAttribute*> attrs;
-    std::map<const char*, StateAttribute*, CStrCmp> named_attrs;
-
-    for (auto iter = sss_.rbegin(); iter != sss_.rend(); ++iter) {
-        for (size_t i = 0; i < (*iter)->getNbAttributes(); i++) {
-            auto        attr      = (*iter)->getAttributeAt(i);
-            auto        attr_type = attr->getType();
-            const char* name      = nullptr;
-            if (attr->isKindOf(UniformBase::desc())) {
-                name = attr->cast<UniformBase>()->getName().data();
-            }
-
-            if (name) {
-                named_attrs.insert({ name, attr });
-            }
-            else {
-                attrs.insert({ attr_type, attr });
-            }
+        auto shader = ss->getShader();
+        if (shader) {
+            shader->use(*this);
+            d->shaders.push(shader);
         }
-    }
-
-    for (auto& kv : attrs) {
-        kv.second->apply(*this);
-    }
-    for (auto& kv : named_attrs) {
-        kv.second->apply(*this);
     }
 }
 
@@ -267,6 +218,48 @@ void State::updateMvpUniforms() {
         d->xg_matrix_mv->setValue(matrix_v * matrix_m);
         d->xg_matrix_mvp->setValue(matrix_vp * matrix_m);
         d->xg_view_dir->setValue(view_dir);
+    }
+}
+
+void State::apply() {
+    auto                   sss = d->statesets;
+    std::vector<StateSet*> sss_;
+
+    while (!sss.empty()) {
+        sss_.push_back(sss.top().get());
+        sss.pop();
+    }
+
+    struct CStrCmp {
+        bool operator()(const char* a, const char* b) const { return std::strcmp(a, b) < 0; }
+    };
+
+    std::map<StateAttribute::Type, StateAttribute*> attrs;
+    std::map<const char*, StateAttribute*, CStrCmp> named_attrs;
+
+    for (auto iter = sss_.rbegin(); iter != sss_.rend(); ++iter) {
+        for (size_t i = 0; i < (*iter)->getNbAttributes(); i++) {
+            auto        attr      = (*iter)->getAttributeAt(i);
+            auto        attr_type = attr->getType();
+            const char* name      = nullptr;
+            if (attr->isKindOf(UniformBase::desc())) {
+                name = attr->cast<UniformBase>()->getName().data();
+            }
+
+            if (name) {
+                named_attrs[name] = attr;
+            }
+            else {
+                attrs[attr_type] = attr;
+            }
+        }
+    }
+
+    for (auto& kv : attrs) {
+        kv.second->apply(*this);
+    }
+    for (auto& kv : named_attrs) {
+        kv.second->apply(*this);
     }
 }
 } // namespace glr

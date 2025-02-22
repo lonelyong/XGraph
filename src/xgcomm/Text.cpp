@@ -1,6 +1,10 @@
-#include "Text.h"
+﻿#include "Text.h"
 #include <codecvt>
 #include <locale>
+#ifdef _WIN32
+#    include <Windows.h>
+#endif // _WIN32
+
 
 namespace xg {
 namespace {
@@ -38,5 +42,17 @@ std::string gbkToUtf8(const std::string& str) {
 }
 std::string utf8ToGbk(const std::string& str) {
     return s_GbkConvert.to_bytes(s_Utf8Convert.from_bytes(str));
+}
+std::string ansiToUtf8(const std::string str) {
+    if (str.empty()) {
+        return str;
+    }
+#ifdef _WIN32
+    int          tmpLen = MultiByteToWideChar(CP_ACP, 0, str.data(), -1, NULL, 0);
+    std::wstring tempStr(tmpLen + 1, WCHAR(0));
+    MultiByteToWideChar(CP_ACP, 0, str.data(), -1, tempStr.data(), tmpLen + 1);
+    return unicodeToUtf8(tempStr);
+
+#endif // _WIN32
 }
 } // namespace xg

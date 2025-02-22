@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include <vkr/vkrenderer_global.h>
+#include <vkr/vkr_global.h>
 
 #include <vkr/engine/Object.h>
 #include <vkr/engine/StateAttribute.h>

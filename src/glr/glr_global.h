@@ -1,6 +1,6 @@
-#pragma once
+﻿#pragma once
 
-#ifdef GLRENDERER_LIB
+#ifdef GLR_LIB
 #    define GLR_API __declspec(dllexport)
 #else
 #    define GLR_API __declspec(dllimport)

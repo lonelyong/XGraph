@@ -13,7 +13,7 @@
 //#include <vkr/engine/Event.h>
 //#include <vkr/engine/GraphicContext.h>
 //#include <vkr/engine/Renderer.h>
-//#include <vkr/viewer/Viewer.h>
+//#include <vkr/app/Viewer.h>
 //
 //namespace vkr {
 //namespace {

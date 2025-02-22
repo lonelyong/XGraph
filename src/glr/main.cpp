@@ -5,11 +5,13 @@
 #include <glm/ext.hpp>
 
 #include <xgcomm/Resources.h>
+#include <xgcomm/Text.h>
 
 #include <glad/glad.h>
 
 #include <glr/app/Application.h>
 #include <glr/app/ExampleModels.h>
+#include <glr/app/GeometryConfigurer.h>
 #include <glr/app/GlfwViewer.h>
 #include <glr/app/QtMainWindow.h>
 #include <glr/app/QtViewer.h>
@@ -18,6 +20,7 @@
 #include <glr/app/Viewer.h>
 #include <glr/engine/Camera.h>
 #include <glr/engine/CameraManipulator.h>
+#include <glr/engine/Depth.h>
 #include <glr/engine/FrameBufferObject.h>
 #include <glr/engine/GraphicContext.h>
 #include <glr/engine/PhongLight.h>
@@ -36,10 +39,10 @@ void CreateSampleScene(glr::Scene* scene) {
     using namespace glr;
     scene->addModel(ExampleModels::createAxis(20, Vec3d()));
     scene->addModel(ExampleModels::createPointCloud(1000));
-    scene->addModel(ExampleModels::createCube(5, Vec3d(), true));
-    scene->addModel(ExampleModels::createCube(5, Vec3d(5, 0, 0), false));
+    scene->addModel(ExampleModels::createCube(2, Vec3d(), true));
+    scene->addModel(ExampleModels::createCube(3, Vec3d(5, 0, 0), false));
     scene->addModel(ExampleModels::createSkyBox());
-    scene->addModel(ExampleModels::createImage(""));
+    scene->addModel(ExampleModels::createImage("F:\\Users\\sa\\Downloads\\1.jpg"));
 }
 
 int main(int argc, char** argv) {
@@ -132,25 +135,22 @@ int main(int argc, char** argv) {
 #endif
 
     if (argc > 1) {
-        auto file  = argv[1];
+        auto file  = xg::ansiToUtf8(argv[1]);
         auto model = glr::MeshLoader().loadFile(file);
-        auto light = new glr::PhongLight();
-        light->setPosition(glr::Vec4f(10, 10, 10, 0.));
-        light->setSpotDirection(glr::Vec3f(2, 4, -1));
-        auto lights = new glr::PhongLights();
-        lights->addLight(light);
-        model->getOrCreateStateSet()->setAttribute(new glr::PhongMaterial());
-        model->getOrCreateStateSet()->setAttribute(lights);
-        model->getOrCreateStateSet()->setAttribute(new glr::Uniform("use_texture", false));
-        model->getOrCreateStateSet()->setShader(
-            glr::ResourceManager::instance()->getInternalShader(glr::ResourceManager::EXAMPLE_SAHDER_BASE));
-        scene->addModel(model);
+        if (model) {
+            model->getOrCreateStateSet()->setShader(
+                glr::ResourceManager::instance()->getInternalShader(glr::ResourceManager::EXAMPLE_SAHDER_STD_PHONG));
+            scene->addModel(model);
+            glr::GeometryConfigurer::configureStdPhong((glr::Geometry*)model->getDrawableAt(0),
+                                                       model->getOrCreateStateSet());
+        }
     }
     else {
         CreateSampleScene(scene);
     }
 
-    auto light  = new glr::PhongLight();
+    auto light = new glr::PhongLight();
+    light->setLightMode(glr::PhongLight::HEAD_LIGHT);
     auto lights = new glr::PhongLights();
     lights->addLight(light);
 
@@ -158,6 +158,7 @@ int main(int argc, char** argv) {
 
     renderer->getContext()->getState()->getDefaultStateSet()->setAttribute(lights);
     renderer->getContext()->getState()->getDefaultStateSet()->setAttribute(new glr::PhongMaterial());
+    renderer->getContext()->getState()->getDefaultStateSet()->setAttribute(new glr::Depth(0, 1, glr::Depth::LEQUAL));
     renderer->getCameraManipulator()->setVerticalAxisFixed(true);
 
 
