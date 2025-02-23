@@ -43,7 +43,7 @@ std::string gbkToUtf8(const std::string& str) {
 std::string utf8ToGbk(const std::string& str) {
     return s_GbkConvert.to_bytes(s_Utf8Convert.from_bytes(str));
 }
-std::string ansiToUtf8(const std::string str) {
+std::string local8bitToUtf8(const std::string str) {
     if (str.empty()) {
         return str;
     }

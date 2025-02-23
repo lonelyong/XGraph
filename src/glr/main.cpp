@@ -1,13 +1,12 @@
-﻿#include <QApplication>
+﻿#include <iostream>
 
-#include <iostream>
+#include <QApplication>
 
+#include <glad/glad.h>
 #include <glm/ext.hpp>
 
 #include <xgcomm/Resources.h>
 #include <xgcomm/Text.h>
-
-#include <glad/glad.h>
 
 #include <glr/app/Application.h>
 #include <glr/app/ExampleModels.h>
@@ -135,7 +134,7 @@ int main(int argc, char** argv) {
 #endif
 
     if (argc > 1) {
-        auto file  = xg::ansiToUtf8(argv[1]);
+        auto file  = xg::local8bitToUtf8(argv[1]);
         auto model = glr::MeshLoader().loadFile(file);
         if (model) {
             model->getOrCreateStateSet()->setShader(

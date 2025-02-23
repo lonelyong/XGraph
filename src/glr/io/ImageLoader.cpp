@@ -35,7 +35,7 @@ Image* ImageLoader::loadFile(const std::string& file) {
     stbi_set_flip_vertically_on_load(d->filp_v);
     auto data = stbi_load(file.data(), &w, &h, &channels, 0);
     if (data) {
-        auto fmt = Image::EMPTY;
+        auto fmt = Image::Unknown;
         if (channels == 1)
             fmt = Image::R8;
         else if (channels == 3)
@@ -43,7 +43,7 @@ Image* ImageLoader::loadFile(const std::string& file) {
         else if (channels == 4)
             fmt = Image::RGBA8888;
 
-        if (fmt == Image::EMPTY) return nullptr;
+        if (fmt == Image::Unknown) return nullptr;
 
         auto img = new Image();
         img->setImage(w, h, fmt, data);

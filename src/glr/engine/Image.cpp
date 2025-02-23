@@ -34,7 +34,7 @@ VI_OBJECT_META_IMPL(Image, Object);
 
 struct Image::Data {
     unsigned char* data   = nullptr;
-    Format         format = Format::EMPTY;
+    Format         format = Format::Unknown;
     int            w      = 0;
     int            h      = 0;
 };
@@ -50,10 +50,10 @@ void Image::setImage(int w, int h, Format format, const unsigned char* data) {
         id        = nullptr;
         d->w      = 0;
         d->h      = 0;
-        d->format = EMPTY;
+        d->format = Unknown;
     }
 
-    if (w <= 0 || h <= 0 || format == EMPTY) return;
+    if (w <= 0 || h <= 0 || format == Unknown) return;
 
     d->w      = w;
     d->h      = h;
@@ -72,10 +72,10 @@ void Image::setImage(int w, int h, Format format, const unsigned char* data, int
         id        = nullptr;
         d->w      = 0;
         d->h      = 0;
-        d->format = EMPTY;
+        d->format = Unknown;
     }
 
-    if (w <= 0 || h <= 0 || format == EMPTY) return;
+    if (w <= 0 || h <= 0 || format == Unknown) return;
 
     if ((format == RGB888 && stride < 3) || (format == RGBA8888 && stride < 4) || offset >= stride)
         throw vine::Exception(vine::Exception::INVALID_ARGUMENTS);

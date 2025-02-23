@@ -1,6 +1,9 @@
 #include "ModelDefs.h"
 
-#include <osgVerse/Pipeline/Pipeline.h>
+// #include <osgVerse/Pipeline/Pipeline.h>
+
+#include <osg/Node>
+#include <osg/Texture2D>
 
 namespace glv {
 namespace {
@@ -23,7 +26,7 @@ osg::Texture2D* createDefaultTexture(const osg::Vec4& color) {
 } // namespace
 
 void setPipelineMask(osg::Node* node, int mask) {
-    osgVerse::Pipeline::setPipelineMask(*node, mask);
+    // osgVerse::Pipeline::setPipelineMask(*node, mask);
 }
 
 void applyDefaultMaterial(osg::Node* node) {

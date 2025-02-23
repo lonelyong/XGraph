@@ -49,11 +49,14 @@ find_package(glfw3 REQUIRED)
 
 # add_definitions(-DSTB_IMAGE_IMPLEMENTATION)
 
-set(STB_INCLUDE_DIR "${THIRD_PARTY_DIR}stb/include")
-set(GLAD_INCLUDE_DIR "${THIRD_PARTY_DIR}glad/include")
-set(GLAD_SRC_DIR "${THIRD_PARTY_DIR}glad/src")
-set(BACKWARD_INCLUDE_DIR "${THIRD_PARTY_DIR}backward")
-file(GLOB GLAD_SRC_FILES ${GLAD_SRC_DIR}/glad.c ${GLAD_SRC_DIR}/glad_wgl.c)
+set(STB_DIR "${THIRD_PARTY_DIR}stb")
+set(STB_INCLUDE_DIR "${STB_DIR}/include")
+set(GLAD_DIR "${THIRD_PARTY_DIR}glad")
+set(GLAD_INCLUDE_DIR "${GLAD_DIR}/include")
+set(BACKWARD_DIR "${THIRD_PARTY_DIR}backward")
+set(BACKWARD_INCLUDE_DIR "${BACKWARD_DIR}")
+
+file(GLOB_RECURSE GLAD_SRC_FILES ${GLAD_DIR}/*.*)
 file(GLOB BACKWARD_SRC_FILES ${BACKWARD_INCLUDE_DIR}/*.hpp ${BACKWARD_INCLUDE_DIR}/*.cpp)
 
 add_subdirectory(src)

@@ -14,5 +14,5 @@ std::string gbkToUtf8(const std::string& str);
 
 std::string utf8ToGbk(const std::string& str);
 
-std::string ansiToUtf8(const std::string str);
+std::string local8bitToUtf8(const std::string str);
 } // namespace xg

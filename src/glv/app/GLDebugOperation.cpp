@@ -74,6 +74,7 @@ void GLDebugOperation::operator()(osg::GraphicsContext* gc) {
         return;
     }
 
+    
     glEnable(GL_DEBUG_OUTPUT);
     glDebugMessageCallback_((glDebugMessageCallbackCallbackPtr) & (debugCallback), nullptr);
     // glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, 0, GL_FALSE);

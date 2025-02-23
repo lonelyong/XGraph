@@ -12,7 +12,7 @@ class GLR_API Image : public Object {
   public:
     enum Format
     {
-        EMPTY,
+        Unknown,
         R8,
         G8,
         B8,

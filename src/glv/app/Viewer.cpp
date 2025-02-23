@@ -19,10 +19,10 @@
 #include <osgViewer/Viewer>
 #include <osgViewer/ViewerEventHandlers>
 
-#include <osgVerse/Pipeline/LightModule.h>
-#include <osgVerse/Pipeline/Pipeline.h>
-#include <osgVerse/Pipeline/ShadowModule.h>
-#include <osgVerse/Pipeline/SkyBox.h>
+//#include <osgVerse/Pipeline/LightModule.h>
+//#include <osgVerse/Pipeline/Pipeline.h>
+//#include <osgVerse/Pipeline/ShadowModule.h>
+//#include <osgVerse/Pipeline/SkyBox.h>
 
 #include <xgcomm/Resources.h>
 
@@ -39,7 +39,6 @@ struct Viewer::Data {
 
 Viewer::Viewer()
   : d(new Data()) {
-    auto pipeline = osg::ref_ptr(new osgVerse::Pipeline());
     auto root     = osg::ref_ptr(new osg::Group());
     auto traits   = osg::ref_ptr(new osg::GraphicsContext::Traits());
 
@@ -218,8 +217,8 @@ Viewer::Viewer()
 }
 
 void Viewer::addNode(osg::Node* node) {
-    osgVerse::TangentSpaceVisitor tsv;
-    node->accept(tsv);
+    //osgVerse::TangentSpaceVisitor tsv;
+    //node->accept(tsv);
     d->root_node->addChild(node);
 }
 

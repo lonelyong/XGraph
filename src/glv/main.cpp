@@ -28,6 +28,7 @@ int main(int argc, char** argv) {
     AppInitializationParameters params;
 
     Application app(params);
+    
 
     osg::Group* model = nullptr;
     if (argc == 1) {
