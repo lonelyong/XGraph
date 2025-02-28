@@ -94,7 +94,9 @@ GraphicContext* GraphicContext::getContextById(int id) {
 bool GraphicContext::realize() {
     if (d->is_initialized) return true;
 
+    glEnable(GL_DEBUG_OUTPUT);
     glDebugMessageCallback(debugMessageCallback, this);
+    glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
 
     d->is_initialized = true;
     return true;

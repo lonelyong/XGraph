@@ -1,4 +1,4 @@
-﻿#version 330 core
+#version 330 core
 layout(location=0) in vec3 position;
 // the pos of camera is (0,0,0)
 uniform mat4 matrix_mvp_;

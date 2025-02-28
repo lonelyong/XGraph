@@ -56,7 +56,7 @@ State::State(GraphicContext* ctx)
     d->xg_matrix_v_inv        = new Uniform("xg_matrix_v_inv", Mat4d());
     d->xg_matrix_mv           = new Uniform("xg_matrix_mv", Mat4d());
     d->xg_matrix_mvp          = new Uniform("xg_matrix_mvp", Mat4d());
-    d->xg_view_dir            = new Uniform("xg_view_dir", Mat4d());
+    d->xg_view_dir            = new Uniform("xg_view_dir", Vec3f());
 
     d->default_stateset->setAttribute(d->xg_is_lighting_enabled.get());
     d->default_stateset->setAttribute(d->xg_matrix_m.get());
@@ -217,7 +217,7 @@ void State::updateMvpUniforms() {
         d->xg_matrix_v_inv->setValue(glm::inverse(matrix_v));
         d->xg_matrix_mv->setValue(matrix_v * matrix_m);
         d->xg_matrix_mvp->setValue(matrix_vp * matrix_m);
-        d->xg_view_dir->setValue(view_dir);
+        d->xg_view_dir->setValue(Vec3f(view_dir));
     }
 }
 

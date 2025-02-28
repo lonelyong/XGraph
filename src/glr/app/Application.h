@@ -5,7 +5,7 @@
 namespace glr {
 struct GLR_API AppInitializationParameters {
     int  gl_ver_maj           = 4;
-    int  gl_ver_min           = 1;
+    int  gl_ver_min           = 2;
     bool gl_use_core_profile  = true;
     bool mesa_always_software = true;
 };

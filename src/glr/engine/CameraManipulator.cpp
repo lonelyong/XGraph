@@ -337,11 +337,11 @@ void StandardCameraManipulator::handleMouseScrolled(int delta) {
     // vm *= m;
 #else // 在相机坐标系中沿相机z轴方向移动
     Vec3d dir(0, 0, 1);
-    dir = dir * (delta / 10.);
+    dir = dir * (delta / 20.);
 
     Mat4d m(1.0);
 
-#    if 0
+#if 0
 
     m = glm::translate(m, -dir);
 
@@ -349,12 +349,12 @@ void StandardCameraManipulator::handleMouseScrolled(int delta) {
     auto cam_in_world2 = cam_in_world * m;
     vm                 = glm::inverse(cam_in_world2);
 
-#    else
+#else
 
     m  = glm::translate(m, dir);
     vm = m * vm;
 
-#    endif
+#endif
 
 #endif
 

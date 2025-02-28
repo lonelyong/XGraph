@@ -1,4 +1,4 @@
-﻿#version 330 core
+#version 330 core
 #extension GL_ARB_shader_image_load_store : enable
 layout(early_fragment_tests) in;
 uniform samplerCube tex_cube;

@@ -1,5 +1,7 @@
 ﻿#include "PhongLight.h"
 
+#include <cmath>
+
 #include <glr/engine/Camera.h>
 #include <glr/engine/Shader.h>
 #include <glr/engine/State.h>
@@ -9,14 +11,14 @@ VI_OBJECT_META_IMPL(PhongLight, Object);
 VI_OBJECT_META_IMPL(PhongLights, UniformBase);
 
 PhongLight::PhongLight()
-  : a_(Vec4f(0.05f, 0.05f, 0.05f, 1.0f))
+  : a_(Vec4f(0.1f, 0.1f, 0.1f, 1.0f))
   , d_(Vec4f(0.8f, 0.8f, 0.8f, 1.0f))
-  , s_(Vec4f(0.05f, 0.05f, 0.05f, 1.0f))
+  , s_(Vec4f(0.1f, 0.1f, 0.1f, 1.0f))
   , pos_(Vec4f(0.f, 0.f, 1.f, 0.0f))
   , dir_(Vec3f(0.f, 0.f, -1.f))
   , k_c_(1.0f)
   , k_l_(0.0f)
-  , k_q_(0.00001f)
+  , k_q_(0.0f)
   , expo_(0.f)
   , co_(180)
   , mode_(STD_LIGHT) {
@@ -162,6 +164,7 @@ void PhongLights::apply(State& state) const {
             shader->set(state, prefix + ".quadraticAttenuation", l->getQuadraticAttenuation());
             shader->set(state, prefix + ".spotExponent", l->getSpotExponent());
             shader->set(state, prefix + ".spotCutoff", l->getSpotCutoff());
+            shader->set(state, prefix + ".spotCosCutoff", cos(l->getSpotCutoff() * 3.1415926f / 180.f));
 
             auto dir = l->getSpotDirection();
             auto pos = l->getPosition();

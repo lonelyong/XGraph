@@ -102,7 +102,7 @@ void QtViewer::initializeGL() {
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_TEXTURE_2D);
+    // glEnable(GL_TEXTURE_2D); //removed after v3.2+
     glEnable(GL_PROGRAM_POINT_SIZE);
     // glEnable(GL_CULL_FACE);
     // glCullFace(GL_BACK);

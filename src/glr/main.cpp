@@ -36,12 +36,12 @@
 
 void CreateSampleScene(glr::Scene* scene) {
     using namespace glr;
-    scene->addModel(ExampleModels::createAxis(20, Vec3d()));
-    scene->addModel(ExampleModels::createPointCloud(1000));
-    scene->addModel(ExampleModels::createCube(2, Vec3d(), true));
+    //scene->addModel(ExampleModels::createAxis(20, Vec3d()));
+    //scene->addModel(ExampleModels::createPointCloud(1000));
+    //scene->addModel(ExampleModels::createCube(2, Vec3d(), true));
     scene->addModel(ExampleModels::createCube(3, Vec3d(5, 0, 0), false));
-    scene->addModel(ExampleModels::createSkyBox());
-    scene->addModel(ExampleModels::createImage("F:\\Users\\sa\\Downloads\\1.jpg"));
+    //scene->addModel(ExampleModels::createSkyBox());
+    //scene->addModel(ExampleModels::createImage("F:\\Users\\sa\\Downloads\\1.jpg"));
 }
 
 int main(int argc, char** argv) {
@@ -150,6 +150,8 @@ int main(int argc, char** argv) {
 
     auto light = new glr::PhongLight();
     light->setLightMode(glr::PhongLight::HEAD_LIGHT);
+    light->setSpotCutoff(180);
+    light->setSpotExponent(32);
     auto lights = new glr::PhongLights();
     lights->addLight(light);
 
