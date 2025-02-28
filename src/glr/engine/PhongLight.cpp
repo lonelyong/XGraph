@@ -16,7 +16,7 @@ PhongLight::PhongLight()
   , dir_(Vec3f(0.f, 0.f, -1.f))
   , k_c_(1.0f)
   , k_l_(0.0f)
-  , k_q_(0.0f)
+  , k_q_(0.00001f)
   , expo_(0.f)
   , co_(180)
   , mode_(STD_LIGHT) {

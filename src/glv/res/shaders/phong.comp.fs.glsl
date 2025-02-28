@@ -1,11 +1,11 @@
-ï»¿#version 460 compatibility
+#version 460 compatibility
 
 /*
 in gl_PerFragment {
-    in float gl_FogFragCoord;  // é›¾åæ ‡
-    in vec4 gl_TexCoord[];     // çº¹ç†åæ ‡
-    in vec4 gl_Color;          // ç‰‡æ®µé¢œè‰²
-    in vec4 gl_SecondaryColor; // æ¬¡è¦é¢œè‰²
+    in float gl_FogFragCoord;  // Îí×ø±ê
+    in vec4 gl_TexCoord[];     // ÎÆÀí×ø±ê
+    in vec4 gl_Color;          // Æ¬¶ÎÑÕÉ«
+    in vec4 gl_SecondaryColor; // ´ÎÒªÑÕÉ«
 };
 
 out vec4 gl_FragColor;
@@ -71,7 +71,7 @@ vec4 get_spot_light_contribution(gl_LightSourceParameters l, gl_MaterialParamete
 }
 
 void main(){
-// å›ºå®šç®¡çº¿æ¨¡å¼ä¸‹,Lighté»˜è®¤ä¸ºå¹³è¡Œå…‰
+// ¹Ì¶¨¹ÜÏßÄ£Ê½ÏÂ,LightÄ¬ÈÏÎªÆ½ĞĞ¹â
 if(gl_LightSource[0].position.w == 0){
     FragColor = get_directional_light_contribution(gl_LightSource[1], gl_FrontMaterial);
     

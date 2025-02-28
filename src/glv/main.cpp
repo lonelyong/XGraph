@@ -5,21 +5,19 @@
 #include <osg/MatrixTransform>
 #include <osg/ShapeDrawable>
 
-#include "xgcomm/Environment.h"
-#include "xgcomm/Text.h"
+#include <xgcomm/Environment.h>
+#include <xgcomm/Text.h>
 
-#include "glv/io/BrepLoader.h"
-#include "glv/io/MeshLoader.h"
-#include "glv/io/PointCloudLoader.h"
-#include "glv/modeling/CoordGenerator.h"
-#include "glv/modeling/CurveGenerator.h"
-#include "glv/modeling/DottedCurve.h"
-#include "glv/modeling/MeshCutterVTK.h"
-#include "glv/modeling/ModelDefs.h"
-
-#include "glv/app/Viewer.h"
-
-#include "glv/app/Application.h"
+#include <glv/app/Application.h>
+#include <glv/app/Viewer.h>
+#include <glv/io/BrepLoader.h>
+#include <glv/io/MeshLoader.h>
+#include <glv/io/PointCloudLoader.h>
+#include <glv/io/OctomapLoader.h>
+#include <glv/modeling/CoordGenerator.h>
+#include <glv/modeling/CurveGenerator.h>
+#include <glv/modeling/DottedCurve.h>
+#include <glv/modeling/MeshCutterVTK.h>
 
 int main(int argc, char** argv) {
 
@@ -28,7 +26,7 @@ int main(int argc, char** argv) {
     AppInitializationParameters params;
 
     Application app(params);
-    
+
 
     osg::Group* model = nullptr;
     if (argc == 1) {
@@ -145,6 +143,9 @@ int main(int argc, char** argv) {
         }
         else if (PointCloudLoader::isSupported(file)) {
             model = PointCloudLoader().loadFile(file);
+        }
+        else if (OctomapLoader::isSupported(file)) {
+            model = OctomapLoader().loadFile(file);
         }
         else {
             std::cout << std::endl << "Not supported." << std::endl;

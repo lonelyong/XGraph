@@ -1,4 +1,4 @@
-#include "CoordGenerator.h"
+﻿#include "CoordGenerator.h"
 
 #include <osg/AutoTransform>
 #include <osg/Camera>
@@ -8,8 +8,6 @@
 #include <osg/MatrixTransform>
 #include <osg/Shape>
 #include <osg/ShapeDrawable>
-
-#include "ModelDefs.h"
 
 namespace glv {
 namespace {
@@ -68,7 +66,6 @@ createCoord(double cyli_len, double cyli_r, double cone_len, double cone_r, bool
         root->addChild(z_axis);
     }
 
-    setPipelineMask(root, PipelineMask::FORWARD_SCENE_MASK);
     return root;
 }
 

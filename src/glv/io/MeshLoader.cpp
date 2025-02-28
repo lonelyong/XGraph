@@ -11,8 +11,6 @@
 #include <osg/MatrixTransform>
 #include <osgUtil/SmoothingVisitor>
 
-#include <glv/modeling/ModelDefs.h>
-
 namespace glv {
 
 namespace ai = Assimp;
@@ -116,7 +114,6 @@ osg::MatrixTransform* MeshLoader::loadFile(const std::string& file) {
     if (scene) {
         aiProcessNode(&root, scene, scene->mRootNode);
         if (root) {
-            setPipelineMask(root, DEFERRED_SCENE_MASK);
         }
         return root;
     }

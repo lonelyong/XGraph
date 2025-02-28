@@ -5,6 +5,7 @@ find_package(opencascade REQUIRED)
 find_package(assimp REQUIRED)
 find_package(PCL CONFIG REQUIRED)
 find_package(VTK REQUIRED)
+find_package(octomap REQUIRED)
 # find_package(osgVerse REQUIRED)
 
 file(GLOB SRC_FILES *.cpp)
@@ -56,20 +57,20 @@ target_include_directories(${CURRENT_TARGET_NAME}
     PRIVATE 
         ${BACKWARD_INCLUDE_DIR}
         ${GLAD_INCLUDE_DIR}
+        
 )
-
 target_link_libraries(${CURRENT_TARGET_NAME} 
     PRIVATE 
+        glfw
         xgcomm
         assimp::assimp
         TKernel TKXSBase TKMesh TKBRep TKDESTEP TKDEIGES TKMath TKGeomBase TKGeomAlgo TKG3d
         VTK::CommonCore VTK::IOPLY VTK::FiltersCore VTK::IOGeometry
-
         ${OPENSCENEGRAPH_LIBRARIES} 
         #${osgVerse_LIBRARIES} 
         ${PCL_LIBRARIES}
-        
         opengl32.lib
+        octomap octomath octomap-static octomath-static
 )
 
 target_include_directories(${CURRENT_TARGET_NAME} 

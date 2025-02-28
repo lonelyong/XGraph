@@ -29,8 +29,6 @@
 
 #include <xgcomm/Text.h>
 
-#include <glv/modeling/ModelDefs.h>
-
 namespace glv {
 namespace {
 bool isStpFile(const std::string& ext) {
@@ -235,8 +233,8 @@ osg::MatrixTransform* BrepLoader::loadFile(const std::string& file) {
         face_geom->addPrimitiveSet(indices);
         face_geom->setUseDisplayList(false);
         face_geom->setUseVertexBufferObjects(true);
-        //face_geom->setUseVertexArrayObject(true);
-        // osgUtil::SmoothingVisitor().smooth(*face_geom);
+        // face_geom->setUseVertexArrayObject(true);
+        //  osgUtil::SmoothingVisitor().smooth(*face_geom);
         face_geod->addDrawable(face_geom);
 
         TopExp_Explorer exp(face, TopAbs_EDGE);
@@ -271,7 +269,7 @@ osg::MatrixTransform* BrepLoader::loadFile(const std::string& file) {
             edge_geom->setColorArray(edge_colors, osg::Array::BIND_OVERALL);
             edge_geom->setUseDisplayList(false);
             edge_geom->setUseVertexBufferObjects(true);
-            //edge_geom->setUseVertexArrayObject(true);
+            // edge_geom->setUseVertexArrayObject(true);
             edge_geod->addDrawable(edge_geom);
         }
     }
@@ -285,9 +283,6 @@ osg::MatrixTransform* BrepLoader::loadFile(const std::string& file) {
     auto root = new osg::MatrixTransform();
     root->addChild(face_geod);
     root->addChild(edge_geod);
-
-    setPipelineMask(edge_geod, FORWARD_SCENE_MASK);
-    setPipelineMask(face_geod, DEFERRED_SCENE_MASK /* | SHADOW_CASTER_MASK*/);
 
     return root;
 }

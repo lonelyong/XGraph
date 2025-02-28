@@ -87,6 +87,7 @@ vec4 get_directional_light_contribution(PhongLight l){
     // vec3 s = l.s.rgb * pow(max(dot(xg_view_dir, reflect_dir), 0.0), mate.sh) * mate.s.rgb;
     // Blinn_Phong
     vec4 s = l.specular * pow(max(dot(normalize(-l_dir + xg_view_dir), frag_world_norm), 0.0), mate.shininess) * mate.specular;
+
     return a + d + s;
 }
 
@@ -96,6 +97,14 @@ vec4 get_spot_light_contribution(PhongLight l){
     vec4 a = l.ambient * mate.ambient;
     vec4 d = l.diffuse * max(dot(-l_dir, frag_world_norm), 0) * fetchColor();
     vec4 s = l.specular * pow(max(dot(xg_view_dir, reflect_dir), 0.0), mate.shininess) * mate.specular;
+
+    float dist = length(l.position.xyz - frag_world_posi);
+    float attenuation = 1.0 / (l.constantAttenuation + l.linearAttenuation * dist + l.quadraticAttenuation * (dist * dist));
+
+    a *= attenuation;
+    d *= attenuation;
+    s *= attenuation;
+
     return a + d + s;
 }
 

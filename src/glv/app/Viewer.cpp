@@ -1,4 +1,4 @@
-﻿#include <glad/glad.h>
+#include <glad/glad.h>
 
 #include "Viewer.h"
 
@@ -14,15 +14,15 @@
 #include <osgGA/FirstPersonManipulator>
 #include <osgGA/StandardManipulator>
 #include <osgGA/StateSetManipulator>
-#include <osgGA/TerrainManipulator>
+#include <osgGA/SphericalManipulator>
 #include <osgGA/TrackballManipulator>
 #include <osgViewer/Viewer>
 #include <osgViewer/ViewerEventHandlers>
 
-//#include <osgVerse/Pipeline/LightModule.h>
-//#include <osgVerse/Pipeline/Pipeline.h>
-//#include <osgVerse/Pipeline/ShadowModule.h>
-//#include <osgVerse/Pipeline/SkyBox.h>
+// #include <osgVerse/Pipeline/LightModule.h>
+// #include <osgVerse/Pipeline/Pipeline.h>
+// #include <osgVerse/Pipeline/ShadowModule.h>
+// #include <osgVerse/Pipeline/SkyBox.h>
 
 #include <xgcomm/Resources.h>
 
@@ -39,8 +39,8 @@ struct Viewer::Data {
 
 Viewer::Viewer()
   : d(new Data()) {
-    auto root     = osg::ref_ptr(new osg::Group());
-    auto traits   = osg::ref_ptr(new osg::GraphicsContext::Traits());
+    auto root   = osg::ref_ptr(new osg::Group());
+    auto traits = osg::ref_ptr(new osg::GraphicsContext::Traits());
 
     traits->x                    = 100;
     traits->y                    = 100;
@@ -58,15 +58,15 @@ Viewer::Viewer()
 
     traits->windowName = "ModelViewer";
 
-    auto gc  = osg::ref_ptr(osg::GraphicsContext::createGraphicsContext(traits));
+    auto gc = osg::ref_ptr(osg::GraphicsContext::createGraphicsContext(traits));
     // false: gl_Vertex=0,gl_Normal=2,gl_Color=3
     // true : gl_Vertex=0,gl_Normal=1,gl_Color=2
-    // default: true
-    // gc->getState()->resetVertexAttributeAlias(false);
-    //// gc->getState()->setUseVertexAttributeAliasing(true);
-    // gc->getState()->setUseModelViewAndProjectionUniforms(true);
-    //// 使resetVertexAttributeAlias所作的映射生效
-    // gc->getState()->setUseVertexAttributeAliasing(true);
+    // default: true;导致不使用shader的模型变黑色
+    //
+    gc->getState()->resetVertexAttributeAlias(false, 8);
+    gc->getState()->setUseModelViewAndProjectionUniforms(true);
+    // 使resetVertexAttributeAlias所作的映射生效
+    gc->getState()->setUseVertexAttributeAliasing(true);
     auto cam = getCamera();
     cam->setGraphicsContext(gc);
     cam->setViewport(0, 0, traits->width, traits->height);
@@ -75,10 +75,10 @@ Viewer::Viewer()
 
     using Camm = osgGA::TrackballManipulator;
 
-    auto camm = osg::ref_ptr(new Camm(Camm::DEFAULT_SETTINGS | Camm::SET_CENTER_ON_WHEEL_FORWARD_MOVEMENT));
+    auto camm = osg::ref_ptr(new Camm(Camm::DEFAULT_SETTINGS /*| Camm::SET_CENTER_ON_WHEEL_FORWARD_MOVEMENT*/));
     camm->setAutoComputeHomePosition(true);
     camm->setByMatrix(cam->getViewMatrix());
-    camm->setVerticalAxisFixed(true);
+    //camm->setVerticalAxisFixed(true);
 
     auto picker_cam = osg::ref_ptr(new PickerCamera());
     picker_cam->setGraphicsContext(gc);
@@ -109,46 +109,11 @@ Viewer::Viewer()
         new osg::Shader(osg::Shader::FRAGMENT, fn_create_shader(XG_RES("shaders/phong.comp.fs.glsl"))));
 
     auto root_mat = osg::ref_ptr(new osg::Material());
-    root_mat->setColorMode(osg::Material::AMBIENT_AND_DIFFUSE);
+    root_mat->setColorMode(osg::Material::OFF);
 
-    root->getOrCreateStateSet()->setAttributeAndModes(root_prog, osg::StateAttribute::ON);
+    // root->getOrCreateStateSet()->setAttributeAndModes(root_prog, osg::StateAttribute::ON);
     root->getOrCreateStateSet()->setAttributeAndModes(root_mat, osg::StateAttribute::ON);
     root->getOrCreateStateSet()->setMode(GL_LIGHTING, 1);
-    root->getOrCreateStateSet()->setMode(GL_LIGHT1, 1);
-    root->getOrCreateStateSet()->setMode(GL_LIGHT0, 0);
-
-    auto main_light = new osg::Light();
-    main_light->setAmbient(osg::Vec4(1, 1, 0, 1));
-    main_light->setDiffuse(osg::Vec4(1, 0, 0, 1));
-    main_light->setLightNum(1);
-    main_light->setDataVariance(osg::Object::DYNAMIC);
-    main_light->setPosition(osg::Vec4(0, 1, 0, 0));
-
-    // auto main_ls = new osg::LightSource();
-    // main_ls->setLight(main_light);
-    // root->addChild(main_ls);
-
-    root->getOrCreateStateSet()->setAttributeAndModes(main_light, 1);
-
-    // gc->getState()->setGlobalDefaultAttribute(main_light);
-
-    struct RootNodeUpdateCallback : public osg::NodeCallback {
-        virtual void operator()(osg::Node* node, osg::NodeVisitor* nv) override {
-            osg::Vec3d eye, target, up, dir;
-            cam_->getViewMatrixAsLookAt(eye, target, up);
-            dir = target - eye;
-            dir.normalize();
-            light_->setPosition(osg::Vec4(dir.x(), dir.y(), dir.z(), 0.));
-        }
-        osg::ref_ptr<osg::Camera> cam_;
-        osg::ref_ptr<osg::Light>  light_;
-    };
-
-    auto callback    = new RootNodeUpdateCallback();
-    callback->cam_   = cam;
-    callback->light_ = main_light;
-
-    root->addUpdateCallback(callback);
 
     d->root_node  = root;
     d->picker_cam = picker_cam;
@@ -217,8 +182,8 @@ Viewer::Viewer()
 }
 
 void Viewer::addNode(osg::Node* node) {
-    //osgVerse::TangentSpaceVisitor tsv;
-    //node->accept(tsv);
+    // osgVerse::TangentSpaceVisitor tsv;
+    // node->accept(tsv);
     d->root_node->addChild(node);
 }
 
