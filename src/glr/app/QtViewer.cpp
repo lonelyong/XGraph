@@ -109,6 +109,9 @@ void QtViewer::initializeGL() {
 
     glFrontFace(GL_CCW);
     glDepthFunc(GL_LESS);
+
+    //glEnable(GL_NO_ERROR);
+    //glDisable(GL_RASTERIZER_DISCARD);
     return;
 }
 

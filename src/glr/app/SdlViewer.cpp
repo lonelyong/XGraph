@@ -53,7 +53,7 @@ class SdlGraphicContext : public GraphicContext {
     virtual bool realize() override {
         if (isRealized()) return true;
 
-        if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+        if (!SDL_Init(SDL_INIT_VIDEO)) {
             std::cout << "SDL init failed." << std::endl;
         }
 

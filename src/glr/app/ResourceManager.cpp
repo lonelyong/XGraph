@@ -52,6 +52,9 @@ Shader* ResourceManager::getInternalShader(InternalShader shader) {
     else if (shader == EXAMPLE_SAHDER_SKY_BOX) {
         return getShader("SkyBox");
     }
+    else if (shader == EXAMPLE_SAHDER_DIRECT) {
+        return getShader("Direct");
+    }
     return nullptr;
 }
 

@@ -7,15 +7,11 @@
 #include <string>
 #include <vector>
 
-#include <vine/ge/ge_global.h>
+#include <vine/ge/Rect2.h>
 
 #include <glr/engine/ArrayBuffer.h>
 #include <glr/scene/Drawable.h>
 #include <glr/scene/PrimitiveSet.h>
-
-VI_GE_NS_BEGIN
-class Rect2d;
-VI_GE_NS_END
 
 namespace glr {
 class Texture;

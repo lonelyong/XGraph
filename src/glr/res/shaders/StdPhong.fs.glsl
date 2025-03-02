@@ -3,9 +3,9 @@
 #define MAX_LIGHT 8
 
 // #extension GL_ARB_explicit_uniform_location : enable
-#extension GL_ARB_shader_image_load_store : enable
+// #extension GL_ARB_shader_image_load_store : enable
 
-layout(early_fragment_tests) in;
+// layout(early_fragment_tests) in;
 
 in vec4 frag_color;
 in vec2 frag_tex_coord2;

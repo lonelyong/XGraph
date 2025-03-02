@@ -15,7 +15,8 @@ class GLR_API ResourceManager {
         EXAMPLE_SAHDER_BASE = 0,
         EXAMPLE_SAHDER_STD_PHONG,
         EXAMPLE_SAHDER_POINT_CLOUD,
-        EXAMPLE_SAHDER_SKY_BOX
+        EXAMPLE_SAHDER_SKY_BOX,
+        EXAMPLE_SAHDER_DIRECT
     };
 
     enum InternalCubeMap

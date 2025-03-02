@@ -2,7 +2,7 @@
 
 #include <glm/ext.hpp>
 
-#include <vine/ge/Rect2d.h>
+#include <vine/ge/Rect2.h>
 
 #include <glr/app/ResourceManager.h>
 #include <glr/engine/CubeMap.h>
@@ -70,6 +70,13 @@ Model* ExampleModels::createCube(float len, const Vec3d& posi, bool with_tex) {
         auto colors = new Vec4fArray();
         colors->push_back({ 0.8f, 0.8f, 0.0f, 1.0f });
         geom->addVertexAttribArray(2, colors);
+
+        auto tex_coords2 = new Vec2fArray();
+        tex_coords2->push_back(Vec2f());
+        auto tex_coords3 = new Vec3fArray();
+        tex_coords3->push_back(Vec3f());
+        geom->addVertexAttribArray(3, tex_coords2);
+        geom->addVertexAttribArray(4, tex_coords3);
     }
 
 
@@ -124,7 +131,7 @@ Model* ExampleModels::createImage(const char* file) {
     auto tex = new Texture2D();
     tex->setImage(file);
 
-    auto img_size = Rect2d(0, 0, tex->getWidth() / 400., tex->getHeight() / 400.);
+    auto img_size = Rect2d(0., 0., tex->getWidth() / 400., tex->getHeight() / 400.);
     auto geom_img = Geometry::createTexturedQuad(img_size, Rect2d(0, 0, 1, 1));
     geom_img->addTexture(0, 0, tex);
 

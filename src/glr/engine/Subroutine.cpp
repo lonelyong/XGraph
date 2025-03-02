@@ -30,7 +30,9 @@ void Subroutine::apply(State& state) const {
     if (shader && d->type != UNDEFINED) {
         if (!d->name.empty()) {
             auto loc = glGetSubroutineIndex(shader->getId(state), d->type, d->name.data());
-            glUniformSubroutinesuiv(d->type, 1, &loc);
+            if (loc != GL_INVALID_INDEX) {
+                glUniformSubroutinesuiv(d->type, 1, &loc);
+            }
         }
     }
 }

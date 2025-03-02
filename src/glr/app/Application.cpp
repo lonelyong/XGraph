@@ -23,7 +23,7 @@ bool s_is_qt_initialized   = false;
 Application::Application(const AppInitializationParameters& params)
   : params_(params) {
     if (params.mesa_always_software) {
-#ifdef __WIN32
+#ifdef _WIN32
         _putenv_s("LIBGL_ALWAYS_SOFTWARE", "1");
         _putenv_s("MESA_LOADER_DRIVER_OVERRIDE", "swrast");
 #endif

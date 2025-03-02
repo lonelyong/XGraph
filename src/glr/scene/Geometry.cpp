@@ -1,7 +1,6 @@
 ﻿#include <glr/scene/Geometry.h>
 
 #include <vine/core/Ptr.h>
-#include <vine/ge/Rect2d.h>
 
 #include <glr/engine/Shader.h>
 #include <glr/engine/State.h>
