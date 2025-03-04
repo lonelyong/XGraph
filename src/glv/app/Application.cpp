@@ -71,20 +71,20 @@ static void initOpenSceneGraph() {
 
     bool glad_loaded = false;
 
-    //if (glfwInit() == GLFW_TRUE) {
-    //    auto wnd = glfwCreateWindow(1, 1, "GladAppInitializer", NULL, NULL);
-    //    if (wnd) {
-    //        glfwMakeContextCurrent(wnd);
-    //        if (gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-    //            glad_loaded = true;
-    //        }
-    //        glfwDestroyWindow(wnd);
-    //    }
-    //}
+    if (glfwInit() == GLFW_TRUE) {
+        auto wnd = glfwCreateWindow(1, 1, "GladAppInitializer", NULL, NULL);
+        if (wnd) {
+            glfwMakeContextCurrent(wnd);
+            if (gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+                glad_loaded = true;
+            }
+            glfwDestroyWindow(wnd);
+        }
+    }
 
-    //if (!glad_loaded) {
-    //    std::cout << "Failed to initialize GLAD." << std::endl;
-    //}
+    if (!glad_loaded) {
+        std::cout << "Failed to initialize GLAD." << std::endl;
+    }
 }
 
 } // namespace glv

@@ -50,8 +50,7 @@ static void debugMessageCallback(GLenum        source,
     default: id_desc = "UNKNOWN_ID"; break;
     }
 
-    std::string msg =
-        "(ID = " + id_desc + ") " + std::string(message) + "\n\t(Source = " + src_desc + ", Type = " + type_desc + ")";
+    std::string msg = "(ID = " + id_desc + "; Source = " + src_desc + "; Type = " + type_desc + ") " + message;
     switch (severity) {
     case GL_DEBUG_SEVERITY_HIGH: OSG_WARN << "[HIGH] " << msg << std::endl; break;
     case GL_DEBUG_SEVERITY_MEDIUM: OSG_NOTICE << "[MEDIUM] " << msg << std::endl; break;
@@ -101,6 +100,13 @@ void RealizeOperation::operator()(osg::GraphicsContext* gc) {
             }
         }
     }
+
+    glDisable(GL_SCISSOR_TEST);
+    glDisable(GL_MULTISAMPLE);
+
+    GLint sampleBuffers = 0, samples = 0;
+    glGetIntegerv(GL_SAMPLE_BUFFERS, &sampleBuffers);
+    glGetIntegerv(GL_SAMPLES, &samples);
 
     OSG_INFO << "\nGraphics context realized.";
     OSG_INFO << "\nGL Version: " << gl_ver;

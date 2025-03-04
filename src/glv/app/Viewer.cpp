@@ -54,7 +54,7 @@ Viewer::Viewer()
     traits->doubleBuffer     = true;
     traits->depth            = 24;
     traits->stencil          = 8;
-    // traits->samples              = 4;
+    traits->samples          = 0;
     traits->screenNum        = 0;
 
     //  在使用gl3编译时使用
@@ -82,6 +82,7 @@ Viewer::Viewer()
     cam->setProjectionMatrixAsPerspective(30, (double)traits->width / traits->height, 1, 1000);
     cam->setViewMatrixAsLookAt(osg::Vec3d(200, 200, 200), osg::Vec3d(), osg::Vec3d(-1, 0, 1));
     cam->setClearColor(osg::Vec4(0, 0, 0, 1));
+    cam->setClearMask(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
     using Camm = osgGA::TrackballManipulator;
 
@@ -100,8 +101,8 @@ Viewer::Viewer()
     addEventHandler(new osgGA::StateSetManipulator(cam->getOrCreateStateSet()));
     setThreadingModel(osgViewer::Viewer::SingleThreaded);
     setSceneData(root);
-    //setRealizeOperation(new RealizeOperation());
-    //setLightingMode(osg::View::HEADLIGHT);
+    setRealizeOperation(new RealizeOperation());
+    setLightingMode(osg::View::HEADLIGHT);
 
     auto fn_create_shader = [](const char* file) {
         std::ifstream ifs(file);
@@ -121,9 +122,9 @@ Viewer::Viewer()
     auto root_mat = osg::ref_ptr(new osg::Material());
     root_mat->setColorMode(osg::Material::OFF);
 
-    //root->getOrCreateStateSet()->setAttributeAndModes(root_prog, osg::StateAttribute::ON);
-    //root->getOrCreateStateSet()->setAttributeAndModes(root_mat, osg::StateAttribute::ON);
-    //root->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::ON);
+    // root->getOrCreateStateSet()->setAttributeAndModes(root_prog, osg::StateAttribute::ON);
+    root->getOrCreateStateSet()->setAttributeAndModes(root_mat, osg::StateAttribute::ON);
+    root->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::ON);
 
     d->root_node  = root;
     d->picker_cam = picker_cam;
