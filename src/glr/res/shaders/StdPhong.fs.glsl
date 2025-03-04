@@ -38,9 +38,12 @@ struct PhongLight {
     float quadraticAttenuation; // K2
 };
 
+// 如果sampler不赋值的话，不去使用是没问题的（NV\AMD\INTEL）
+// 在subroutine中引用了，实际没有执行该subroutine的话(NV警告)(MESA无法渲染)
 uniform sampler2D     tex_2d;
 uniform samplerCube   tex_cube;
 uniform sampler3D     tex_3d;
+
 uniform PhongMaterial mate;
 uniform PhongLight    lights[MAX_LIGHT];
 uniform int           lights_count = 0;
