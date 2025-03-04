@@ -67,12 +67,14 @@ Viewer::Viewer()
     auto gc = osg::ref_ptr(osg::GraphicsContext::createGraphicsContext(traits));
     // false: gl_Vertex=0,gl_Normal=2,gl_Color=3
     // true : gl_Vertex=0,gl_Normal=1,gl_Color=2
-    // default: true;导致不使用shader的模型变黑色
-    //
-    //gc->getState()->resetVertexAttributeAlias(false, 8);
+    // default: true
+    gc->getState()->resetVertexAttributeAlias(false);
     gc->getState()->setUseModelViewAndProjectionUniforms(true);
     // 使resetVertexAttributeAlias所作的映射生效
-    //gc->getState()->setUseVertexAttributeAliasing(true);
+    // 启用后
+    // --N卡：如果resetVertexAttributeAlias(true)，固定功能管线模型法线有问题
+    // --Intel|Mesa3d：固定功能管线模型法线有问题
+    gc->getState()->setUseVertexAttributeAliasing(true);
 
     auto cam = getCamera();
     cam->setGraphicsContext(gc);
@@ -98,8 +100,8 @@ Viewer::Viewer()
     addEventHandler(new osgGA::StateSetManipulator(cam->getOrCreateStateSet()));
     setThreadingModel(osgViewer::Viewer::SingleThreaded);
     setSceneData(root);
-    setRealizeOperation(new RealizeOperation());
-    setLightingMode(osg::View::HEADLIGHT);
+    //setRealizeOperation(new RealizeOperation());
+    //setLightingMode(osg::View::HEADLIGHT);
 
     auto fn_create_shader = [](const char* file) {
         std::ifstream ifs(file);
@@ -120,8 +122,8 @@ Viewer::Viewer()
     root_mat->setColorMode(osg::Material::OFF);
 
     //root->getOrCreateStateSet()->setAttributeAndModes(root_prog, osg::StateAttribute::ON);
-    root->getOrCreateStateSet()->setAttributeAndModes(root_mat, osg::StateAttribute::ON);
-    root->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::ON);
+    //root->getOrCreateStateSet()->setAttributeAndModes(root_mat, osg::StateAttribute::ON);
+    //root->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::ON);
 
     d->root_node  = root;
     d->picker_cam = picker_cam;
