@@ -6,7 +6,7 @@
 #include <glm/ext.hpp>
 
 #include <vine/core/Ptr.h>
-#include <vine/ge/Rect2d.h>
+#include <vine/ge/Rect2.h>
 
 #include <xgcomm/Resources.h>
 
@@ -42,7 +42,7 @@ int main(int argc, char** argv) {
     _putenv_s("LIBGL_ALWAYS_SOFTWARE", "1");
     _putenv_s("MESA_LOADER_DRIVER_OVERRIDE", "swrast");
 
-    vkr::AppInitializationParameters params;
+    vkr::AppParameters params;
     vkr::Application              initializer(params);
     initializer.initGlfw();
     initializer.initQt();

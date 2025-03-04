@@ -3,13 +3,13 @@
 #include <vkr/vkr_global.h>
 
 namespace vkr {
-struct VKR_API AppInitializationParameters {
+struct VKR_API AppParameters {
 
 };
 
 class VKR_API Application {
   public:
-    Application(const AppInitializationParameters& params);
+    Application(const AppParameters& params);
 
   public:
     virtual bool initGlfw();
@@ -21,9 +21,9 @@ class VKR_API Application {
     virtual bool isQtInitialized() const;
 
   public:
-    const AppInitializationParameters& getInitializationParameters() const { return params_; }
+    const AppParameters& getParameters() const { return params_; }
 
   private:
-    AppInitializationParameters params_;
+    AppParameters params_;
 };
 } // namespace vkr

@@ -18,10 +18,16 @@ bool s_is_glfw_initialized = false;
 bool s_is_glad_initialized = false;
 bool s_is_qt_initialized   = false;
 
+static Application* s_app_inst = nullptr;
+
 } // namespace
 
-Application::Application(const AppInitializationParameters& params)
+Application::Application(const AppParameters& params)
   : params_(params) {
+    if (s_app_inst) {
+        throw std::exception("There should be only one application object.");
+    }
+
     if (params.mesa_always_software) {
 #ifdef _WIN32
         _putenv_s("LIBGL_ALWAYS_SOFTWARE", "1");
@@ -120,5 +126,9 @@ bool Application::isGladInitialized() const {
 
 bool Application::isQtInitialized() const {
     return s_is_qt_initialized;
+}
+
+Application* Application::current() {
+    return s_app_inst;
 }
 } // namespace glr

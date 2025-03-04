@@ -1,15 +1,17 @@
 ﻿#include <glr/engine/GraphicContext.h>
 
 #include <queue>
-
 #include <iostream>
 
+#include <glad/glad.h>
+
 #include <vine/core/Ptr.h>
+
+#include <xgcomm/Text.h>
 
 #include <glr/engine/GLVersion.h>
 #include <glr/engine/State.h>
 
-#include <glad/glad.h>
 
 namespace glr {
 VI_OBJECT_META_IMPL(GraphicContext, Object);

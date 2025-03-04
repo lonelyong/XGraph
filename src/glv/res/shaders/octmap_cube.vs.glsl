@@ -3,7 +3,7 @@
 precision highp float;
 
 layout(location = 0) in vec3 position;
-layout(location = 3) in vec4 color;
+layout(location = 1) in vec4 color;
 layout(location = 15) in float size;
 
 uniform mat4 osg_ModelViewMatrix;

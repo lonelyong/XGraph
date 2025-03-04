@@ -9,7 +9,7 @@
 namespace vkv {
 namespace {} // namespace
 
-Application::Application(const AppInitializationParameters& params)
+Application::Application(const AppParameters& params)
   : params_(params) {
 }
 

@@ -1,7 +1,6 @@
 ﻿#include <vkr/scene/Geometry.h>
 
 #include <vine/core/Ptr.h>
-#include <vine/ge/Rect2d.h>
 
 #include <vkr/engine/Shader.h>
 #include <vkr/engine/State.h>

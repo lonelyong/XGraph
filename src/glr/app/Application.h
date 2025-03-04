@@ -3,7 +3,7 @@
 #include <glr/glr_global.h>
 
 namespace glr {
-struct GLR_API AppInitializationParameters {
+struct GLR_API AppParameters {
     int  gl_ver_maj           = 4;
     int  gl_ver_min           = 2;
     bool gl_use_core_profile  = true;
@@ -12,7 +12,7 @@ struct GLR_API AppInitializationParameters {
 
 class GLR_API Application {
   public:
-    Application(const AppInitializationParameters& params);
+    Application(const AppParameters& params);
 
   public:
     virtual bool initGlfw();
@@ -28,9 +28,12 @@ class GLR_API Application {
     virtual bool isQtInitialized() const;
 
   public:
-    const AppInitializationParameters& getInitializationParameters() const { return params_; }
+    const AppParameters& getParameters() const { return params_; }
+
+  public:
+    static Application* current();
 
   private:
-    AppInitializationParameters params_;
+    AppParameters params_;
 };
 } // namespace glr

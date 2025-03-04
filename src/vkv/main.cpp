@@ -18,7 +18,7 @@ int main(int argc, char** argv) {
 
     using namespace vkv;
 
-    AppInitializationParameters params;
+    AppParameters params;
     Application                 initializer(params);
 
     vsg::Group* model = nullptr;

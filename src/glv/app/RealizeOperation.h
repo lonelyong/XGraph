@@ -16,11 +16,12 @@ typedef void(APIENTRY* glDebugMessageCallbackCallbackPtr)(GLenum        source,
                                                           GLsizei       length,
                                                           const GLchar* message,
                                                           const void*   userParam);
+
 typedef void(APIENTRY* glDebugMessageCallbackPtr)(glDebugMessageCallbackCallbackPtr callback, const void* userParam);
 
-class GLDebugOperation : public osg::GraphicsOperation {
+class RealizeOperation : public osg::GraphicsOperation {
   public:
-    GLDebugOperation();
+    RealizeOperation();
 
   public:
     virtual void operator()(osg::GraphicsContext* gc) override;

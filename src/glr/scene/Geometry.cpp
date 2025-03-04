@@ -335,14 +335,14 @@ void Geometry::draw(State& state) {
     for (auto& kv : d->textures) {
         auto  unit = kv.first;
         auto& tex  = kv.second;
-        if (d->texture_locs.contains(unit)) {
-            shader->set(state, d->texture_locs[unit], unit);
-        }
-        else {
-            shader->set(state, d->texture_names[unit], unit);
-        }
         glActiveTexture(unit);
         tex->bind(state);
+        if (d->texture_locs.contains(unit)) {
+            shader->set(state, d->texture_locs[unit], (GLint)unit - GL_TEXTURE0);
+        }
+        else {
+            shader->set(state, d->texture_names[unit], (GLint)unit - GL_TEXTURE0);
+        }
     }
 
     for (auto priv : d->primitives) {

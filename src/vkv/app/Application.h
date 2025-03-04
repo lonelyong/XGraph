@@ -1,16 +1,16 @@
 ﻿#pragma once
 
 namespace vkv {
-struct AppInitializationParameters {};
+struct AppParameters {};
 
 class Application {
   public:
-    Application(const AppInitializationParameters& params);
+    Application(const AppParameters& params);
 
   public:
-    const AppInitializationParameters& getInitializationParameters() const { return params_; }
+    const AppParameters& getParameters() const { return params_; }
 
   private:
-    AppInitializationParameters params_;
+    AppParameters params_;
 };
 } // namespace vkv

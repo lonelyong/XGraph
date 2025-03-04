@@ -1,6 +1,8 @@
 ﻿#include "Text.h"
 #include <codecvt>
+#include <cstring>
 #include <locale>
+
 #ifdef _WIN32
 #    include <Windows.h>
 #endif // _WIN32
@@ -41,9 +43,10 @@ std::string gbkToUtf8(const std::string& str) {
     return s_Utf8Convert.to_bytes(s_GbkConvert.from_bytes(str));
 }
 std::string utf8ToGbk(const std::string& str) {
+    std::u8string s((const char8_t*)str.data());
     return s_GbkConvert.to_bytes(s_Utf8Convert.from_bytes(str));
 }
-std::string local8bitToUtf8(const std::string str) {
+std::string local8bitToUtf8(const std::string& str) {
     if (str.empty()) {
         return str;
     }
@@ -52,6 +55,20 @@ std::string local8bitToUtf8(const std::string str) {
     std::wstring tempStr(tmpLen + 1, WCHAR(0));
     MultiByteToWideChar(CP_ACP, 0, str.data(), -1, tempStr.data(), tmpLen + 1);
     return unicodeToUtf8(tempStr);
+
+#endif // _WIN32
+}
+std::string utf8ToLocal8bit(const std::string& str) {
+    if (str.empty()) {
+        return str;
+    }
+#ifdef _WIN32
+    /* auto         wstr   = utf8ToUnicode(str);
+     int          tmpLen = WideCharToMultiByte(CP_ACP, 0, wstr.data(), -1, NULL, 0);
+     std::wstring tempStr(tmpLen + 1, WCHAR(0));
+     MultiByteToWideChar(CP_ACP, 0, str.data(), -1, tempStr.data(), tmpLen + 1);
+     return unicodeToUtf8(tempStr);*/
+    return str;
 
 #endif // _WIN32
 }

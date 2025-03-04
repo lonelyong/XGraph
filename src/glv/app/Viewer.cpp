@@ -1,4 +1,4 @@
-#include <glad/glad.h>
+﻿#include <glad/glad.h>
 
 #include "Viewer.h"
 
@@ -12,9 +12,9 @@
 #include <osg/Texture2D>
 #include <osgDB/WriteFile>
 #include <osgGA/FirstPersonManipulator>
+#include <osgGA/SphericalManipulator>
 #include <osgGA/StandardManipulator>
 #include <osgGA/StateSetManipulator>
-#include <osgGA/SphericalManipulator>
 #include <osgGA/TrackballManipulator>
 #include <osgViewer/Viewer>
 #include <osgViewer/ViewerEventHandlers>
@@ -26,8 +26,9 @@
 
 #include <xgcomm/Resources.h>
 
-#include "GLDebugOperation.h"
-#include "PickerCamera.h"
+#include <glv/app/Application.h>
+#include <glv/app/PickerCamera.h>
+#include <glv/app/RealizeOperation.h>
 
 namespace glv {
 namespace {} // namespace
@@ -42,19 +43,24 @@ Viewer::Viewer()
     auto root   = osg::ref_ptr(new osg::Group());
     auto traits = osg::ref_ptr(new osg::GraphicsContext::Traits());
 
-    traits->x                    = 100;
-    traits->y                    = 100;
-    traits->width                = 1280;
-    traits->height               = 720;
-    traits->windowDecoration     = true;
-    traits->supportsResize       = true;
-    traits->doubleBuffer         = true;
-    traits->depth                = 24;
-    traits->samples              = 4;
-    traits->screenNum            = 0;
-    traits->glContextProfileMask = GL_CONTEXT_COMPATIBILITY_PROFILE_BIT;
+    auto& app_params = Application::current()->getParameters();
+
+    traits->x                = 100;
+    traits->y                = 100;
+    traits->width            = 1280;
+    traits->height           = 720;
+    traits->windowDecoration = true;
+    traits->supportsResize   = true;
+    traits->doubleBuffer     = true;
+    traits->depth            = 24;
+    traits->stencil          = 8;
+    // traits->samples              = 4;
+    traits->screenNum        = 0;
+
     //  在使用gl3编译时使用
+    // traits->glContextProfileMask = GL_CONTEXT_COMPATIBILITY_PROFILE_BIT;
     // traits->glContextVersion     = "3.3";
+    // traits->glContextFlags       = 0;
 
     traits->windowName = "ModelViewer";
 
@@ -63,22 +69,24 @@ Viewer::Viewer()
     // true : gl_Vertex=0,gl_Normal=1,gl_Color=2
     // default: true;导致不使用shader的模型变黑色
     //
-    gc->getState()->resetVertexAttributeAlias(false, 8);
+    //gc->getState()->resetVertexAttributeAlias(false, 8);
     gc->getState()->setUseModelViewAndProjectionUniforms(true);
     // 使resetVertexAttributeAlias所作的映射生效
-    gc->getState()->setUseVertexAttributeAliasing(true);
+    //gc->getState()->setUseVertexAttributeAliasing(true);
+
     auto cam = getCamera();
     cam->setGraphicsContext(gc);
     cam->setViewport(0, 0, traits->width, traits->height);
     cam->setProjectionMatrixAsPerspective(30, (double)traits->width / traits->height, 1, 1000);
     cam->setViewMatrixAsLookAt(osg::Vec3d(200, 200, 200), osg::Vec3d(), osg::Vec3d(-1, 0, 1));
+    cam->setClearColor(osg::Vec4(0, 0, 0, 1));
 
     using Camm = osgGA::TrackballManipulator;
 
     auto camm = osg::ref_ptr(new Camm(Camm::DEFAULT_SETTINGS /*| Camm::SET_CENTER_ON_WHEEL_FORWARD_MOVEMENT*/));
     camm->setAutoComputeHomePosition(true);
     camm->setByMatrix(cam->getViewMatrix());
-    //camm->setVerticalAxisFixed(true);
+    // camm->setVerticalAxisFixed(true);
 
     auto picker_cam = osg::ref_ptr(new PickerCamera());
     picker_cam->setGraphicsContext(gc);
@@ -90,7 +98,7 @@ Viewer::Viewer()
     addEventHandler(new osgGA::StateSetManipulator(cam->getOrCreateStateSet()));
     setThreadingModel(osgViewer::Viewer::SingleThreaded);
     setSceneData(root);
-    setRealizeOperation(new GLDebugOperation());
+    setRealizeOperation(new RealizeOperation());
     setLightingMode(osg::View::HEADLIGHT);
 
     auto fn_create_shader = [](const char* file) {
@@ -111,9 +119,9 @@ Viewer::Viewer()
     auto root_mat = osg::ref_ptr(new osg::Material());
     root_mat->setColorMode(osg::Material::OFF);
 
-    // root->getOrCreateStateSet()->setAttributeAndModes(root_prog, osg::StateAttribute::ON);
+    //root->getOrCreateStateSet()->setAttributeAndModes(root_prog, osg::StateAttribute::ON);
     root->getOrCreateStateSet()->setAttributeAndModes(root_mat, osg::StateAttribute::ON);
-    root->getOrCreateStateSet()->setMode(GL_LIGHTING, 1);
+    root->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::ON);
 
     d->root_node  = root;
     d->picker_cam = picker_cam;

@@ -2,6 +2,9 @@
 #include <filesystem>
 #include <iostream>
 
+#include <glv/app/RealizeOperation.h>
+
+#include <osg/Material>
 #include <osg/MatrixTransform>
 #include <osg/ShapeDrawable>
 
@@ -12,8 +15,8 @@
 #include <glv/app/Viewer.h>
 #include <glv/io/BrepLoader.h>
 #include <glv/io/MeshLoader.h>
-#include <glv/io/PointCloudLoader.h>
 #include <glv/io/OctomapLoader.h>
+#include <glv/io/PointCloudLoader.h>
 #include <glv/modeling/CoordGenerator.h>
 #include <glv/modeling/CurveGenerator.h>
 #include <glv/modeling/DottedCurve.h>
@@ -23,9 +26,24 @@ int main(int argc, char** argv) {
 
     using namespace glv;
 
-    AppInitializationParameters params;
+    AppParameters params;
 
     Application app(params);
+
+    // osgViewer::Viewer vv;
+
+    // auto mate = new osg::Material();
+    // mate->setColorMode(osg::Material::AMBIENT_AND_DIFFUSE);
+
+    // auto box = new osg::ShapeDrawable(new osg::Box(osg::Vec3(), 10));
+    // box->setColor(osg::Vec4(1, 1, 0, 1));
+    // box->getOrCreateStateSet()->setMode(GL_LIGHTING, 1);
+    // box->getOrCreateStateSet()->setAttributeAndModes(mate, 1);
+    // vv.setSceneData(box);
+    // vv.setUpViewOnSingleScreen(0);
+    // vv.setUpViewInWindow(0, 0, 800, 600);
+    // vv.setRealizeOperation(new glv::RealizeOperation());
+    // vv.run();
 
 
     osg::Group* model = nullptr;
@@ -145,7 +163,9 @@ int main(int argc, char** argv) {
             model = PointCloudLoader().loadFile(file);
         }
         else if (OctomapLoader::isSupported(file)) {
-            model = OctomapLoader().loadFile(file);
+            OctomapLoader loader;
+            loader.setOption(OctomapLoader::RENDER_AS_BOX_USE_GEOMETRY_SHADER);
+            model = loader.loadFile(file);
         }
         else {
             std::cout << std::endl << "Not supported." << std::endl;
@@ -167,8 +187,8 @@ int main(int argc, char** argv) {
     auto hud_coord = createHudCoord(v.getCamera(), 60, 2, 12, 4);
 
     v.addNode(model);
-    // v.addNode(coord);
-    // v.addCamera(hud_coord, false, false);
+    v.addNode(coord);
+    v.addCamera(hud_coord, false, false);
 
     // MeshCutterVTK mesh_cutter;
     // mesh_cutter.setMesh("R:\\models\\0731-43#-right.stl");

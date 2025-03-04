@@ -7,14 +7,10 @@
 #include <string>
 #include <vector>
 
-#include <vine/ge/ge_global.h>
+#include <vine/ge/Rect2.h>
 
 #include <vkr/scene/Drawable.h>
 #include <vkr/scene/PrimitiveSet.h>
-
-VI_GE_NS_BEGIN
-class Rect2d;
-VI_GE_NS_END
 
 namespace vkr {
 class Texture;
