@@ -68,20 +68,25 @@ GLuint VertexArrayObject::onCreate(State& state) {
     glGenVertexArrays(1, &vao);
     return vao;
 }
-void VertexArrayObject::onBind(State& state) {
+bool VertexArrayObject::onBind(State& state) {
     auto id = getId(state);
     glBindVertexArray(id);
-}
-void VertexArrayObject::onUnbind(State& state) {
-    GLint current_id = 0;
-    glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &current_id);
-    if (current_id == getId(state)) glBindVertexArray(0);
-}
-bool VertexArrayObject::onUpdate(State& state) {
     return true;
 }
-void VertexArrayObject::onRelease(State& state) {
+bool VertexArrayObject::onUnbind(State& state) {
+    GLint curr_id = 0;
+    glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &curr_id);
+    if (curr_id == getId(state)) {
+        glBindVertexArray(0);
+    }
+    return true;
+}
+bool VertexArrayObject::onUpdate(State& state) {
+    return false;
+}
+bool VertexArrayObject::onRelease(State& state) {
     auto id = getId(state);
     glDeleteVertexArrays(1, &id);
+    return true;
 }
 } // namespace glr

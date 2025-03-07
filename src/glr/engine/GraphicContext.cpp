@@ -1,16 +1,15 @@
 ﻿#include <glr/engine/GraphicContext.h>
 
-#include <queue>
 #include <iostream>
+#include <queue>
 
 #include <glad/glad.h>
 
 #include <vine/core/Ptr.h>
 
-#include <xgcomm/Text.h>
-
-#include <glr/engine/GLVersion.h>
+#include <glr/engine/Capabilities.h>
 #include <glr/engine/State.h>
+#include <xgcomm/Text.h>
 
 
 namespace glr {
@@ -61,7 +60,7 @@ struct GraphicContext::Data {
     bool                     is_initialized = false;
     vine::RefPtr<State>      state;
     vine::RefPtr<EventQueue> events;
-    GLVersionInfo            gl_ver;
+    Capabilities             caps;
 };
 
 int GraphicContext::Data::max_id = 0;
@@ -119,7 +118,7 @@ GraphicContext::EventQueue* GraphicContext::getEventQueue() const {
     return d->events.get();
 }
 
-const GLVersionInfo& GraphicContext::getGLVersion() const {
-    return d->gl_ver;
+const Capabilities& GraphicContext::getCapabilities() const {
+    return d->caps;
 }
 } // namespace glr

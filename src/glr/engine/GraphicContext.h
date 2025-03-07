@@ -7,7 +7,7 @@
 
 namespace glr {
 class State;
-class GLVersionInfo;
+class Capabilities;
 
 class GLR_API GraphicContext : public Object {
     VI_OBJECT_META;
@@ -48,7 +48,7 @@ class GLR_API GraphicContext : public Object {
     void         notify(Event* e);
     EventQueue*  getEventQueue() const;
 
-    const GLVersionInfo& getGLVersion() const;
+    const Capabilities& getCapabilities() const;
 
   public:
     static GraphicContext* getContextById(int id);

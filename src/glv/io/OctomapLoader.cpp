@@ -33,15 +33,23 @@ bool OctomapLoader::isSupported(const std::string& file) {
 }
 
 OctomapLoader::OctomapLoader()
-  : option_(RENDER_AS_BOX_DIRECTLY) {
+  : render_option_(RENDER_AS_BOX) {
 }
 
-void OctomapLoader::setOption(Option option) {
-    option_ = option;
+void OctomapLoader::setRenderOption(RenderOption option) {
+    render_option_ = option;
 }
 
-OctomapLoader::Option OctomapLoader::getOption() {
-    return option_;
+OctomapLoader::RenderOption OctomapLoader::getRenderOption() {
+    return render_option_;
+}
+
+void OctomapLoader::setComputeBoundary(bool val) {
+    compute_boundary_ = val;
+}
+
+bool OctomapLoader::getComputeBoundary() const {
+    return compute_boundary_;
 }
 
 osg::MatrixTransform* OctomapLoader::loadFile(const std::string& file) {
@@ -65,12 +73,18 @@ osg::MatrixTransform* OctomapLoader::loadFile(const std::string& file) {
     root->addChild(geod);
     root->getOrCreateStateSet()->setAttribute(new osg::CullFace(osg::CullFace::BACK));
 
-    if (option_ == RENDER_AS_POINT) {
+    if (render_option_ == RENDER_AS_POINT) {
         for (octomap::OcTree::leaf_iterator it = tree.begin_leafs(tree.getTreeDepth()), end = tree.end_leafs();
              it != end;
              ++it) {
             vertices->push_back(osg::Vec3f(it.getX(), it.getY(), it.getZ()));
         }
+
+        // for (int i = 0; i < boundaries->size(); ++i) {
+        //     if (boundaries->points[i].boundary_point) {
+        //         vertices->push_back(osg::Vec3f(pc->points[i].x, pc->points[i].y, pc->points[i].z));
+        //     }
+        // }
 
         auto mate = osg::ref_ptr(new osg::Material());
         mate->setColorMode(osg::Material::EMISSION);
@@ -79,10 +93,10 @@ osg::MatrixTransform* OctomapLoader::loadFile(const std::string& file) {
         mate->setSpecular(osg::Material::FRONT_AND_BACK, osg::Vec4(0, 0, 0, 1));
 
         geom->addPrimitiveSet(new osg::DrawArrays(GL_POINTS, 0, vertices->size()));
-        //root->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::ON);
+        // root->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::ON);
         root->getOrCreateStateSet()->setAttributeAndModes(mate, osg::StateAttribute::ON);
     }
-    else if (option_ == RENDER_AS_BOX_DIRECTLY) {
+    else if (render_option_ == RENDER_AS_BOX) {
         auto sizeH = 0.0;
         auto norms = osg::ref_ptr(new osg::Vec3Array());
         for (octomap::OcTree::leaf_iterator it = tree.begin_leafs(tree.getTreeDepth()), end = tree.end_leafs();
@@ -190,7 +204,7 @@ osg::MatrixTransform* OctomapLoader::loadFile(const std::string& file) {
         geom->addPrimitiveSet(new osg::DrawArrays(GL_TRIANGLES, 0, vertices->size()));
         root->getOrCreateStateSet()->setAttributeAndModes(mate, osg::StateAttribute::ON);
     }
-    else if (option_ == RENDER_AS_BOX_USE_GEOMETRY_SHADER) {
+    else if (render_option_ == RENDER_AS_BOX_USE_GEOMETRY_SHADER) {
         auto sizes = osg::ref_ptr(new osg::FloatArray());
         for (octomap::OcTree::leaf_iterator it = tree.begin_leafs(tree.getTreeDepth()), end = tree.end_leafs();
              it != end;

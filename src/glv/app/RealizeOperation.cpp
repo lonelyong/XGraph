@@ -47,7 +47,7 @@ static void debugMessageCallback(GLenum        source,
     case GL_INVALID_FRAMEBUFFER_OPERATION: id_desc = "INVALID_FRAMEBUFFER_OPERATION"; break;
     case GL_CONTEXT_LOST: id_desc = "CONTEXT_LOST"; break;
     // case GL_TABLE_TOO_LARGE: id_desc = "TABLE_TOO_LARGE"; break;
-    default: id_desc = "UNKNOWN_ID"; break;
+    default: id_desc = "UNKNOWN"; break;
     }
 
     std::string msg = "(ID = " + id_desc + "; Source = " + src_desc + "; Type = " + type_desc + ") " + message;
@@ -104,13 +104,16 @@ void RealizeOperation::operator()(osg::GraphicsContext* gc) {
     glDisable(GL_SCISSOR_TEST);
     glDisable(GL_MULTISAMPLE);
 
-    GLint sampleBuffers = 0, samples = 0;
+    GLint sampleBuffers = 0, samples = 0, max_vertex_attrib = 0, max_tex_units, max_tex_img_units;
     glGetIntegerv(GL_SAMPLE_BUFFERS, &sampleBuffers);
     glGetIntegerv(GL_SAMPLES, &samples);
+    glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &max_vertex_attrib);
+    glGetIntegerv(GL_MAX_TEXTURE_UNITS, &max_tex_units);
+    glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &max_tex_img_units);
 
     OSG_INFO << "\nGraphics context realized.";
     OSG_INFO << "\nGL Version: " << gl_ver;
-    OSG_INFO << "\nGL VENDOR: " << vendor;
+    OSG_INFO << "\nGL Vendor: " << vendor;
     OSG_INFO << "\nGL2 Available: " << is_gl2_available;
     OSG_INFO << "\n\n";
 

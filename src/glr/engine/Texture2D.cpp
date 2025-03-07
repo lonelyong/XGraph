@@ -91,6 +91,17 @@ GLuint Texture2D::onCreate(State& state) {
     if (w && h) {
         glTexImage2D(getType(), 0, internal_fmt, w, h, 0, src_format, src_type, img_data);
     }
+    if (getGenerateMipmapLevels()) {
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    
+    float max_anisotropy = getMaxAnisotropy();
+
+    if (max_anisotropy > 1.0) {
+        float gl_max_anisotropy;
+        glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY, &gl_max_anisotropy);
+        glTextureParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY, std::min(gl_max_anisotropy, max_anisotropy));
+    }
     glBindTexture(getType(), 0);
     return id;
 }

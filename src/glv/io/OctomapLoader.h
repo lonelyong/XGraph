@@ -10,10 +10,10 @@ namespace glv {
 
 class OctomapLoader {
   public:
-    enum Option
+    enum RenderOption
     {
         RENDER_AS_POINT,
-        RENDER_AS_BOX_DIRECTLY,
+        RENDER_AS_BOX,
         RENDER_AS_BOX_USE_GEOMETRY_SHADER
     };
 
@@ -21,8 +21,11 @@ class OctomapLoader {
     OctomapLoader();
 
   public:
-    void   setOption(Option option);
-    Option getOption();
+    void         setRenderOption(RenderOption option);
+    RenderOption getRenderOption();
+
+    void setComputeBoundary(bool val);
+    bool getComputeBoundary() const;
 
     osg::MatrixTransform* loadFile(const std::string& file);
 
@@ -30,6 +33,7 @@ class OctomapLoader {
     static bool isSupported(const std::string& file);
 
   private:
-    Option option_;
+    RenderOption render_option_;
+    bool         compute_boundary_ = false;
 };
 } // namespace glv

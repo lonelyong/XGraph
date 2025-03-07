@@ -1,7 +1,7 @@
 #include <glr/engine/FrameBufferObject.h>
 
-#include <map>
 #include <iostream>
+#include <map>
 
 #include <vine/core/Exception.h>
 #include <vine/core/Ptr.h>
@@ -63,7 +63,7 @@ Texture* FrameBufferObject::getTexture(BufferComponent comp) const {
     return iter->second->cast<Texture>();
 }
 
-PixelData* FrameBufferObject::getComponent(BufferComponent comp) const{
+PixelData* FrameBufferObject::getComponent(BufferComponent comp) const {
     auto iter = d->components.find(comp);
     if (iter == d->components.end()) {
         return nullptr;
@@ -95,21 +95,28 @@ GLuint FrameBufferObject::onCreate(State& state) {
     return id;
 }
 
-void FrameBufferObject::onRelease(State& state) {
+bool FrameBufferObject::onRelease(State& state) {
     auto id = getId(state);
     glDeleteFramebuffers(1, &id);
+    return true;
 }
 
 bool FrameBufferObject::onUpdate(State& state) {
     return false;
 }
 
-void FrameBufferObject::onBind(State& state) {
+bool FrameBufferObject::onBind(State& state) {
     auto id = getId(state);
     glBindFramebuffer(GL_FRAMEBUFFER, id);
+    return true;
 }
 
-void FrameBufferObject::onUnbind(State& state) {
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+bool FrameBufferObject::onUnbind(State& state) {
+    GLint curr_id = 0;
+    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &curr_id);
+    if (curr_id == getId(state)) {
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    }
+    return true;
 }
 } // namespace glr

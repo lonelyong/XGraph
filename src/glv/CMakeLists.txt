@@ -6,7 +6,10 @@ find_package(assimp REQUIRED)
 find_package(PCL CONFIG REQUIRED)
 find_package(VTK REQUIRED)
 find_package(octomap REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets OpenGL OpenGLWidgets)
 # find_package(osgVerse REQUIRED)
+
+qt_standard_project_setup()
 
 file(GLOB SRC_FILES *.cpp)
 file(GLOB HEADER_FILES *.h)

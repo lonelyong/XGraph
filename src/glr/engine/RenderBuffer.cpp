@@ -51,12 +51,18 @@ bool RenderBuffer::onUpdate(State& state) {
     return false;
 }
 
-void RenderBuffer::onBind(State& state) {
+bool RenderBuffer::onBind(State& state) {
     glBindRenderbuffer(GL_RENDERBUFFER, getId(state));
+    return true;
 }
 
-void RenderBuffer::onUnbind(State& state) {
-    glBindRenderbuffer(GL_RENDERBUFFER, 0);
+bool RenderBuffer::onUnbind(State& state) {
+    GLint curr_id = 0;
+    glGetIntegerv(GL_RENDERBUFFER_BINDING, &curr_id);
+    if (curr_id == getId(state)) {
+        glBindRenderbuffer(GL_RENDERBUFFER, 0);
+    }
+    return true;
 }
 
 GLuint RenderBuffer::onCreate(State& state) {
@@ -67,8 +73,9 @@ GLuint RenderBuffer::onCreate(State& state) {
     return id;
 }
 
-void RenderBuffer::onRelease(State& state) {
+bool RenderBuffer::onRelease(State& state) {
     auto id = getId(state);
     glDeleteRenderbuffers(1, &id);
+    return true;
 }
 } // namespace glr

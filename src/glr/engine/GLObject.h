@@ -21,13 +21,18 @@ class GLR_API GLObject : public Object {
   public:
     GLuint getId(State& state) const;
     bool   isCreated(State& state) const;
+    void   dirty();
+    bool   isDirty(State& state) const;
     GLuint getNbInstances() const;
 
+
   protected:
-    void           create(State& state);
+    bool           create(State& state);
     virtual GLuint onCreate(State& state) = 0;
-    void           release(State& state);
-    virtual void   onRelease(State& state) = 0;
+    bool           update(State& state);
+    virtual bool   onUpdate(State& state) = 0;
+    bool           release(State& state);
+    virtual bool   onRelease(State& state) = 0;
 
   private:
     VI_OBJECT_DATA;

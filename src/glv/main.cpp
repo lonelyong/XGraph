@@ -91,7 +91,8 @@ int main(int argc, char** argv) {
         }
         else if (OctomapLoader::isSupported(file)) {
             OctomapLoader loader;
-            loader.setOption(OctomapLoader::RENDER_AS_BOX_DIRECTLY);
+            loader.setRenderOption(OctomapLoader::RENDER_AS_POINT);
+            loader.setComputeBoundary(true);
             model = loader.loadFile(file);
         }
         else {

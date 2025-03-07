@@ -12,17 +12,12 @@ class GLR_API BindableObject : public GLObject {
     BindableObject();
 
   public:
-    bool isDirty(State& state) const;
-    void dirty();
-
-    void bind(State& state);
-    void unbind(State& state);
-    void update(State& state);
+    bool bind(State& state);
+    bool unbind(State& state);
 
   protected:
-    virtual bool onUpdate(State& state) = 0;
-    virtual void onBind(State& state)   = 0;
-    virtual void onUnbind(State& state) = 0;
+    virtual bool onBind(State& state)   = 0;
+    virtual bool onUnbind(State& state) = 0;
 
   private:
     VI_OBJECT_DATA;

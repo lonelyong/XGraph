@@ -38,8 +38,8 @@ struct PhongLight {
     float quadraticAttenuation; // K2
 };
 
-// Èç¹ûsampler²»¸³ÖµµÄ»°£¬²»È¥Ê¹ÓÃÊÇÃ»ÎÊÌâµÄ£¨NV\AMD\INTEL£©
-// ÔÚsubroutineÖĞÒıÓÃÁË£¬Êµ¼ÊÃ»ÓĞÖ´ĞĞ¸ÃsubroutineµÄ»°(NV¾¯¸æ)(MESAÎŞ·¨äÖÈ¾)
+// å¦‚æœsamplerä¸èµ‹å€¼çš„è¯ï¼Œä¸å»ä½¿ç”¨æ˜¯æ²¡é—®é¢˜çš„ï¼ˆNV\AMD\INTELï¼‰
+// åœ¨subroutineä¸­å¼•ç”¨äº†ï¼Œå®é™…æ²¡æœ‰æ‰§è¡Œè¯¥subroutineçš„è¯(NVè­¦å‘Š)(MESAæ— æ³•æ¸²æŸ“)
 uniform sampler2D     tex_2d;
 uniform samplerCube   tex_cube;
 uniform sampler3D     tex_3d;

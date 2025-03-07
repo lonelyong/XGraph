@@ -37,7 +37,8 @@ class GLR_API Shader : public GLObject {
 
   protected:
     GLuint onCreate(State& state) override;
-    void   onRelease(State& state) override;
+    bool   onUpdate(State& state) override;
+    bool   onRelease(State& state) override;
 
   private:
     struct Data;

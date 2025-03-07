@@ -9,8 +9,6 @@ flat in vec3 frag_posi_cam;
 out vec4 FragColor;
 
 void main(){
-    FragColor = frag_color;
-    
     const vec3 v_dir = vec3(0.0, 0.0, -1.0);
     const vec3 l_dir = vec3(0.0, 0.0, -1.0);
     const vec4 l_ambient = vec4(0.1, 0.1, 0.1, 1.0);

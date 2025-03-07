@@ -6,10 +6,10 @@ layout(location=2) in vec4 color;
 layout(location=3) in vec2 tex_coord2;
 layout(location=4) in vec3 tex_coord3;
 
-uniform mat4 xg_matrix_m;
-uniform mat4 xg_matrix_v;
-uniform mat4 xg_matrix_mv;
-uniform mat4 xg_matrix_mvp;
+layout(binding = 0) uniform mat4 xg_matrix_m;
+layout(binding = 1) uniform mat4 xg_matrix_v;
+layout(binding = 2) uniform mat4 xg_matrix_mv;
+layout(binding = 3) uniform mat4 xg_matrix_mvp;
 
 out vec4 frag_color;
 out vec2 frag_tex_coord2;

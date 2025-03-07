@@ -6,16 +6,19 @@
 #include <locale>
 
 #include <pcl/ModelCoefficients.h>
+#include <pcl/features/boundary.h>
 #include <pcl/features/normal_3d.h>
 #include <pcl/filters/extract_indices.h>
 #include <pcl/filters/passthrough.h>
 #include <pcl/io/pcd_io.h>
 #include <pcl/io/ply_io.h>
+#include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 #include <pcl/sample_consensus/method_types.h>
 #include <pcl/sample_consensus/model_types.h>
+#include <pcl/search/kdtree.h>
 #include <pcl/segmentation/sac_segmentation.h>
-#include <pcl/features/normal_3d.h>
+#include <pcl/surface/poisson.h>
 
 #include <osg/Geode>
 #include <osg/Geometry>
@@ -24,9 +27,10 @@
 
 namespace glv {
 
-using PCPtr = pcl::PointCloud<pcl::PointXYZRGBA>::Ptr;
-
-namespace {
+using Pt     = pcl::PointXYZRGB;
+using PtNorm = pcl::PointXYZRGBNormal;
+using PC     = pcl::PointCloud<Pt>;
+using PCPtr  = PC::Ptr;
 
 enum RenderMode
 {
@@ -40,19 +44,20 @@ enum FileType
     TYPE_PLY,
     TYPE_PCD
 };
+namespace {
 
 constexpr RenderMode S_RENDER_MODE = MODE_ORIGINAL;
 
 constexpr const char* S_VS_STR = R"(
 #version 330 core
-//precision mediump float;
+precision highp float;
 
 // defualt
 // gl_Vertex = 0
 // gl_Normal = 1
 // gl_Color = 2
 layout(location = 0) in vec3 position;
-layout(location = 1) in vec4 color;
+layout(location = 2) in vec4 color;
 // in vec4 osg_Vertex;
 // in vec4 osg_Color;
 uniform mat4 osg_ModelViewProjectionMatrix;
@@ -67,8 +72,7 @@ void main() {
 )";
 constexpr const char* S_FS_STR = R"(
 #version 330 core
-//precision mediump float;
-#define MOD(a, b) a - b * floor(a / b)
+precision highp float;
 in vec4 frag_color;
 out vec4 FragColor;
 void main(){
@@ -77,9 +81,42 @@ void main(){
     //     discard;
     float dist = length(gl_PointCoord - vec2(0.5, 0.5));
     FragColor = frag_color;
-    FragColor.a = 1.0 - dist;
+    //FragColor.a = 1.0 - dist;
 }
 )";
+
+
+static void xxxx(PCPtr pc) {
+    pcl::PointCloud<pcl::Normal>::Ptr      normals(new pcl::PointCloud<pcl::Normal>);
+    pcl::search::KdTree<Pt>::Ptr           kdtree(new pcl::search::KdTree<Pt>());
+    pcl::NormalEstimation<Pt, pcl::Normal> ne;
+    ne.setInputCloud(pc);
+    ne.setSearchMethod(kdtree);
+    ne.setKSearch(20);
+    ne.compute(*normals);
+
+    // pcl::PointCloud<pcl::Boundary>::Ptr                                boundaries(new
+    // pcl::PointCloud<pcl::Boundary>); pcl::BoundaryEstimation<pcl::PointXYZ, pcl::Normal, pcl::Boundary> be;
+    // be.setInputCloud(pc);
+    // be.setInputNormals(normals);
+    // be.setSearchMethod(kdtree);
+    ////be.setRadiusSearch(10);
+    // be.setKSearch(10);
+    // be.setAngleThreshold(M_PI / 2);
+    // be.compute(*boundaries);
+    // pcl::PointCloud<pcl::PointXYZ>::Ptr boundary_points(new pcl::PointCloud<pcl::PointXYZ>);
+
+    pcl::PointCloud<PtNorm>::Ptr cloud_with_normals(new pcl::PointCloud<PtNorm>);
+    pcl::concatenateFields(*pc, *normals, *cloud_with_normals);
+
+    pcl::Poisson<PtNorm> poisson;
+    poisson.setInputCloud(cloud_with_normals);
+    pcl::PolygonMesh mesh;
+    poisson.reconstruct(mesh);
+
+    // 5. 保存外表面
+    pcl::io::savePLYFile("d:/1.ply", mesh);
+}
 
 bool isPlyFile(const std::string& ext) {
     return ext == ".ply";
@@ -111,9 +148,9 @@ osg::MatrixTransform* parse(const PCPtr cloud) {
     auto z_upper = 1000.f;
     auto z_range = z_upper - z_lower;
 
-    pcl::Normal norm;
-    pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> normal_estimation;
-    pcl::PassThrough<pcl::PointXYZRGBA> pass;
+    pcl::Normal                            norm;
+    pcl::NormalEstimation<Pt, pcl::Normal> normal_estimation;
+    pcl::PassThrough<Pt>                   pass;
     pass.setInputCloud(cloud);
     pass.setFilterFieldName("z");
     pass.setFilterLimits(z_lower, z_upper);
@@ -126,7 +163,7 @@ osg::MatrixTransform* parse(const PCPtr cloud) {
     colors->reserve(cloud->size());
 
     if constexpr (S_RENDER_MODE == MODE_PLANE) {
-        PCPtr cloud2(new pcl::PointCloud<pcl::PointXYZRGBA>());
+        PCPtr cloud2(new PC());
         // pass.filter(*cloud2);
 
         std::vector<pcl::ModelCoefficients::Ptr> vec_plane_coefficients;
@@ -141,7 +178,7 @@ osg::MatrixTransform* parse(const PCPtr cloud) {
         // ne.compute(*cloud_normals);
 
         // pcl::SACSegmentationFromNormals<pcl::PointXYZ, pcl::Normal> seg;
-        pcl::SACSegmentation<pcl::PointXYZRGBA> seg;
+        pcl::SACSegmentation<Pt> seg;
         seg.setInputCloud(cloud2);
         seg.setModelType(pcl::SACMODEL_PLANE);
         seg.setMethodType(pcl::SAC_RANSAC);
@@ -162,7 +199,7 @@ osg::MatrixTransform* parse(const PCPtr cloud) {
             if (!inliers->indices.size()) break;
             vec_plane_coefficients.push_back(coefficients);
             vec_plane_indices.push_back(inliers);
-            pcl::ExtractIndices<pcl::PointXYZRGBA> extract1;
+            pcl::ExtractIndices<Pt> extract1;
             extract1.setInputCloud(cloud2);
             extract1.setIndices(inliers);
             extract1.setNegative(true);
@@ -194,9 +231,8 @@ osg::MatrixTransform* parse(const PCPtr cloud) {
     }
     else if constexpr (S_RENDER_MODE == MODE_DEPTH) {
         auto depth = 0.f;
-        for (auto&& pt : *cloud) {            
-            if(!std::isnormal(pt.x) || !std::isnormal(pt.y) || !std::isnormal(pt.z))
-                continue;
+        for (auto&& pt : *cloud) {
+            if (!std::isnormal(pt.x) || !std::isnormal(pt.y) || !std::isnormal(pt.z)) continue;
             vertices->push_back(osg::Vec3(pt.x, pt.y, pt.z));
             depth = (pt.z - z_lower) / z_range * 2.f;
             if (depth <= 1.f) {
@@ -209,20 +245,19 @@ osg::MatrixTransform* parse(const PCPtr cloud) {
     }
     else if constexpr (S_RENDER_MODE == MODE_ORIGINAL) {
         for (auto&& pt : *cloud) {
-            if(!std::isnormal(pt.x) || !std::isnormal(pt.y) || !std::isnormal(pt.z))
-                continue;
+            if (!std::isnormal(pt.x) || !std::isnormal(pt.y) || !std::isnormal(pt.z)) continue;
             vertices->push_back((osg::Vec3(pt.x, pt.y, pt.z)));
             colors->push_back(osg::Vec4(pt.r / 255., pt.g / 255., pt.b / 255., 1.0f));
         }
     }
 
     geom->setVertexArray(vertices);
-    // geom->setUseVertexArrayObject(true);
+    // geom->setColorArray(colors, osg::Array::BIND_PER_VERTEX);
+    geom->setUseVertexArrayObject(true);
+    geom->setUseVertexBufferObjects(true);
     geom->setVertexAttribArray(0, vertices, osg::Array::BIND_PER_VERTEX);
-    geom->setVertexAttribArray(1, colors, osg::Array::BIND_PER_VERTEX);
+    geom->setVertexAttribArray(2, colors, osg::Array::BIND_PER_VERTEX);
     geom->addPrimitiveSet(new osg::DrawArrays(GL_POINTS, 0, vertices->size()));
-    // geom->setUseVertexArrayObject(true);
-    // geom->setUseDisplayList(false);
 
     auto prog = new osg::Program();
     prog->addShader(new osg::Shader(osg::Shader::VERTEX, S_VS_STR));
@@ -249,13 +284,13 @@ osg::MatrixTransform* PointCloudLoader::loadFile(const std::string& file) {
     FileType type;
     if (!isSupportedType(file, type)) return nullptr;
     if (type == TYPE_PLY) {
-        auto pc = pcl::make_shared<pcl::PointCloud<pcl::PointXYZRGBA>>();
-        pcl::io::loadPLYFile<pcl::PointXYZRGBA>(file, *pc);
+        auto pc = pcl::make_shared<pcl::PointCloud<Pt>>();
+        pcl::io::loadPLYFile<Pt>(file, *pc);
         return parse(pc);
     }
     else if (type == TYPE_PCD) {
-        auto pc = pcl::make_shared<pcl::PointCloud<pcl::PointXYZRGBA>>();
-        pcl::io::loadPCDFile<pcl::PointXYZRGBA>(file, *pc);
+        auto pc = pcl::make_shared<pcl::PointCloud<Pt>>();
+        pcl::io::loadPCDFile<Pt>(file, *pc);
         return parse(pc);
     }
     return nullptr;

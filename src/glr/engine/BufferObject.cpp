@@ -16,27 +16,35 @@ BufferObject::BufferObject()
   : d(new Data()) {
 }
 
-void BufferObject::onRelease(State& state) {
-    auto id = getId(state);
-    glDeleteBuffers(1, &id);
-}
-
 GLuint BufferObject::onCreate(State& state) {
     GLuint id = 0;
     glGenBuffers(1, &id);
     return id;
 }
 
-void BufferObject::onBind(State& state) {
+bool BufferObject::onRelease(State& state) {
+    auto id = getId(state);
+    glDeleteBuffers(1, &id);
+    return true;
+}
+
+bool BufferObject::onBind(State& state) {
     glBindBuffer(getTarget(), getId(state));
+    return true;
 }
 
-void BufferObject::onUnbind(State& state) {
-    GLint current_id = 0;
+bool BufferObject::onUnbind(State& state) {
+    GLint curr_id = 0;
 
-    glGetIntegerv(getBindingOfTarget(getTarget()), &current_id);
-    if (current_id == getId(state)) glBindBuffer(getTarget(), 0);
+    glGetIntegerv(getBindingOfTarget(getTarget()), &curr_id);
+
+    if (curr_id == getId(state)) {
+        glBindBuffer(getTarget(), 0);
+    }
+
+    return true;
 }
+
 
 GLenum BufferObject::getBindingOfTarget(Target target) {
     switch (target) {

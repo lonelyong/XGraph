@@ -29,15 +29,11 @@ class GLR_API RenderBuffer : public PixelData {
     GLsizei getHeight() const;
 
   protected:
-    virtual bool onUpdate(State& state) override;
-
-    virtual void onBind(State& state) override;
-
-    virtual void onUnbind(State& state) override;
-
     virtual GLuint onCreate(State& state) override;
-
-    virtual void onRelease(State& state) override;
+    virtual bool   onRelease(State& state) override;
+    virtual bool   onUnbind(State& state) override;
+    virtual bool   onUpdate(State& state) override;
+    virtual bool   onBind(State& state) override;
 
   private:
     VI_OBJECT_DATA;

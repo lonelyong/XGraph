@@ -206,9 +206,14 @@ GLuint Shader::onCreate(State& state) {
     return app_id;
 }
 
-void Shader::onRelease(State& state) {
+bool Shader::onUpdate(State& state) {
+    return false;
+}
+
+bool Shader::onRelease(State& state) {
     auto id = getId(state);
     glDeleteProgram(id);
+    return true;
 }
 
 Shader* Shader::create(const std::string& vs_path, const std::string& gs_path, const std::string& fs_path) {

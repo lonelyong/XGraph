@@ -11,27 +11,38 @@ class GLR_API Texture : public PixelData {
   public:
     enum Type
     {
-        TEXTURE_1D       = GL_TEXTURE_1D,
-        TEXTURE_2D       = GL_TEXTURE_2D,
-        TEXTURE_3D       = GL_TEXTURE_3D,
-        TEXTURE_CUBE_MAP = GL_TEXTURE_CUBE_MAP
+        TEXTURE_1D        = GL_TEXTURE_1D,
+        TEXTURE_2D        = GL_TEXTURE_2D,
+        TEXTURE_3D        = GL_TEXTURE_3D,
+        TEXTURE_CUBE_MAP  = GL_TEXTURE_CUBE_MAP,
+        // require: gl1.4 or GL_ARB_texture_rectangle
+        // mipmap: not supoort
+        // repeat: only support clamp_to_edge
+        TEXTURE_RECTANGLE = GL_TEXTURE_RECTANGLE
     };
 
     enum FilterParameter
     {
         MIN_FILTER = GL_TEXTURE_MIN_FILTER,
+        // Only support LINEAR,NEAREST, use base level
         MAX_FILTER = GL_TEXTURE_MAG_FILTER
     };
 
     enum FilterMode
     {
         FILTER_UNSET           = GL_ZERO,
+        // 在Mip基层上执行最邻近过滤
         LINEAR                 = GL_LINEAR,
-        LINEAR_MIPMAP_LINEAR   = GL_LINEAR_MIPMAP_LINEAR,
-        LINEAR_MIPMAP_NEAREST  = GL_LINEAR_MIPMAP_NEAREST,
+        // 在Mip基层上执行最邻近过滤
         NEAREST                = GL_NEAREST,
+        // 在最邻近Mip层，并执行线性过滤
+        LINEAR_MIPMAP_NEAREST  = GL_LINEAR_MIPMAP_NEAREST,
+        // 在最邻近Mip层，并执行最邻近过滤
+        NEAREST_MIPMAP_NEAREST = GL_NEAREST_MIPMAP_NEAREST,
+        // 在Mip层之间执行线性插补，并执行最邻近过滤
         NEAREST_MIPMAP_LINEAR  = GL_NEAREST_MIPMAP_LINEAR,
-        NEAREST_MIPMAP_NEAREST = GL_NEAREST_MIPMAP_NEAREST
+        // 在Mip层之间执⾏线性插补，并执⾏线性过滤，又称三线性Mip贴图
+        LINEAR_MIPMAP_LINEAR   = GL_LINEAR_MIPMAP_LINEAR
     };
 
     enum WrapMode
@@ -73,10 +84,33 @@ class GLR_API Texture : public PixelData {
     void           setInternalFormat(InternalFormat fmt);
     InternalFormat getInternalFormat() const;
 
+    // default value is 1.0 for no anisotropic filtering.
+    void  setMaxAnisotropy(double val);
+    float getMaxAnisotropy() const;
+
+    void setGenerateMipmapLevels(bool val);
+    bool getGenerateMipmapLevels() const;
+
   protected:
-    virtual void onBind(State& state) override;
-    virtual void onUnbind(State& state) override;
-    virtual void onRelease(State& state) override;
+    // 绑定到当前活动的纹理单元
+    // 经测试(N卡)：
+    //  1：同一个纹理单元可以同时在CPU端绑定多个不同类型的纹理而不影响对纹理的操作
+    //  2：并且在shader里能访问到该纹理(只有一个sampler，多个不同的sampler未测试)
+    virtual bool onBind(State& state) override;
+    // 如果当前绑定的纹理单元绑定的纹理是当前对象的话则解绑
+    virtual bool onUnbind(State& state) override;
+    virtual bool onRelease(State& state) override;
+    // 尺寸没变,格式没变，无需重新分配显存，无需重新提交数据
+    void dirtyParameters();
+    bool isParametersDirty(State& state) const;
+
+    // 尺寸或格式改变，需重新分配显存与上传数据
+    void dirtyStorage();
+    bool isStorageDirty(State& state) const;
+
+    // 需重新调用glGenerateMipmap
+    void dirtyMipmapLevels();
+    bool isMipmapLevelsDirty(State& state) const;
 
   private:
     VI_OBJECT_DATA;
