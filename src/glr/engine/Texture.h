@@ -85,9 +85,12 @@ class GLR_API Texture : public PixelData {
     InternalFormat getInternalFormat() const;
 
     // default value is 1.0 for no anisotropic filtering.
+    // only support 2D textures and 3D textures
+    // cubemap not support
     void  setMaxAnisotropy(double val);
     float getMaxAnisotropy() const;
 
+    // only support 2D textures and 3D textures
     void setGenerateMipmapLevels(bool val);
     bool getGenerateMipmapLevels() const;
 
@@ -100,6 +103,7 @@ class GLR_API Texture : public PixelData {
     // 如果当前绑定的纹理单元绑定的纹理是当前对象的话则解绑
     virtual bool onUnbind(State& state) override;
     virtual bool onRelease(State& state) override;
+
     // 尺寸没变,格式没变，无需重新分配显存，无需重新提交数据
     void dirtyParameters();
     bool isParametersDirty(State& state) const;

@@ -35,6 +35,10 @@ Texture::~Texture() {
 }
 
 void Texture::setGenerateMipmapLevels(bool val) {
+    if (getType() == TEXTURE_RECTANGLE) {
+        printf("\nThe current texture type does not support setting mipmap levels.");
+        //return;
+    }
     if (val != d->generate_mipmap_levels) {
         d->generate_mipmap_levels = val;
         dirty();
@@ -42,6 +46,7 @@ void Texture::setGenerateMipmapLevels(bool val) {
 }
 
 bool Texture::getGenerateMipmapLevels() const {
+    if (getType() == TEXTURE_RECTANGLE) return false;
     return d->generate_mipmap_levels;
 }
 
@@ -146,6 +151,11 @@ Texture::InternalFormat Texture::getInternalFormat() const {
 }
 
 void Texture::setMaxAnisotropy(double val) {
+    auto type = getType();
+    if (type == TEXTURE_RECTANGLE || type == TEXTURE_1D || type == TEXTURE_CUBE_MAP) {
+        printf("\nThe current texture type does not support setting anisotropy.");
+        //return;
+    }
     if (val != d->max_anisotropy) {
         d->max_anisotropy = val;
         dirty();
@@ -153,6 +163,7 @@ void Texture::setMaxAnisotropy(double val) {
 }
 
 float Texture::getMaxAnisotropy() const {
+    if (getType() == TEXTURE_RECTANGLE) return 1.0;
     return d->max_anisotropy;
 }
 } // namespace glr

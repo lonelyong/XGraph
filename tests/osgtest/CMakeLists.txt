@@ -1,6 +1,6 @@
 set(CURRENT_TARGET_NAME osgtest)
 find_package(OpenSceneGraph COMPONENTS osgDB REQUIRED)
-GLS_ADD_TEST(${CURRENT_TARGET_NAME})
+XG_ADD_TEST(${CURRENT_TARGET_NAME})
 
 target_include_directories(${CURRENT_TARGET_NAME} 
     PRIVATE
