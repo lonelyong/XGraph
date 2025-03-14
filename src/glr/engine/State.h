@@ -7,7 +7,7 @@
 
 namespace glr {
 class GLObject;
-class Shader;
+class Program;
 class Camera;
 class GraphicContext;
 class Renderer;
@@ -22,7 +22,7 @@ class GLR_API State : public Object {
     virtual ~State();
 
   public:
-    Shader*         getCurrentShader() const;
+    Program*         getCurrentShader() const;
     Camera*         getCurrentCamera() const;
     GraphicContext* getContext() const;
 

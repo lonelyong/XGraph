@@ -9,31 +9,33 @@
 
 namespace glr {
 class GLR_API Shader : public GLObject {
-    VI_OBJECT_META;
+    VI_OBJECT_META
 
   public:
-    Shader(const std::string& vs_code, const std::string& gs_code, const std::string& fs_code);
+    enum Type
+    {
+        VERTEX          = GL_VERTEX_SHADER,
+        TESS_CONTROL    = GL_TESS_CONTROL_SHADER,
+        TESS_EVALUATION = GL_TESS_EVALUATION_SHADER,
+        GEOMETRY        = GL_GEOMETRY_SHADER,
+        FRAGMENT        = GL_FRAGMENT_SHADER,
+        COMPUTE         = GL_COMPUTE_SHADER
+    };
+
+  public:
+    Shader();
+    Shader(Type type, const std::string& code);
     virtual ~Shader();
 
   public:
-    void use(State& state);
-    void unuse(State& state);
+    Type getType() const;
+    void setType(Type type);
 
-    std::string getName() const;
-    void        setName(const std::string& name);
-
-    template <typename T> void set(State& state, const std::string& name, const T& val) {
-        auto id  = getId(state);
-        auto loc = glGetUniformLocation(id, name.data());
-        if (loc >= 0) {
-            set<T>(state, loc, val);
-        }
-    }
-
-    template <typename T> void set(State& state, GLuint loc, const T& val);
+    std::string getSource() const;
+    void        setSource(const std::string& source);
 
   public:
-    static Shader* create(const std::string& vs_path, const std::string& gs_path, const std::string& fs_path);
+    static Shader* createFromFile(Type type, const std::string& path);
 
   protected:
     GLuint onCreate(State& state) override;
@@ -41,7 +43,6 @@ class GLR_API Shader : public GLObject {
     bool   onRelease(State& state) override;
 
   private:
-    struct Data;
-    Data* const d;
+    VI_OBJECT_DATA
 };
 } // namespace glr

@@ -10,7 +10,7 @@
 #include <glr/engine/CameraManipulator.h>
 #include <glr/engine/GraphicContext.h>
 #include <glr/engine/RenderInfo.h>
-#include <glr/engine/Shader.h>
+#include <glr/engine/Program.h>
 #include <glr/engine/State.h>
 #include <glr/engine/StateSet.h>
 #include <glr/scene/Drawable.h>
@@ -114,7 +114,7 @@ int Renderer::render(RenderInfo& info) {
 
     auto nb_models = scene->getNbModels();
     for (size_t i = 0; i < nb_models; ++i) {
-        auto model = scene->getModelAt(i)->cast<Model>();
+        auto model = vine::obj_cast<Model>(scene->getModelAt(i));
 
         if (!model) {
             continue;

@@ -25,13 +25,13 @@ class GLR_API GLObject : public Object {
     bool   isDirty(State& state) const;
     GLuint getNbInstances() const;
 
+    bool create(State& state);
+    bool update(State& state);
+    bool release(State& state);
 
   protected:
-    bool           create(State& state);
-    virtual GLuint onCreate(State& state) = 0;
-    bool           update(State& state);
-    virtual bool   onUpdate(State& state) = 0;
-    bool           release(State& state);
+    virtual GLuint onCreate(State& state)  = 0;
+    virtual bool   onUpdate(State& state)  = 0;
     virtual bool   onRelease(State& state) = 0;
 
   private:

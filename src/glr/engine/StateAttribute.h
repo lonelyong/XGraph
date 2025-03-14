@@ -23,11 +23,15 @@ class GLR_API StateAttribute : public Object {
         ATTR_LIGHTS,
         ATTR_SHADER,
         ATTR_UNIFORM,
-        ATTR_SUBROUTINE
+        ATTR_SUBROUTINE,
+        ATTR_PATCH_PARAMETER,
+        ATTR_STENCIL
     };
 
   public:
     virtual Type getType() const = 0;
+
+    virtual bool equals(const StateAttribute& other) const;
 
   protected:
     virtual void apply(State& state) const = 0;

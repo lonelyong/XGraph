@@ -52,7 +52,7 @@ RenderBuffer* FrameBufferObject::getRenderBuffer(BufferComponent comp) const {
     if (iter == d->components.end()) {
         return nullptr;
     }
-    return iter->second->cast<RenderBuffer>();
+    return vine::obj_cast<RenderBuffer>(iter->second.get());
 }
 
 Texture* FrameBufferObject::getTexture(BufferComponent comp) const {
@@ -60,7 +60,7 @@ Texture* FrameBufferObject::getTexture(BufferComponent comp) const {
     if (iter == d->components.end()) {
         return nullptr;
     }
-    return iter->second->cast<Texture>();
+    return vine::obj_cast<Texture>(iter->second.get());
 }
 
 PixelData* FrameBufferObject::getComponent(BufferComponent comp) const {

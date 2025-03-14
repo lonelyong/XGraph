@@ -7,7 +7,7 @@
 
 namespace glr {
 class StateAttribute;
-class Shader;
+class Program;
 class GLR_API StateSet : public Object {
     VI_OBJECT_META;
 
@@ -24,9 +24,9 @@ class GLR_API StateSet : public Object {
     size_t          getNbAttributes() const;
     StateAttribute* getAttributeAt(size_t i);
 
-    Shader* getShader() const;
+    Program* getShader() const;
 
-    void setShader(Shader* shader);
+    void setShader(Program* shader);
 
   private:
     VI_OBJECT_DATA;

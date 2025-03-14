@@ -11,7 +11,7 @@
 #include <glr/engine/GLObject.h>
 #include <glr/engine/GraphicContext.h>
 #include <glr/engine/Renderer.h>
-#include <glr/engine/Shader.h>
+#include <glr/engine/Program.h>
 #include <glr/engine/StateAttribute.h>
 #include <glr/engine/StateSet.h>
 #include <glr/engine/Uniform.h>
@@ -21,7 +21,7 @@ namespace {
 struct StateData {
     vine::RefPtr<GraphicContext>       ctx;
     vine::RefPtr<StateSet>             default_stateset;
-    std::stack<vine::RefPtr<Shader>>   shaders;
+    std::stack<vine::RefPtr<Program>>   shaders;
     std::stack<vine::RefPtr<StateSet>> statesets;
     std::stack<vine::RefPtr<Camera>>   cameras;
     std::stack<Mat4d>                  model_matrices;
@@ -75,7 +75,7 @@ GraphicContext* State::getContext() const {
     return d->ctx.get();
 }
 
-Shader* State::getCurrentShader() const {
+Program* State::getCurrentShader() const {
     if (d->shaders.empty()) return nullptr;
     return d->shaders.top().get();
 }
@@ -243,7 +243,7 @@ void State::apply() {
             auto        attr_type = attr->getType();
             const char* name      = nullptr;
             if (attr->isKindOf(UniformBase::desc())) {
-                name = attr->cast<UniformBase>()->getName().data();
+                name = vine::obj_cast<UniformBase>(attr)->getName().data();
             }
 
             if (name) {

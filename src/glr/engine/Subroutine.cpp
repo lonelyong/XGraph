@@ -1,6 +1,6 @@
 ﻿#include <glr/engine/Subroutine.h>
 
-#include <glr/engine/Shader.h>
+#include <glr/engine/Program.h>
 #include <glr/engine/State.h>
 
 namespace glr {

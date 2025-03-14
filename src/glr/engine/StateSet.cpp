@@ -4,7 +4,7 @@
 
 #include <vine/core/Ptr.h>
 
-#include <glr/engine/Shader.h>
+#include <glr/engine/Program.h>
 #include <glr/engine/StateAttribute.h>
 #include <glr/engine/UniformBase.h>
 
@@ -19,7 +19,7 @@ struct StateAttr {
         if (!sa) return false;
 
         if (sa->isKindOf(UniformBase::desc()) && attr->isKindOf(UniformBase::desc())) {
-            return sa->cast<UniformBase>()->getName() == attr->cast<UniformBase>()->getName();
+            return vine::obj_cast<UniformBase>(sa)->getName() == vine::obj_cast<UniformBase>(attr.get())->getName();
         }
         else {
             return attr.get()->getType() == sa->getType();
@@ -35,7 +35,7 @@ VI_OBJECT_META_IMPL(StateSet, Object);
 struct StateSet::Data {
     std::vector<StateAttr> attrs;
 
-    vine::RefPtr<Shader> shader;
+    vine::RefPtr<Program> shader;
 };
 
 StateSet::StateSet()
@@ -81,11 +81,11 @@ StateAttribute* StateSet::getAttributeAt(size_t i) {
     return (*(d->attrs.begin() + i)).attr.get();
 }
 
-Shader* StateSet::getShader() const {
+Program* StateSet::getShader() const {
     return d->shader.get();
 }
 
-void StateSet::setShader(Shader* shader) {
+void StateSet::setShader(Program* shader) {
     if (d->shader == shader) return;
     d->shader = shader;
 }

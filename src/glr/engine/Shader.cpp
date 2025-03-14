@@ -29,227 +29,98 @@ std::string readCode(const std::string& path) {
     return code;
 }
 
-unsigned int createShader(const GLchar* code, int type) {
-    if (!code || !strlen(code)) return 0;
-    unsigned int shader_id;
-    shader_id = glCreateShader(type);
-    glShaderSource(shader_id, 1, &code, NULL);
-    glCompileShader(shader_id);
+inline void compileShader(GLuint id, const std::string& source) {
+    auto code_cstr = source.data();
+    glShaderSource(id, 1, &code_cstr, NULL);
+    glCompileShader(id);
 
-    int  status;
-    char msg[512];
+    GLint status;
+    char  msg[512];
 
-    glGetShaderiv(shader_id, GL_COMPILE_STATUS, &status);
+    glGetShaderiv(id, GL_COMPILE_STATUS, &status);
     if (0 == status) {
-        glGetShaderInfoLog(shader_id, sizeof(msg), NULL, msg);
+        glGetShaderInfoLog(id, sizeof(msg), NULL, msg);
         std::cerr << "ERROR: failed to compile the shader" << msg << std::endl;
         throw std::exception("Compile shader failed.");
     }
-    return shader_id;
 }
 } // namespace
 
 VI_OBJECT_META_IMPL(Shader, GLObject);
 
 struct Shader::Data {
-    std::string name;
-    std::string vs_code;
-    std::string gs_code;
-    std::string fs_code;
+    Type        type = (Type)0;
+    std::string code;
 };
 
-Shader::Shader(const std::string& vs_code, const std::string& gs_code, const std::string& fs_code)
+Shader::Shader()
   : d(new Data()) {
-    d->vs_code = vs_code;
-    d->gs_code = gs_code;
-    d->fs_code = fs_code;
+}
+
+Shader::Shader(Type type, const std::string& code)
+  : d(new Data()) {
+    d->type = type;
+    d->code = code;
 }
 
 Shader::~Shader() {
+    delete d;
 }
 
-void Shader::use(State& state) {
-    if (!isCreated(state)) GLObject::create(state);
-    if (!isCreated(state)) return;
-    glUseProgram(getId(state));
+Shader::Type Shader::getType() const {
+    return d->type;
 }
 
-void Shader::unuse(State& state) {
-    auto id = getId(state);
-    if (id) {
-        GLint current_prog;
-        glGetIntegerv(GL_CURRENT_PROGRAM, &current_prog);
-        if (current_prog == id) glUseProgram(0);
+void Shader::setType(Type type) {
+    if (type != d->type) {
+        d->type = type;
+        dirty();
     }
 }
 
-std::string Shader::getName() const {
-    return d->name;
+std::string Shader::getSource() const {
+    return d->code;
 }
 
-void Shader::setName(const std::string& name) {
-    d->name = name;
-}
-
-template <typename T> void Shader::set(State& state, GLuint loc, const T& val) {
-    if constexpr (std::is_same<T, bool>::value) {
-        glUniform1i(loc, (int)val);
-    }
-    else if constexpr (std::is_same<T, Vec2b>::value) {
-        glUniform2i(loc, val.x, val.y);
-    }
-    else if constexpr (std::is_same<T, Vec3b>::value) {
-        glUniform3i(loc, val.x, val.y, val.z);
-    }
-    else if constexpr (std::is_same<T, Vec4b>::value) {
-        glUniform4i(loc, val.r, val.g, val.b, val.a);
-    }
-
-    else if constexpr (std::is_same<T, int>::value) {
-        glUniform1i(loc, val);
-    }
-    else if constexpr (std::is_same<T, unsigned int>::value) {
-        glUniform1ui(loc, val);
-    }
-    else if constexpr (std::is_same<T, Vec2i>::value) {
-        glUniform2i(loc, val.x, val.y);
-    }
-    else if constexpr (std::is_same<T, Vec3i>::value) {
-        glUniform3i(loc, val.x, val.y, val.z);
-    }
-    else if constexpr (std::is_same<T, Vec4i>::value) {
-        glUniform4i(loc, val.r, val.g, val.b, val.a);
-    }
-
-    else if constexpr (std::is_same<T, float>::value) {
-        glUniform1f(loc, val);
-    }
-    else if constexpr (std::is_same<T, Vec2f>::value) {
-        glUniform2f(loc, val.x, val.y);
-    }
-    else if constexpr (std::is_same<T, Vec3f>::value) {
-        glUniform3f(loc, val.x, val.y, val.z);
-    }
-    else if constexpr (std::is_same<T, Vec4f>::value) {
-        glUniform4f(loc, val.r, val.g, val.b, val.a);
-    }
-    else if constexpr (std::is_same<T, Mat3f>::value) {
-        glUniformMatrix3fv(loc, 1, GL_FALSE, glm::value_ptr(val));
-    }
-    else if constexpr (std::is_same<T, Mat4f>::value) {
-        glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(val));
-    }
-
-    else if constexpr (std::is_same<T, double>::value) {
-        glUniform1d(loc, val);
-    }
-    else if constexpr (std::is_same<T, Vec2d>::value) {
-        glUniform2d(loc, val.x, val.y);
-    }
-    else if constexpr (std::is_same<T, Vec3d>::value) {
-        glUniform3d(loc, val.x, val.y, val.z);
-    }
-    else if constexpr (std::is_same<T, Vec4d>::value) {
-        glUniform4d(loc, val.r, val.g, val.b, val.a);
-    }
-    else if constexpr (std::is_same<T, Mat3d>::value) {
-        // glUniformMatrix3dv(loc, 1, GL_FALSE, glm::value_ptr(val));
-        glUniformMatrix3fv(loc, 1, GL_FALSE, glm::value_ptr(Mat3f(val)));
-    }
-    else if constexpr (std::is_same<T, Mat4d>::value) {
-        // glUniformMatrix4dv(loc, 1, GL_FALSE, glm::value_ptr(val));
-        glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(Mat4f(val)));
-    }
-    else {
-        static_assert("type not supported");
+void Shader::setSource(const std::string& source) {
+    if (source != d->code) {
+        d->code = source;
+        dirty();
     }
 }
 
 GLuint Shader::onCreate(State& state) {
-    unsigned int vs_id = 0, gs_id = 0, fs_id = 0;
-    char         msg[512];
-    auto         status = 0;
-    auto         app_id = glCreateProgram();
-
-    if (!d->vs_code.empty()) {
-        vs_id = createShader(d->vs_code.data(), GL_VERTEX_SHADER);
-        glAttachShader(app_id, vs_id);
+    if (d->type && !d->code.empty()) {
+        auto id = glCreateShader(d->type);
+        compileShader(id, d->code);
+        return id;
     }
-    if (!d->gs_code.empty()) {
-        gs_id = createShader(d->gs_code.data(), GL_GEOMETRY_SHADER);
-        glAttachShader(app_id, gs_id);
-    }
-    if (!d->fs_code.empty()) {
-        fs_id = createShader(d->fs_code.data(), GL_FRAGMENT_SHADER);
-        glAttachShader(app_id, fs_id);
-    }
-    glLinkProgram(app_id);
-    glGetProgramiv(app_id, GL_LINK_STATUS, &status);
-
-    if (0 == status) {
-        glGetProgramInfoLog(app_id, sizeof(msg), NULL, msg);
-        std::cerr << "ERROR: failed to link the shaders" << msg << std::endl;
-        throw std::exception("Link shaders failed.");
-    }
-    if (vs_id) {
-        glDetachShader(app_id, vs_id);
-        glDeleteShader(vs_id);
-    }
-    if (gs_id) {
-        glDetachShader(app_id, gs_id);
-        glDeleteShader(gs_id);
-    }
-    if (fs_id) {
-        glDetachShader(app_id, fs_id);
-        glDeleteShader(fs_id);
-    }
-    return app_id;
+    return 0;
 }
 
 bool Shader::onUpdate(State& state) {
+    if (d->type && !d->code.empty()) {
+        auto id = getId(state);
+        compileShader(id, d->code);
+        return true;
+    }
+    else {
+        release(state);
+    }
     return false;
 }
 
 bool Shader::onRelease(State& state) {
     auto id = getId(state);
-    glDeleteProgram(id);
+    glDeleteShader(id);
     return true;
 }
 
-Shader* Shader::create(const std::string& vs_path, const std::string& gs_path, const std::string& fs_path) {
-    auto vs_code = readCode(vs_path);
-    auto gs_code = readCode(gs_path);
-    auto fs_code = readCode(fs_path);
+Shader* Shader::createFromFile(Type type, const std::string& path) {
+    auto code = readCode(path);
 
-    if (vs_code.empty() || fs_code.empty()) return nullptr;
+    if (code.empty()) return nullptr;
 
-    return new Shader(vs_code, gs_code, fs_code);
+    return new Shader(type, code);
 }
-
-template void Shader::set<bool>(State&, GLuint, const bool&);
-template void Shader::set<Vec2b>(State&, GLuint, const Vec2b&);
-template void Shader::set<Vec3b>(State&, GLuint, const Vec3b&);
-template void Shader::set<Vec4b>(State&, GLuint, const Vec4b&);
-
-template void Shader::set<int>(State&, GLuint, const int&);
-template void Shader::set<unsigned int>(State&, GLuint, const unsigned int&);
-template void Shader::set<Vec2i>(State&, GLuint, const Vec2i&);
-template void Shader::set<Vec3i>(State&, GLuint, const Vec3i&);
-template void Shader::set<Vec4i>(State&, GLuint, const Vec4i&);
-
-template void Shader::set<float>(State&, GLuint, const float&);
-template void Shader::set<Vec2f>(State&, GLuint, const Vec2f&);
-template void Shader::set<Vec3f>(State&, GLuint, const Vec3f&);
-template void Shader::set<Vec4f>(State&, GLuint, const Vec4f&);
-
-template void Shader::set<double>(State&, GLuint, const double&);
-template void Shader::set<Vec2d>(State&, GLuint, const Vec2d&);
-template void Shader::set<Vec3d>(State&, GLuint, const Vec3d&);
-template void Shader::set<Vec4d>(State&, GLuint, const Vec4d&);
-
-template void Shader::set<Mat3f>(State&, GLuint, const Mat3f&);
-template void Shader::set<Mat4f>(State&, GLuint, const Mat4f&);
-
-template void Shader::set<Mat3d>(State&, GLuint, const Mat3d&);
-template void Shader::set<Mat4d>(State&, GLuint, const Mat4d&);
 } // namespace glr

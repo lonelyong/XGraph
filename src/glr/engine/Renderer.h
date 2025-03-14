@@ -5,7 +5,7 @@
 #include <glr/engine/EventReceiver.h>
 
 namespace glr {
-class Shader;
+class Program;
 class Model;
 class Camera;
 class CameraManipulator;

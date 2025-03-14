@@ -9,7 +9,7 @@
 #include <glr/engine/CubeMap.h>
 #include <glr/engine/Depth.h>
 #include <glr/engine/Renderer.h>
-#include <glr/engine/Shader.h>
+#include <glr/engine/Program.h>
 #include <glr/engine/State.h>
 #include <glr/engine/StateSet.h>
 #include <glr/engine/Uniform.h>
@@ -47,7 +47,7 @@ void main(){
 struct SkyBoxUpdateCallback : public UpdateCallback {
     SkyBoxUpdateCallback(Uniform* uniform) { uniform_ = uniform; }
     virtual void operator()(Object* obj, UpdateContext* ctx) override {
-        auto model    = obj->cast<Model>();
+        auto model    = vine::obj_cast<Model>(obj);
         auto stateset = model->getOrCreateStateSet();
         auto shader   = stateset->getShader();
         auto cam      = ctx->getCurrentRenderer()->getCamera();
@@ -67,7 +67,7 @@ struct SkyBoxUpdateCallback : public UpdateCallback {
 
 // 平行投影会导致天空盒的显示不正确，因为天空盒的大小为1，而平行投影使得渲染天空盒的大小不变
 Model* createSkyBox(CubeMap* tex) {
-    auto shader  = new Shader(sky_box_vs, {}, sky_box_fs);
+    auto shader  = new Program(sky_box_vs, {}, sky_box_fs);
     auto uniform = new Uniform("matrix_mvp_", Mat4d());
     auto cube    = Geometry::createCube(1, false);
     cube->addTexture(GL_TEXTURE0, "tex_cube", tex);
