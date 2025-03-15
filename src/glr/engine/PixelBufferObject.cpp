@@ -21,17 +21,17 @@ PixelBufferObject::PixelBufferObject(Mode m)
 }
 
 BufferObject::Target PixelBufferObject::getTarget() const {
-    return d->m == MODE_PACK ? TARGET_PIXEL_PACK_BUFFER : TARGET_PIXEL_UNPACK_BUFFER;
+    return d->m == MODE_PACK ? PIXEL_PACK_BUFFER : PIXEL_UNPACK_BUFFER;
 }
 
 BufferObject::Usage PixelBufferObject::getUsage() const {
-    return USAGE_STREAM_READ;
+    return STREAM_READ;
 }
 
-GLuint PixelBufferObject::onCreate(State& state) {
+GLuint_t PixelBufferObject::onCreate(State& state) {
     auto id = BufferObject::onCreate(state);
-    if (id != GL_ZERO) {
-        if (getTarget() == TARGET_PIXEL_PACK_BUFFER) {
+    if (id != HGL_ZERO) {
+        if (getTarget() == PIXEL_PACK_BUFFER) {
         }
     }
     return id;

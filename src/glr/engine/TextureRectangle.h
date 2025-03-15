@@ -19,20 +19,20 @@ class GLR_API TextureRectangle : public Texture {
   public:
     virtual Type getType() const override;
 
-    void setWidth(GLsizei w);
+    void setWidth(GLsizei_t w);
 
-    void setHeight(GLsizei h);
+    void setHeight(GLsizei_t h);
 
-    GLsizei getWidth() const;
+    GLsizei_t getWidth() const;
 
-    GLsizei getHeight() const;
+    GLsizei_t getHeight() const;
 
     void setImage(const std::string& img);
 
     void setImage(Image* image);
 
   protected:
-    virtual GLuint onCreate(State& state) override;
+    virtual GLuint_t onCreate(State& state) override;
 
     virtual bool onUpdate(State& state) override;
 

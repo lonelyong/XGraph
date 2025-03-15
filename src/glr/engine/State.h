@@ -22,7 +22,7 @@ class GLR_API State : public Object {
     virtual ~State();
 
   public:
-    Program*         getCurrentShader() const;
+    Program*         getCurrentProgram() const;
     Camera*         getCurrentCamera() const;
     GraphicContext* getContext() const;
 

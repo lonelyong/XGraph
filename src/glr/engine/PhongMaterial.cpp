@@ -56,7 +56,7 @@ void PhongMaterial::setShininess(float shininess) {
 }
 
 StateAttribute::Type PhongMaterial::getType() const {
-    return ATTR_PHONG_MATERIAL;
+    return PHONG_MATERIAL;
 }
 
 void PhongMaterial::setName(const std::string& name) {
@@ -67,13 +67,13 @@ const std::string& PhongMaterial::getName() const {
 }
 
 void PhongMaterial::apply(State& state) const {
-    auto shader = state.getCurrentShader();
-    if (shader) {
-        shader->set(state, name_ + ".ambient", a_);
-        shader->set(state, name_ + ".diffuse", d_);
-        shader->set(state, name_ + ".specular", s_);
-        shader->set(state, name_ + ".emission", e_);
-        shader->set(state, name_ + ".shininess", sh_);
+    auto prog = state.getCurrentProgram();
+    if (prog) {
+        prog->set(state, name_ + ".ambient", a_);
+        prog->set(state, name_ + ".diffuse", d_);
+        prog->set(state, name_ + ".specular", s_);
+        prog->set(state, name_ + ".emission", e_);
+        prog->set(state, name_ + ".shininess", sh_);
     }
 }
 

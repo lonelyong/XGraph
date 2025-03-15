@@ -24,9 +24,6 @@ class OctomapLoader {
     void         setRenderOption(RenderOption option);
     RenderOption getRenderOption();
 
-    void setComputeBoundary(bool val);
-    bool getComputeBoundary() const;
-
     osg::MatrixTransform* loadFile(const std::string& file);
 
   public:
@@ -34,6 +31,5 @@ class OctomapLoader {
 
   private:
     RenderOption render_option_;
-    bool         compute_boundary_ = false;
 };
 } // namespace glv

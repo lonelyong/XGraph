@@ -27,7 +27,7 @@ PointParameter::~PointParameter() {
 }
 
 StateAttribute::Type PointParameter::getType() const {
-    return ATTR_PATCH_PARAMETER;
+    return PATCH_PARAMETER;
 }
 
 bool PointParameter::equals(const StateAttribute& other) const {

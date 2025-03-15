@@ -3,8 +3,6 @@
 
 #include <string>
 
-#include <glad/glad.h>
-
 #include <glr/engine/UniformBase.h>
 #include <glr/engine/types.h>
 
@@ -15,31 +13,31 @@ class GLR_API Uniform : public UniformBase {
   public:
     enum ValueType
     {
-        UNDEFINED = 0,
+        NO_TYPE = 0,
 
-        BOOL  = GL_BOOL,      // bool
-        BVEC2 = GL_BOOL_VEC2, // bvec2
-        BVEC3 = GL_BOOL_VEC3, // bvec3
-        BVEC4 = GL_BOOL_VEC4, // bvec4
+        BOOL  = HGL_BOOL,      // bool
+        BVEC2 = HGL_BOOL_VEC2, // bvec2
+        BVEC3 = HGL_BOOL_VEC3, // bvec3
+        BVEC4 = HGL_BOOL_VEC4, // bvec4
 
-        INT   = GL_INT,      // int
-        IVEC2 = GL_INT_VEC2, // ivec2
-        IVEC3 = GL_INT_VEC3, // ivec3
-        IVEC4 = GL_INT_VEC4, // ivec4
+        INT   = HGL_INT,      // int
+        IVEC2 = HGL_INT_VEC2, // ivec2
+        IVEC3 = HGL_INT_VEC3, // ivec3
+        IVEC4 = HGL_INT_VEC4, // ivec4
 
-        FLOAT   = GL_FLOAT,      // float
-        FVEC2   = GL_FLOAT_VEC2, // vec2
-        FVEC3   = GL_FLOAT_VEC3, // vec3
-        FVEC4   = GL_FLOAT_VEC4, // vec4
-        FMAT3X3 = GL_FLOAT_MAT3, // mat3
-        FMAT4X4 = GL_FLOAT_MAT4, // mat4
+        FLOAT   = HGL_FLOAT,      // float
+        FVEC2   = HGL_FLOAT_VEC2, // vec2
+        FVEC3   = HGL_FLOAT_VEC3, // vec3
+        FVEC4   = HGL_FLOAT_VEC4, // vec4
+        FMAT3X3 = HGL_FLOAT_MAT3, // mat3
+        FMAT4X4 = HGL_FLOAT_MAT4, // mat4
 
-        DOUBLE  = GL_DOUBLE,      // double
-        DVEC2   = GL_DOUBLE_VEC2, // dvec2
-        DVEC3   = GL_DOUBLE_VEC3, // dvec3
-        DVEC4   = GL_DOUBLE_VEC4, // dvec4
-        DMAT3X3 = GL_DOUBLE_MAT3, // dmat3
-        DMAT4X4 = GL_DOUBLE_MAT4, // dmat4
+        DOUBLE  = HGL_DOUBLE,      // double
+        DVEC2   = HGL_DOUBLE_VEC2, // dvec2
+        DVEC3   = HGL_DOUBLE_VEC3, // dvec3
+        DVEC4   = HGL_DOUBLE_VEC4, // dvec4
+        DMAT3X3 = HGL_DOUBLE_MAT3, // dmat3
+        DMAT4X4 = HGL_DOUBLE_MAT4, // dmat4
     };
 
   public:

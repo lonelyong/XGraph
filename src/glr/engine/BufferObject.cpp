@@ -2,6 +2,8 @@
 
 #include <map>
 
+#include <glad/glad.h>
+
 #include <glr/engine/GraphicContext.h>
 #include <glr/engine/State.h>
 
@@ -16,8 +18,8 @@ BufferObject::BufferObject()
   : d(new Data()) {
 }
 
-GLuint BufferObject::onCreate(State& state) {
-    GLuint id = 0;
+GLuint_t BufferObject::onCreate(State& state) {
+    GLuint_t id = 0;
     glGenBuffers(1, &id);
     return id;
 }
@@ -45,17 +47,16 @@ bool BufferObject::onUnbind(State& state) {
     return true;
 }
 
-
-GLenum BufferObject::getBindingOfTarget(Target target) {
+GLenum_t BufferObject::getBindingOfTarget(Target target) {
     switch (target) {
-    case TARGET_ARRAY_BUFFER: return GL_ARRAY_BUFFER_BINDING;
-    case TARGET_ELEMENT_ARRAY_BUFFER: return GL_ELEMENT_ARRAY_BUFFER_BINDING;
-    case TARGET_PIXEL_PACK_BUFFER: return GL_PIXEL_PACK_BUFFER_BINDING;
-    case TARGET_PIXEL_UNPACK_BUFFER: return GL_PIXEL_UNPACK_BUFFER_BINDING;
-    case TARGET_UNIFORM_BUFFER: return GL_UNIFORM_BUFFER_BINDING;
-    case TARGET_SHADER_STORAGE_BUFFER: return GL_SHADER_STORAGE_BUFFER_BINDING;
-    case TARGET_DRAW_INDIRECT_BUFFER: return GL_DRAW_INDIRECT_BUFFER_BINDING;
-    default: GL_ZERO;
+    case ARRAY_BUFFER: return GL_ARRAY_BUFFER_BINDING;
+    case ELEMENT_ARRAY_BUFFER: return GL_ELEMENT_ARRAY_BUFFER_BINDING;
+    case PIXEL_PACK_BUFFER: return GL_PIXEL_PACK_BUFFER_BINDING;
+    case PIXEL_UNPACK_BUFFER: return GL_PIXEL_UNPACK_BUFFER_BINDING;
+    case UNIFORM_BUFFER: return GL_UNIFORM_BUFFER_BINDING;
+    case SHADER_STORAGE_BUFFER: return GL_SHADER_STORAGE_BUFFER_BINDING;
+    case DRAW_INDIRECT_BUFFER: return GL_DRAW_INDIRECT_BUFFER_BINDING;
+    default: HGL_ZERO;
     }
 }
 } // namespace glr

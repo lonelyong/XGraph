@@ -3,6 +3,8 @@
 #include <iostream>
 #include <map>
 
+#include <glad/glad.h>
+
 #include <vine/core/Exception.h>
 #include <vine/core/Ptr.h>
 
@@ -71,8 +73,8 @@ PixelData* FrameBufferObject::getComponent(BufferComponent comp) const {
     return iter->second.get();
 }
 
-GLuint FrameBufferObject::onCreate(State& state) {
-    GLuint id;
+GLuint_t FrameBufferObject::onCreate(State& state) {
+    GLuint_t id;
     glGenFramebuffers(1, &id);
     glBindFramebuffer(GL_FRAMEBUFFER, id);
 

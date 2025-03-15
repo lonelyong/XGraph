@@ -3,6 +3,8 @@
 #include <any>
 #include <string>
 
+#include <glad/glad.h>
+
 #include <glr/engine/Program.h>
 #include <glr/engine/State.h>
 
@@ -150,7 +152,7 @@ Uniform::~Uniform() {
 }
 
 StateAttribute::Type Uniform::getType() const {
-    return Type::ATTR_UNIFORM;
+    return Type::UNIFORM;
 }
 
 Uniform::ValueType Uniform::getValueType() const {
@@ -267,7 +269,7 @@ void Uniform::setValue(const Mat4d& val) {
 
 
 void Uniform::apply(State& ctx) const {
-    auto shader = ctx.getCurrentShader();
+    auto shader = ctx.getCurrentProgram();
     if (shader) {
         switch (d->type) {
         case BOOL: shader->set(ctx, d->name, std::any_cast<bool>(d->val)); break;

@@ -8,11 +8,11 @@
 #include <xgcomm/Resources.h>
 
 #include <glr/engine/CubeMap.h>
-#include <glr/engine/Shader.h>
+#include <glr/engine/Program.h>
 
 namespace glr {
 
-static std::map<std::string, vine::RefPtr<Shader>> s_shaders;
+static std::map<std::string, vine::RefPtr<Program>> s_shaders;
 
 ResourceManager::ResourceManager() {
 }
@@ -22,7 +22,7 @@ ResourceManager* ResourceManager::instance() {
     return inst;
 }
 
-Shader* ResourceManager::getShader(const std::string& name) {
+Program* ResourceManager::getShader(const std::string& name) {
     if (s_shaders.find(name) == s_shaders.end()) {
         auto vs     = "shaders/" + name + ".vs.glsl";
         auto gs     = "shaders/" + name + ".gs.glsl";
@@ -30,7 +30,7 @@ Shader* ResourceManager::getShader(const std::string& name) {
         auto appdir = xg::getApplicationDir();
         appdir += "/";
 
-        auto shader = Shader::create(appdir + XG_RES("") + vs, appdir + XG_RES("") + gs, appdir + XG_RES("") + fs);
+        auto shader = Program::createFromFile(appdir + XG_RES("") + vs, appdir + XG_RES("") + gs, appdir + XG_RES("") + fs);
         if (shader) {
             s_shaders.insert({ name, shader });
         }
@@ -39,7 +39,7 @@ Shader* ResourceManager::getShader(const std::string& name) {
     return s_shaders[name].get();
 }
 
-Shader* ResourceManager::getInternalShader(InternalShader shader) {
+Program* ResourceManager::getInternalShader(InternalShader shader) {
     if (shader == EXAMPLE_SAHDER_BASE) {
         return getShader("Base");
     }

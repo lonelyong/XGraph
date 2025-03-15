@@ -1,5 +1,7 @@
 #include <glr/engine/TextureRectangle.h>
 
+#include <glad/glad.h>
+
 #include <vine/core/Ptr.h>
 
 #include <glr/engine/Image.h>
@@ -9,8 +11,8 @@ namespace glr {
 VI_OBJECT_META_IMPL(TextureRectangle, Texture);
 
 struct TextureRectangle::Data {
-    GLsizei             w   = 0;
-    GLsizei             h   = 0;
+    GLsizei_t           w   = 0;
+    GLsizei_t           h   = 0;
     vine::RefPtr<Image> img = nullptr;
 };
 
@@ -26,21 +28,21 @@ Texture::Type TextureRectangle::getType() const {
     return Type::TEXTURE_RECTANGLE;
 }
 
-void TextureRectangle::setWidth(GLsizei w) {
+void TextureRectangle::setWidth(GLsizei_t w) {
     d->w = w;
     dirty();
 }
 
-void TextureRectangle::setHeight(GLsizei h) {
+void TextureRectangle::setHeight(GLsizei_t h) {
     d->h = h;
     dirty();
 }
 
-GLsizei TextureRectangle::getWidth() const {
+GLsizei_t TextureRectangle::getWidth() const {
     return d->w;
 }
 
-GLsizei TextureRectangle::getHeight() const {
+GLsizei_t TextureRectangle::getHeight() const {
     return d->h;
 }
 
@@ -64,8 +66,8 @@ void TextureRectangle::setImage(Image* image) {
     dirty();
 }
 
-GLuint TextureRectangle::onCreate(State& state) {
-    GLuint id = 0;
+GLuint_t TextureRectangle::onCreate(State& state) {
+    GLuint_t id = 0;
     glGenTextures(1, &id);
     glBindTexture(getType(), id);
     glTexParameteri(getType(), GL_TEXTURE_MIN_FILTER, getFilter(MIN_FILTER));
@@ -91,7 +93,7 @@ GLuint TextureRectangle::onCreate(State& state) {
     if (w && h) {
         glTexImage2D(getType(), 0, internal_fmt, w, h, 0, src_format, src_type, img_data);
     }
-    
+
     float max_anisotropy = getMaxAnisotropy();
 
     if (max_anisotropy > 1.0) {

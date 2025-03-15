@@ -1,8 +1,10 @@
 ﻿#include <glr/scene/Geometry.h>
 
+#include <glad/glad.h>
+
 #include <vine/core/Ptr.h>
 
-#include <glr/engine/Shader.h>
+#include <glr/engine/Program.h>
 #include <glr/engine/State.h>
 #include <glr/engine/Texture.h>
 #include <glr/engine/VertexArrayObject.h>
@@ -17,17 +19,17 @@ constexpr int TEX_COORD_LOC = 10;
 
 struct Geometry::Data {
     vine::RefPtr<VertexArrayObject>             vao;
-    std::map<GLuint, vine::RefPtr<ArrayBuffer>> vbos;
+    std::map<GLuint_t, vine::RefPtr<ArrayBuffer>> vbos;
 
-    std::vector<std::pair<GLuint, vine::RefPtr<Texture>>> textures;
-    std::map<GLuint, GLuint>                              texture_locs;
-    std::map<GLuint, std::string>                         texture_names;
+    std::vector<std::pair<GLuint_t, vine::RefPtr<Texture>>> textures;
+    std::map<GLuint_t, GLuint_t>                              texture_locs;
+    std::map<GLuint_t, std::string>                         texture_names;
 
     std::vector<vine::RefPtr<PrimitiveSet>> primitives;
 
-    vine::RefPtr<ArrayBuffer>                                 vertex_array;
-    vine::RefPtr<ArrayBuffer>                                 normal_array;
-    vine::RefPtr<ArrayBuffer>                                 color_array;
+    vine::RefPtr<ArrayBuffer>                              vertex_array;
+    vine::RefPtr<ArrayBuffer>                              normal_array;
+    vine::RefPtr<ArrayBuffer>                              color_array;
     std::vector<std::pair<vine::RefPtr<ArrayBuffer>, int>> tex_coords_arrays;
 
     int vertex_attrib_loc = -1;
@@ -142,11 +144,11 @@ Texture* Geometry::getTextureAt(int index) const {
     return d->textures.at(index).second.get();
 }
 
-GLuint Geometry::getTextureUnitAt(int index) const {
+GLuint_t Geometry::getTextureUnitAt(int index) const {
     return d->textures.at(index).first;
 }
 
-void Geometry::addTexture(GLuint unit, GLuint loc, Texture* tex) {
+void Geometry::addTexture(GLuint_t unit, GLuint_t loc, Texture* tex) {
     auto found_at = std::find_if(d->textures.begin(), d->textures.end(), [unit](auto& kv) { return kv.first == unit; });
     if (found_at == d->textures.end()) {
         d->textures.push_back({ unit, tex });
@@ -158,7 +160,7 @@ void Geometry::addTexture(GLuint unit, GLuint loc, Texture* tex) {
     }
 }
 
-void Geometry::addTexture(GLuint unit, const std::string& name, Texture* tex) {
+void Geometry::addTexture(GLuint_t unit, const std::string& name, Texture* tex) {
     auto found_at = std::find_if(d->textures.begin(), d->textures.end(), [unit](auto& kv) { return kv.first == unit; });
     if (found_at == d->textures.end()) {
         d->textures.push_back({ unit, tex });
@@ -170,12 +172,12 @@ void Geometry::addTexture(GLuint unit, const std::string& name, Texture* tex) {
     }
 }
 
-void Geometry::setTextureAttribLocation(GLuint unit, GLuint loc) {
+void Geometry::setTextureAttribLocation(GLuint_t unit, GLuint_t loc) {
     d->texture_locs[unit] = loc;
     d->texture_names.erase(unit);
 }
 
-void Geometry::setTextureAttribLocation(GLuint unit, const std::string& loc) {
+void Geometry::setTextureAttribLocation(GLuint_t unit, const std::string& loc) {
     d->texture_names[unit] = loc;
     d->texture_locs.erase(unit);
 }
@@ -193,7 +195,7 @@ void Geometry::removeTexture(Texture* tex) {
     }
 }
 
-void Geometry::removetexture(GLuint unit) {
+void Geometry::removetexture(GLuint_t unit) {
     d->textures.erase(
         std::find_if(d->textures.begin(), d->textures.end(), [unit](auto& kv) { return kv.first == unit; }));
     d->texture_locs.erase(unit);
@@ -214,7 +216,7 @@ ArrayBuffer* Geometry::getVertexAttribArrayAt(int index) const {
     return d->vbos[index].get();
 }
 
-void Geometry::addVertexAttribArray(GLuint loc, ArrayBuffer* arr) {
+void Geometry::addVertexAttribArray(GLuint_t loc, ArrayBuffer* arr) {
     assert(arr);
     auto found_at = d->vbos.find(loc);
     if (found_at != d->vbos.end()) {
@@ -234,7 +236,7 @@ void Geometry::removeVertexAttribArray(ArrayBuffer* data) {
     }
 }
 
-void Geometry::removeVertexAttribArray(GLuint loc) {
+void Geometry::removeVertexAttribArray(GLuint_t loc) {
     d->vbos.erase(loc);
 }
 
@@ -269,7 +271,7 @@ void Geometry::draw(State& state) {
     // if (d->vbos.empty()) return;
     if (d->primitives.empty()) return;
 
-    auto shader = state.getCurrentShader();
+    auto shader = state.getCurrentProgram();
     if (!d->vao) {
         auto vbos = d->vbos;
 

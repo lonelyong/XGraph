@@ -25,7 +25,7 @@ class GLR_API PixelBufferObject : public BufferObject {
     bool setImage(Image* img);
 
   protected:
-    virtual GLuint onCreate(State& state) override;
+    virtual GLuint_t onCreate(State& state) override;
     virtual bool   onUpdate(State& state) override;
 
   private:

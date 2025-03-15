@@ -1,5 +1,7 @@
 #include <glr/engine/Texture2D.h>
 
+#include <glad/glad.h>
+
 #include <vine/core/Ptr.h>
 
 #include <glr/engine/Image.h>
@@ -9,8 +11,8 @@ namespace glr {
 VI_OBJECT_META_IMPL(Texture2D, Texture);
 
 struct Texture2D::Data {
-    GLsizei             w   = 0;
-    GLsizei             h   = 0;
+    GLsizei_t           w   = 0;
+    GLsizei_t           h   = 0;
     vine::RefPtr<Image> img = nullptr;
 };
 
@@ -26,21 +28,21 @@ Texture::Type Texture2D::getType() const {
     return Type::TEXTURE_2D;
 }
 
-void Texture2D::setWidth(GLsizei w) {
+void Texture2D::setWidth(GLsizei_t w) {
     d->w = w;
     dirty();
 }
 
-void Texture2D::setHeight(GLsizei h) {
+void Texture2D::setHeight(GLsizei_t h) {
     d->h = h;
     dirty();
 }
 
-GLsizei Texture2D::getWidth() const {
+GLsizei_t Texture2D::getWidth() const {
     return d->w;
 }
 
-GLsizei Texture2D::getHeight() const {
+GLsizei_t Texture2D::getHeight() const {
     return d->h;
 }
 
@@ -64,8 +66,8 @@ void Texture2D::setImage(Image* image) {
     dirty();
 }
 
-GLuint Texture2D::onCreate(State& state) {
-    GLuint id = 0;
+GLuint_t Texture2D::onCreate(State& state) {
+    GLuint_t id = 0;
     glGenTextures(1, &id);
     glBindTexture(getType(), id);
     glTexParameteri(getType(), GL_TEXTURE_MIN_FILTER, getFilter(MIN_FILTER));
@@ -94,7 +96,7 @@ GLuint Texture2D::onCreate(State& state) {
     if (getGenerateMipmapLevels()) {
         glGenerateMipmap(GL_TEXTURE_2D);
     }
-    
+
     float max_anisotropy = getMaxAnisotropy();
 
     if (max_anisotropy > 1.0) {

@@ -2,8 +2,7 @@
 
 #include <glr/glr_global.h>
 
-#include <glad/glad.h>
-
+#include <glr/engine/GL.h>
 #include <glr/engine/StateAttribute.h>
 #include <glr/engine/types.h>
 
@@ -15,40 +14,42 @@ class GLR_API Stencil : public StateAttribute {
     enum Func
     {
         // always fails
-        FN_NEVER    = GL_NEVER,
+        NEVER    = HGL_NEVER,
         // Passes if ( ref & mask ) < ( stencil & mask ).
-        FN_LESS     = GL_LESS,
+        LESS     = HGL_LESS,
         // Passes if ( ref & mask ) <= ( stencil & mask ).
-        FN_LEQUAL   = GL_LEQUAL,
+        LEQUAL   = HGL_LEQUAL,
         // Passes if ( ref & mask ) > ( stencil & mask ).
-        FN_GREATER  = GL_GREATER,
+        GREATER  = HGL_GREATER,
         // Passes if ( ref & mask ) >= ( stencil & mask ).
-        FN_GEQUAL   = GL_GEQUAL,
+        GEQUAL   = HGL_GEQUAL,
         // Passes if (ref & mask) = (stencil & mask).
-        FN_NOTEQUAL = GL_NOTEQUAL,
+        NOTEQUAL = HGL_NOTEQUAL,
         // def value
         // Always passes.
-        FN_ALWAYS   = GL_ALWAYS,
+        ALWAYS   = HGL_ALWAYS,
     };
 
     enum Operation
     {
         // Keeps the current value.
-        OP_KEEP      = GL_KEEP,
+        KEEP      = HGL_KEEP,
         // Sets the stencil buffer value to 0
-        OP_ZERO      = GL_ZERO,
+        ZERO      = HGL_ZERO,
         // Sets the stencil buffer value to ref, as specified by glStencilFunc.
-        OP_REPLACE   = GL_REPLACE,
+        REPLACE   = HGL_REPLACE,
         // Increments the current stencil buffer value.Clamps to the maximum representable unsigned value.
-        OP_INCR      = GL_INCR,
-        // Increments the current stencil buffer value. Wraps stencil buffer value to zero when incrementing the maximum representable unsigned value.
-        OP_INCR_WRAP = GL_INCR_WRAP,
+        INCR      = HGL_INCR,
+        // Increments the current stencil buffer value. Wraps stencil buffer value to zero when incrementing the maximum
+        // representable unsigned value.
+        INCR_WRAP = HGL_INCR_WRAP,
         // Decrements the current stencil buffer value. Clamps to 0.
-        OP_DECR      = GL_DECR,
-        // Decrements the current stencil buffer value. Wraps stencil buffer value to the maximum representable unsigned value when decrementing a stencil buffer value of zero.
-        OP_DECR_WRAP = GL_DECR_WRAP,
+        DECR      = HGL_DECR,
+        // Decrements the current stencil buffer value. Wraps stencil buffer value to the maximum representable unsigned
+        // value when decrementing a stencil buffer value of zero.
+        DECR_WRAP = HGL_DECR_WRAP,
         // Bitwise inverts the current stencil buffer value.
-        OP_INVERT = GL_INVERT,
+        INVERT    = HGL_INVERT,
     };
 
   public:
@@ -60,10 +61,10 @@ class GLR_API Stencil : public StateAttribute {
 
     virtual bool equals(const StateAttribute& other) const override;
 
-    void setFunction(Func fn, int ref, unsigned int mask);
+    void setFunction(Func fn, GLint_t ref, GLuint_t mask);
 
     /**
-     * @brief 
+     * @brief
      * @param sfail stencil test fails
      * @param zfail stencil test passes but depth test fails
      * @param zpass stencil test passes and depth test passes
@@ -74,9 +75,9 @@ class GLR_API Stencil : public StateAttribute {
      * @brief final_value=(new & mask)∣(old & ∼mask)
      * @param mask 0x00禁用写入，0xFF完全替换现有值
      */
-    inline void setWriteMask(unsigned int mask);
+    inline void setWriteMask(GLuint_t mask);
 
-    inline unsigned int getWriteMask() const;
+    inline GLuint_t getWriteMask() const;
 
   protected:
     virtual void apply(State& state) const override;

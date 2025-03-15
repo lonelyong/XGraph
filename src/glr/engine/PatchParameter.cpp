@@ -27,7 +27,7 @@ PatchParameter::~PatchParameter() {
 }
 
 StateAttribute::Type PatchParameter::getType() const {
-    return ATTR_PATCH_PARAMETER;
+    return PATCH_PARAMETER;
 }
 
 bool PatchParameter::equals(const StateAttribute& other) const {

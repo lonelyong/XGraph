@@ -2,6 +2,8 @@
 
 #include <glm/ext.hpp>
 
+#include <glad/glad.h>
+
 #include <vine/ge/Rect2.h>
 
 #include <glr/app/ResourceManager.h>
@@ -128,8 +130,8 @@ Model* ExampleModels::createImage(const char* file) {
     using namespace vine::ge;
 
     auto shader = ResMgr::instance()->getInternalShader(ResMgr::EXAMPLE_SAHDER_STD_PHONG);
-    auto img = new Model();
-    auto tex = vine::RefPtr(new Texture2D());
+    auto img    = new Model();
+    auto tex    = vine::RefPtr(new Texture2D());
 
     tex->setImage(file);
     if (tex->getWidth() > 0) {

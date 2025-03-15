@@ -1,5 +1,7 @@
 ﻿#include <glr/engine/Subroutine.h>
 
+#include <glad/glad.h>
+
 #include <glr/engine/Program.h>
 #include <glr/engine/State.h>
 
@@ -7,7 +9,7 @@ namespace glr {
 VI_OBJECT_META_IMPL(Subroutine, UniformBase);
 
 struct Subroutine::Data {
-    ShaderType  type = UNDEFINED;
+    ShaderType  type = NO_TYPE;
     std::string name;
 };
 
@@ -22,12 +24,12 @@ Subroutine::~Subroutine() {
 }
 
 StateAttribute::Type Subroutine::getType() const {
-    return ATTR_SUBROUTINE;
+    return SUBROUTINE;
 }
 
 void Subroutine::apply(State& state) const {
-    auto shader = state.getCurrentShader();
-    if (shader && d->type != UNDEFINED) {
+    auto shader = state.getCurrentProgram();
+    if (shader && d->type != NO_TYPE) {
         if (!d->name.empty()) {
             auto loc = glGetSubroutineIndex(shader->getId(state), d->type, d->name.data());
             if (loc != GL_INVALID_INDEX) {

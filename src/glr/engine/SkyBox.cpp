@@ -2,6 +2,8 @@
 
 #include <glm/ext.hpp>
 
+#include <glad/glad.h>
+
 #include <vine/core/Ptr.h>
 
 #include <glr/engine/Callbacks.h>

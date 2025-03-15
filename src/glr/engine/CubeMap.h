@@ -22,7 +22,7 @@ class GLR_API CubeMap : public Texture {
     void         setImages(const std::vector<Image*>& imgs);
 
   protected:
-    virtual GLuint onCreate(State& ctx) override;
+    virtual GLuint_t onCreate(State& ctx) override;
     virtual bool   onUpdate(State& ctx) override;
 
   private:

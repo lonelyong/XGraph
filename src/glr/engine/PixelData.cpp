@@ -101,7 +101,7 @@ PixelData::DataFormat PixelData::computeDataFormat(InternalFormat ifmt) {
     {
         return DF_STENCIL_INDEX;
     }
-    case IF_GL_DEPTH_STENCIL:
+    case IF_DEPTH_STENCIL:
     case IF_DEPTH24_STENCIL8:
     case IF_DEPTH32F_STENCIL8:
     {
@@ -206,7 +206,7 @@ PixelData::DataType PixelData::computeDataType(InternalFormat ifmt) {
     {
         return DT_UNSIGNED_INT;
     }
-    case IF_GL_DEPTH_STENCIL:
+    case IF_DEPTH_STENCIL:
     case IF_DEPTH24_STENCIL8:
     {
         return DT_UNSIGNED_INT_24_8;

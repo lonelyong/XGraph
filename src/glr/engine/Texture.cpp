@@ -1,7 +1,9 @@
+#include <glr/engine/Texture.h>
+
+#include <glad/glad.h>
 
 #include <glr/engine/GraphicContext.h>
 #include <glr/engine/State.h>
-#include <glr/engine/Texture.h>
 
 #include <unordered_set>
 
@@ -37,7 +39,7 @@ Texture::~Texture() {
 void Texture::setGenerateMipmapLevels(bool val) {
     if (getType() == TEXTURE_RECTANGLE) {
         printf("\nThe current texture type does not support setting mipmap levels.");
-        //return;
+        // return;
     }
     if (val != d->generate_mipmap_levels) {
         d->generate_mipmap_levels = val;
@@ -77,7 +79,6 @@ bool Texture::isParametersDirty(State& state) const {
 }
 
 void Texture::dirtyStorage() {
-
 }
 
 bool Texture::isStorageDirty(State& state) const {
@@ -85,7 +86,6 @@ bool Texture::isStorageDirty(State& state) const {
 }
 
 void Texture::dirtyMipmapLevels() {
-
 }
 
 bool Texture::isMipmapLevelsDirty(State& state) const {
@@ -154,7 +154,7 @@ void Texture::setMaxAnisotropy(double val) {
     auto type = getType();
     if (type == TEXTURE_RECTANGLE || type == TEXTURE_1D || type == TEXTURE_CUBE_MAP) {
         printf("\nThe current texture type does not support setting anisotropy.");
-        //return;
+        // return;
     }
     if (val != d->max_anisotropy) {
         d->max_anisotropy = val;

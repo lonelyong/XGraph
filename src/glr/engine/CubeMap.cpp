@@ -2,6 +2,8 @@
 
 #include <type_traits>
 
+#include <glad/glad.h>
+
 #include <glr/engine/Image.h>
 #include <glr/io/ImageLoader.h>
 
@@ -42,10 +44,10 @@ void CubeMap::setImages(const std::vector<Image*>& imgs) {
     dirty();
 }
 
-GLuint CubeMap::onCreate(State& state) {
+GLuint_t CubeMap::onCreate(State& state) {
     if (d->imgs.size() != 6) return 0;
 
-    GLuint id = 0;
+    GLuint_t id = 0;
     glGenTextures(1, &id);
     glBindTexture(getType(), id);
     glTexParameteri(getType(), GL_TEXTURE_MIN_FILTER, getFilter(MIN_FILTER));

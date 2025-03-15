@@ -2,6 +2,8 @@
 
 #include <filesystem>
 
+#include <glad/glad.h>
+
 #include <osg/CullFace>
 #include <osg/Geode>
 #include <osg/Geometry>
@@ -21,7 +23,58 @@ namespace glv {
 namespace {
 osg::Vec4 s_default_face_color = osg::Vec4(0.88, 0.88, 0.88, 1.0);
 
+
 } // namespace
+
+
+struct DrawCallback_Transform : osg::Drawable::DrawCallback {
+
+    virtual void drawImplementation(osg::RenderInfo& renderInfo, const osg::Drawable* drawable) const override {
+        if (transform_feedback_id_ == 0) {
+            auto geom     = drawable->asGeometry();
+            auto vertices = (osg::Vec3Array*)geom->getVertexArray();
+
+            glGenTransformFeedbacks(1, &transform_feedback_id_);
+            glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, transform_feedback_id_);
+
+            glGenBuffers(1, &transform_feedback_buffer_id_);
+            glBindBuffer(GL_TRANSFORM_FEEDBACK_BUFFER, transform_feedback_buffer_id_);
+
+            glBufferData(GL_TRANSFORM_FEEDBACK_BUFFER, sizeof(float) * 10 * vertices->size(), nullptr, GL_STATIC_DRAW);
+            glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, transform_feedback_buffer_id_);
+
+            /*
+            glDrawTransformFeedback 使用由 mode 指定的图元类型，并根据由 id 指定的变换反馈（Transform
+            Feedback）对象检索的计数来绘制图元。 调用 glDrawTransformFeedback 等效于调用 glDrawArrays，其中 mode
+            采用相同的指定值，first 设为 0，count 设为上次该变换反馈对象处于活动状态时，在顶点流 0 上捕获的顶点数量。
+            */
+            // glDrawTransformFeedback(GL_POINTS, transform_feedback_id_);
+
+            /*
+            变换反馈模式（Transform Feedback
+            Mode）用于捕获由顶点着色器（或如果启用了几何着色器，则由几何着色器）写入的可变变量（Varying
+            Variables）的值。 从调用 glBeginTransformFeedback 直到后续调用 glEndTransformFeedback
+            之间，变换反馈被认为是处于活动状态的。 变换反馈命令必须成对使用。
+            如果没有几何着色器，在变换反馈处于活动状态时，glDrawArrays 的 mode 参数必须与下表中指定的模式匹配：
+            */
+            glBeginTransformFeedback(GL_TRIANGLE_STRIP);
+            glEnable(GL_RASTERIZER_DISCARD);
+            drawable->drawImplementation(renderInfo);
+            glDisable(GL_RASTERIZER_DISCARD);
+            glEndTransformFeedback();
+
+            //glGetTransformFeedbackiv(, );
+
+            glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
+            glBindBuffer(GL_TRANSFORM_FEEDBACK_BUFFER, 0);
+        }
+        glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, transform_feedback_id_);
+        drawable->drawImplementation(renderInfo);
+        glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
+    }
+    mutable GLuint             transform_feedback_id_        = 0;
+    mutable GLuint             transform_feedback_buffer_id_ = 0;
+};
 
 bool OctomapLoader::isSupported(const std::string& file) {
     namespace fs = std::filesystem;
@@ -42,14 +95,6 @@ void OctomapLoader::setRenderOption(RenderOption option) {
 
 OctomapLoader::RenderOption OctomapLoader::getRenderOption() {
     return render_option_;
-}
-
-void OctomapLoader::setComputeBoundary(bool val) {
-    compute_boundary_ = val;
-}
-
-bool OctomapLoader::getComputeBoundary() const {
-    return compute_boundary_;
 }
 
 osg::MatrixTransform* OctomapLoader::loadFile(const std::string& file) {
@@ -212,14 +257,34 @@ osg::MatrixTransform* OctomapLoader::loadFile(const std::string& file) {
             vertices->push_back(osg::Vec3f(it.getX(), it.getY(), it.getZ()));
             sizes->push_back(it.getSize());
         }
+
         geom->addPrimitiveSet(new osg::DrawArrays(GL_POINTS, 0, vertices->size()));
         geom->setVertexAttribArray(1, colors, osg::Array::BIND_OVERALL);
         geom->setVertexAttribArray(15, sizes, osg::Array::BIND_PER_VERTEX);
+        //geom->setDrawCallback(new DrawCallbackTransformFeedback());
 
         auto appdir = xg::getApplicationDir() + "/";
-        auto vs     = osg::ref_ptr(new osg::Shader(osg::Shader::VERTEX));
-        auto gs     = osg::ref_ptr(new osg::Shader(osg::Shader::GEOMETRY));
-        auto fs     = osg::ref_ptr(new osg::Shader(osg::Shader::FRAGMENT));
+
+    // use transform feedback
+#if 1
+        auto vs = osg::ref_ptr(new osg::Shader(osg::Shader::VERTEX));
+        auto gs = osg::ref_ptr(new osg::Shader(osg::Shader::GEOMETRY));
+        vs->loadShaderSourceFromFile(appdir + XG_RES("shaders/octmap_cube_transform.vs.glsl"));
+        gs->loadShaderSourceFromFile(appdir + XG_RES("shaders/octmap_cube_transform.gs.glsl"));
+        auto prog = new osg::Program();
+        prog->addShader(vs);
+        prog->addShader(gs);
+        // 输出变量交替存储再同一个缓冲区
+        // prog->setTransformFeedBackMode(GL_INTERLEAVED_ATTRIBS);
+        // 不同的输出变量独立存储，需要绑定多个缓冲区
+        prog->setTransformFeedBackMode(GL_SEPARATE_ATTRIBS);
+        prog->addTransformFeedBackVarying("gl_Position");
+        prog->addTransformFeedBackVarying("norm");
+
+#else
+        auto vs = osg::ref_ptr(new osg::Shader(osg::Shader::VERTEX));
+        auto gs = osg::ref_ptr(new osg::Shader(osg::Shader::GEOMETRY));
+        auto fs = osg::ref_ptr(new osg::Shader(osg::Shader::FRAGMENT));
         vs->loadShaderSourceFromFile(appdir + XG_RES("shaders/octmap_cube.vs.glsl"));
         gs->loadShaderSourceFromFile(appdir + XG_RES("shaders/octmap_cube.gs.glsl"));
         fs->loadShaderSourceFromFile(appdir + XG_RES("shaders/octmap_cube.fs.glsl"));
@@ -229,6 +294,7 @@ osg::MatrixTransform* OctomapLoader::loadFile(const std::string& file) {
         prog->addShader(gs);
         prog->addShader(fs);
         root->getOrCreateStateSet()->setAttribute(prog);
+#endif
     }
     else {
         return nullptr;

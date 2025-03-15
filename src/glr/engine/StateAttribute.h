@@ -2,6 +2,7 @@
 
 #include <glr/glr_global.h>
 
+#include <glr/engine/GL.h>
 #include <glr/engine/Object.h>
 
 namespace glr {
@@ -15,17 +16,17 @@ class GLR_API StateAttribute : public Object {
   public:
     enum Type
     {
-        ATTR_PHONG_MATERIAL,
-        ATTR_DEPTH,
-        ATTR_LIGHTING,
-        ATTR_SPOT_LIGHTS,
-        ATTR_DIRECTIONAL_LIGHTS,
-        ATTR_LIGHTS,
-        ATTR_SHADER,
-        ATTR_UNIFORM,
-        ATTR_SUBROUTINE,
-        ATTR_PATCH_PARAMETER,
-        ATTR_STENCIL
+        PHONG_MATERIAL,
+        PHONG_LIGHTS,
+        DEPTH,
+        DEPTH_RANGE_INDEXED,
+        DEPTH_RANGE_ARRAY,
+        LIGHTING,
+        SHADER,
+        UNIFORM,
+        SUBROUTINE,
+        PATCH_PARAMETER,
+        STENCIL
     };
 
   public:

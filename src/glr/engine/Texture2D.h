@@ -19,20 +19,17 @@ class GLR_API Texture2D : public Texture {
   public:
     virtual Type getType() const override;
 
-    void setWidth(GLsizei w);
+    void setWidth(GLsizei_t w);
+    void setHeight(GLsizei_t h);
 
-    void setHeight(GLsizei h);
-
-    GLsizei getWidth() const;
-
-    GLsizei getHeight() const;
+    GLsizei_t getWidth() const;
+    GLsizei_t getHeight() const;
 
     void setImage(const std::string& img);
-
     void setImage(Image* image);
 
   protected:
-    virtual GLuint onCreate(State& state) override;
+    virtual GLuint_t onCreate(State& state) override;
 
     virtual bool onUpdate(State& state) override;
 

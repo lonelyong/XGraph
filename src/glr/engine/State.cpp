@@ -10,8 +10,8 @@
 #include <glr/engine/Camera.h>
 #include <glr/engine/GLObject.h>
 #include <glr/engine/GraphicContext.h>
-#include <glr/engine/Renderer.h>
 #include <glr/engine/Program.h>
+#include <glr/engine/Renderer.h>
 #include <glr/engine/StateAttribute.h>
 #include <glr/engine/StateSet.h>
 #include <glr/engine/Uniform.h>
@@ -21,7 +21,7 @@ namespace {
 struct StateData {
     vine::RefPtr<GraphicContext>       ctx;
     vine::RefPtr<StateSet>             default_stateset;
-    std::stack<vine::RefPtr<Program>>   shaders;
+    std::stack<vine::RefPtr<Program>>  progs;
     std::stack<vine::RefPtr<StateSet>> statesets;
     std::stack<vine::RefPtr<Camera>>   cameras;
     std::stack<Mat4d>                  model_matrices;
@@ -75,9 +75,9 @@ GraphicContext* State::getContext() const {
     return d->ctx.get();
 }
 
-Program* State::getCurrentShader() const {
-    if (d->shaders.empty()) return nullptr;
-    return d->shaders.top().get();
+Program* State::getCurrentProgram() const {
+    if (d->progs.empty()) return nullptr;
+    return d->progs.top().get();
 }
 
 Camera* State::getCurrentCamera() const {
@@ -112,7 +112,7 @@ void State::pushStateSet(StateSet* ss) {
         auto shader = ss->getShader();
         if (shader) {
             shader->use(*this);
-            d->shaders.push(shader);
+            d->progs.push(shader);
         }
     }
 }
@@ -123,7 +123,7 @@ void State::popStateSet(StateSet* ss) {
 
     auto shader = ss->getShader();
     if (shader) {
-        d->shaders.pop();
+        d->progs.pop();
     }
 
     d->statesets.pop();
@@ -195,7 +195,7 @@ StateSet* State::getDefaultStateSet() const {
 }
 
 void State::updateMvpUniforms() {
-    auto cur_shader = getCurrentShader();
+    auto cur_shader = getCurrentProgram();
     auto cur_cam    = getCurrentCamera();
     if (cur_shader && cur_cam && getUseMvpUniforms()) {
         auto matrix_v     = cur_cam->getViewMatrix();

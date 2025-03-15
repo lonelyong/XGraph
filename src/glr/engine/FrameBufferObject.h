@@ -16,17 +16,17 @@ class GLR_API FrameBufferObject : public BindableObject {
   public:
     enum BufferComponent
     {
-        DEPTH_ATTACHMENT         = GL_DEPTH_ATTACHMENT,
-        STENCIL_ATTACHMENT       = GL_STENCIL_ATTACHMENT,
-        DEPTH_STENCIL_ATTACHMENT = GL_DEPTH_STENCIL_ATTACHMENT,
-        COLOR_ATTACHMENT0        = GL_COLOR_ATTACHMENT0,
-        COLOR_ATTACHMENT1        = GL_COLOR_ATTACHMENT1,
-        COLOR_ATTACHMENT2        = GL_COLOR_ATTACHMENT2,
-        COLOR_ATTACHMENT3        = GL_COLOR_ATTACHMENT3,
-        COLOR_ATTACHMENT4        = GL_COLOR_ATTACHMENT4,
-        COLOR_ATTACHMENT5        = GL_COLOR_ATTACHMENT5,
-        COLOR_ATTACHMENT6        = GL_COLOR_ATTACHMENT6,
-        COLOR_ATTACHMENT7        = GL_COLOR_ATTACHMENT7,
+        DEPTH_ATTACHMENT         = HGL_DEPTH_ATTACHMENT,
+        STENCIL_ATTACHMENT       = HGL_STENCIL_ATTACHMENT,
+        DEPTH_STENCIL_ATTACHMENT = HGL_DEPTH_STENCIL_ATTACHMENT,
+        COLOR_ATTACHMENT0        = HGL_COLOR_ATTACHMENT0,
+        COLOR_ATTACHMENT1        = HGL_COLOR_ATTACHMENT1,
+        COLOR_ATTACHMENT2        = HGL_COLOR_ATTACHMENT2,
+        COLOR_ATTACHMENT3        = HGL_COLOR_ATTACHMENT3,
+        COLOR_ATTACHMENT4        = HGL_COLOR_ATTACHMENT4,
+        COLOR_ATTACHMENT5        = HGL_COLOR_ATTACHMENT5,
+        COLOR_ATTACHMENT6        = HGL_COLOR_ATTACHMENT6,
+        COLOR_ATTACHMENT7        = HGL_COLOR_ATTACHMENT7,
     };
 
   public:
@@ -42,11 +42,11 @@ class GLR_API FrameBufferObject : public BindableObject {
     PixelData*    getComponent(BufferComponent comp) const;
 
   protected:
-    virtual GLuint onCreate(State& state) override;
-    virtual bool   onRelease(State& state) override;
-    virtual bool   onUpdate(State& state) override;
-    virtual bool   onBind(State& state) override;
-    virtual bool   onUnbind(State& state) override;
+    virtual GLuint_t onCreate(State& state) override;
+    virtual bool     onRelease(State& state) override;
+    virtual bool     onUpdate(State& state) override;
+    virtual bool     onBind(State& state) override;
+    virtual bool     onUnbind(State& state) override;
 
   private:
     VI_OBJECT_DATA;

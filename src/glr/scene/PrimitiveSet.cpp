@@ -1,5 +1,7 @@
 #include <glr/scene/PrimitiveSet.h>
 
+#include <glad/glad.h>
+
 namespace glr {
 using Mode = PrimitiveSet::Mode;
 
@@ -10,7 +12,7 @@ VI_OBJECT_META_IMPL(DrawElementsUInt, PrimitiveSet);
 PrimitiveSet::PrimitiveSet() {
 }
 
-PrimitiveSet::PrimitiveSet(Mode mode, GLint insts)
+PrimitiveSet::PrimitiveSet(Mode mode, GLsizei_t insts)
   : mode_(mode)
   , instances_(insts) {
 }
@@ -23,40 +25,40 @@ void PrimitiveSet::setMode(Mode mode) {
     mode_ = mode;
 }
 
-GLint PrimitiveSet::getInstances() const {
+GLint_t PrimitiveSet::getInstances() const {
     return instances_;
 }
 
-void PrimitiveSet::setInstances(GLint insts) {
+void PrimitiveSet::setInstances(GLint_t insts) {
     instances_ = insts;
 }
 
 DrawArrays::DrawArrays() {
 }
 
-DrawArrays::DrawArrays(Mode mode, GLint offset, GLsizei count)
+DrawArrays::DrawArrays(Mode mode, GLint_t offset, GLsizei_t count)
   : DrawArrays(mode, offset, count, 1) {
 }
 
-DrawArrays::DrawArrays(Mode mode, GLint offset, GLsizei count, GLint insts)
+DrawArrays::DrawArrays(Mode mode, GLint_t offset, GLsizei_t count, GLsizei_t insts)
   : PrimitiveSet(mode, insts)
   , offset_(offset)
   , count_(count) {
 }
 
-GLint DrawArrays::getOffset() const {
+GLint_t DrawArrays::getOffset() const {
     return offset_;
 }
 
-void DrawArrays::setOffset(GLint offset) {
+void DrawArrays::setOffset(GLint_t offset) {
     offset_ = offset;
 }
 
-GLsizei DrawArrays::getCount() const {
+GLsizei_t DrawArrays::getCount() const {
     return count_;
 }
 
-void DrawArrays::setCount(GLsizei count) {
+void DrawArrays::setCount(GLsizei_t count) {
     count = count;
 }
 
@@ -79,15 +81,15 @@ DrawElementsUInt::DrawElementsUInt(Mode mode)
   : DrawElementsUInt(mode, 1) {
 }
 
-DrawElementsUInt::DrawElementsUInt(Mode mode, GLint insts)
+DrawElementsUInt::DrawElementsUInt(Mode mode, GLint_t insts)
   : PrimitiveSet(mode, insts) {
 }
 
-void DrawElementsUInt::setIndices(std::vector<GLuint> indices) {
+void DrawElementsUInt::setIndices(std::vector<GLuint_t> indices) {
     indices_ = std::move(indices);
 }
 
-std::vector<GLuint>& DrawElementsUInt::getIndices() {
+std::vector<GLuint_t>& DrawElementsUInt::getIndices() {
     return indices_;
 }
 

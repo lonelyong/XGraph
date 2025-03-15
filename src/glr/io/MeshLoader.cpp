@@ -58,7 +58,7 @@ void aiProcessNode(Model* group, const aiScene* scene, aiNode* node) {
         }
 
         if (mesh->HasFaces()) {
-            auto indices = std::vector<GLuint>();
+            auto indices = std::vector<GLuint_t>();
             indices.reserve(mesh->mNumFaces * 3);
             for (auto j = 0; j < mesh->mNumFaces; j++) {
                 auto face = mesh->mFaces[j];

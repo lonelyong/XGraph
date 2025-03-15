@@ -1,5 +1,7 @@
 #include <glr/engine/RenderBuffer.h>
 
+#include <glad/glad.h>
+
 #include <vine/core/Ptr.h>
 
 #include <glr/engine/FrameBufferObject.h>
@@ -9,8 +11,8 @@ namespace glr {
 namespace {
 struct RenderBufferData {
     vine::RefPtr<FrameBufferObject> fbo = nullptr;
-    GLuint                          w   = 1920;
-    GLuint                          h   = 1080;
+    GLuint_t                        w   = 1920;
+    GLuint_t                        h   = 1080;
 };
 } // namespace
 
@@ -65,8 +67,8 @@ bool RenderBuffer::onUnbind(State& state) {
     return true;
 }
 
-GLuint RenderBuffer::onCreate(State& state) {
-    GLuint id;
+GLuint_t RenderBuffer::onCreate(State& state) {
+    GLuint_t id;
     glGenRenderbuffers(1, &id);
     glBindRenderbuffer(GL_RENDERBUFFER, id);
     glRenderbufferStorage(GL_RENDERBUFFER, IF_RGBA, d->w, d->h);

@@ -14,12 +14,12 @@ class GLR_API Shader : public GLObject {
   public:
     enum Type
     {
-        VERTEX          = GL_VERTEX_SHADER,
-        TESS_CONTROL    = GL_TESS_CONTROL_SHADER,
-        TESS_EVALUATION = GL_TESS_EVALUATION_SHADER,
-        GEOMETRY        = GL_GEOMETRY_SHADER,
-        FRAGMENT        = GL_FRAGMENT_SHADER,
-        COMPUTE         = GL_COMPUTE_SHADER
+        VERTEX          = HGL_VERTEX_SHADER,
+        TESS_CONTROL    = HGL_TESS_CONTROL_SHADER,
+        TESS_EVALUATION = HGL_TESS_EVALUATION_SHADER,
+        GEOMETRY        = HGL_GEOMETRY_SHADER,
+        FRAGMENT        = HGL_FRAGMENT_SHADER,
+        COMPUTE         = HGL_COMPUTE_SHADER
     };
 
   public:
@@ -38,9 +38,9 @@ class GLR_API Shader : public GLObject {
     static Shader* createFromFile(Type type, const std::string& path);
 
   protected:
-    GLuint onCreate(State& state) override;
-    bool   onUpdate(State& state) override;
-    bool   onRelease(State& state) override;
+    GLuint_t onCreate(State& state) override;
+    bool     onUpdate(State& state) override;
+    bool     onRelease(State& state) override;
 
   private:
     VI_OBJECT_DATA

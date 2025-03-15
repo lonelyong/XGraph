@@ -1,5 +1,7 @@
 #include <glr/engine/VertexArrayObject.h>
 
+#include <glad/glad.h>
+
 VI_OBJECT_META_IMPL(glr::VertexArrayObject, glr::BindableObject);
 VI_OBJECT_META_IMPL(glr::VertexAttribPointer, glr::Object);
 VI_OBJECT_META_IMPL(glr::VertexAttribFormat, glr::Object);
@@ -9,19 +11,19 @@ VI_OBJECT_META_IMPL(glr::VertexAttribDivisor, glr::Object);
 namespace glr {
 
 struct VertexAttribPointer::Data {
-    GLuint        index;
+    GLuint_t      index;
     GLint         size;
     GLenum        type;
     GLboolean     normalized;
     GLsizei       stride;
     const GLvoid* pointer;
 };
-VertexAttribPointer::VertexAttribPointer(GLuint        index,
-                                         GLint         size,
-                                         GLenum        type,
-                                         GLboolean     normalized,
-                                         GLsizei       stride,
-                                         const GLvoid* pointer)
+VertexAttribPointer::VertexAttribPointer(GLuint_t        index,
+                                         GLint_t         size,
+                                         GLenum_t        type,
+                                         GLboolean_t     normalized,
+                                         GLsizei_t       stride,
+                                         const GLvoid_t* pointer)
   : d(new Data({ index, size, type, normalized, stride, pointer })) {
 }
 
@@ -30,11 +32,11 @@ void VertexAttribPointer::apply(BufferObject* buffer) {
 
 
 struct VertexAttribFormat::Data {};
-VertexAttribFormat::VertexAttribFormat(GLuint    attribindex,
-                                       GLint     size,
-                                       GLenum    type,
-                                       GLboolean normalized,
-                                       GLuint    relativeoffset)
+VertexAttribFormat::VertexAttribFormat(GLuint_t    attribindex,
+                                       GLint_t     size,
+                                       GLenum_t    type,
+                                       GLboolean_t normalized,
+                                       GLuint_t    relativeoffset)
   : d(new Data()) {
 }
 struct VertexAttribBinding::Data {};
@@ -63,8 +65,8 @@ VertexArrayObject::VertexArrayObject()
 VertexArrayObject::~VertexArrayObject() {
     delete d;
 }
-GLuint VertexArrayObject::onCreate(State& state) {
-    GLuint vao;
+GLuint_t VertexArrayObject::onCreate(State& state) {
+    GLuint_t vao;
     glGenVertexArrays(1, &vao);
     return vao;
 }

@@ -2,8 +2,6 @@
 
 #include <glr/glr_global.h>
 
-#include <glad/glad.h>
-
 #include <vector>
 
 #include <glr/engine/ArrayBuffer.h>
@@ -15,31 +13,31 @@ class GLR_API PrimitiveSet : public Object {
   public:
     enum Mode
     {
-        MODE_POINTS        = GL_POINTS,
-        MODE_LINES         = GL_LINES,
-        MODE_LINE_LOOP     = GL_LINE_LOOP,
-        MODE_LINE_STRIP    = GL_LINE_STRIP,
-        MODE_TRIANGLES     = GL_TRIANGLES,
-        MODE_TRIANGLE_TRIP = GL_TRIANGLE_STRIP,
-        MODE_TRIANGLE_FAN  = GL_TRIANGLE_FAN,
+        MODE_POINTS        = HGL_POINTS,
+        MODE_LINES         = HGL_LINES,
+        MODE_LINE_LOOP     = HGL_LINE_LOOP,
+        MODE_LINE_STRIP    = HGL_LINE_STRIP,
+        MODE_TRIANGLES     = HGL_TRIANGLES,
+        MODE_TRIANGLE_TRIP = HGL_TRIANGLE_STRIP,
+        MODE_TRIANGLE_FAN  = HGL_TRIANGLE_FAN,
         // no support in gl 3
-        MODE_QUADS         = GL_QUADS
+        MODE_QUADS         = HGL_QUADS
     };
 
   public:
     PrimitiveSet();
-    PrimitiveSet(Mode mode, GLint insts);
+    PrimitiveSet(Mode mode, GLint_t insts);
 
   public:
     Mode getMode() const;
     void setMode(Mode mode);
 
-    GLint getInstances() const;
-    void  setInstances(GLint insts);
+    GLint_t getInstances() const;
+    void    setInstances(GLint_t insts);
 
   private:
-    Mode  mode_      = MODE_TRIANGLES;
-    GLint instances_ = 1;
+    Mode      mode_      = MODE_TRIANGLES;
+    GLsizei_t instances_ = 1;
 
   public:
     virtual void draw() = 0;
@@ -50,21 +48,21 @@ class GLR_API DrawArrays : public PrimitiveSet {
 
   public:
     DrawArrays();
-    DrawArrays(Mode mode, GLint offset, GLsizei count);
-    DrawArrays(Mode mode, GLint offset, GLsizei count, GLint insts);
+    DrawArrays(Mode mode, GLint_t offset, GLsizei_t count);
+    DrawArrays(Mode mode, GLint_t offset, GLsizei_t count, GLsizei_t insts);
 
   public:
-    GLint getOffset() const;
-    void  setOffset(GLint offset);
+    GLint_t getOffset() const;
+    void    setOffset(GLint_t offset);
 
-    GLsizei getCount() const;
-    void    setCount(GLsizei count);
+    GLsizei_t getCount() const;
+    void      setCount(GLsizei_t count);
 
     virtual void draw() override;
 
   private:
-    GLint   offset_ = 0;
-    GLsizei count_  = 0;
+    GLint_t   offset_ = 0;
+    GLsizei_t count_  = 0;
 };
 
 class GLR_API DrawElementsUInt : public PrimitiveSet {
@@ -73,15 +71,15 @@ class GLR_API DrawElementsUInt : public PrimitiveSet {
   public:
     DrawElementsUInt();
     DrawElementsUInt(Mode mode);
-    DrawElementsUInt(Mode mode, GLint insts);
+    DrawElementsUInt(Mode mode, GLsizei_t insts);
 
   public:
-    void                 setIndices(std::vector<GLuint> indices);
-    std::vector<GLuint>& getIndices();
+    void                   setIndices(std::vector<GLuint_t> indices);
+    std::vector<GLuint_t>& getIndices();
 
     virtual void draw() override;
 
   private:
-    std::vector<GLuint> indices_;
+    std::vector<GLuint_t> indices_;
 };
 }; // namespace glr

@@ -58,7 +58,7 @@ void GeometryConfigurer::configureStdPhong(Geometry* geom, StateSet* ss /*= null
     if (ss == nullptr) {
         ss = geom->getOrCreateStateSet();
     }
-    ss->setAttribute(new Subroutine(Subroutine::FRAGMENT, subroutine));
+    ss->setAttribute(new Subroutine(Subroutine::FRAGMENT_SHADER, subroutine));
 }
 
 } // namespace glr

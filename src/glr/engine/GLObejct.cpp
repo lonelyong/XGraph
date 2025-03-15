@@ -10,8 +10,8 @@ namespace glr {
 VI_OBJECT_META_IMPL(GLObject, Object);
 
 struct GLObject::Data {
-    std::unordered_map<int, GLuint> id_list;
-    std::unordered_set<int>         dirty_list;
+    std::unordered_map<int, GLuint_t> id_list;
+    std::unordered_set<int>           dirty_list;
 };
 
 GLObject::GLObject()
@@ -22,7 +22,7 @@ GLObject::~GLObject() {
     delete d;
 }
 
-GLuint GLObject::getId(State& state) const {
+GLuint_t GLObject::getId(State& state) const {
     auto ctx_id = state.getContext()->getId();
     if (d->id_list.contains(ctx_id)) {
         return d->id_list[ctx_id];
@@ -47,7 +47,7 @@ bool GLObject::isDirty(State& state) const {
     return d->dirty_list.contains(ctx_id);
 }
 
-GLuint GLObject::getNbInstances() const {
+GLsizei_t GLObject::getNbInstances() const {
     return d->id_list.size();
 }
 

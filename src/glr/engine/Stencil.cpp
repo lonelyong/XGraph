@@ -6,15 +6,15 @@ VI_OBJECT_META_IMPL(glr::Stencil, glr::StateAttribute)
 
 namespace glr {
 struct Stencil::Data {
-    Func fn = FN_ALWAYS;
-    int  fn_ref = 0;
-    unsigned int fn_mask = ~0u;
+    Func   fn      = ALWAYS;
+    GLint  fn_ref  = 0;
+    GLuint fn_mask = ~0u;
 
-    Operation op_sfail = OP_KEEP;
-    Operation op_zfail = OP_KEEP;
-    Operation op_zpass = OP_KEEP;
+    Operation op_sfail = KEEP;
+    Operation op_zfail = KEEP;
+    Operation op_zpass = KEEP;
 
-    unsigned int write_mask = ~0u;
+    GLuint write_mask = ~0u;
 };
 
 Stencil::Stencil()
@@ -26,7 +26,7 @@ Stencil::~Stencil() {
 }
 
 StateAttribute::Type Stencil::getType() const {
-    return ATTR_STENCIL;
+    return STENCIL;
 }
 
 bool Stencil::equals(const StateAttribute& other) const {
@@ -35,9 +35,9 @@ bool Stencil::equals(const StateAttribute& other) const {
     return false;
 }
 
-void Stencil::setFunction(Func fn, int ref, unsigned int mask) {
-    d->fn = fn;
-    d->fn_ref = ref;
+void Stencil::setFunction(Func fn, GLint_t ref, GLuint_t mask) {
+    d->fn      = fn;
+    d->fn_ref  = ref;
     d->fn_mask = mask;
 }
 
@@ -47,11 +47,11 @@ void Stencil::setOperation(Operation sfail, Operation zfail, Operation zpass) {
     d->op_zpass = zpass;
 }
 
-inline void Stencil::setWriteMask(unsigned int mask) {
+inline void Stencil::setWriteMask(GLuint_t mask) {
     d->write_mask = mask;
 }
 
-inline unsigned int Stencil::getWriteMask() const {
+inline GLuint_t Stencil::getWriteMask() const {
     return d->write_mask;
 }
 

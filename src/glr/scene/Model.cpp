@@ -35,7 +35,7 @@ int Model::getNbDrawables() const {
 }
 
 Drawable* Model::getDrawableAt(int index) const {
-    return getChildAt(index)->cast<Drawable>();
+    return vine::obj_cast<Drawable>(getChildAt(index));
 }
 
 } // namespace glr

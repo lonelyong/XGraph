@@ -1,5 +1,7 @@
 #include <glr/engine/ArrayBuffer.h>
 
+#include <glad/glad.h>
+
 #include <vector>
 
 
@@ -80,14 +82,14 @@ template <typename T> Array<T>::Type Array<T>::getType() const {
 }
 
 template <typename T> BufferObject::Target Array<T>::getTarget() const {
-    return TARGET_ARRAY_BUFFER;
+    return ARRAY_BUFFER;
 }
 
 template <typename T> BufferObject::Usage Array<T>::getUsage() const {
-    return USAGE_STATIC_DRAW;
+    return STATIC_DRAW;
 }
 
-template <typename T> GLsizei Array<T>::size() const {
+template <typename T> GLsizei_t Array<T>::size() const {
     return d->impl.size();
 }
 
@@ -107,23 +109,23 @@ template <typename T> const void* Array<T>::data_ptr() const {
     return d->impl.data();
 }
 
-template <typename T> T& Array<T>::at(GLsizei index) {
+template <typename T> T& Array<T>::at(GLsizei_t index) {
     return d->impl[index];
 }
 
-template <typename T> const T& Array<T>::at(GLsizei index) const {
+template <typename T> const T& Array<T>::at(GLsizei_t index) const {
     return d->impl[index];
 }
 
-template <typename T> void* Array<T>::valueAt(GLsizei index) {
+template <typename T> void* Array<T>::valueAt(GLsizei_t index) {
     return &d->impl.at(index);
 }
 
-template <typename T> void Array<T>::resize(GLsizei size) {
+template <typename T> void Array<T>::resize(GLsizei_t size) {
     d->impl.resize(size);
 }
 
-template <typename T> void Array<T>::reserve(GLsizei size) {
+template <typename T> void Array<T>::reserve(GLsizei_t size) {
     d->impl.reserve(size);
 }
 
@@ -151,7 +153,7 @@ template <typename T> const T& Array<T>::back() const {
     return d->impl.back();
 }
 
-template <typename T> GLsizei Array<T>::capacity() const {
+template <typename T> GLsizei_t Array<T>::capacity() const {
     return d->impl.capacity();
 }
 
@@ -159,11 +161,11 @@ template <typename T> bool Array<T>::empty() const {
     return d->impl.empty();
 }
 
-template <typename T> GLsizei Array<T>::sizeOfItem() const {
+template <typename T> GLsizei_t Array<T>::sizeOfItem() const {
     return sizeof(item_type);
 }
 
-template <typename T> GLuint Array<T>::onCreate(State& state) {
+template <typename T> GLuint_t Array<T>::onCreate(State& state) {
     auto id = ArrayBuffer::onCreate(state);
     if (id != GL_ZERO) {
         glBindBuffer(getTarget(), id);
@@ -194,7 +196,7 @@ template <typename T> Array<T>::const_iterator Array<T>::cend() const {
 }
 
 template <typename T>
-Array<T>::iterator::iterator(Array<T>* arr, GLsizei pos)
+Array<T>::iterator::iterator(Array<T>* arr, GLsizei_t pos)
   : arr_(arr)
   , pos_(pos) {
 }
@@ -247,7 +249,7 @@ template <typename T> bool Array<T>::iterator::operator==(const Array<T>::iterat
 }
 
 template <typename T>
-Array<T>::const_iterator::const_iterator(const Array<T>* arr, GLsizei pos)
+Array<T>::const_iterator::const_iterator(const Array<T>* arr, GLsizei_t pos)
   : arr_(arr)
   , pos_(pos) {
 }

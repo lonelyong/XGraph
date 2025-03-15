@@ -22,7 +22,7 @@ class BufferObject;
 
 
 /**
- * glVertexAttribPointer
+ * @brief glVertexAttribPointer
  */
 class VertexAttribPointer : public Object {
     VI_OBJECT_META;
@@ -39,14 +39,13 @@ class VertexAttribPointer : public Object {
      * 步幅，表示每个顶点之间的字节间隔。即，如果顶点数据是紧凑的，那么步幅就是数据的大小；如果顶点数据包含多个不同属性，步幅是属性之间的间隔。
      * @param pointer
      * 指向缓冲区的指针，告诉OpenGL从哪开始读取数据。通常，这个指针会指向缓冲区中的一个偏移量。例如，缓冲区为x y z r g b
-     * a...时，配置颜色时
      */
-    VertexAttribPointer(GLuint        index,
-                        GLint         size,
-                        GLenum        type,
-                        GLboolean     normalized,
-                        GLsizei       stride,
-                        const GLvoid* pointer);
+    VertexAttribPointer(GLuint_t        index,
+                        GLint_t         size,
+                        GLenum_t        type,
+                        GLboolean_t     normalized,
+                        GLsizei_t       stride,
+                        const GLvoid_t* pointer);
 
   public:
     void apply(BufferObject* buffer);
@@ -55,11 +54,18 @@ class VertexAttribPointer : public Object {
     VI_OBJECT_DATA;
 };
 
+/**
+ * @brief glVertexAttribPointer
+ */
 class VertexAttribFormat : public Object {
     VI_OBJECT_META;
 
   public:
-    VertexAttribFormat(GLuint attribindex, GLint size, GLenum type, GLboolean normalized, GLuint relativeoffset);
+    VertexAttribFormat(GLuint_t    attribindex,
+                       GLint_t     size,
+                       GLenum_t    type,
+                       GLboolean_t normalized,
+                       GLuint_t    relativeoffset);
 
   private:
     VI_OBJECT_DATA;
@@ -106,11 +112,11 @@ class GLR_API VertexArrayObject : public BindableObject {
     VertexAttribPointer* getAttribPointer(BufferObject* buffer);
 
   protected:
-    virtual GLuint onCreate(State& state) override;
-    virtual bool   onBind(State& state) override;
-    virtual bool   onUnbind(State& state) override;
-    virtual bool   onUpdate(State& state) override;
-    virtual bool   onRelease(State& state) override;
+    virtual GLuint_t onCreate(State& state) override;
+    virtual bool     onBind(State& state) override;
+    virtual bool     onUnbind(State& state) override;
+    virtual bool     onUpdate(State& state) override;
+    virtual bool     onRelease(State& state) override;
 
   private:
     VI_OBJECT_DATA;

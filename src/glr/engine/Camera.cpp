@@ -1,5 +1,7 @@
 ﻿#include <glr/engine/Camera.h>
 
+#include <glad/glad.h>
+
 #include <glm/ext.hpp>
 
 namespace glr {
@@ -25,24 +27,26 @@ void Camera::setClearColor(const Vec4f& color) {
     clear_color_ = color;
 }
 
-GLdouble Camera::getClearDepth() const {
+GLdouble_t Camera::getClearDepth() const {
     return clear_depth_;
 }
-void Camera::setClearDepth(GLdouble depth) {
+
+void Camera::setClearDepth(GLdouble_t depth) {
     clear_depth_ = depth;
 }
 
-GLint Camera::getClearStencil() const {
+GLint_t Camera::getClearStencil() const {
     return clear_stencil_;
 }
-void Camera::setClearStencil(GLint val) {
+
+void Camera::setClearStencil(GLint_t val) {
     clear_stencil_ = val;
 }
 
-GLbitfield Camera::getClearMask() const {
+GLbitfield_t Camera::getClearMask() const {
     return clear_mask_;
 }
-void Camera::setClearMask(GLbitfield mask) {
+void Camera::setClearMask(GLbitfield_t mask) {
     clear_mask_ = mask;
 }
 

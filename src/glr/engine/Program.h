@@ -24,7 +24,7 @@ class GLR_API Program : public GLObject {
     void        setName(const std::string& name);
 
     template <typename T> void set(State& state, const std::string& name, const T& val);
-    template <typename T> void set(State& state, GLuint loc, const T& val);
+    template <typename T> void set(State& state, GLuint_t loc, const T& val);
 
     void attachShader(Shader* shader);
 
@@ -39,7 +39,7 @@ class GLR_API Program : public GLObject {
     static Program* createFromFile(const std::string& vs_path, const std::string& gs_path, const std::string& fs_path);
 
   protected:
-    GLuint onCreate(State& state) override;
+    GLuint_t onCreate(State& state) override;
     bool   onUpdate(State& state) override;
     bool   onRelease(State& state) override;
 

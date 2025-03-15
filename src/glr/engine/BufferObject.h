@@ -11,26 +11,26 @@ class GLR_API BufferObject : public BindableObject {
   public:
     enum Target
     {
-        TARGET_ARRAY_BUFFER          = GL_ARRAY_BUFFER,
-        TARGET_ELEMENT_ARRAY_BUFFER  = GL_ELEMENT_ARRAY_BUFFER,
-        TARGET_PIXEL_PACK_BUFFER     = GL_PIXEL_PACK_BUFFER,
-        TARGET_PIXEL_UNPACK_BUFFER   = GL_PIXEL_UNPACK_BUFFER,
-        TARGET_UNIFORM_BUFFER        = GL_UNIFORM_BUFFER,
-        TARGET_SHADER_STORAGE_BUFFER = GL_SHADER_STORAGE_BUFFER,
-        TARGET_DRAW_INDIRECT_BUFFER  = GL_DRAW_INDIRECT_BUFFER
+        ARRAY_BUFFER          = HGL_ARRAY_BUFFER,
+        ELEMENT_ARRAY_BUFFER  = HGL_ELEMENT_ARRAY_BUFFER,
+        PIXEL_PACK_BUFFER     = HGL_PIXEL_PACK_BUFFER,
+        PIXEL_UNPACK_BUFFER   = HGL_PIXEL_UNPACK_BUFFER,
+        UNIFORM_BUFFER        = HGL_UNIFORM_BUFFER,
+        SHADER_STORAGE_BUFFER = HGL_SHADER_STORAGE_BUFFER,
+        DRAW_INDIRECT_BUFFER  = HGL_DRAW_INDIRECT_BUFFER
     };
 
     enum Usage
     {
-        USAGE_STREAM_DRAW  = GL_STREAM_DRAW,
-        USAGE_STREAM_READ  = GL_STREAM_READ,
-        USAGE_STREAM_COPY  = GL_STREAM_COPY,
-        USAGE_STATIC_DRAW  = GL_STATIC_DRAW,
-        USAGE_STATIC_READ  = GL_STATIC_READ,
-        USAGE_STATIC_COPY  = GL_STATIC_COPY,
-        USAGE_DYNAMIC_DRAW = GL_DYNAMIC_DRAW,
-        USAGE_DYNAMIC_READ = GL_DYNAMIC_READ,
-        USAGE_DYNAMIC_COPY = GL_DYNAMIC_COPY,
+        STREAM_DRAW  = HGL_STREAM_DRAW,
+        STREAM_READ  = HGL_STREAM_READ,
+        STREAM_COPY  = HGL_STREAM_COPY,
+        STATIC_DRAW  = HGL_STATIC_DRAW,
+        STATIC_READ  = HGL_STATIC_READ,
+        STATIC_COPY  = HGL_STATIC_COPY,
+        DYNAMIC_DRAW = HGL_DYNAMIC_DRAW,
+        DYNAMIC_READ = HGL_DYNAMIC_READ,
+        DYNAMIC_COPY = HGL_DYNAMIC_COPY,
     };
 
   public:
@@ -40,13 +40,13 @@ class GLR_API BufferObject : public BindableObject {
     virtual Target getTarget() const = 0;
     virtual Usage  getUsage() const  = 0;
 
-    static GLenum getBindingOfTarget(Target target);
+    static GLenum_t getBindingOfTarget(Target target);
 
   protected:
-    virtual GLuint onCreate(State& state) override;
-    virtual bool   onRelease(State& state) override;
-    virtual bool   onBind(State& state) override;
-    virtual bool   onUnbind(State& state) override;
+    virtual GLuint_t onCreate(State& state) override;
+    virtual bool     onRelease(State& state) override;
+    virtual bool     onBind(State& state) override;
+    virtual bool     onUnbind(State& state) override;
 
   private:
     VI_OBJECT_DATA;

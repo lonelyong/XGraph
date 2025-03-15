@@ -40,17 +40,17 @@ class GLR_API ArrayBuffer : public BufferObject {
     };
 
   public:
-    virtual Type        getType() const        = 0;
-    virtual GLsizei     size() const           = 0;
-    virtual void        resize(GLsizei size)   = 0;
-    virtual void        reserve(GLsizei size)  = 0;
-    virtual void        clear()                = 0;
-    virtual GLsizei     capacity() const       = 0;
-    virtual bool        empty() const          = 0;
-    virtual void*       data_ptr()             = 0;
-    virtual const void* data_ptr() const       = 0;
-    virtual GLsizei     sizeOfItem() const     = 0;
-    virtual void*       valueAt(GLsizei index) = 0;
+    virtual Type        getType() const          = 0;
+    virtual GLsizei_t   size() const             = 0;
+    virtual void        resize(GLsizei_t size)   = 0;
+    virtual void        reserve(GLsizei_t size)  = 0;
+    virtual void        clear()                  = 0;
+    virtual GLsizei_t   capacity() const         = 0;
+    virtual bool        empty() const            = 0;
+    virtual void*       data_ptr()               = 0;
+    virtual const void* data_ptr() const         = 0;
+    virtual GLsizei_t   sizeOfItem() const       = 0;
+    virtual void*       valueAt(GLsizei_t index) = 0;
 };
 
 template <typename T> class GLR_API Array : public ArrayBuffer {
@@ -67,23 +67,23 @@ template <typename T> class GLR_API Array : public ArrayBuffer {
       public:
         using iterator_category = std::random_access_iterator_tag;
         using value_type        = T;
-        using difference_type   = GLsizei;
+        using difference_type   = GLsizei_t;
         using pointer           = T*;
         using reference         = T&;
 
-        iterator(Array<T>* arr, GLsizei pos);
+        iterator(Array<T>* arr, GLsizei_t pos);
         iterator(const Array<T>::iterator& otehr);
 
-        void      operator++();
-        void      operator++(difference_type i);
-        void      operator--();
-        void      operator--(difference_type i);
-        iterator  operator+(difference_type d) const;
-        iterator  operator-(difference_type d) const;
-        iterator& operator+=(difference_type d);
-        iterator& operator-=(difference_type d);
+        void            operator++();
+        void            operator++(difference_type i);
+        void            operator--();
+        void            operator--(difference_type i);
+        iterator        operator+(difference_type d) const;
+        iterator        operator-(difference_type d) const;
+        iterator&       operator+=(difference_type d);
+        iterator&       operator-=(difference_type d);
         difference_type operator-(const Array<T>::iterator& other) const;
-        
+
         reference operator*();
         reference operator->();
 
@@ -92,11 +92,11 @@ template <typename T> class GLR_API Array : public ArrayBuffer {
 
       private:
         Array<T>* arr_;
-        GLsizei   pos_;
+        GLsizei_t pos_;
     };
     class GLR_API const_iterator {
       public:
-        const_iterator(const Array<T>* arr, GLsizei pos);
+        const_iterator(const Array<T>* arr, GLsizei_t pos);
         const_iterator(const Array<T>::const_iterator& otehr);
 
         void     operator++();
@@ -109,7 +109,7 @@ template <typename T> class GLR_API Array : public ArrayBuffer {
 
       private:
         const Array<T>* arr_;
-        GLsizei         pos_;
+        GLsizei_t       pos_;
     };
 
     friend class iterator;
@@ -117,16 +117,16 @@ template <typename T> class GLR_API Array : public ArrayBuffer {
 
   public:
     virtual Type                      getType() const override;
-    virtual GLsizei                   size() const override;
+    virtual GLsizei_t                 size() const override;
     virtual T*                        data();
     virtual const T*                  data() const;
     virtual void*                     data_ptr() override;
     virtual const void*               data_ptr() const override;
-    virtual T&                        at(GLsizei index);
-    virtual const T&                  at(GLsizei index) const;
-    virtual void*                     valueAt(GLsizei index) override;
-    virtual void                      resize(GLsizei size) override;
-    virtual void                      reserve(GLsizei size) override;
+    virtual T&                        at(GLsizei_t index);
+    virtual const T&                  at(GLsizei_t index) const;
+    virtual void*                     valueAt(GLsizei_t index) override;
+    virtual void                      resize(GLsizei_t size) override;
+    virtual void                      reserve(GLsizei_t size) override;
     virtual void                      clear() override;
     virtual void                      push_back(const T& val);
     template <typename... TArgs> void emplace_back(TArgs&&... args) { push_back(T(args...)); }
@@ -134,8 +134,8 @@ template <typename T> class GLR_API Array : public ArrayBuffer {
     virtual const T&                  front() const;
     virtual T&                        back();
     virtual const T&                  back() const;
-    virtual GLsizei                   capacity() const override;
-    virtual GLsizei                   sizeOfItem() const override;
+    virtual GLsizei_t                 capacity() const override;
+    virtual GLsizei_t                 sizeOfItem() const override;
     virtual iterator                  begin();
     virtual const_iterator            cbegin() const;
     virtual iterator                  end();
@@ -147,8 +147,8 @@ template <typename T> class GLR_API Array : public ArrayBuffer {
     bool empty() const;
 
   protected:
-    virtual GLuint onCreate(State& state) override;
-    virtual bool   onUpdate(State& state) override;
+    virtual GLuint_t onCreate(State& state) override;
+    virtual bool     onUpdate(State& state) override;
 
   private:
     VI_OBJECT_DATA;

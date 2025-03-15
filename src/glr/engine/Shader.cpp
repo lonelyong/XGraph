@@ -8,6 +8,8 @@
 #include <iostream>
 #include <sstream>
 
+#include <glad/glad.h>
+
 #include <glm/gtc/type_ptr.hpp>
 
 namespace glr {
@@ -29,7 +31,7 @@ std::string readCode(const std::string& path) {
     return code;
 }
 
-inline void compileShader(GLuint id, const std::string& source) {
+inline void compileShader(GLuint_t id, const std::string& source) {
     auto code_cstr = source.data();
     glShaderSource(id, 1, &code_cstr, NULL);
     glCompileShader(id);
@@ -89,7 +91,7 @@ void Shader::setSource(const std::string& source) {
     }
 }
 
-GLuint Shader::onCreate(State& state) {
+GLuint_t Shader::onCreate(State& state) {
     if (d->type && !d->code.empty()) {
         auto id = glCreateShader(d->type);
         compileShader(id, d->code);

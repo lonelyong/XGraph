@@ -20,20 +20,20 @@ class GLR_API RenderBuffer : public PixelData {
   public:
     FrameBufferObject* getFrameBuffer() const;
 
-    void setWidth(GLsizei w);
+    void setWidth(GLsizei_t w);
 
-    void setHeight(GLsizei h);
+    void setHeight(GLsizei_t h);
 
-    GLsizei getWidth() const;
+    GLsizei_t getWidth() const;
 
-    GLsizei getHeight() const;
+    GLsizei_t getHeight() const;
 
   protected:
-    virtual GLuint onCreate(State& state) override;
-    virtual bool   onRelease(State& state) override;
-    virtual bool   onUnbind(State& state) override;
-    virtual bool   onUpdate(State& state) override;
-    virtual bool   onBind(State& state) override;
+    virtual GLuint_t onCreate(State& state) override;
+    virtual bool     onRelease(State& state) override;
+    virtual bool     onUnbind(State& state) override;
+    virtual bool     onUpdate(State& state) override;
+    virtual bool     onBind(State& state) override;
 
   private:
     VI_OBJECT_DATA;

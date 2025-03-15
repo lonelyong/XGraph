@@ -57,28 +57,28 @@ class GLR_API Geometry : public Drawable {
 
     int          getNbVertexAttribArrays() const;
     ArrayBuffer* getVertexAttribArrayAt(int index) const;
-    void         addVertexAttribArray(GLuint loc, ArrayBuffer* data);
+    void         addVertexAttribArray(GLuint_t loc, ArrayBuffer* data);
     /**
      * @brief 如果data绑定到了多个location,则都会被移除
      * @param data
      */
     void removeVertexAttribArray(ArrayBuffer* data);
-    void removeVertexAttribArray(GLuint loc);
+    void removeVertexAttribArray(GLuint_t loc);
     void clearVertexAttribArrays();
 
     int      getNbTextures() const;
     Texture* getTextureAt(int index) const;
-    GLuint   getTextureUnitAt(int index) const;
-    void     addTexture(GLuint unit, GLuint loc, Texture* tex);
-    void     addTexture(GLuint unit, const std::string& name, Texture* tex);
-    void     setTextureAttribLocation(GLuint unit, GLuint loc);
-    void     setTextureAttribLocation(GLuint unit, const std::string& loc);
+    GLuint_t   getTextureUnitAt(int index) const;
+    void     addTexture(GLuint_t unit, GLuint_t loc, Texture* tex);
+    void     addTexture(GLuint_t unit, const std::string& name, Texture* tex);
+    void     setTextureAttribLocation(GLuint_t unit, GLuint_t loc);
+    void     setTextureAttribLocation(GLuint_t unit, const std::string& loc);
     /**
      * @brief 如果纹理绑定了多个单元，则都会被移除
      * @param tex
      */
     void removeTexture(Texture* tex);
-    void removetexture(GLuint unit);
+    void removetexture(GLuint_t unit);
     void clearTextures();
 
     int           getNbPrimitiveSets() const;

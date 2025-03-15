@@ -3,8 +3,6 @@
 
 #include <string>
 
-#include <glad/glad.h>
-
 #include <glr/engine/UniformBase.h>
 
 namespace glr {
@@ -14,9 +12,9 @@ class GLR_API Subroutine : public UniformBase {
   public:
     enum ShaderType
     {
-        UNDEFINED = 0,
-        VERTEX    = GL_VERTEX_SHADER,
-        FRAGMENT  = GL_FRAGMENT_SHADER,
+        NO_TYPE         = 0,
+        VERTEX_SHADER   = HGL_VERTEX_SHADER,
+        FRAGMENT_SHADER = HGL_FRAGMENT_SHADER,
     };
 
   public:

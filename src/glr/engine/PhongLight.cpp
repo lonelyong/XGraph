@@ -130,7 +130,7 @@ std::vector<PhongLight*> PhongLights::getLights() const {
 }
 
 StateAttribute::Type PhongLights::getType() const {
-    return ATTR_LIGHTS;
+    return PHONG_LIGHTS;
 }
 
 void PhongLights::setName(const std::string& name) {
@@ -142,8 +142,8 @@ const std::string& PhongLights::getName() const {
 }
 
 void PhongLights::apply(State& state) const {
-    auto shader = state.getCurrentShader();
-    if (shader) {
+    auto prog = state.getCurrentProgram();
+    if (prog) {
         auto max_light = getMaxLight();
         for (int i = 0; i < lights_.size(); i++) {
             if (i >= max_light) {
@@ -156,15 +156,15 @@ void PhongLights::apply(State& state) const {
             if (mode == PhongLight::NO_LIGHT) continue;
 
             auto prefix = name_ + "[" + std::to_string(i) + "]";
-            shader->set(state, prefix + ".ambient", l->getAmbient());
-            shader->set(state, prefix + ".diffuse", l->getDiffuse());
-            shader->set(state, prefix + ".specular", l->getSpecular());
-            shader->set(state, prefix + ".constantAttenuation", l->getConstantAttenuation());
-            shader->set(state, prefix + ".linearAttenuation", l->getLinearAttenuation());
-            shader->set(state, prefix + ".quadraticAttenuation", l->getQuadraticAttenuation());
-            shader->set(state, prefix + ".spotExponent", l->getSpotExponent());
-            shader->set(state, prefix + ".spotCutoff", l->getSpotCutoff());
-            shader->set(state, prefix + ".spotCosCutoff", cos(l->getSpotCutoff() * 3.1415926f / 180.f));
+            prog->set(state, prefix + ".ambient", l->getAmbient());
+            prog->set(state, prefix + ".diffuse", l->getDiffuse());
+            prog->set(state, prefix + ".specular", l->getSpecular());
+            prog->set(state, prefix + ".constantAttenuation", l->getConstantAttenuation());
+            prog->set(state, prefix + ".linearAttenuation", l->getLinearAttenuation());
+            prog->set(state, prefix + ".quadraticAttenuation", l->getQuadraticAttenuation());
+            prog->set(state, prefix + ".spotExponent", l->getSpotExponent());
+            prog->set(state, prefix + ".spotCutoff", l->getSpotCutoff());
+            prog->set(state, prefix + ".spotCosCutoff", cos(l->getSpotCutoff() * 3.1415926f / 180.f));
 
             auto dir = l->getSpotDirection();
             auto pos = l->getPosition();
@@ -182,10 +182,10 @@ void PhongLights::apply(State& state) const {
                     dir = view_dir;
                 }
             }
-            shader->set(state, prefix + ".spotDirection", dir);
-            shader->set(state, prefix + ".position", pos);
+            prog->set(state, prefix + ".spotDirection", dir);
+            prog->set(state, prefix + ".position", pos);
         }
-        shader->set<int>(state, name_ + "_count", lights_.size() > max_light ? max_light : lights_.size());
+        prog->set<int>(state, name_ + "_count", lights_.size() > max_light ? max_light : lights_.size());
     }
 }
 

@@ -28,7 +28,7 @@ int Scene::getNbModels() const {
     return getNbChildren();
 }
 Model* Scene::getModelAt(int index) const {
-    return getChildAt(index)->cast<Model>();
+    return vine::obj_cast<Model>(getChildAt(index));
 }
 
 } // namespace glr

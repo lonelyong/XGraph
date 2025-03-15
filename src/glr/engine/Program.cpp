@@ -9,6 +9,8 @@
 #include <sstream>
 #include <unordered_map>
 
+#include <glad/glad.h>
+
 #include <glm/gtc/type_ptr.hpp>
 
 #include <glr/engine/Shader.h>
@@ -80,7 +82,7 @@ void Program::attachShader(Shader* shader) {
     }
 }
 
-template <typename T> void Program::set(State& state, GLuint loc, const T& val) {
+template <typename T> void Program::set(State& state, GLuint_t loc, const T& val) {
     if constexpr (std::is_same<T, bool>::value) {
         glUniform1i(loc, (int)val);
     }
@@ -162,7 +164,7 @@ template <typename T> void Program::set(State& state, const std::string& name, c
     }
 }
 
-GLuint Program::onCreate(State& state) {
+GLuint_t Program::onCreate(State& state) {
     if (d->shaders.empty()) {
         return 0;
     }
@@ -239,25 +241,25 @@ template void Program::set<Mat4f>(State&, const std::string&, const Mat4f&);
 template void Program::set<Mat3d>(State&, const std::string&, const Mat3d&);
 template void Program::set<Mat4d>(State&, const std::string&, const Mat4d&);
 
-template void Program::set<bool>(State&, GLuint, const bool&);
-template void Program::set<Vec2b>(State&, GLuint, const Vec2b&);
-template void Program::set<Vec3b>(State&, GLuint, const Vec3b&);
-template void Program::set<Vec4b>(State&, GLuint, const Vec4b&);
-template void Program::set<int>(State&, GLuint, const int&);
-template void Program::set<unsigned int>(State&, GLuint, const unsigned int&);
-template void Program::set<Vec2i>(State&, GLuint, const Vec2i&);
-template void Program::set<Vec3i>(State&, GLuint, const Vec3i&);
-template void Program::set<Vec4i>(State&, GLuint, const Vec4i&);
-template void Program::set<float>(State&, GLuint, const float&);
-template void Program::set<Vec2f>(State&, GLuint, const Vec2f&);
-template void Program::set<Vec3f>(State&, GLuint, const Vec3f&);
-template void Program::set<Vec4f>(State&, GLuint, const Vec4f&);
-template void Program::set<double>(State&, GLuint, const double&);
-template void Program::set<Vec2d>(State&, GLuint, const Vec2d&);
-template void Program::set<Vec3d>(State&, GLuint, const Vec3d&);
-template void Program::set<Vec4d>(State&, GLuint, const Vec4d&);
-template void Program::set<Mat3f>(State&, GLuint, const Mat3f&);
-template void Program::set<Mat4f>(State&, GLuint, const Mat4f&);
-template void Program::set<Mat3d>(State&, GLuint, const Mat3d&);
-template void Program::set<Mat4d>(State&, GLuint, const Mat4d&);
+template void Program::set<bool>(State&, GLuint_t, const bool&);
+template void Program::set<Vec2b>(State&, GLuint_t, const Vec2b&);
+template void Program::set<Vec3b>(State&, GLuint_t, const Vec3b&);
+template void Program::set<Vec4b>(State&, GLuint_t, const Vec4b&);
+template void Program::set<int>(State&, GLuint_t, const int&);
+template void Program::set<unsigned int>(State&, GLuint_t, const unsigned int&);
+template void Program::set<Vec2i>(State&, GLuint_t, const Vec2i&);
+template void Program::set<Vec3i>(State&, GLuint_t, const Vec3i&);
+template void Program::set<Vec4i>(State&, GLuint_t, const Vec4i&);
+template void Program::set<float>(State&, GLuint_t, const float&);
+template void Program::set<Vec2f>(State&, GLuint_t, const Vec2f&);
+template void Program::set<Vec3f>(State&, GLuint_t, const Vec3f&);
+template void Program::set<Vec4f>(State&, GLuint_t, const Vec4f&);
+template void Program::set<double>(State&, GLuint_t, const double&);
+template void Program::set<Vec2d>(State&, GLuint_t, const Vec2d&);
+template void Program::set<Vec3d>(State&, GLuint_t, const Vec3d&);
+template void Program::set<Vec4d>(State&, GLuint_t, const Vec4d&);
+template void Program::set<Mat3f>(State&, GLuint_t, const Mat3f&);
+template void Program::set<Mat4f>(State&, GLuint_t, const Mat4f&);
+template void Program::set<Mat3d>(State&, GLuint_t, const Mat3d&);
+template void Program::set<Mat4d>(State&, GLuint_t, const Mat4d&);
 } // namespace glr
