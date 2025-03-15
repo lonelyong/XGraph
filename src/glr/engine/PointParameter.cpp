@@ -32,7 +32,6 @@ StateAttribute::Type PointParameter::getType() const {
 
 bool PointParameter::equals(const StateAttribute& other) const {
     if (other.isKindOf(PointParameter::desc())) {
-      
     }
     return false;
 }
@@ -43,6 +42,13 @@ void PointParameter::setSize(int vertices) {
 
 int PointParameter::getSize() const {
     return d->vertices;
+}
+
+void PointParameter::setSpriteCoordOrigin(SpriteCoordOrigin val) {
+}
+
+PointParameter::SpriteCoordOrigin PointParameter::getSpriteCoordOrigin() const {
+    return SpriteCoordOrigin();
 }
 
 void PointParameter::apply(State& state) const {

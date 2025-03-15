@@ -9,19 +9,19 @@ class GraphicContext;
 
 enum EventType
 {
-    MousePress,
-    MouseMove,
-    MouseRelease,
-    MouseWheel,
-    Resize
+    EVENT_MOUSE_BUTTON_PRESS,
+    EVENT_MOUSE_MOVE,
+    EVENT_MOUSE_BUTTON_RELEASE,
+    EVENT_MOUSE_WHEEL,
+    EVENT_WINDOW_RESIZE
 };
 
 enum MouseButton
 {
-    ButtonNone,
-    ButtonLeft = 1,
-    ButtonMiddle,
-    ButtonRight
+    BUTTON_NONE,
+    BUTTON_LEFT = 1,
+    BUTTON_MIDDLE,
+    BUTTON_RIGHT
 };
 
 enum Key
@@ -46,11 +46,11 @@ class GLR_API Event : public Object {
     GraphicContext* getContext() const;
 
   public:
-    static Event* createMousePressEvent(GraphicContext* ctx, MouseButton button, int x, int y);
+    static Event* createMouseButtonPressEvent(GraphicContext* ctx, MouseButton button, int x, int y);
     static Event* createMouseMoveEvent(GraphicContext* ctx, int x, int y);
-    static Event* createMouseReleaseEvent(GraphicContext* ctx, MouseButton button, int x, int y);
+    static Event* createMouseButtonReleaseEvent(GraphicContext* ctx, MouseButton button, int x, int y);
     static Event* createMouseWheelEvent(GraphicContext* ctx, int delta);
-    static Event* createResizeEvent(GraphicContext* ctx, int w, int h);
+    static Event* createWindowResizeEvent(GraphicContext* ctx, int w, int h);
 
   private:
     VI_OBJECT_DATA;

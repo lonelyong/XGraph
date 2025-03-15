@@ -1,0 +1,23 @@
+#include <glr/engine/Enable.h>
+
+namespace glr {
+
+VI_OBJECT_META_IMPL(Enable, StateAttribute);
+
+struct Enable::Data {};
+
+Enable::Enable()
+  : d(new Data()) {
+}
+
+Enable::~Enable() {
+}
+
+Enable::Type Enable::getType() const {
+    return ENABLE;
+}
+
+void Enable::apply(State& state) const {
+}
+
+} // namespace glr

@@ -26,7 +26,25 @@ class GLR_API StateAttribute : public Object {
         UNIFORM,
         SUBROUTINE,
         PATCH_PARAMETER,
-        STENCIL
+        STENCIL,
+        SCISSOR,
+        SCISSOR_INDEXED,
+        SCISSOR_ARRAY,
+        VIEWPORT,
+        VIEWPORT_INDEXED,
+        VIEWPORT_ARRAY,
+        HINT,
+        DISABLE,
+        ENABLE,
+        LINE_WIDTH,
+        LOGICOP,
+        CULL_FACE,
+        COLOR_MASK,
+        CLIP_CONTROL,
+        CLAMP_COLOR,
+        BLEND_FUNC,
+        BLEND_EQUATION,
+        BLEND_COLOR
     };
 
   public:

@@ -89,11 +89,11 @@ class GLR_API StandardCameraManipulator final : public CameraManipulator {
     virtual Mat4d computeViewMatrix() const;
     virtual Mat4d computeProjectionMatrix() const;
 
-    void handleMousePressed(MouseButton btn, int x, int y);
-    void handleMouseReleased(MouseButton btn, int x, int y);
-    void handleMouseMoved(int x, int y);
+    void handleEVENT_MOUSE_BUTTON_PRESSed(MouseButton btn, int x, int y);
+    void handleEVENT_MOUSE_BUTTON_RELEASEd(MouseButton btn, int x, int y);
+    void handleEVENT_MOUSE_BUTTON_MOVEd(int x, int y);
     void handleMouseScrolled(int delta);
-    void handleResized(int w, int h);
+    void handleEVENT_WINDOW_RESIZEd(int w, int h);
 
   private:
     VI_OBJECT_DATA;

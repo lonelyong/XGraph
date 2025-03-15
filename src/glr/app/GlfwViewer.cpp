@@ -151,22 +151,22 @@ class GraphicContextGlfwImpl : public GraphicContextGlfw {
     void framebuffer_size_callback(GLFWwindow* wnd, int w, int h) {
         size_ = Vec2f(w, h);
         if (w == 0 || h == 0) return;
-        notify(Event::createResizeEvent(this, w, h));
+        notify(Event::createWindowResizeEvent(this, w, h));
     }
 
     void mouse_button_callback(GLFWwindow* wnd, int button, int action, int mods) {
-        auto btn = ButtonLeft;
+        auto btn = BUTTON_LEFT;
         if (button == GLFW_MOUSE_BUTTON_LEFT)
-            btn = ButtonLeft;
+            btn = BUTTON_LEFT;
         else if (button == GLFW_MOUSE_BUTTON_MIDDLE)
-            btn = ButtonMiddle;
+            btn = BUTTON_MIDDLE;
         else if (button == GLFW_MOUSE_BUTTON_RIGHT)
-            btn = ButtonRight;
+            btn = BUTTON_RIGHT;
         if (action == GLFW_PRESS) {
-            notify(Event::createMousePressEvent(this, btn, cursor_pt_.x, cursor_pt_.y));
+            notify(Event::createMouseButtonPressEvent(this, btn, cursor_pt_.x, cursor_pt_.y));
         }
         else if (action == GLFW_RELEASE) {
-            notify(Event::createMouseReleaseEvent(this, btn, cursor_pt_.x, cursor_pt_.y));
+            notify(Event::createMouseButtonReleaseEvent(this, btn, cursor_pt_.x, cursor_pt_.y));
         }
     }
 

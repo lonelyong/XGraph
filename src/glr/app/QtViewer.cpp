@@ -117,7 +117,7 @@ void QtViewer::initializeGL() {
 
 void QtViewer::resizeGL(int w, int h) {
     auto ratio = this->screen()->devicePixelRatio();
-    d->ctx->notify(Event::createResizeEvent(d->ctx.get(), w * ratio, h * ratio));
+    d->ctx->notify(Event::createWindowResizeEvent(d->ctx.get(), w * ratio, h * ratio));
 }
 
 void QtViewer::paintGL() {
@@ -129,35 +129,35 @@ void QtViewer::resizeEvent(QResizeEvent* e) {
 }
 
 void QtViewer::mousePressEvent(QMouseEvent* event) {
-    auto btn = ButtonLeft;
+    auto btn = BUTTON_LEFT;
     if (event->button() == Qt::LeftButton) {
-        btn = ButtonLeft;
+        btn = BUTTON_LEFT;
     }
     else if (event->button() == Qt::MiddleButton) {
-        btn = ButtonMiddle;
+        btn = BUTTON_MIDDLE;
     }
     else if (event->button() == Qt::RightButton) {
-        btn = ButtonRight;
+        btn = BUTTON_RIGHT;
     }
     auto ratio = this->screen()->devicePixelRatio();
-    d->ctx->notify(Event::createMousePressEvent(d->ctx.get(), btn, event->x() * ratio, event->y() * ratio));
+    d->ctx->notify(Event::createMouseButtonPressEvent(d->ctx.get(), btn, event->x() * ratio, event->y() * ratio));
     QOpenGLWidget::mousePressEvent(event);
     this->update();
 };
 
 void QtViewer::mouseReleaseEvent(QMouseEvent* event) {
-    auto btn = ButtonLeft;
+    auto btn = BUTTON_LEFT;
     if (event->button() == Qt::LeftButton) {
-        btn = ButtonLeft;
+        btn = BUTTON_LEFT;
     }
     else if (event->button() == Qt::MiddleButton) {
-        btn = ButtonMiddle;
+        btn = BUTTON_MIDDLE;
     }
     else if (event->button() == Qt::RightButton) {
-        btn = ButtonRight;
+        btn = BUTTON_RIGHT;
     }
     auto ratio = this->screen()->devicePixelRatio();
-    d->ctx->notify(Event::createMouseReleaseEvent(d->ctx.get(), btn, event->x() * ratio, event->y() * ratio));
+    d->ctx->notify(Event::createMouseButtonReleaseEvent(d->ctx.get(), btn, event->x() * ratio, event->y() * ratio));
     QOpenGLWidget::mouseReleaseEvent(event);
 };
 

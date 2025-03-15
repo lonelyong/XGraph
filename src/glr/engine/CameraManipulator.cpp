@@ -58,29 +58,29 @@ StandardCameraManipulator::~StandardCameraManipulator() {
 
 bool StandardCameraManipulator::handleEvent(Event* e) {
     switch (e->getType()) {
-    case EventType::MousePress:
+    case EventType::EVENT_MOUSE_BUTTON_PRESS:
     {
-        handleMousePressed(e->getMouseButton(), e->getMouseX(), e->getMouseY());
+        handleEVENT_MOUSE_BUTTON_PRESSed(e->getMouseButton(), e->getMouseX(), e->getMouseY());
         break;
     }
-    case EventType::MouseMove:
+    case EventType::EVENT_MOUSE_MOVE:
     {
-        handleMouseMoved(e->getMouseX(), e->getMouseY());
+        handleEVENT_MOUSE_BUTTON_MOVEd(e->getMouseX(), e->getMouseY());
         break;
     }
-    case EventType::MouseRelease:
+    case EventType::EVENT_MOUSE_BUTTON_RELEASE:
     {
-        handleMouseReleased(e->getMouseButton(), e->getMouseX(), e->getMouseY());
+        handleEVENT_MOUSE_BUTTON_RELEASEd(e->getMouseButton(), e->getMouseX(), e->getMouseY());
         break;
     }
-    case EventType::MouseWheel:
+    case EventType::EVENT_MOUSE_WHEEL:
     {
         handleMouseScrolled(e->getMouseDelta());
         break;
     }
-    case EventType::Resize:
+    case EventType::EVENT_WINDOW_RESIZE:
     {
-        handleResized(e->getWidth(), e->getHeight());
+        handleEVENT_WINDOW_RESIZEd(e->getWidth(), e->getHeight());
         break;
     }
     default: break;
@@ -167,10 +167,10 @@ Mat4d StandardCameraManipulator::computeProjectionMatrix() const {
 }
 
 void StandardCameraManipulator::init(int w, int h) {
-    handleResized(w, h);
+    handleEVENT_WINDOW_RESIZEd(w, h);
 }
 
-void StandardCameraManipulator::handleMousePressed(MouseButton btn, int x, int y) {
+void StandardCameraManipulator::handleEVENT_MOUSE_BUTTON_PRESSed(MouseButton btn, int x, int y) {
     d->prev_cursor_pt.x  = x;
     d->prev_cursor_pt.y  = y;
     d->first_cursor_pt.x = x;
@@ -178,24 +178,24 @@ void StandardCameraManipulator::handleMousePressed(MouseButton btn, int x, int y
     d->first_view_matrix = d->camera->getViewMatrix();
 
     switch (btn) {
-    case MouseButton::ButtonLeft:
+    case MouseButton::BUTTON_LEFT:
     {
         d->is_rotation_started = true;
         d->is_pan_started      = false;
     } break;
-    case MouseButton::ButtonMiddle:
+    case MouseButton::BUTTON_MIDDLE:
     {
         d->is_pan_started      = true;
         d->is_rotation_started = false;
     } break;
-    case MouseButton::ButtonRight:
+    case MouseButton::BUTTON_RIGHT:
     {
     } break;
     default: break;
     }
 }
 
-void StandardCameraManipulator::handleMouseMoved(int x, int y) {
+void StandardCameraManipulator::handleEVENT_MOUSE_BUTTON_MOVEd(int x, int y) {
     if (!d->is_pan_started && !d->is_rotation_started) {
         return;
     }
@@ -310,7 +310,7 @@ void StandardCameraManipulator::handleMouseMoved(int x, int y) {
     d->prev_cursor_pt.y = yy;
 }
 
-void StandardCameraManipulator::handleMouseReleased(MouseButton btn, int x, int y) {
+void StandardCameraManipulator::handleEVENT_MOUSE_BUTTON_RELEASEd(MouseButton btn, int x, int y) {
     if (d->is_pan_started || d->is_rotation_started) {
         d->camera->getViewMatrixAsLookAt(d->eye, d->target, d->up, d->far);
     }
@@ -362,7 +362,7 @@ void StandardCameraManipulator::handleMouseScrolled(int delta) {
     d->camera->getViewMatrixAsLookAt(d->eye, d->target, d->up, d->far);
 }
 
-void StandardCameraManipulator::handleResized(int w, int h) {
+void StandardCameraManipulator::handleEVENT_WINDOW_RESIZEd(int w, int h) {
     d->width  = w;
     d->height = h;
 

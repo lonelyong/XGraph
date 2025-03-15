@@ -121,31 +121,31 @@ class SdlGraphicContext : public GraphicContext {
             }
             else if (event.window.type == SDL_EVENT_WINDOW_RESIZED) {
                 if (event.window.data1 == 0 || event.window.data2 == 0) continue;
-                notify(Event::createResizeEvent(this, event.window.data1, event.window.data2));
+                notify(Event::createWindowResizeEvent(this, event.window.data1, event.window.data2));
             }
 
             if (event.type == SDL_EVENT_MOUSE_MOTION) {
                 notify(Event::createMouseMoveEvent(this, event.motion.x, event.motion.y));
             }
             else if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
-                auto btn = ButtonNone;
+                auto btn = BUTTON_NONE;
                 if (event.button.button == SDL_BUTTON_LEFT)
-                    btn = ButtonLeft;
+                    btn = BUTTON_LEFT;
                 else if (event.button.button == SDL_BUTTON_MIDDLE)
-                    btn = ButtonMiddle;
+                    btn = BUTTON_MIDDLE;
                 else if (event.button.button == SDL_BUTTON_RIGHT)
-                    btn = ButtonRight;
-                notify(Event::createMousePressEvent(this, btn, event.button.x, event.button.y));
+                    btn = BUTTON_RIGHT;
+                notify(Event::createMouseButtonPressEvent(this, btn, event.button.x, event.button.y));
             }
             else if (event.type == SDL_EVENT_MOUSE_BUTTON_UP) {
-                auto btn = ButtonNone;
+                auto btn = BUTTON_NONE;
                 if (event.button.button == SDL_BUTTON_LEFT)
-                    btn = ButtonLeft;
+                    btn = BUTTON_LEFT;
                 else if (event.button.button == SDL_BUTTON_MIDDLE)
-                    btn = ButtonMiddle;
+                    btn = BUTTON_MIDDLE;
                 else if (event.button.button == SDL_BUTTON_RIGHT)
-                    btn = ButtonRight;
-                notify(Event::createMouseReleaseEvent(this, btn, event.button.x, event.button.y));
+                    btn = BUTTON_RIGHT;
+                notify(Event::createMouseButtonReleaseEvent(this, btn, event.button.x, event.button.y));
             }
             else if (event.type == SDL_EVENT_MOUSE_WHEEL) {
                 notify(Event::createMouseWheelEvent(this, event.wheel.y * 10));
@@ -261,35 +261,35 @@ class SdlGraphicContext : public GraphicContext {
                 }
                 else if (event.window.event == SDL_WINDOWEVENT_RESIZED) {
                     if (event.window.data1 == 0 || event.window.data2 == 0) continue;
-                    notify(Event::createResizeEvent(this, event.window.data1, event.window.data2));
+                    notify(Event::createEVENT_WINDOW_RESIZEEvent(this, event.window.data1, event.window.data2));
                 }
             }
 
             if (event.type == SDL_MOUSEMOTION) {
-                notify(Event::createMouseMoveEvent(this, event.motion.x, event.motion.y));
+                notify(Event::createEVENT_MOUSE_BUTTON_MOVEEvent(this, event.motion.x, event.motion.y));
             }
             else if (event.type == SDL_MOUSEBUTTONDOWN) {
-                auto btn = ButtonNone;
+                auto btn = BUTTON_NONE;
                 if (event.button.button == SDL_BUTTON_LEFT)
-                    btn = ButtonLeft;
+                    btn = BUTTON_LEFT;
                 else if (event.button.button == SDL_BUTTON_MIDDLE)
-                    btn = ButtonMiddle;
+                    btn = BUTTON_MIDDLE;
                 else if (event.button.button == SDL_BUTTON_RIGHT)
-                    btn = ButtonRight;
-                notify(Event::createMousePressEvent(this, btn, event.button.x, event.button.y));
+                    btn = BUTTON_RIGHT;
+                notify(Event::createEVENT_MOUSE_BUTTON_PRESSEvent(this, btn, event.button.x, event.button.y));
             }
             else if (event.type == SDL_MOUSEBUTTONUP) {
-                auto btn = ButtonNone;
+                auto btn = BUTTON_NONE;
                 if (event.button.button == SDL_BUTTON_LEFT)
-                    btn = ButtonLeft;
+                    btn = BUTTON_LEFT;
                 else if (event.button.button == SDL_BUTTON_MIDDLE)
-                    btn = ButtonMiddle;
+                    btn = BUTTON_MIDDLE;
                 else if (event.button.button == SDL_BUTTON_RIGHT)
-                    btn = ButtonRight;
-                notify(Event::createMouseReleaseEvent(this, btn, event.button.x, event.button.y));
+                    btn = BUTTON_RIGHT;
+                notify(Event::createEVENT_MOUSE_BUTTON_RELEASEEvent(this, btn, event.button.x, event.button.y));
             }
             else if (event.type == SDL_MOUSEWHEEL) {
-                notify(Event::createMouseWheelEvent(this, event.wheel.y * 10));
+                notify(Event::createEVENT_MOUSE_WHEELEvent(this, event.wheel.y * 10));
             }
         }
     }

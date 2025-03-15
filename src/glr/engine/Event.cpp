@@ -8,7 +8,7 @@ VI_OBJECT_META_IMPL(Event, Object);
 struct Event::Data {
     GraphicContext* ctx;
     EventType       type;
-    MouseButton     mouse_btn   = ButtonNone;
+    MouseButton     mouse_btn   = BUTTON_NONE;
     int             mouse_x     = 0;
     int             mouse_y     = 0;
     int             mouse_delta = 0;
@@ -53,33 +53,33 @@ GraphicContext* Event::getContext() const {
     return d->ctx;
 }
 
-Event* Event::createMousePressEvent(GraphicContext* ctx, MouseButton button, int x, int y) {
-    auto e          = new Event(ctx, MousePress);
+Event* Event::createMouseButtonPressEvent(GraphicContext* ctx, MouseButton button, int x, int y) {
+    auto e          = new Event(ctx, EVENT_MOUSE_BUTTON_PRESS);
     e->d->mouse_btn = button;
     e->d->mouse_x   = x;
     e->d->mouse_y   = y;
     return e;
 }
 Event* Event::createMouseMoveEvent(GraphicContext* ctx, int x, int y) {
-    auto e        = new Event(ctx, MouseMove);
+    auto e        = new Event(ctx, EVENT_MOUSE_MOVE);
     e->d->mouse_x = x;
     e->d->mouse_y = y;
     return e;
 }
-Event* Event::createMouseReleaseEvent(GraphicContext* ctx, MouseButton button, int x, int y) {
-    auto e          = new Event(ctx, MouseRelease);
+Event* Event::createMouseButtonReleaseEvent(GraphicContext* ctx, MouseButton button, int x, int y) {
+    auto e          = new Event(ctx, EVENT_MOUSE_BUTTON_RELEASE);
     e->d->mouse_btn = button;
     e->d->mouse_x   = x;
     e->d->mouse_y   = y;
     return e;
 }
 Event* Event::createMouseWheelEvent(GraphicContext* ctx, int delta) {
-    auto e            = new Event(ctx, MouseWheel);
+    auto e            = new Event(ctx, EVENT_MOUSE_WHEEL);
     e->d->mouse_delta = delta;
     return e;
 }
-Event* Event::createResizeEvent(GraphicContext* ctx, int w, int h) {
-    auto e            = new Event(ctx, Resize);
+Event* Event::createWindowResizeEvent(GraphicContext* ctx, int w, int h) {
+    auto e            = new Event(ctx, EVENT_WINDOW_RESIZE);
     e->d->size_width  = w;
     e->d->size_height = h;
     return e;
@@ -87,7 +87,7 @@ Event* Event::createResizeEvent(GraphicContext* ctx, int w, int h) {
 
 VI_OBJECT_META_IMPL(EventHandler, Object);
 
-bool EventHandler::handle(Event* e){
+bool EventHandler::handle(Event* e) {
     return false;
 }
 } // namespace glr
