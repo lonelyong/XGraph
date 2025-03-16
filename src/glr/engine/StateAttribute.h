@@ -44,6 +44,7 @@ class GLR_API StateAttribute : public Object {
         CLAMP_COLOR,
         BLEND_FUNC,
         BLEND_EQUATION,
+        BLEND_EQUATIONI,
         BLEND_COLOR
     };
 
