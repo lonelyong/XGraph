@@ -9,16 +9,16 @@ VI_OBJECT_META_IMPL(glr::PointParameter, glr::StateAttribute)
 
 namespace glr {
 struct PointParameter::Data {
-    int   vertices              = 3;
-    Vec2f patch_def_inner_level = { 1.0f, 1.0f };
-    Vec4f patch_def_outer_level = { 1.0f, 1.0f, 1.0f, 1.0f };
+    GLfloat_t         size                = 1.0f;
+    SpriteCoordOrigin origin              = UPPER_LEFT;
+    GLfloat_t         fade_threshole_size = 1.0f;
 };
 
 PointParameter::PointParameter()
   : d(new Data()) {
 }
 
-PointParameter::PointParameter(int vertices)
+PointParameter::PointParameter(GLfloat_t size)
   : d(new Data()) {
 }
 
@@ -27,7 +27,7 @@ PointParameter::~PointParameter() {
 }
 
 StateAttribute::Type PointParameter::getType() const {
-    return PATCH_PARAMETER;
+    return POINT_PARAMETER;
 }
 
 bool PointParameter::equals(const StateAttribute& other) const {
@@ -36,24 +36,33 @@ bool PointParameter::equals(const StateAttribute& other) const {
     return false;
 }
 
-void PointParameter::setSize(int vertices) {
-    d->vertices = vertices;
+void PointParameter::setSize(GLfloat_t size) {
+    d->size = size;
 }
 
-int PointParameter::getSize() const {
-    return d->vertices;
+GLfloat_t PointParameter::getSize() const {
+    return d->size;
+}
+
+void PointParameter::setFadeThresholdSize(GLfloat_t size) {
+    d->fade_threshole_size = size;
+}
+
+GLfloat_t PointParameter::getFadeThresholdSize() const {
+    return d->size;
 }
 
 void PointParameter::setSpriteCoordOrigin(SpriteCoordOrigin val) {
+    d->origin = val;
 }
 
 PointParameter::SpriteCoordOrigin PointParameter::getSpriteCoordOrigin() const {
-    return SpriteCoordOrigin();
+    return d->origin;
 }
 
 void PointParameter::apply(State& state) const {
-    glPointParameteri(GL_PATCH_VERTICES, d->vertices);
-    glPointParameterfv(GL_PATCH_DEFAULT_INNER_LEVEL, glm::value_ptr(d->patch_def_inner_level));
-    glPointParameterfv(GL_PATCH_DEFAULT_OUTER_LEVEL, glm::value_ptr(d->patch_def_outer_level));
+    glPointSize(d->size);
+    glPointParameteri(HGL_POINT_SPRITE_COORD_ORIGIN, d->origin);
+    glPointParameterf(HGL_POINT_FADE_THRESHOLD_SIZE, d->size);
 }
 } // namespace glr

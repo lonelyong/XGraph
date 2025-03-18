@@ -11,14 +11,15 @@ class GLR_API Texture : public PixelData {
   public:
     enum Type
     {
-        TEXTURE_1D        = HGL_TEXTURE_1D,
-        TEXTURE_2D        = HGL_TEXTURE_2D,
-        TEXTURE_3D        = HGL_TEXTURE_3D,
-        TEXTURE_CUBE_MAP  = HGL_TEXTURE_CUBE_MAP,
+        TEXTURE_1D             = HGL_TEXTURE_1D,
+        TEXTURE_2D             = HGL_TEXTURE_2D,
+        TEXTURE_3D             = HGL_TEXTURE_3D,
+        TEXTURE_CUBE_MAP       = HGL_TEXTURE_CUBE_MAP,
         // require: gl1.4 or GL_ARB_texture_rectangle
         // mipmap: not supoort
         // repeat: only support clamp_to_edge
-        TEXTURE_RECTANGLE = HGL_TEXTURE_RECTANGLE
+        TEXTURE_RECTANGLE      = HGL_TEXTURE_RECTANGLE,
+        TEXTURE_2D_MULTISAMPLE = HGL_TEXTURE_2D_MULTISAMPLE
     };
 
     enum FilterParameter

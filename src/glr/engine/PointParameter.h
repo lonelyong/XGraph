@@ -6,6 +6,9 @@
 #include <glr/engine/types.h>
 
 namespace glr {
+/**
+ *
+ */
 class GLR_API PointParameter : public StateAttribute {
     VI_OBJECT_META;
 
@@ -18,7 +21,7 @@ class GLR_API PointParameter : public StateAttribute {
 
   public:
     PointParameter();
-    PointParameter(int size);
+    PointParameter(GLfloat_t size);
     virtual ~PointParameter();
 
   public:
@@ -26,12 +29,11 @@ class GLR_API PointParameter : public StateAttribute {
 
     virtual bool equals(const StateAttribute& other) const override;
 
-    /**
-     * @brief default value is -1
-     * @param vertices
-     */
-    void setSize(int vertices);
-    int  getSize() const;
+    void      setSize(GLfloat_t size);
+    GLfloat_t getSize() const;
+
+    void      setFadeThresholdSize(GLfloat_t size);
+    GLfloat_t getFadeThresholdSize() const;
 
     void              setSpriteCoordOrigin(SpriteCoordOrigin val);
     SpriteCoordOrigin getSpriteCoordOrigin() const;

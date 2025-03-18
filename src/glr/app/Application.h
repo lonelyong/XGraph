@@ -19,13 +19,9 @@ class GLR_API Application {
 
     virtual bool initGlad();
 
-    virtual bool initQt();
-
     virtual bool isGlfwInitialized() const;
 
     virtual bool isGladInitialized() const;
-
-    virtual bool isQtInitialized() const;
 
   public:
     const AppParameters& getParameters() const { return params_; }

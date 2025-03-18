@@ -7,7 +7,7 @@
 namespace glr {
 class Program;
 class CubeMap;
-// 暂不考虑多上下文共享资源
+
 class GLR_API ResourceManager {
   public:
     enum InternalShader
@@ -29,8 +29,8 @@ class GLR_API ResourceManager {
     ResourceManager();
 
   public:
-    Program*  getShader(const std::string& name);
-    Program*  getInternalShader(InternalShader shader);
+    Program* getShader(const std::string& name);
+    Program* getInternalShader(InternalShader shader);
     CubeMap* getInternalCubeMap(InternalCubeMap map);
 
   public:

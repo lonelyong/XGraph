@@ -4,19 +4,21 @@
 
 namespace glr {
 
+#pragma region BlendEquation
 VI_OBJECT_META_IMPL(BlendEquation, StateAttribute);
 
 struct BlendEquation::Data {
-    Mode mode = FUNC_ADD;
+    Equation equation_rdb   = FUNC_ADD;
+    Equation equation_alpha = FUNC_ADD;
 };
 
 BlendEquation::BlendEquation()
   : d(new Data()) {
 }
 
-BlendEquation::BlendEquation(Mode mode)
+BlendEquation::BlendEquation(Equation equation)
   : d(new Data()) {
-    d->mode = mode;
+    setEquation(equation);
 }
 
 BlendEquation::~BlendEquation() {
@@ -27,19 +29,42 @@ BlendEquation::Type BlendEquation::getType() const {
     return BLEND_EQUATION;
 }
 
-void BlendEquation::setMode(Mode mode) {
-    d->mode = mode;
+void BlendEquation::setEquation(Equation equation) {
+    d->equation_alpha = d->equation_rdb = equation;
 }
 
-BlendEquation::Mode BlendEquation::getMode() const {
-    return d->mode;
+BlendEquation::Equation BlendEquation::getEquation() const {
+    return d->equation_rdb;
+}
+
+BlendEquation::Equation BlendEquation::getEquationRGB() const {
+    return d->equation_rdb;
+}
+
+void BlendEquation::setEquationRGB(Equation equation) {
+    d->equation_rdb = equation;
+}
+
+BlendEquation::Equation BlendEquation::getEquationAlpha() const {
+    return d->equation_alpha;
+}
+
+void BlendEquation::setEquationAlpha(Equation equation) {
+    d->equation_alpha = equation;
 }
 
 void BlendEquation::apply(State& state) const {
-    glBlendEquation(d->mode);
+    if (d->equation_alpha == d->equation_rdb) {
+        glBlendEquation(d->equation_rdb);
+    }
+    else {
+        glBlendEquationSeparate(d->equation_rdb, d->equation_alpha);
+    }
 }
+#pragma endregion
 
-VI_OBJECT_META_IMPL(BlendEquation, StateAttribute);
+#pragma region BlendEquationi
+VI_OBJECT_META_IMPL(BlendEquationi, StateAttribute);
 
 struct BlendEquationi::Data {
     GLuint_t index = 0;
@@ -49,8 +74,8 @@ BlendEquationi::BlendEquationi()
   : d(new Data()) {
 }
 
-BlendEquationi::BlendEquationi(GLuint_t buf, Mode mode)
-  : BlendEquation(mode)
+BlendEquationi::BlendEquationi(GLuint_t buf, Equation equation)
+  : BlendEquation(equation)
   , d(new Data()) {
     d->index = buf;
 }
@@ -60,7 +85,7 @@ BlendEquationi::~BlendEquationi() {
 }
 
 BlendEquationi::Type BlendEquationi::getType() const {
-    return BLEND_EQUATIONI;
+    return BLEND_EQUATION;
 }
 
 void BlendEquationi::setIndex(GLuint_t index) {
@@ -72,7 +97,15 @@ GLuint_t BlendEquationi::getIndex() const {
 }
 
 void BlendEquationi::apply(State& state) const {
-    glBlendEquationi(d->index, getMode());
+    auto equation_rgb   = getEquationRGB();
+    auto equation_alpha = getEquationAlpha();
+    if (equation_rgb == equation_alpha) {
+        glBlendEquationi(d->index, equation_rgb);
+    }
+    else {
+        glBlendEquationSeparatei(d->index, equation_rgb, equation_alpha);
+    }
 }
+#pragma endregion
 
 } // namespace glr

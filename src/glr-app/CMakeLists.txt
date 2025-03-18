@@ -1,11 +1,10 @@
-﻿SET(CURRENT_TARGET_NAME vkr-core)
+﻿SET(CURRENT_TARGET_NAME glr-app)
 
-# set(Vulkan_volk_LIBRARY true)
+# find_package(sdl2 CONFIG REQUIRED)
+find_package(SDL3 CONFIG REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets OpenGL OpenGLWidgets)
 
-list(APPEND Vulkan_FIND_COMPONENTS volk)
-
-find_package(Vine REQUIRED)
-find_package(Vulkan REQUIRED COMPONENTS volk)
+qt_standard_project_setup()
 
 set(RES_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/res/)
 set(RES_OUTPUT_DIR ${CONFIG_XG_RES_OUTPUT_DIR}/${CURRENT_TARGET_NAME}/)
@@ -15,65 +14,48 @@ set(RES_IMAGE_OUTPUT_DIR ${RES_OUTPUT_DIR}images/)
 file(GLOB SRC_FILES *.cpp)
 file(GLOB HEADER_FILES *.h)
 
-file(GLOB SRC_FIELS_ENGINE engine/*.cpp engine/*.tmpl)
-file(GLOB HEADER_FIELS_ENGINE engine/*.h)
-
-file(GLOB SRC_FIELS_IO io/*.cpp)
-file(GLOB HEADER_FIELS_IO io/*.h)
-
-file(GLOB SRC_FIELS_SCENE scene/*.cpp)
-file(GLOB HEADER_FIELS_SCENE scene/*.h)
-
-file(GLOB SRC_FIELS_UTILS utils/*.cpp)
-file(GLOB HEADER_FIELS_UTILS utils/*.h)
-
 file(GLOB SRC_FIELS_APP app/*.cpp)
 file(GLOB HEADER_FIELS_APP app/*.h)
 
 file(GLOB RES_SHADER_FILES ${RES_SRC_DIR}shaders/*.*)
 file(GLOB RES_IMAGE_FILES ${RES_SRC_DIR}images/*.*)
 
-add_library(
+add_executable(
     ${CURRENT_TARGET_NAME} 
     ${SRC_FILES} 
     ${HEADER_FILES}
-    ${SRC_FIELS_ENGINE}
-    ${HEADER_FIELS_ENGINE}
-    ${SRC_FIELS_IO}
-    ${HEADER_FIELS_IO}
-    ${SRC_FIELS_SCENE}
-    ${HEADER_FIELS_SCENE}
-    ${SRC_FIELS_UTILS}
-    ${HEADER_FIELS_UTILS}
+    ${GLAD_HEADER_FILES}
     ${SRC_FIELS_APP}
     ${HEADER_FIELS_APP}
 )
 
 target_sources(${CURRENT_TARGET_NAME} PRIVATE ${RES_SHADER_FILES} ${RES_IMAGE_FILES})
 
-source_group(engine FILES ${HEADER_FIELS_ENGINE} ${SRC_FIELS_ENGINE})
-source_group(io FILES ${HEADER_FIELS_IO} ${SRC_FIELS_IO})
-source_group(scene FILES ${HEADER_FIELS_SCENE} ${SRC_FIELS_SCENE})
-source_group(utils FILES ${HEADER_FIELS_UTILS} ${SRC_FIELS_UTILS})
 source_group(app FILES ${HEADER_FIELS_APP} ${SRC_FIELS_APP})
 source_group(res/images FILES ${RES_IMAGE_FILES})
 source_group(res/shaders FILES ${RES_SHADER_FILES})
+source_group(third/glad FILES ${GLAD_HEADER_FILES})
+
+target_include_directories(${CURRENT_TARGET_NAME}
+    PRIVATE
+        ${GLAD_INCLUDE_DIR}
+        ${STB_INCLUDE_DIR}
+)
 
 target_link_libraries(${CURRENT_TARGET_NAME}
-    PUBLIC
-        glm::glm
-        vi::Core vi::Ge
     PRIVATE
+        glr-core
         xgcomm 
         glfw
-        Vulkan::Vulkan Vulkan::volk
+        SDL3::SDL3
+        Qt6::Core Qt6::Gui Qt6::Widgets Qt6::OpenGL Qt6::OpenGLWidgets
+        opengl32.lib
 )
 
 target_compile_definitions(${CURRENT_TARGET_NAME} 
     PRIVATE 
-        CURRENT_MODULE_NAME="${CURRENT_TARGET_NAME}" 
+        CURRENT_MODULE_NAME="${CURRENT_TARGET_NAME}"
         CURRENT_RES_DIR="${XG_RES_ROOT}${CURRENT_TARGET_NAME}"
-        VKR_LIB
 )
 
 set_target_properties(${CURRENT_TARGET_NAME} PROPERTIES FOLDER src)

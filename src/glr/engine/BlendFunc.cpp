@@ -3,6 +3,7 @@
 #include <glad/glad.h>
 
 namespace glr {
+#pragma region BlendFunc
 
 VI_OBJECT_META_IMPL(BlendFunc, StateAttribute);
 
@@ -15,6 +16,12 @@ struct BlendFunc::Data {
 
 BlendFunc::BlendFunc()
   : d(new Data()) {
+}
+
+BlendFunc::BlendFunc(Func source, Func dest)
+  : d(new Data()) {
+    setSource(source);
+    setDestination(dest);
 }
 
 BlendFunc::~BlendFunc() {
@@ -82,4 +89,52 @@ void BlendFunc::apply(State& state) const {
     glBlendFunc(d->source_rgb, d->dest_rgb);
 }
 
+#pragma endregion
+
+#pragma region BlendFunci
+
+VI_OBJECT_META_IMPL(BlendFunci, BlendFunc);
+
+struct BlendFunci::Data {
+    GLuint_t index = 0;
+};
+
+BlendFunci::BlendFunci()
+  : d(new Data()) {
+}
+
+BlendFunci::BlendFunci(GLuint_t buf, Func source, Func dest)
+  : BlendFunc(source, dest)
+  , d(new Data()) {
+    d->index = buf;
+}
+
+BlendFunci::~BlendFunci() {
+    delete d;
+}
+
+BlendFunci::Type BlendFunci::getType() const {
+    return BLEND_FUNC;
+}
+
+GLuint_t BlendFunci::getIndex() const {
+    return d->index;
+}
+
+void BlendFunci::setIndex(GLuint_t index) {
+    d->index = index;
+}
+
+void BlendFunci::apply(State& state) const {
+    auto source_alpha = getSourceAlpha();
+    auto source_rgb   = getSourceRGB();
+    auto dest_alpha   = getDestinationAlpha();
+    auto dest_rgb     = getDestinationRGB();
+
+    if (source_alpha != source_rgb || dest_alpha != dest_rgb) {
+        glBlendFuncSeparatei(d->index, source_rgb, dest_rgb, source_alpha, dest_alpha);
+    }
+    glBlendFunci(d->index, source_rgb, dest_rgb);
+}
+#pragma endregion
 } // namespace glr

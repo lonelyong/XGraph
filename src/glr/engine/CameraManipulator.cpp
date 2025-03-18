@@ -2,6 +2,8 @@
 
 #include <functional>
 
+#define GLM_ENABLE_EXPERIMENTAL
+
 #include <glm/ext.hpp>
 #include <glm/gtx/norm.hpp>
 #include <glm/gtx/vector_angle.hpp>

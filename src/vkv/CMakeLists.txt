@@ -70,6 +70,8 @@ target_compile_definitions(${CURRENT_TARGET_NAME}
         VKVENDERER_LIB
 )
 
+set_target_properties(${CURRENT_TARGET_NAME} PROPERTIES FOLDER src)
+
 add_custom_command(TARGET ${CURRENT_TARGET_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory ${RES_SHADER_OUTPUT_DIR})
 add_custom_command(TARGET ${CURRENT_TARGET_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory ${RES_IMAGE_OUTPUT_DIR})
 if(RES_SHADER_FILES)

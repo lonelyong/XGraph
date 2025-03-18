@@ -92,7 +92,6 @@ int main(int argc, char** argv) {
         else if (OctomapLoader::isSupported(file)) {
             OctomapLoader loader;
             loader.setRenderOption(OctomapLoader::RENDER_AS_BOX_USE_GEOMETRY_SHADER);
-            loader.setComputeBoundary(true);
             model = loader.loadFile(file);
         }
         else {

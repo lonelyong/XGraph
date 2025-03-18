@@ -1,7 +1,8 @@
 ﻿#pragma once
 
-#include <glr/engine/types.h>
 #include <glr/glr_global.h>
+
+#include <glr/engine/types.h>
 
 namespace glr {
 class Model;

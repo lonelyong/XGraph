@@ -31,6 +31,7 @@ class GLR_API BlendFunc : public StateAttribute {
 
   public:
     BlendFunc();
+    BlendFunc(Func source, Func dest);
     virtual ~BlendFunc();
 
   public:
@@ -44,7 +45,7 @@ class GLR_API BlendFunc : public StateAttribute {
 
     void setSourceAlpha(Func func) const;
     Func getSourceAlpha() const;
-   
+
     void setDestination(Func func) const;
     Func getDestination() const;
 
@@ -53,6 +54,27 @@ class GLR_API BlendFunc : public StateAttribute {
 
     void setDestinationAlpha(Func func) const;
     Func getDestinationAlpha() const;
+
+  protected:
+    virtual void apply(State& state) const override;
+
+  private:
+    VI_OBJECT_DATA;
+};
+
+class GLR_API BlendFunci : public BlendFunc {
+    VI_OBJECT_META;
+
+  public:
+    BlendFunci();
+    BlendFunci(GLuint_t buf, Func source, Func dest);
+    virtual ~BlendFunci();
+
+  public:
+    virtual Type getType() const override;
+
+    GLuint_t getIndex() const;
+    void     setIndex(GLuint_t index);
 
   protected:
     virtual void apply(State& state) const override;

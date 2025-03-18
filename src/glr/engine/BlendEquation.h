@@ -11,7 +11,7 @@ class GLR_API BlendEquation : public StateAttribute {
     VI_OBJECT_META;
 
   public:
-    enum Mode
+    enum Equation
     {
         FUNC_ADD              = HGL_FUNC_ADD,
         FUNC_SUBTRACT         = HGL_FUNC_SUBTRACT,
@@ -22,14 +22,20 @@ class GLR_API BlendEquation : public StateAttribute {
 
   public:
     BlendEquation();
-    BlendEquation(Mode mode);
+    BlendEquation(Equation mode);
     virtual ~BlendEquation();
 
   public:
     virtual Type getType() const override;
 
-    void setMode(Mode mode);
-    Mode getMode() const;
+    void     setEquation(Equation mode);
+    Equation getEquation() const;
+
+    Equation getEquationRGB() const;
+    void     setEquationRGB(Equation equation);
+
+    Equation getEquationAlpha() const;
+    void     setEquationAlpha(Equation equation);
 
   protected:
     virtual void apply(State& state) const override;
@@ -43,13 +49,13 @@ class GLR_API BlendEquationi : public BlendEquation {
 
   public:
     BlendEquationi();
-    BlendEquationi(GLuint_t buf, Mode mode);
+    BlendEquationi(GLuint_t buf, Equation equation);
     virtual ~BlendEquationi();
 
   public:
     virtual Type getType() const override;
 
-    void setIndex(GLuint_t mode);
+    void     setIndex(GLuint_t mode);
     GLuint_t getIndex() const;
 
   protected:

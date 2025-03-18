@@ -6,9 +6,6 @@
 
 #include <GLFW/glfw3.h>
 
-#include <QApplication>
-#include <QSurfaceFormat>
-
 #include <xgcomm/Environment.h>
 
 namespace glr {
@@ -16,7 +13,6 @@ namespace {
 
 bool s_is_glfw_initialized = false;
 bool s_is_glad_initialized = false;
-bool s_is_qt_initialized   = false;
 
 static Application* s_app_inst = nullptr;
 
@@ -93,26 +89,6 @@ bool Application::initGlad() {
     glfwDestroyWindow(wnd);
     printf("Initialization of GLAD succeeded\n");
 
-
-
-    return true;
-}
-
-bool Application::initQt() {
-    if (isQtInitialized()) {
-        return true;
-    }
-    QSurfaceFormat format;
-    format.setProfile(QSurfaceFormat::CoreProfile);
-    format.setSamples(4);
-    format.setVersion(params_.gl_ver_maj, params_.gl_ver_min);
-    format.setDepthBufferSize(24);
-    format.setStencilBufferSize(8);
-    format.setColorSpace(QSurfaceFormat::ColorSpace::DefaultColorSpace);
-    format.setRenderableType(QSurfaceFormat::RenderableType::OpenGL);
-
-    QSurfaceFormat::setDefaultFormat(format);
-    QApplication::setAttribute(Qt::AA_ShareOpenGLContexts, false);
     return true;
 }
 
@@ -122,10 +98,6 @@ bool Application::isGlfwInitialized() const {
 
 bool Application::isGladInitialized() const {
     return s_is_glad_initialized;
-}
-
-bool Application::isQtInitialized() const {
-    return s_is_qt_initialized;
 }
 
 Application* Application::current() {
