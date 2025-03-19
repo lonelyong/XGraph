@@ -15,8 +15,8 @@ class GLR_API PointParameter : public StateAttribute {
   public:
     enum SpriteCoordOrigin
     {
-        LOWER_LEFT = HGL_LOWER_LEFT,
-        UPPER_LEFT = HGL_UPPER_LEFT
+        LOWER_LEFT = IGL_LOWER_LEFT,
+        UPPER_LEFT = IGL_UPPER_LEFT
     };
 
   public:

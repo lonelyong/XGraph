@@ -14,12 +14,12 @@ class GLR_API Shader : public GLObject {
   public:
     enum Type
     {
-        VERTEX          = HGL_VERTEX_SHADER,
-        TESS_CONTROL    = HGL_TESS_CONTROL_SHADER,
-        TESS_EVALUATION = HGL_TESS_EVALUATION_SHADER,
-        GEOMETRY        = HGL_GEOMETRY_SHADER,
-        FRAGMENT        = HGL_FRAGMENT_SHADER,
-        COMPUTE         = HGL_COMPUTE_SHADER
+        VERTEX          = IGL_VERTEX_SHADER,
+        TESS_CONTROL    = IGL_TESS_CONTROL_SHADER,
+        TESS_EVALUATION = IGL_TESS_EVALUATION_SHADER,
+        GEOMETRY        = IGL_GEOMETRY_SHADER,
+        FRAGMENT        = IGL_FRAGMENT_SHADER,
+        COMPUTE         = IGL_COMPUTE_SHADER
     };
 
   public:

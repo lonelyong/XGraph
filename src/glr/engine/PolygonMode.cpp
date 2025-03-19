@@ -36,7 +36,7 @@ void PolygonMode::setMode(Mode mode) {
 }
 
 void PolygonMode::apply(State& state) const {
-    glPolygonMode(HGL_FRONT_AND_BACK, d->mode);
+    glPolygonMode(IGL_FRONT_AND_BACK, d->mode);
 }
 
 } // namespace glr

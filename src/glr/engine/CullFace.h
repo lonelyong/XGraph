@@ -9,9 +9,9 @@ class GLR_API CullFace : public StateAttribute {
   public:
     enum Mode
     {
-        FRONT          = HGL_FRONT,
-        BACK           = HGL_BACK,
-        FRONT_AND_BACK = HGL_FRONT_AND_BACK
+        FRONT          = IGL_FRONT,
+        BACK           = IGL_BACK,
+        FRONT_AND_BACK = IGL_FRONT_AND_BACK
     };
 
   public:

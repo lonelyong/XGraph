@@ -12,6 +12,9 @@ set(RES_IMAGE_OUTPUT_DIR ${RES_OUTPUT_DIR}images/)
 file(GLOB SRC_FILES *.cpp)
 file(GLOB HEADER_FILES *.h)
 
+file(GLOB SRC_FIELS_IGL igl/*.cpp)
+file(GLOB HEADER_FIELS_IGL igl/*.h)
+
 file(GLOB SRC_FIELS_ENGINE engine/*.cpp engine/*.tmpl)
 file(GLOB HEADER_FIELS_ENGINE engine/*.h)
 
@@ -46,10 +49,13 @@ add_library(
     ${HEADER_FIELS_UTILS}
     ${SRC_FIELS_APP}
     ${HEADER_FIELS_APP}
+    ${SRC_FIELS_IGL}
+    ${HEADER_FIELS_IGL}
 )
 
 target_sources(${CURRENT_TARGET_NAME} PRIVATE ${RES_SHADER_FILES} ${RES_IMAGE_FILES})
 
+source_group(igl FILES ${HEADER_FIELS_IGL} ${SRC_FIELS_IGL})
 source_group(engine FILES ${HEADER_FIELS_ENGINE} ${SRC_FIELS_ENGINE})
 source_group(io FILES ${HEADER_FIELS_IO} ${SRC_FIELS_IO})
 source_group(scene FILES ${HEADER_FIELS_SCENE} ${SRC_FIELS_SCENE})

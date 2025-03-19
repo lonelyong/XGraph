@@ -13,8 +13,8 @@ class GLR_API Subroutine : public UniformBase {
     enum ShaderType
     {
         NO_TYPE         = 0,
-        VERTEX_SHADER   = HGL_VERTEX_SHADER,
-        FRAGMENT_SHADER = HGL_FRAGMENT_SHADER,
+        VERTEX_SHADER   = IGL_VERTEX_SHADER,
+        FRAGMENT_SHADER = IGL_FRAGMENT_SHADER,
     };
 
   public:

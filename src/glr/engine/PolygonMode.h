@@ -9,9 +9,9 @@ class GLR_API PolygonMode : public StateAttribute {
   public:
     enum Mode
     {
-        POINT = HGL_POINT,
-        LINE  = HGL_LINE,
-        FILL  = HGL_FILL
+        POINT = IGL_POINT,
+        LINE  = IGL_LINE,
+        FILL  = IGL_FILL
     };
 
   public:

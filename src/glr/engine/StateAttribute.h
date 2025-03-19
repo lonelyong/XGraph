@@ -2,7 +2,8 @@
 
 #include <glr/glr_global.h>
 
-#include <glr/engine/GL.h>
+#include <glr/igl/GLdefs.h>
+
 #include <glr/engine/Object.h>
 
 namespace glr {

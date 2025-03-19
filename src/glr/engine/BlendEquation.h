@@ -13,11 +13,11 @@ class GLR_API BlendEquation : public StateAttribute {
   public:
     enum Equation
     {
-        FUNC_ADD              = HGL_FUNC_ADD,
-        FUNC_SUBTRACT         = HGL_FUNC_SUBTRACT,
-        FUNC_REVERSE_SUBTRACT = HGL_FUNC_REVERSE_SUBTRACT,
-        MIN                   = HGL_MIN,
-        MAX                   = HGL_MAX
+        FUNC_ADD              = IGL_FUNC_ADD,
+        FUNC_SUBTRACT         = IGL_FUNC_SUBTRACT,
+        FUNC_REVERSE_SUBTRACT = IGL_FUNC_REVERSE_SUBTRACT,
+        MIN                   = IGL_MIN,
+        MAX                   = IGL_MAX
     };
 
   public:

@@ -14,14 +14,14 @@ class GLR_API Depth : public StateAttribute {
   public:
     enum Func
     {
-        NEVER    = HGL_NEVER,
-        LESS     = HGL_LESS,
-        EQUAL    = HGL_EQUAL,
-        LEQUAL   = HGL_LEQUAL,
-        GREATER  = HGL_GREATER,
-        NOTEQUAL = HGL_NOTEQUAL,
-        GEQUAL   = HGL_GEQUAL,
-        ALWAYS   = HGL_ALWAYS
+        NEVER    = IGL_NEVER,
+        LESS     = IGL_LESS,
+        EQUAL    = IGL_EQUAL,
+        LEQUAL   = IGL_LEQUAL,
+        GREATER  = IGL_GREATER,
+        NOTEQUAL = IGL_NOTEQUAL,
+        GEQUAL   = IGL_GEQUAL,
+        ALWAYS   = IGL_ALWAYS
     };
 
   public:

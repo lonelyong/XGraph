@@ -15,29 +15,29 @@ class GLR_API Uniform : public UniformBase {
     {
         NO_TYPE = 0,
 
-        BOOL  = HGL_BOOL,      // bool
-        BVEC2 = HGL_BOOL_VEC2, // bvec2
-        BVEC3 = HGL_BOOL_VEC3, // bvec3
-        BVEC4 = HGL_BOOL_VEC4, // bvec4
+        BOOL  = IGL_BOOL,      // bool
+        BVEC2 = IGL_BOOL_VEC2, // bvec2
+        BVEC3 = IGL_BOOL_VEC3, // bvec3
+        BVEC4 = IGL_BOOL_VEC4, // bvec4
 
-        INT   = HGL_INT,      // int
-        IVEC2 = HGL_INT_VEC2, // ivec2
-        IVEC3 = HGL_INT_VEC3, // ivec3
-        IVEC4 = HGL_INT_VEC4, // ivec4
+        INT   = IGL_INT,      // int
+        IVEC2 = IGL_INT_VEC2, // ivec2
+        IVEC3 = IGL_INT_VEC3, // ivec3
+        IVEC4 = IGL_INT_VEC4, // ivec4
 
-        FLOAT   = HGL_FLOAT,      // float
-        FVEC2   = HGL_FLOAT_VEC2, // vec2
-        FVEC3   = HGL_FLOAT_VEC3, // vec3
-        FVEC4   = HGL_FLOAT_VEC4, // vec4
-        FMAT3X3 = HGL_FLOAT_MAT3, // mat3
-        FMAT4X4 = HGL_FLOAT_MAT4, // mat4
+        FLOAT   = IGL_FLOAT,      // float
+        FVEC2   = IGL_FLOAT_VEC2, // vec2
+        FVEC3   = IGL_FLOAT_VEC3, // vec3
+        FVEC4   = IGL_FLOAT_VEC4, // vec4
+        FMAT3X3 = IGL_FLOAT_MAT3, // mat3
+        FMAT4X4 = IGL_FLOAT_MAT4, // mat4
 
-        DOUBLE  = HGL_DOUBLE,      // double
-        DVEC2   = HGL_DOUBLE_VEC2, // dvec2
-        DVEC3   = HGL_DOUBLE_VEC3, // dvec3
-        DVEC4   = HGL_DOUBLE_VEC4, // dvec4
-        DMAT3X3 = HGL_DOUBLE_MAT3, // dmat3
-        DMAT4X4 = HGL_DOUBLE_MAT4, // dmat4
+        DOUBLE  = IGL_DOUBLE,      // double
+        DVEC2   = IGL_DOUBLE_VEC2, // dvec2
+        DVEC3   = IGL_DOUBLE_VEC3, // dvec3
+        DVEC4   = IGL_DOUBLE_VEC4, // dvec4
+        DMAT3X3 = IGL_DOUBLE_MAT3, // dmat3
+        DMAT4X4 = IGL_DOUBLE_MAT4, // dmat4
     };
 
   public:

@@ -13,15 +13,15 @@ class GLR_API PrimitiveSet : public Object {
   public:
     enum Mode
     {
-        MODE_POINTS        = HGL_POINTS,
-        MODE_LINES         = HGL_LINES,
-        MODE_LINE_LOOP     = HGL_LINE_LOOP,
-        MODE_LINE_STRIP    = HGL_LINE_STRIP,
-        MODE_TRIANGLES     = HGL_TRIANGLES,
-        MODE_TRIANGLE_TRIP = HGL_TRIANGLE_STRIP,
-        MODE_TRIANGLE_FAN  = HGL_TRIANGLE_FAN,
+        MODE_POINTS        = IGL_POINTS,
+        MODE_LINES         = IGL_LINES,
+        MODE_LINE_LOOP     = IGL_LINE_LOOP,
+        MODE_LINE_STRIP    = IGL_LINE_STRIP,
+        MODE_TRIANGLES     = IGL_TRIANGLES,
+        MODE_TRIANGLE_TRIP = IGL_TRIANGLE_STRIP,
+        MODE_TRIANGLE_FAN  = IGL_TRIANGLE_FAN,
         // no support in gl 3
-        MODE_QUADS         = HGL_QUADS
+        MODE_QUADS         = IGL_QUADS
     };
 
   public:

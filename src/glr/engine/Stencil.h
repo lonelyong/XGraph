@@ -2,7 +2,7 @@
 
 #include <glr/glr_global.h>
 
-#include <glr/engine/GL.h>
+#include <glr/igl/GLdefs.h>
 #include <glr/engine/StateAttribute.h>
 #include <glr/engine/types.h>
 
@@ -14,42 +14,42 @@ class GLR_API Stencil : public StateAttribute {
     enum Func
     {
         // always fails
-        NEVER    = HGL_NEVER,
+        NEVER    = IGL_NEVER,
         // Passes if ( ref & mask ) < ( stencil & mask ).
-        LESS     = HGL_LESS,
+        LESS     = IGL_LESS,
         // Passes if ( ref & mask ) <= ( stencil & mask ).
-        LEQUAL   = HGL_LEQUAL,
+        LEQUAL   = IGL_LEQUAL,
         // Passes if ( ref & mask ) > ( stencil & mask ).
-        GREATER  = HGL_GREATER,
+        GREATER  = IGL_GREATER,
         // Passes if ( ref & mask ) >= ( stencil & mask ).
-        GEQUAL   = HGL_GEQUAL,
+        GEQUAL   = IGL_GEQUAL,
         // Passes if (ref & mask) = (stencil & mask).
-        NOTEQUAL = HGL_NOTEQUAL,
+        NOTEQUAL = IGL_NOTEQUAL,
         // def value
         // Always passes.
-        ALWAYS   = HGL_ALWAYS,
+        ALWAYS   = IGL_ALWAYS,
     };
 
     enum Operation
     {
         // Keeps the current value.
-        KEEP      = HGL_KEEP,
+        KEEP      = IGL_KEEP,
         // Sets the stencil buffer value to 0
-        ZERO      = HGL_ZERO,
+        ZERO      = IGL_ZERO,
         // Sets the stencil buffer value to ref, as specified by glStencilFunc.
-        REPLACE   = HGL_REPLACE,
+        REPLACE   = IGL_REPLACE,
         // Increments the current stencil buffer value.Clamps to the maximum representable unsigned value.
-        INCR      = HGL_INCR,
+        INCR      = IGL_INCR,
         // Increments the current stencil buffer value. Wraps stencil buffer value to zero when incrementing the maximum
         // representable unsigned value.
-        INCR_WRAP = HGL_INCR_WRAP,
+        INCR_WRAP = IGL_INCR_WRAP,
         // Decrements the current stencil buffer value. Clamps to 0.
-        DECR      = HGL_DECR,
+        DECR      = IGL_DECR,
         // Decrements the current stencil buffer value. Wraps stencil buffer value to the maximum representable unsigned
         // value when decrementing a stencil buffer value of zero.
-        DECR_WRAP = HGL_DECR_WRAP,
+        DECR_WRAP = IGL_DECR_WRAP,
         // Bitwise inverts the current stencil buffer value.
-        INVERT    = HGL_INVERT,
+        INVERT    = IGL_INVERT,
     };
 
   public:

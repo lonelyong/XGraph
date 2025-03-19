@@ -9,14 +9,14 @@ class GLR_API ClipControl : public StateAttribute {
   public:
     enum Origin
     {
-        LOWER_LEFT = HGL_LOWER_LEFT,
-        UPPER_LEFT = HGL_UPPER_LEFT
+        LOWER_LEFT = IGL_LOWER_LEFT,
+        UPPER_LEFT = IGL_UPPER_LEFT
     };
 
     enum Depth
     {
-        NEGATIVE_ONE_TO_ONE = HGL_NEGATIVE_ONE_TO_ONE,
-        ZERO_TO_ONE         = HGL_ZERO_TO_ONE
+        NEGATIVE_ONE_TO_ONE = IGL_NEGATIVE_ONE_TO_ONE,
+        ZERO_TO_ONE         = IGL_ZERO_TO_ONE
     };
 
   public:

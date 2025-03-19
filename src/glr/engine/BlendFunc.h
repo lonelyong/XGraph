@@ -9,24 +9,24 @@ class GLR_API BlendFunc : public StateAttribute {
   public:
     enum Func
     {
-        ZERO                     = HGL_ZERO,
-        ONE                      = HGL_ONE,
-        SRC_COLOR                = HGL_SRC_COLOR,
-        ONE_MINUS_SRC_COLOR      = HGL_ONE_MINUS_SRC_COLOR,
-        DST_COLOR                = HGL_DST_COLOR,
-        ONE_MINUS_DST_COLOR      = HGL_ONE_MINUS_DST_COLOR,
-        SRC_ALPHA                = HGL_ALPHA,
-        ONE_MINUS_SRC_ALPHA      = HGL_ONE_MINUS_SRC_ALPHA,
-        DST_ALPHA                = HGL_ONE_MINUS_DST_ALPHA,
-        CONSTANT_COLOR           = HGL_CONSTANT_COLOR,
-        ONE_MINUS_CONSTANT_COLOR = HGL_ONE_MINUS_CONSTANT_COLOR,
-        CONSTANT_ALPHA           = HGL_CONSTANT_ALPHA,
-        ONE_MINUS_CONSTANT_ALPHA = HGL_ONE_MINUS_CONSTANT_ALPHA,
-        SRC_ALPHA_SATURATE       = HGL_SRC_ALPHA_SATURATE,
-        SRC1_COLOR               = HGL_SRC1_COLOR,
-        ONE_MINUS_SRC1_COLOR     = HGL_ONE_MINUS_SRC1_COLOR,
-        SRC1_ALPHA               = HGL_SRC1_ALPHA,
-        ONE_MINUS_SRC1_ALPHA     = HGL_ONE_MINUS_SRC1_ALPHA
+        ZERO                     = IGL_ZERO,
+        ONE                      = IGL_ONE,
+        SRC_COLOR                = IGL_SRC_COLOR,
+        ONE_MINUS_SRC_COLOR      = IGL_ONE_MINUS_SRC_COLOR,
+        DST_COLOR                = IGL_DST_COLOR,
+        ONE_MINUS_DST_COLOR      = IGL_ONE_MINUS_DST_COLOR,
+        SRC_ALPHA                = IGL_ALPHA,
+        ONE_MINUS_SRC_ALPHA      = IGL_ONE_MINUS_SRC_ALPHA,
+        DST_ALPHA                = IGL_ONE_MINUS_DST_ALPHA,
+        CONSTANT_COLOR           = IGL_CONSTANT_COLOR,
+        ONE_MINUS_CONSTANT_COLOR = IGL_ONE_MINUS_CONSTANT_COLOR,
+        CONSTANT_ALPHA           = IGL_CONSTANT_ALPHA,
+        ONE_MINUS_CONSTANT_ALPHA = IGL_ONE_MINUS_CONSTANT_ALPHA,
+        SRC_ALPHA_SATURATE       = IGL_SRC_ALPHA_SATURATE,
+        SRC1_COLOR               = IGL_SRC1_COLOR,
+        ONE_MINUS_SRC1_COLOR     = IGL_ONE_MINUS_SRC1_COLOR,
+        SRC1_ALPHA               = IGL_SRC1_ALPHA,
+        ONE_MINUS_SRC1_ALPHA     = IGL_ONE_MINUS_SRC1_ALPHA
     };
 
   public:

@@ -62,7 +62,7 @@ PointParameter::SpriteCoordOrigin PointParameter::getSpriteCoordOrigin() const {
 
 void PointParameter::apply(State& state) const {
     glPointSize(d->size);
-    glPointParameteri(HGL_POINT_SPRITE_COORD_ORIGIN, d->origin);
-    glPointParameterf(HGL_POINT_FADE_THRESHOLD_SIZE, d->size);
+    glPointParameteri(IGL_POINT_SPRITE_COORD_ORIGIN, d->origin);
+    glPointParameterf(IGL_POINT_FADE_THRESHOLD_SIZE, d->size);
 }
 } // namespace glr

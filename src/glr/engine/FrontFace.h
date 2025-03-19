@@ -9,8 +9,8 @@ class GLR_API FrontFace : public StateAttribute {
   public:
     enum Mode
     {
-        CW  = HGL_CW,
-        CCW = HGL_CCW,
+        CW  = IGL_CW,
+        CCW = IGL_CCW,
     };
 
   public:

@@ -56,7 +56,7 @@ GLenum_t BufferObject::getBindingOfTarget(Target target) {
     case UNIFORM_BUFFER: return GL_UNIFORM_BUFFER_BINDING;
     case SHADER_STORAGE_BUFFER: return GL_SHADER_STORAGE_BUFFER_BINDING;
     case DRAW_INDIRECT_BUFFER: return GL_DRAW_INDIRECT_BUFFER_BINDING;
-    default: HGL_ZERO;
+    default: IGL_ZERO;
     }
 }
 } // namespace glr

@@ -30,7 +30,7 @@ BufferObject::Usage PixelBufferObject::getUsage() const {
 
 GLuint_t PixelBufferObject::onCreate(State& state) {
     auto id = BufferObject::onCreate(state);
-    if (id != HGL_ZERO) {
+    if (id != IGL_ZERO) {
         if (getTarget() == PIXEL_PACK_BUFFER) {
         }
     }

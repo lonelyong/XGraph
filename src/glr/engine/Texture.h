@@ -11,58 +11,58 @@ class GLR_API Texture : public PixelData {
   public:
     enum Type
     {
-        TEXTURE_1D             = HGL_TEXTURE_1D,
-        TEXTURE_2D             = HGL_TEXTURE_2D,
-        TEXTURE_3D             = HGL_TEXTURE_3D,
-        TEXTURE_CUBE_MAP       = HGL_TEXTURE_CUBE_MAP,
+        TEXTURE_1D             = IGL_TEXTURE_1D,
+        TEXTURE_2D             = IGL_TEXTURE_2D,
+        TEXTURE_3D             = IGL_TEXTURE_3D,
+        TEXTURE_CUBE_MAP       = IGL_TEXTURE_CUBE_MAP,
         // require: gl1.4 or GL_ARB_texture_rectangle
         // mipmap: not supoort
         // repeat: only support clamp_to_edge
-        TEXTURE_RECTANGLE      = HGL_TEXTURE_RECTANGLE,
-        TEXTURE_2D_MULTISAMPLE = HGL_TEXTURE_2D_MULTISAMPLE
+        TEXTURE_RECTANGLE      = IGL_TEXTURE_RECTANGLE,
+        TEXTURE_2D_MULTISAMPLE = IGL_TEXTURE_2D_MULTISAMPLE
     };
 
     enum FilterParameter
     {
-        MIN_FILTER = HGL_TEXTURE_MIN_FILTER,
+        MIN_FILTER = IGL_TEXTURE_MIN_FILTER,
         // Only support LINEAR,NEAREST, use base level
-        MAX_FILTER = HGL_TEXTURE_MAG_FILTER
+        MAX_FILTER = IGL_TEXTURE_MAG_FILTER
     };
 
     enum FilterMode
     {
-        FILTER_UNSET           = HGL_ZERO,
+        FILTER_UNSET           = IGL_ZERO,
         // 在Mip基层上执行最邻近过滤
-        LINEAR                 = HGL_LINEAR,
+        LINEAR                 = IGL_LINEAR,
         // 在Mip基层上执行最邻近过滤
-        NEAREST                = HGL_NEAREST,
+        NEAREST                = IGL_NEAREST,
         // 在最邻近Mip层，并执行线性过滤
-        LINEAR_MIPMAP_NEAREST  = HGL_LINEAR_MIPMAP_NEAREST,
+        LINEAR_MIPMAP_NEAREST  = IGL_LINEAR_MIPMAP_NEAREST,
         // 在最邻近Mip层，并执行最邻近过滤
-        NEAREST_MIPMAP_NEAREST = HGL_NEAREST_MIPMAP_NEAREST,
+        NEAREST_MIPMAP_NEAREST = IGL_NEAREST_MIPMAP_NEAREST,
         // 在Mip层之间执行线性插补，并执行最邻近过滤
-        NEAREST_MIPMAP_LINEAR  = HGL_NEAREST_MIPMAP_LINEAR,
+        NEAREST_MIPMAP_LINEAR  = IGL_NEAREST_MIPMAP_LINEAR,
         // 在Mip层之间执⾏线性插补，并执⾏线性过滤，又称三线性Mip贴图
-        LINEAR_MIPMAP_LINEAR   = HGL_LINEAR_MIPMAP_LINEAR
+        LINEAR_MIPMAP_LINEAR   = IGL_LINEAR_MIPMAP_LINEAR
     };
 
     enum WrapMode
     {
-        WRAP_UNSET      = HGL_ZERO,
+        WRAP_UNSET      = IGL_ZERO,
         // Not support in gl3
         CLAMP           = 0x2900,
-        CLAMP_TO_EDGE   = HGL_CLAMP_TO_EDGE,
-        CLAMP_TO_BORDER = HGL_CLAMP_TO_BORDER,
+        CLAMP_TO_EDGE   = IGL_CLAMP_TO_EDGE,
+        CLAMP_TO_BORDER = IGL_CLAMP_TO_BORDER,
         // Not suport NPOT
-        REPEAT          = HGL_REPEAT,
-        MIRROR          = HGL_MIRRORED_REPEAT
+        REPEAT          = IGL_REPEAT,
+        MIRROR          = IGL_MIRRORED_REPEAT
     };
 
     enum WrapParameter
     {
-        WRAP_S = HGL_TEXTURE_WRAP_S,
-        WRAP_T = HGL_TEXTURE_WRAP_T,
-        WRAP_R = HGL_TEXTURE_WRAP_R
+        WRAP_S = IGL_TEXTURE_WRAP_S,
+        WRAP_T = IGL_TEXTURE_WRAP_T,
+        WRAP_R = IGL_TEXTURE_WRAP_R
     };
 
   public:
