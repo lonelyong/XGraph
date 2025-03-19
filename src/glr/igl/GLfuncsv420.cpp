@@ -2,6 +2,8 @@
 
 namespace glr {
 
+VI_OBJECT_META_IMPL(GLfuncsv420, GLfuncsv410);
+
 GLfuncsv420::GLfuncsv420()
   : glBindImageTexture(nullptr)
   , glDrawArraysInstancedBaseInstance(nullptr)

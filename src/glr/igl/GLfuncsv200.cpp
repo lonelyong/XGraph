@@ -1,6 +1,9 @@
 #include <glr/igl/GLfuncsv200.h>
 
 namespace glr {
+
+VI_OBJECT_META_IMPL(GLfuncsv200, GLfuncsv150);
+
 GLfuncsv200::GLfuncsv200()
   : glad_glAttachShader(nullptr)
   , glad_glBindAttribLocation(nullptr)

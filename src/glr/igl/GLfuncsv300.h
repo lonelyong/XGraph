@@ -4,6 +4,8 @@
 
 namespace glr {
 class GLR_API GLfuncsv300 : public GLfuncsv210 {
+    VI_OBJECT_META;
+
   public:
     typedef void(APIENTRYP PFNGLCOLORMASKIPROC)(GLuint index, GLboolean r, GLboolean g, GLboolean b, GLboolean a);
     PFNGLCOLORMASKIPROC glColorMaski;

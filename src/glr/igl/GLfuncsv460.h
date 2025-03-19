@@ -4,6 +4,8 @@
 
 namespace glr {
 class GLR_API GLfuncsv460 : public GLfuncsv450 {
+    VI_OBJECT_META;
+
   public:
     typedef void(APIENTRYP PFNGLSPECIALIZESHADERPROC)(GLuint        shader,
                                                       const GLchar* pEntryPoint,

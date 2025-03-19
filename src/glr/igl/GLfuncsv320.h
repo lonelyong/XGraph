@@ -4,6 +4,8 @@
 
 namespace glr {
 class GLR_API GLfuncsv320 : public GLfuncsv310 {
+    VI_OBJECT_META;
+
   public:
     using GLint64  = GLint64_t;
     using GLuint64 = GLuint64_t;

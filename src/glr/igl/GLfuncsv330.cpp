@@ -1,6 +1,9 @@
 #include "GLfuncsv330.h"
 
 namespace glr {
+
+VI_OBJECT_META_IMPL(GLfuncsv330, GLfuncsv320);
+
 glr::GLfuncsv330::GLfuncsv330()
   : glBindFragDataLocationIndexed(nullptr)
   , glBindSampler(nullptr)

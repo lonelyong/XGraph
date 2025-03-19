@@ -4,6 +4,8 @@
 
 namespace glr {
 class GLR_API GLfuncsv420 : public GLfuncsv410 {
+    VI_OBJECT_META;
+
   public:
     typedef void(APIENTRYP PFNGLDRAWARRAYSINSTANCEDBASEINSTANCEPROC)(GLenum  mode,
                                                                      GLint   first,

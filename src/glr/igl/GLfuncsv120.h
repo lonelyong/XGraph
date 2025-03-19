@@ -4,6 +4,8 @@
 
 namespace glr {
 class GLR_API GLfuncsv120 : public GLfuncsv110 {
+    VI_OBJECT_META;
+
   public:
     typedef void(APIENTRYP PFNGLDRAWRANGEELEMENTSPROC)(GLenum      mode,
                                                        GLuint      start,

@@ -2,6 +2,9 @@
 
 
 namespace glr {
+
+VI_OBJECT_META_IMPL(GLfuncsv150, GLfuncsv140);
+
 GLfuncsv150::GLfuncsv150()
   : glBeginQuery(nullptr)
   , glBindBuffer(nullptr)

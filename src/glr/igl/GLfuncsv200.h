@@ -4,6 +4,8 @@
 
 namespace glr {
 class GLR_API GLfuncsv200 : public GLfuncsv150 {
+    VI_OBJECT_META;
+
   public:
     using GLshort  = GLshort_t;
     using GLushort = GLushort_t;

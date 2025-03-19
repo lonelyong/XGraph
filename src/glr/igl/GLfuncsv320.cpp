@@ -1,5 +1,9 @@
 #include "GLfuncsv320.h"
 
+namespace glr {
+
+VI_OBJECT_META_IMPL(GLfuncsv320, GLfuncsv310);
+
 glr::GLfuncsv320::GLfuncsv320()
   : glClientWaitSync(nullptr)
   , glDeleteSync(nullptr)
@@ -47,3 +51,5 @@ void glr::GLfuncsv320::loadFuncs(Loader loader) {
     glTexImage3DMultisample = reinterpret_cast<PFNGLTEXIMAGE3DMULTISAMPLEPROC>(loader("glTexImage3DMultisample"));
     glWaitSync              = reinterpret_cast<PFNGLWAITSYNCPROC>(loader("glWaitSync"));
 }
+}
+

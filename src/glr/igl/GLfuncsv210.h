@@ -4,6 +4,8 @@
 
 namespace glr {
 class GLR_API GLfuncsv210 : public GLfuncsv200 {
+    VI_OBJECT_META;
+
   public:
     typedef void(APIENTRYP PFNGLUNIFORMMATRIX2X3FVPROC)(GLint          location,
                                                         GLsizei        count,

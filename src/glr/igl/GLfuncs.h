@@ -13,10 +13,16 @@ class GLR_API GLfuncs : public vine::Object {
     VI_OBJECT_META;
 
   public:
-    typedef GLubyte_t* (*Loader)(const char* fn);
+    typedef void* (*Loader)(const char* fn);
 
   public:
-    static GLfuncs* load(Loader loader);
+    const int major_version;
+    const int minor_version;
+
+  public:
+    static GLfuncs* loadGLLoader(Loader loader);
+
+    static GLfuncs* load();
 
   protected:
     virtual void loadFuncs(Loader loader) {}

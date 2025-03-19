@@ -4,6 +4,8 @@
 
 namespace glr {
 class GLR_API GLfuncsv110 : public GLfuncsv100 {
+    VI_OBJECT_META;
+
   public:
     typedef void(APIENTRYP PFNGLDRAWARRAYSPROC)(GLenum mode, GLint first, GLsizei count);
     PFNGLDRAWARRAYSPROC glDrawArrays;

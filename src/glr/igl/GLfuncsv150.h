@@ -4,6 +4,8 @@
 
 namespace glr {
 class GLR_API GLfuncsv150 : public GLfuncsv140 {
+    VI_OBJECT_META;
+
   public:
     using GLintptr   = GLintptr_t;
     using GLsizeiptr = GLsizeiptr_t;

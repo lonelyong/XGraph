@@ -2,6 +2,9 @@
 
 
 namespace glr {
+
+VI_OBJECT_META_IMPL(GLfuncsv140, GLfuncsv130);
+
 GLfuncsv140::GLfuncsv140()
   : glBlendColor(nullptr)
   , glBlendEquation(nullptr)

@@ -1,6 +1,9 @@
 #include "GLfuncsv450.h"
 
 namespace glr {
+
+VI_OBJECT_META_IMPL(GLfuncsv450, GLfuncsv440);
+
 GLfuncsv450::GLfuncsv450()
   : glBindTextureUnit(nullptr)
   , glBlitNamedFramebuffer(nullptr)

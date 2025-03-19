@@ -2,6 +2,8 @@
 
 namespace glr {
 
+VI_OBJECT_META_IMPL(GLfuncsv300, GLfuncsv210);
+
 GLfuncsv300::GLfuncsv300()
   : glBeginConditionalRender(nullptr)
   , glBeginTransformFeedback(nullptr)

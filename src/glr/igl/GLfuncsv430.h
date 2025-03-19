@@ -4,6 +4,8 @@
 
 namespace glr {
 class GLR_API GLfuncsv430 : public GLfuncsv420 {
+    VI_OBJECT_META;
+
   public:
     typedef void(APIENTRY* GLDEBUGPROC)(GLenum        source,
                                         GLenum        type,

@@ -1,6 +1,9 @@
 #include "GLfuncsv460.h"
 
 namespace glr {
+
+VI_OBJECT_META_IMPL(GLfuncsv460, GLfuncsv450);
+
 GLfuncsv460::GLfuncsv460()
   : glMultiDrawArraysIndirectCount(nullptr)
   , glMultiDrawElementsIndirectCount(nullptr)

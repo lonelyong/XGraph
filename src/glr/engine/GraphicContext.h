@@ -8,6 +8,7 @@
 namespace glr {
 class State;
 class Capabilities;
+class GLfuncs;
 
 class GLR_API GraphicContext : public Object {
     VI_OBJECT_META;
@@ -49,6 +50,8 @@ class GLR_API GraphicContext : public Object {
     EventQueue*  getEventQueue() const;
 
     const Capabilities& getCapabilities() const;
+
+    GLfuncs* getFuncs() const;
 
   public:
     static GraphicContext* getContextById(int id);

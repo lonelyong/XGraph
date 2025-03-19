@@ -4,6 +4,8 @@
 
 namespace glr {
 class GLR_API GLfuncsv440 : public GLfuncsv430 {
+    VI_OBJECT_META;
+
   public:
     typedef void(APIENTRYP PFNGLBUFFERSTORAGEPROC)(GLenum target, GLsizeiptr size, const void* data, GLbitfield flags);
     PFNGLBUFFERSTORAGEPROC glBufferStorage;

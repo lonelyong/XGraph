@@ -1,6 +1,9 @@
 #include "GLfuncsv410.h"
 
 namespace glr {
+
+VI_OBJECT_META_IMPL(GLfuncsv410, GLfuncsv400);
+
 GLfuncsv410::GLfuncsv410()
   : glActiveShaderProgram(nullptr)
   , glBindProgramPipeline(nullptr)

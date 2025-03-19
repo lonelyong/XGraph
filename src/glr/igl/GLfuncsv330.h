@@ -4,6 +4,8 @@
 
 namespace glr {
 class GLR_API GLfuncsv330 : public GLfuncsv320 {
+    VI_OBJECT_META;
+
   public:
     typedef void(APIENTRYP PFNGLBINDFRAGDATALOCATIONINDEXEDPROC)(GLuint        program,
                                                                  GLuint        colorNumber,

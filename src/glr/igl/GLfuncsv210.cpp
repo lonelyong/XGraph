@@ -2,6 +2,8 @@
 
 namespace glr {
 
+VI_OBJECT_META_IMPL(GLfuncsv210, GLfuncsv200);
+
 GLfuncsv210::GLfuncsv210()
   : glUniformMatrix2x3fv(nullptr)
   , glUniformMatrix2x4fv(nullptr)

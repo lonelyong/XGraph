@@ -4,6 +4,8 @@
 
 namespace glr {
 class GLR_API GLfuncsv130 : public GLfuncsv120 {
+    VI_OBJECT_META;
+
     typedef void(APIENTRYP PFNGLACTIVETEXTUREPROC)(GLenum texture);
     PFNGLACTIVETEXTUREPROC glActiveTexture;
 

@@ -25,6 +25,8 @@
 namespace glr {
 
 class GLR_API GLfuncsv100 : public GLfuncs {
+    VI_OBJECT_META;
+
   public:
     using GLenum     = GLenum_t;
     using GLuint     = GLuint_t;

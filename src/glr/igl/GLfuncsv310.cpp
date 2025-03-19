@@ -1,6 +1,9 @@
 #include "GLfuncsv310.h"
 
 namespace glr {
+
+VI_OBJECT_META_IMPL(GLfuncsv310, GLfuncsv300);
+
 GLfuncsv310::GLfuncsv310()
   : glDrawArraysInstanced(nullptr)
   , glDrawElementsInstanced(nullptr)

@@ -7,9 +7,12 @@
 
 #include <vine/core/Ptr.h>
 
+#include <xgcomm/Text.h>
+
 #include <glr/engine/Capabilities.h>
 #include <glr/engine/State.h>
-#include <xgcomm/Text.h>
+#include <glr/igl/GLfuncs.h>
+
 
 
 namespace glr {
@@ -61,6 +64,7 @@ struct GraphicContext::Data {
     vine::RefPtr<State>      state;
     vine::RefPtr<EventQueue> events;
     Capabilities             caps;
+    vine::RefPtr<GLfuncs>    funcs;
 };
 
 int GraphicContext::Data::max_id = 0;
@@ -95,6 +99,8 @@ GraphicContext* GraphicContext::getContextById(int id) {
 bool GraphicContext::realize() {
     if (d->is_initialized) return true;
 
+    d->funcs = GLfuncs::load();
+
     glEnable(GL_DEBUG_OUTPUT);
     glDebugMessageCallback(debugMessageCallback, this);
     glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
@@ -120,5 +126,8 @@ GraphicContext::EventQueue* GraphicContext::getEventQueue() const {
 
 const Capabilities& GraphicContext::getCapabilities() const {
     return d->caps;
+}
+GLfuncs* GraphicContext::getFuncs() const {
+    return d->funcs.get();
 }
 } // namespace glr

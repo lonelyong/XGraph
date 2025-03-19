@@ -1,6 +1,9 @@
 #include <glr/igl/GLfuncsv100.h>
 
 namespace glr {
+
+VI_OBJECT_META_IMPL(GLfuncsv100, GLfuncs);
+
 GLfuncsv100::GLfuncsv100()
   : glCullFace(nullptr)
   , glFrontFace(nullptr)

@@ -4,6 +4,8 @@
 
 namespace glr {
 class GLR_API GLfuncsv400 : public GLfuncsv330 {
+    VI_OBJECT_META;
+
   public:
     typedef void(APIENTRYP PFNGLMINSAMPLESHADINGPROC)(GLfloat value);
     PFNGLMINSAMPLESHADINGPROC glMinSampleShading;

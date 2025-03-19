@@ -1,6 +1,9 @@
 #include <glr/igl/GLfuncsv130.h>
 
 namespace glr {
+
+VI_OBJECT_META_IMPL(GLfuncsv130, GLfuncsv120);
+
 GLfuncsv130::GLfuncsv130()
   : glActiveTexture(nullptr)
   , glCompressedTexImage1D(nullptr)

@@ -1,6 +1,9 @@
 #include <glr/igl/GLfuncsv120.h>
 
 namespace glr {
+
+VI_OBJECT_META_IMPL(GLfuncsv120, GLfuncsv110);
+
 GLfuncsv120::GLfuncsv120()
   : glDrawRangeElements(nullptr)
   , glTexImage3D(nullptr)

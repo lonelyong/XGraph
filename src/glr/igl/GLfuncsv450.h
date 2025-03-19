@@ -4,6 +4,8 @@
 
 namespace glr {
 class GLR_API GLfuncsv450 : public GLfuncsv440 {
+    VI_OBJECT_META;
+
   public:
     typedef void(APIENTRYP PFNGLCLIPCONTROLPROC)(GLenum origin, GLenum depth);
     PFNGLCLIPCONTROLPROC glClipControl;

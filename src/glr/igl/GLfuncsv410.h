@@ -4,6 +4,8 @@
 
 namespace glr {
 class GLR_API GLfuncsv410 : public GLfuncsv400 {
+    VI_OBJECT_META;
+
   public:
     typedef void(APIENTRYP PFNGLRELEASESHADERCOMPILERPROC)(void);
     PFNGLRELEASESHADERCOMPILERPROC glReleaseShaderCompiler;

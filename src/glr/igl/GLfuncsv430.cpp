@@ -2,6 +2,8 @@
 
 namespace glr {
 
+VI_OBJECT_META_IMPL(GLfuncsv430, GLfuncsv420);
+
 GLfuncsv430::GLfuncsv430()
   : glBindVertexBuffer(nullptr)
   , glClearBufferData(nullptr)

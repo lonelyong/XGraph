@@ -2,6 +2,9 @@
 
 namespace glr {
 
+VI_OBJECT_META_IMPL(GLfuncsv440, GLfuncsv430);
+
+
 GLfuncsv440::GLfuncsv440()
   : glBindBuffersBase(nullptr)
   , glBindBuffersRange(nullptr)

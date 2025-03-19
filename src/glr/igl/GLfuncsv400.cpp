@@ -1,6 +1,9 @@
 #include "GLfuncsv400.h"
 
 namespace glr {
+
+VI_OBJECT_META_IMPL(GLfuncsv400, GLfuncsv330);
+
 GLfuncsv400::GLfuncsv400()
   : glBeginQueryIndexed(nullptr)
   , glBindTransformFeedback(nullptr)

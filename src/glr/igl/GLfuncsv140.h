@@ -4,6 +4,8 @@
 
 namespace glr {
 class GLR_API GLfuncsv140 : public GLfuncsv130 {
+    VI_OBJECT_META;
+
   public:
     typedef void(APIENTRYP PFNGLBLENDFUNCSEPARATEPROC)(GLenum sfactorRGB,
                                                        GLenum dfactorRGB,

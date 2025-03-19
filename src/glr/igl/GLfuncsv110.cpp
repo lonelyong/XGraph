@@ -1,6 +1,9 @@
 #include <glr/igl/GLfuncsv110.h>
 
 namespace glr {
+
+VI_OBJECT_META_IMPL(GLfuncsv110, GLfuncsv100);
+
 GLfuncsv110::GLfuncsv110()
   : glBindTexture(nullptr)
   , glCopyTexImage1D(nullptr)
@@ -20,9 +23,9 @@ GLfuncsv110::GLfuncsv110()
 
 void GLfuncsv110::loadFuncs(Loader loader) {
     GLfuncsv100::loadFuncs(loader);
-    glBindTexture = reinterpret_cast<PFNGLBINDTEXTUREPROC>(loader("glBindTexture"));
-    glCopyTexImage1D = reinterpret_cast<PFNGLCOPYTEXIMAGE1DPROC>(loader("glCopyTexImage1D"));
-    glCopyTexImage2D = reinterpret_cast<PFNGLCOPYTEXIMAGE2DPROC>(loader("glCopyTexImage2D"));
+    glBindTexture       = reinterpret_cast<PFNGLBINDTEXTUREPROC>(loader("glBindTexture"));
+    glCopyTexImage1D    = reinterpret_cast<PFNGLCOPYTEXIMAGE1DPROC>(loader("glCopyTexImage1D"));
+    glCopyTexImage2D    = reinterpret_cast<PFNGLCOPYTEXIMAGE2DPROC>(loader("glCopyTexImage2D"));
     glCopyTexSubImage1D = reinterpret_cast<PFNGLCOPYTEXSUBIMAGE1DPROC>(loader("glCopyTexSubImage1D"));
     glCopyTexSubImage2D = reinterpret_cast<PFNGLCOPYTEXSUBIMAGE2DPROC>(loader("glCopyTexSubImage2D"));
     glDeleteTextures    = reinterpret_cast<PFNGLDELETETEXTURESPROC>(loader("glDeleteTextures"));
