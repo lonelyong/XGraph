@@ -1,13 +1,15 @@
 ﻿#include <glr/scene/Geometry.h>
 
-#include <glad/glad.h>
+
 
 #include <vine/core/Ptr.h>
 
+#include <glr/engine/GraphicContext.h>
 #include <glr/engine/Program.h>
 #include <glr/engine/State.h>
 #include <glr/engine/Texture.h>
 #include <glr/engine/VertexArrayObject.h>
+#include <glr/igl/GLfuncs.h>
 
 namespace glr {
 VI_OBJECT_META_IMPL(Geometry, Drawable);
@@ -18,11 +20,11 @@ constexpr int COLOR_LOC     = 2;
 constexpr int TEX_COORD_LOC = 10;
 
 struct Geometry::Data {
-    vine::RefPtr<VertexArrayObject>             vao;
+    vine::RefPtr<VertexArrayObject>               vao;
     std::map<GLuint_t, vine::RefPtr<ArrayBuffer>> vbos;
 
     std::vector<std::pair<GLuint_t, vine::RefPtr<Texture>>> textures;
-    std::map<GLuint_t, GLuint_t>                              texture_locs;
+    std::map<GLuint_t, GLuint_t>                            texture_locs;
     std::map<GLuint_t, std::string>                         texture_names;
 
     std::vector<vine::RefPtr<PrimitiveSet>> primitives;
@@ -272,6 +274,7 @@ void Geometry::draw(State& state) {
     if (d->primitives.empty()) return;
 
     auto shader = state.getCurrentProgram();
+    auto funcs  = state.getContext()->getFuncs();
     if (!d->vao) {
         auto vbos = d->vbos;
 
@@ -307,23 +310,28 @@ void Geometry::draw(State& state) {
             if (arr->size() > 1) {
                 arr->bind(state);
                 auto size_of_item = arr->sizeOfItem();
-                glVertexAttribPointer(loc, size_of_item / sizeof(GLfloat), GL_FLOAT, GL_FALSE, size_of_item, 0);
-                glEnableVertexAttribArray(loc);
+                funcs->iglVertexAttribPointer(loc,
+                                              size_of_item / sizeof(GLfloat_t),
+                                              IGL_FLOAT,
+                                              IGL_FALSE,
+                                              size_of_item,
+                                              0);
+                funcs->iglEnableVertexAttribArray(loc);
                 arr->unbind(state);
             }
             else {
                 auto arr_type = arr->getType();
                 if (arr_type == ArrayBuffer::ARRAY_VEC2F) {
                     Vec2f val = arr->empty() ? Vec2f(0.f, 0.f) : *(Vec2f*)arr->valueAt(0);
-                    glVertexAttrib2f(loc, val.x, val.y);
+                    funcs->iglVertexAttrib2f(loc, val.x, val.y);
                 }
                 else if (arr_type == ArrayBuffer::ARRAY_VEC3F) {
                     Vec3f val = arr->empty() ? Vec3f(0.f, 0.f, 0.f) : *(Vec3f*)arr->valueAt(0);
-                    glVertexAttrib3f(loc, val.x, val.y, val.z);
+                    funcs->iglVertexAttrib3f(loc, val.x, val.y, val.z);
                 }
                 else if (arr_type == ArrayBuffer::ARRAY_VEC4F) {
                     Vec4f val = arr->empty() ? Vec4f(0.f, 0.f, 0.f, 1.0f) : *(Vec4f*)arr->valueAt(0);
-                    glVertexAttrib4f(loc, val.x, val.y, val.z, val.a);
+                    funcs->iglVertexAttrib4f(loc, val.x, val.y, val.z, val.a);
                 }
                 else {
                     printf("\n Unsupport array type.\n");
@@ -337,25 +345,25 @@ void Geometry::draw(State& state) {
     for (auto& kv : d->textures) {
         auto  unit = kv.first;
         auto& tex  = kv.second;
-        glActiveTexture(unit);
+        funcs->iglActiveTexture(unit);
         tex->bind(state);
         if (d->texture_locs.contains(unit)) {
-            shader->set(state, d->texture_locs[unit], (GLint)unit - GL_TEXTURE0);
+            shader->set(state, d->texture_locs[unit], (GLint_t)unit - IGL_TEXTURE0);
         }
         else {
-            shader->set(state, d->texture_names[unit], (GLint)unit - GL_TEXTURE0);
+            shader->set(state, d->texture_names[unit], (GLint_t)unit - IGL_TEXTURE0);
         }
     }
 
     for (auto priv : d->primitives) {
-        priv->draw();
+        priv->draw(state);
     }
     d->vao->unbind(state);
     for (auto& kv : d->textures) {
         auto  unit = kv.first;
         auto& tex  = kv.second;
         if (!tex) continue;
-        glActiveTexture(unit);
+        funcs->iglActiveTexture(unit);
         tex->unbind(state);
     }
 }

@@ -1,9 +1,12 @@
 #include <glr/engine/PatchParameter.h>
 
-#include <glad/glad.h>
+
 #include <glm/gtc/type_ptr.hpp>
 
+#include <glr/engine/GraphicContext.h>
+#include <glr/engine/State.h>
 #include <glr/engine/types.h>
+#include <glr/igl/GLfuncs.h>
 
 VI_OBJECT_META_IMPL(glr::PatchParameter, glr::StateAttribute)
 
@@ -32,7 +35,6 @@ StateAttribute::Type PatchParameter::getType() const {
 
 bool PatchParameter::equals(const StateAttribute& other) const {
     if (other.isKindOf(PatchParameter::desc())) {
-      
     }
     return false;
 }
@@ -62,8 +64,9 @@ const Vec4f& PatchParameter::getPatchDefaultOuterLevel() const {
 }
 
 void PatchParameter::apply(State& state) const {
-    glPatchParameteri(GL_PATCH_VERTICES, d->vertices);
-    glPatchParameterfv(GL_PATCH_DEFAULT_INNER_LEVEL, glm::value_ptr(d->patch_def_inner_level));
-    glPatchParameterfv(GL_PATCH_DEFAULT_OUTER_LEVEL, glm::value_ptr(d->patch_def_outer_level));
+    auto funcs = state.getContext()->getFuncs();
+    funcs->iglPatchParameteri(IGL_PATCH_VERTICES, d->vertices);
+    funcs->iglPatchParameterfv(IGL_PATCH_DEFAULT_INNER_LEVEL, glm::value_ptr(d->patch_def_inner_level));
+    funcs->iglPatchParameterfv(IGL_PATCH_DEFAULT_OUTER_LEVEL, glm::value_ptr(d->patch_def_outer_level));
 }
 } // namespace glr

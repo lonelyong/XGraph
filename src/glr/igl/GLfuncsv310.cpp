@@ -2,36 +2,36 @@
 
 namespace glr {
 
-VI_OBJECT_META_IMPL(GLfuncsv310, GLfuncsv300);
 
 GLfuncsv310::GLfuncsv310()
-  : glDrawArraysInstanced(nullptr)
-  , glDrawElementsInstanced(nullptr)
-  , glTexBuffer(nullptr)
-  , glPrimitiveRestartIndex(nullptr)
-  , glCopyBufferSubData(nullptr)
-  , glGetUniformIndices(nullptr)
-  , glGetActiveUniformsiv(nullptr)
-  , glGetActiveUniformName(nullptr)
-  , glGetUniformBlockIndex(nullptr)
-  , glGetActiveUniformBlockiv(nullptr)
-  , glUniformBlockBinding(nullptr)
-  , glGetActiveUniformBlockName(nullptr) {
+  : iglDrawArraysInstanced(nullptr)
+  , iglDrawElementsInstanced(nullptr)
+  , iglTexBuffer(nullptr)
+  , iglPrimitiveRestartIndex(nullptr)
+  , iglCopyBufferSubData(nullptr)
+  , iglGetUniformIndices(nullptr)
+  , iglGetActiveUniformsiv(nullptr)
+  , iglGetActiveUniformName(nullptr)
+  , iglGetUniformBlockIndex(nullptr)
+  , iglGetActiveUniformBlockiv(nullptr)
+  , iglUniformBlockBinding(nullptr)
+  , iglGetActiveUniformBlockName(nullptr) {
 }
 
 void GLfuncsv310::loadFuncs(Loader loader) {
-    glDrawArraysInstanced     = reinterpret_cast<PFNGLDRAWARRAYSINSTANCEDPROC>(loader("glDrawArraysInstanced"));
-    glDrawElementsInstanced   = reinterpret_cast<PFNGLDRAWELEMENTSINSTANCEDPROC>(loader("glDrawElementsInstanced"));
-    glTexBuffer               = reinterpret_cast<PFNGLTEXBUFFERPROC>(loader("glTexBuffer"));
-    glPrimitiveRestartIndex   = reinterpret_cast<PFNGLPRIMITIVERESTARTINDEXPROC>(loader("glPrimitiveRestartIndex"));
-    glCopyBufferSubData       = reinterpret_cast<PFNGLCOPYBUFFERSUBDATAPROC>(loader("glCopyBufferSubData"));
-    glGetUniformIndices       = reinterpret_cast<PFNGLGETUNIFORMINDICESPROC>(loader("glGetUniformIndices"));
-    glGetActiveUniformsiv     = reinterpret_cast<PFNGLGETACTIVEUNIFORMSIVPROC>(loader("glGetActiveUniformsiv"));
-    glGetActiveUniformName    = reinterpret_cast<PFNGLGETACTIVEUNIFORMNAMEPROC>(loader("glGetActiveUniformName"));
-    glGetUniformBlockIndex    = reinterpret_cast<PFNGLGETUNIFORMBLOCKINDEXPROC>(loader("glGetUniformBlockIndex"));
-    glGetActiveUniformBlockiv = reinterpret_cast<PFNGLGETACTIVEUNIFORMBLOCKIVPROC>(loader("glGetActiveUniformBlockiv"));
-    glUniformBlockBinding     = reinterpret_cast<PFNGLUNIFORMBLOCKBINDINGPROC>(loader("glUniformBlockBinding"));
-    glGetActiveUniformBlockName =
+    GLfuncsv300::loadFuncs(loader);
+    iglDrawArraysInstanced     = reinterpret_cast<PFNGLDRAWARRAYSINSTANCEDPROC>(loader("glDrawArraysInstanced"));
+    iglDrawElementsInstanced   = reinterpret_cast<PFNGLDRAWELEMENTSINSTANCEDPROC>(loader("glDrawElementsInstanced"));
+    iglTexBuffer               = reinterpret_cast<PFNGLTEXBUFFERPROC>(loader("glTexBuffer"));
+    iglPrimitiveRestartIndex   = reinterpret_cast<PFNGLPRIMITIVERESTARTINDEXPROC>(loader("glPrimitiveRestartIndex"));
+    iglCopyBufferSubData       = reinterpret_cast<PFNGLCOPYBUFFERSUBDATAPROC>(loader("glCopyBufferSubData"));
+    iglGetUniformIndices       = reinterpret_cast<PFNGLGETUNIFORMINDICESPROC>(loader("glGetUniformIndices"));
+    iglGetActiveUniformsiv     = reinterpret_cast<PFNGLGETACTIVEUNIFORMSIVPROC>(loader("glGetActiveUniformsiv"));
+    iglGetActiveUniformName    = reinterpret_cast<PFNGLGETACTIVEUNIFORMNAMEPROC>(loader("glGetActiveUniformName"));
+    iglGetUniformBlockIndex    = reinterpret_cast<PFNGLGETUNIFORMBLOCKINDEXPROC>(loader("glGetUniformBlockIndex"));
+    iglGetActiveUniformBlockiv = reinterpret_cast<PFNGLGETACTIVEUNIFORMBLOCKIVPROC>(loader("glGetActiveUniformBlockiv"));
+    iglUniformBlockBinding     = reinterpret_cast<PFNGLUNIFORMBLOCKBINDINGPROC>(loader("glUniformBlockBinding"));
+    iglGetActiveUniformBlockName =
         reinterpret_cast<PFNGLGETACTIVEUNIFORMBLOCKNAMEPROC>(loader("glGetActiveUniformBlockName"));
 }
 } // namespace glr

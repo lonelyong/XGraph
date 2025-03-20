@@ -50,7 +50,6 @@ int main(int argc, char** argv) {
 
     glr::SampleApplication app(params);
     app.initGlfw();
-    app.initGlad();
     app.initQt();
 
     auto         scene  = new glr::Scene();

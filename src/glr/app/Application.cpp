@@ -2,8 +2,6 @@
 
 #include <iostream>
 
-#include <glad/glad.h>
-
 #include <GLFW/glfw3.h>
 
 #include <xgcomm/Environment.h>
@@ -12,7 +10,6 @@ namespace glr {
 namespace {
 
 bool s_is_glfw_initialized = false;
-bool s_is_glad_initialized = false;
 
 static Application* s_app_inst = nullptr;
 
@@ -63,41 +60,8 @@ bool Application::initGlfw() {
     return true;
 }
 
-bool Application::initGlad() {
-    if (isGladInitialized()) {
-        return true;
-    }
-    if (!initGlfw()) return false;
-    auto wnd = glfwCreateWindow(1, 1, "GladAppInitializer", NULL, NULL);
-
-    if (!wnd) {
-        std::cout << "Failed to create window using glfw." << std::endl;
-        return false;
-    }
-
-    glfwMakeContextCurrent(wnd);
-
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-        glfwDestroyWindow(wnd);
-        std::cout << "Failed to initialize GLAD." << std::endl;
-        return false;
-    }
-
-    printf("GL Version:%s\n", glGetString(GL_VERSION));
-    printf("GL Vendor:%s\n", glGetString(GL_VENDOR));
-    glfwMakeContextCurrent(nullptr);
-    glfwDestroyWindow(wnd);
-    printf("Initialization of GLAD succeeded\n");
-
-    return true;
-}
-
 bool Application::isGlfwInitialized() const {
     return s_is_glfw_initialized;
-}
-
-bool Application::isGladInitialized() const {
-    return s_is_glad_initialized;
 }
 
 Application* Application::current() {

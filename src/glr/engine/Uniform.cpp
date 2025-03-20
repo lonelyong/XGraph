@@ -3,8 +3,6 @@
 #include <any>
 #include <string>
 
-#include <glad/glad.h>
-
 #include <glr/engine/Program.h>
 #include <glr/engine/State.h>
 

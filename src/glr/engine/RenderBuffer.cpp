@@ -1,10 +1,11 @@
 #include <glr/engine/RenderBuffer.h>
 
-#include <glad/glad.h>
-
 #include <vine/core/Ptr.h>
 
 #include <glr/engine/FrameBufferObject.h>
+#include <glr/engine/GraphicContext.h>
+#include <glr/engine/State.h>
+#include <glr/igl/GLfuncs.h>
 
 namespace glr {
 
@@ -33,19 +34,19 @@ FrameBufferObject* RenderBuffer::getFrameBuffer() const {
     return d->fbo.get();
 }
 
-void RenderBuffer::setWidth(GLsizei w) {
+void RenderBuffer::setWidth(GLsizei_t w) {
     d->w = w;
 }
 
-void RenderBuffer::setHeight(GLsizei h) {
+void RenderBuffer::setHeight(GLsizei_t h) {
     d->h = h;
 }
 
-GLsizei RenderBuffer::getWidth() const {
+GLsizei_t RenderBuffer::getWidth() const {
     return d->w;
 }
 
-GLsizei RenderBuffer::getHeight() const {
+GLsizei_t RenderBuffer::getHeight() const {
     return d->h;
 }
 
@@ -54,30 +55,34 @@ bool RenderBuffer::onUpdate(State& state) {
 }
 
 bool RenderBuffer::onBind(State& state) {
-    glBindRenderbuffer(GL_RENDERBUFFER, getId(state));
+    auto funcs = state.getContext()->getFuncs();
+    funcs->iglBindRenderbuffer(IGL_RENDERBUFFER, getId(state));
     return true;
 }
 
 bool RenderBuffer::onUnbind(State& state) {
-    GLint curr_id = 0;
-    glGetIntegerv(GL_RENDERBUFFER_BINDING, &curr_id);
+    auto    funcs   = state.getContext()->getFuncs();
+    GLint_t curr_id = 0;
+    funcs->iglGetIntegerv(IGL_RENDERBUFFER_BINDING, &curr_id);
     if (curr_id == getId(state)) {
-        glBindRenderbuffer(GL_RENDERBUFFER, 0);
+        funcs->iglBindRenderbuffer(IGL_RENDERBUFFER, 0);
     }
     return true;
 }
 
 GLuint_t RenderBuffer::onCreate(State& state) {
+    auto     funcs = state.getContext()->getFuncs();
     GLuint_t id;
-    glGenRenderbuffers(1, &id);
-    glBindRenderbuffer(GL_RENDERBUFFER, id);
-    glRenderbufferStorage(GL_RENDERBUFFER, IF_RGBA, d->w, d->h);
+    funcs->iglGenRenderbuffers(1, &id);
+    funcs->iglBindRenderbuffer(IGL_RENDERBUFFER, id);
+    funcs->iglRenderbufferStorage(IGL_RENDERBUFFER, IF_RGBA, d->w, d->h);
     return id;
 }
 
 bool RenderBuffer::onRelease(State& state) {
+    auto funcs = state.getContext()->getFuncs();
     auto id = getId(state);
-    glDeleteRenderbuffers(1, &id);
+    funcs->iglDeleteRenderbuffers(1, &id);
     return true;
 }
 } // namespace glr

@@ -1,15 +1,15 @@
 #include <glr/engine/ArrayBuffer.h>
 
-#include <glad/glad.h>
-
 #include <vector>
 
+#include <glr/engine/GraphicContext.h>
+#include <glr/engine/State.h>
+#include <glr/igl/GLfuncs.h>
 
 VI_OBJECT_META_IMPL(glr::ArrayBuffer, glr::BufferObject);
 VI_TMPL_OBJECT_META_IMPL(template <typename T>, glr::Array<T>, glr::ArrayBuffer);
 
 namespace glr {
-
 
 template <typename T> struct Array<T>::Data {
     std::vector<T> impl;
@@ -166,11 +166,12 @@ template <typename T> GLsizei_t Array<T>::sizeOfItem() const {
 }
 
 template <typename T> GLuint_t Array<T>::onCreate(State& state) {
-    auto id = ArrayBuffer::onCreate(state);
-    if (id != GL_ZERO) {
-        glBindBuffer(getTarget(), id);
-        glBufferData(getTarget(), size() * sizeof(item_type), (void*)data(), getUsage());
-        glBindBuffer(getTarget(), 0);
+    auto funcs = state.getContext()->getFuncs();
+    auto id    = ArrayBuffer::onCreate(state);
+    if (id != IGL_ZERO) {
+        funcs->iglBindBuffer(getTarget(), id);
+        funcs->iglBufferData(getTarget(), size() * sizeof(item_type), (void*)data(), getUsage());
+        funcs->iglBindBuffer(getTarget(), 0);
     }
     return id;
 }

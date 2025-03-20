@@ -2,17 +2,12 @@
 
 #include <glm/ext.hpp>
 
-#include <glad/glad.h>
-
-#include <vine/core/Ptr.h>
-
 #include <glr/engine/Callbacks.h>
 #include <glr/engine/Camera.h>
 #include <glr/engine/CubeMap.h>
 #include <glr/engine/Depth.h>
-#include <glr/engine/Renderer.h>
 #include <glr/engine/Program.h>
-#include <glr/engine/State.h>
+#include <glr/engine/Renderer.h>
 #include <glr/engine/StateSet.h>
 #include <glr/engine/Uniform.h>
 #include <glr/scene/Geometry.h>
@@ -72,7 +67,7 @@ Model* createSkyBox(CubeMap* tex) {
     auto shader  = new Program(sky_box_vs, {}, sky_box_fs);
     auto uniform = new Uniform("matrix_mvp_", Mat4d());
     auto cube    = Geometry::createCube(1, false);
-    cube->addTexture(GL_TEXTURE0, "tex_cube", tex);
+    cube->addTexture(IGL_TEXTURE0, "tex_cube", tex);
     cube->setVertexAttribLocation(0);
 
     auto model = new Model();

@@ -2,8 +2,11 @@
 
 #include <memory>
 
-#include <glad/glad.h>
 #include <vine/core/Exception.h>
+
+#include <glr/engine/GraphicContext.h>
+#include <glr/engine/State.h>
+#include <glr/igl/GLfuncs.h>
 
 namespace glr {
 namespace {
@@ -104,28 +107,28 @@ Image::Format Image::getFormat() const {
 
 int Image::getInternalTextureFormat() const {
     switch (d->format) {
-    case R8: return GL_R8;
-    case G8: return GL_R8;
-    case B8: return GL_R8;
-    case RGB888: return GL_RGB8;
-    case RGBA8888: return GL_RGBA8;
-    default: return GL_ZERO;
+    case R8: return IGL_R8;
+    case G8: return IGL_R8;
+    case B8: return IGL_R8;
+    case RGB888: return IGL_RGB8;
+    case RGBA8888: return IGL_RGBA8;
+    default: return IGL_ZERO;
     }
 }
 
 int Image::getDataFormat() const {
     switch (d->format) {
-    case R8: return GL_RED;
-    case G8: return GL_RED;
-    case B8: return GL_RED;
-    case RGB888: return GL_RGB;
-    case RGBA8888: return GL_RGBA;
-    default: return GL_ZERO;
+    case R8: return IGL_RED;
+    case G8: return IGL_RED;
+    case B8: return IGL_RED;
+    case RGB888: return IGL_RGB;
+    case RGBA8888: return IGL_RGBA;
+    default: return IGL_ZERO;
     }
 }
 
 int Image::getDataType() const {
-    return GL_UNSIGNED_BYTE;
+    return IGL_UNSIGNED_BYTE;
 }
 
 int Image::getWidth() const {
@@ -152,9 +155,10 @@ bool Image::isNull() const {
     return d->data == nullptr;
 }
 
-Image* Image::readPixels(int x, int y, int w, int h, int fmt, int type) {
+Image* Image::readPixels(State& state, int x, int y, int w, int h, int fmt, int type) {
     auto buffer = new unsigned char[w * h * 4];
-    glReadPixels(x, y, w, h, fmt, type, buffer);
+    auto funcs  = state.getContext()->getFuncs();
+    funcs->iglReadPixels(x, y, w, h, fmt, type, buffer);
     auto img = new Image();
     img->setImage(w, h, RGBA8888, buffer);
 

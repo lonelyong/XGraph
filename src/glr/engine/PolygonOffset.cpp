@@ -1,6 +1,8 @@
 #include <glr/engine/PolygonOffset.h>
 
-#include <glad/glad.h>
+#include <glr/engine/GraphicContext.h>
+#include <glr/engine/State.h>
+#include <glr/igl/GLfuncs.h>
 
 namespace glr {
 
@@ -46,7 +48,8 @@ PolygonOffset::Type PolygonOffset::getType() const {
 }
 
 void PolygonOffset::apply(State& state) const {
-    glPolygonMode(d->factor, d->units);
+    auto funcs = state.getContext()->getFuncs();
+    funcs->iglPolygonMode(d->factor, d->units);
 }
 
 } // namespace glr

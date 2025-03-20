@@ -1,10 +1,12 @@
 #include <glr/engine/Texture2D.h>
 
-#include <glad/glad.h>
-
 #include <vine/core/Ptr.h>
 
+#include <glr/engine/GraphicContext.h>
 #include <glr/engine/Image.h>
+#include <glr/engine/State.h>
+#include <glr/igl/GLfuncs.h>
+
 #include <glr/io/ImageLoader.h>
 
 namespace glr {
@@ -67,16 +69,17 @@ void Texture2D::setImage(Image* image) {
 }
 
 GLuint_t Texture2D::onCreate(State& state) {
-    GLuint_t id = 0;
-    glGenTextures(1, &id);
-    glBindTexture(getType(), id);
-    glTexParameteri(getType(), GL_TEXTURE_MIN_FILTER, getFilter(MIN_FILTER));
-    glTexParameteri(getType(), GL_TEXTURE_MAG_FILTER, getFilter(MAX_FILTER));
-    glTexParameteri(getType(), GL_TEXTURE_WRAP_S, getWrap(WRAP_S));
-    glTexParameteri(getType(), GL_TEXTURE_WRAP_T, getWrap(WRAP_T));
+    auto     funcs = state.getContext()->getFuncs();
+    GLuint_t id    = 0;
+    funcs->iglGenTextures(1, &id);
+    funcs->iglBindTexture(getType(), id);
+    funcs->iglTexParameteri(getType(), IGL_TEXTURE_MIN_FILTER, getFilter(MIN_FILTER));
+    funcs->iglTexParameteri(getType(), IGL_TEXTURE_MAG_FILTER, getFilter(MAX_FILTER));
+    funcs->iglTexParameteri(getType(), IGL_TEXTURE_WRAP_S, getWrap(WRAP_S));
+    funcs->iglTexParameteri(getType(), IGL_TEXTURE_WRAP_T, getWrap(WRAP_T));
 
-    void* img_data = nullptr;
-    GLint w = d->w, h = d->h, internal_fmt = getInternalFormat(), src_type = 0, src_format = 0;
+    void*   img_data = nullptr;
+    GLint_t w = d->w, h = d->h, internal_fmt = getInternalFormat(), src_type = 0, src_format = 0;
 
     if (d->img.get()) {
         img_data     = d->img->data();
@@ -91,20 +94,22 @@ GLuint_t Texture2D::onCreate(State& state) {
         src_type   = computeDataType(InternalFormat(internal_fmt));
     }
     if (w && h) {
-        glTexImage2D(getType(), 0, internal_fmt, w, h, 0, src_format, src_type, img_data);
+        funcs->iglTexImage2D(getType(), 0, internal_fmt, w, h, 0, src_format, src_type, img_data);
     }
     if (getGenerateMipmapLevels()) {
-        glGenerateMipmap(GL_TEXTURE_2D);
+        funcs->iglGenerateMipmap(IGL_TEXTURE_2D);
     }
 
     float max_anisotropy = getMaxAnisotropy();
 
     if (max_anisotropy > 1.0) {
         float gl_max_anisotropy;
-        glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY, &gl_max_anisotropy);
-        glTextureParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY, std::min(gl_max_anisotropy, max_anisotropy));
+        funcs->iglGetFloatv(IGL_MAX_TEXTURE_MAX_ANISOTROPY, &gl_max_anisotropy);
+        funcs->iglTextureParameterf(IGL_TEXTURE_2D,
+                                    IGL_TEXTURE_MAX_ANISOTROPY,
+                                    std::min(gl_max_anisotropy, max_anisotropy));
     }
-    glBindTexture(getType(), 0);
+    funcs->iglBindTexture(getType(), 0);
     return id;
 }
 

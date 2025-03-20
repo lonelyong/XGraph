@@ -4,69 +4,68 @@
 
 namespace glr {
 class GLR_API GLfuncsv150 : public GLfuncsv140 {
-    VI_OBJECT_META;
 
   public:
     using GLintptr   = GLintptr_t;
     using GLsizeiptr = GLsizeiptr_t;
 
   public:
-    typedef void(APIENTRYP PFNGLGENQUERIESPROC)(GLsizei n, GLuint* ids);
-    PFNGLGENQUERIESPROC glGenQueries;
+    typedef void(APIENTRYP PFNGLGENQUERIESPROC)(GLsizei_t n, GLuint_t* ids);
+    PFNGLGENQUERIESPROC iglGenQueries;
 
-    typedef void(APIENTRYP PFNGLDELETEQUERIESPROC)(GLsizei n, const GLuint* ids);
-    PFNGLDELETEQUERIESPROC glDeleteQueries;
+    typedef void(APIENTRYP PFNGLDELETEQUERIESPROC)(GLsizei_t n, const GLuint_t* ids);
+    PFNGLDELETEQUERIESPROC iglDeleteQueries;
 
-    typedef GLboolean(APIENTRYP PFNGLISQUERYPROC)(GLuint id);
-    PFNGLISQUERYPROC glIsQuery;
+    typedef GLboolean_t(APIENTRYP PFNGLISQUERYPROC)(GLuint_t id);
+    PFNGLISQUERYPROC iglIsQuery;
 
-    typedef void(APIENTRYP PFNGLBEGINQUERYPROC)(GLenum target, GLuint id);
-    PFNGLBEGINQUERYPROC glBeginQuery;
+    typedef void(APIENTRYP PFNGLBEGINQUERYPROC)(GLenum_t target, GLuint_t id);
+    PFNGLBEGINQUERYPROC iglBeginQuery;
 
-    typedef void(APIENTRYP PFNGLENDQUERYPROC)(GLenum target);
-    PFNGLENDQUERYPROC glEndQuery;
+    typedef void(APIENTRYP PFNGLENDQUERYPROC)(GLenum_t target);
+    PFNGLENDQUERYPROC iglEndQuery;
 
-    typedef void(APIENTRYP PFNGLGETQUERYIVPROC)(GLenum target, GLenum pname, GLint* params);
-    PFNGLGETQUERYIVPROC glGetQueryiv;
+    typedef void(APIENTRYP PFNGLGETQUERYIVPROC)(GLenum_t target, GLenum_t pname, GLint_t* params);
+    PFNGLGETQUERYIVPROC iglGetQueryiv;
 
-    typedef void(APIENTRYP PFNGLGETQUERYOBJECTIVPROC)(GLuint id, GLenum pname, GLint* params);
-    PFNGLGETQUERYOBJECTIVPROC glGetQueryObjectiv;
+    typedef void(APIENTRYP PFNGLGETQUERYOBJECTIVPROC)(GLuint_t id, GLenum_t pname, GLint_t* params);
+    PFNGLGETQUERYOBJECTIVPROC iglGetQueryObjectiv;
 
-    typedef void(APIENTRYP PFNGLGETQUERYOBJECTUIVPROC)(GLuint id, GLenum pname, GLuint* params);
-    PFNGLGETQUERYOBJECTUIVPROC glGetQueryObjectuiv;
+    typedef void(APIENTRYP PFNGLGETQUERYOBJECTUIVPROC)(GLuint_t id, GLenum_t pname, GLuint_t* params);
+    PFNGLGETQUERYOBJECTUIVPROC iglGetQueryObjectuiv;
 
-    typedef void(APIENTRYP PFNGLBINDBUFFERPROC)(GLenum target, GLuint buffer);
-    PFNGLBINDBUFFERPROC glBindBuffer;
+    typedef void(APIENTRYP PFNGLBINDBUFFERPROC)(GLenum_t target, GLuint_t buffer);
+    PFNGLBINDBUFFERPROC iglBindBuffer;
 
-    typedef void(APIENTRYP PFNGLDELETEBUFFERSPROC)(GLsizei n, const GLuint* buffers);
-    PFNGLDELETEBUFFERSPROC glDeleteBuffers;
+    typedef void(APIENTRYP PFNGLDELETEBUFFERSPROC)(GLsizei_t n, const GLuint_t* buffers);
+    PFNGLDELETEBUFFERSPROC iglDeleteBuffers;
 
-    typedef void(APIENTRYP PFNGLGENBUFFERSPROC)(GLsizei n, GLuint* buffers);
-    PFNGLGENBUFFERSPROC glGenBuffers;
+    typedef void(APIENTRYP PFNGLGENBUFFERSPROC)(GLsizei_t n, GLuint_t* buffers);
+    PFNGLGENBUFFERSPROC iglGenBuffers;
 
-    typedef GLboolean(APIENTRYP PFNGLISBUFFERPROC)(GLuint buffer);
-    PFNGLISBUFFERPROC glIsBuffer;
+    typedef GLboolean_t(APIENTRYP PFNGLISBUFFERPROC)(GLuint_t buffer);
+    PFNGLISBUFFERPROC iglIsBuffer;
 
-    typedef void(APIENTRYP PFNGLBUFFERDATAPROC)(GLenum target, GLsizeiptr size, const void* data, GLenum usage);
-    PFNGLBUFFERDATAPROC glBufferData;
+    typedef void(APIENTRYP PFNGLBUFFERDATAPROC)(GLenum_t target, GLsizeiptr size, const void* data, GLenum_t usage);
+    PFNGLBUFFERDATAPROC iglBufferData;
 
-    typedef void(APIENTRYP PFNGLBUFFERSUBDATAPROC)(GLenum target, GLintptr offset, GLsizeiptr size, const void* data);
-    PFNGLBUFFERSUBDATAPROC glBufferSubData;
+    typedef void(APIENTRYP PFNGLBUFFERSUBDATAPROC)(GLenum_t target, GLintptr offset, GLsizeiptr size, const void* data);
+    PFNGLBUFFERSUBDATAPROC iglBufferSubData;
 
-    typedef void(APIENTRYP PFNGLGETBUFFERSUBDATAPROC)(GLenum target, GLintptr offset, GLsizeiptr size, void* data);
-    PFNGLGETBUFFERSUBDATAPROC glGetBufferSubData;
+    typedef void(APIENTRYP PFNGLGETBUFFERSUBDATAPROC)(GLenum_t target, GLintptr offset, GLsizeiptr size, void* data);
+    PFNGLGETBUFFERSUBDATAPROC iglGetBufferSubData;
 
-    typedef void*(APIENTRYP PFNGLMAPBUFFERPROC)(GLenum target, GLenum access);
-    PFNGLMAPBUFFERPROC glMapBuffer;
+    typedef void*(APIENTRYP PFNGLMAPBUFFERPROC)(GLenum_t target, GLenum_t access);
+    PFNGLMAPBUFFERPROC iglMapBuffer;
 
-    typedef GLboolean(APIENTRYP PFNGLUNMAPBUFFERPROC)(GLenum target);
-    PFNGLUNMAPBUFFERPROC glUnmapBuffer;
+    typedef GLboolean_t(APIENTRYP PFNGLUNMAPBUFFERPROC)(GLenum_t target);
+    PFNGLUNMAPBUFFERPROC iglUnmapBuffer;
 
-    typedef void(APIENTRYP PFNGLGETBUFFERPARAMETERIVPROC)(GLenum target, GLenum pname, GLint* params);
-    PFNGLGETBUFFERPARAMETERIVPROC glGetBufferParameteriv;
+    typedef void(APIENTRYP PFNGLGETBUFFERPARAMETERIVPROC)(GLenum_t target, GLenum_t pname, GLint_t* params);
+    PFNGLGETBUFFERPARAMETERIVPROC iglGetBufferParameteriv;
 
-    typedef void(APIENTRYP PFNGLGETBUFFERPOINTERVPROC)(GLenum target, GLenum pname, void** params);
-    PFNGLGETBUFFERPOINTERVPROC glGetBufferPointerv;
+    typedef void(APIENTRYP PFNGLGETBUFFERPOINTERVPROC)(GLenum_t target, GLenum_t pname, void** params);
+    PFNGLGETBUFFERPOINTERVPROC iglGetBufferPointerv;
 
   public:
     GLfuncsv150();

@@ -3,7 +3,7 @@
 #include <glr/glr_global.h>
 
 #include <glr/igl/GLdefs.h>
-#include <glr/igl/GLfuncs.h>
+
 
 #if defined(_WIN32) && !defined(APIENTRY) && !defined(__CYGWIN__) && !defined(__SCITECH_SNAP__)
 #    define APIENTRY __stdcall
@@ -24,8 +24,7 @@
 
 namespace glr {
 
-class GLR_API GLfuncsv100 : public GLfuncs {
-    VI_OBJECT_META;
+class GLR_API GLfuncsv100 {
 
   public:
     using GLenum     = GLenum_t;
@@ -39,176 +38,187 @@ class GLR_API GLfuncsv100 : public GLfuncs {
     using GLboolean  = GLboolean_t;
     using GLubyte    = GLubyte_t;
 
-    typedef void(APIENTRYP PFNGLCULLFACEPROC)(GLenum mode);
-    PFNGLCULLFACEPROC glCullFace;
+  public:
+    typedef void* (*Loader)(const char* fn);
 
-    typedef void(APIENTRYP PFNGLFRONTFACEPROC)(GLenum mode);
-    PFNGLFRONTFACEPROC glFrontFace;
+  public:
+    typedef void(APIENTRYP PFNGLCULLFACEPROC)(GLenum_t mode);
+    PFNGLCULLFACEPROC iglCullFace;
 
-    typedef void(APIENTRYP PFNGLHINTPROC)(GLenum target, GLenum mode);
-    PFNGLHINTPROC glHint;
+    typedef void(APIENTRYP PFNGLFRONTFACEPROC)(GLenum_t mode);
+    PFNGLFRONTFACEPROC iglFrontFace;
 
-    typedef void(APIENTRYP PFNGLLINEWIDTHPROC)(GLfloat width);
-    PFNGLLINEWIDTHPROC glLineWidth;
+    typedef void(APIENTRYP PFNGLHINTPROC)(GLenum_t target, GLenum_t mode);
+    PFNGLHINTPROC iglHint;
 
-    typedef void(APIENTRYP PFNGLPOINTSIZEPROC)(GLfloat size);
-    PFNGLPOINTSIZEPROC glPointSize;
+    typedef void(APIENTRYP PFNGLLINEWIDTHPROC)(GLfloat_t width);
+    PFNGLLINEWIDTHPROC iglLineWidth;
 
-    typedef void(APIENTRYP PFNGLPOLYGONMODEPROC)(GLenum face, GLenum mode);
-    PFNGLPOLYGONMODEPROC glPolygonMode;
+    typedef void(APIENTRYP PFNGLPOINTSIZEPROC)(GLfloat_t size);
+    PFNGLPOINTSIZEPROC iglPointSize;
 
-    typedef void(APIENTRYP PFNGLSCISSORPROC)(GLint x, GLint y, GLsizei width, GLsizei height);
-    PFNGLSCISSORPROC glScissor;
+    typedef void(APIENTRYP PFNGLPOLYGONMODEPROC)(GLenum_t face, GLenum_t mode);
+    PFNGLPOLYGONMODEPROC iglPolygonMode;
 
-    typedef void(APIENTRYP PFNGLTEXPARAMETERFPROC)(GLenum target, GLenum pname, GLfloat param);
-    PFNGLTEXPARAMETERFPROC glTexParameterf;
+    typedef void(APIENTRYP PFNGLSCISSORPROC)(GLint_t x, GLint_t y, GLsizei_t width, GLsizei_t height);
+    PFNGLSCISSORPROC iglScissor;
 
-    typedef void(APIENTRYP PFNGLTEXPARAMETERFVPROC)(GLenum target, GLenum pname, const GLfloat* params);
-    PFNGLTEXPARAMETERFVPROC glTexParameterfv;
+    typedef void(APIENTRYP PFNGLTEXPARAMETERFPROC)(GLenum_t target, GLenum_t pname, GLfloat_t param);
+    PFNGLTEXPARAMETERFPROC iglTexParameterf;
 
-    typedef void(APIENTRYP PFNGLTEXPARAMETERIPROC)(GLenum target, GLenum pname, GLint param);
-    PFNGLTEXPARAMETERIPROC glTexParameteri;
+    typedef void(APIENTRYP PFNGLTEXPARAMETERFVPROC)(GLenum_t target, GLenum_t pname, const GLfloat_t* params);
+    PFNGLTEXPARAMETERFVPROC iglTexParameterfv;
 
-    typedef void(APIENTRYP PFNGLTEXPARAMETERIVPROC)(GLenum target, GLenum pname, const GLint* params);
-    PFNGLTEXPARAMETERIVPROC glTexParameteriv;
+    typedef void(APIENTRYP PFNGLTEXPARAMETERIPROC)(GLenum_t target, GLenum_t pname, GLint_t param);
+    PFNGLTEXPARAMETERIPROC iglTexParameteri;
 
-    typedef void(APIENTRYP PFNGLTEXIMAGE1DPROC)(GLenum      target,
-                                                GLint       level,
-                                                GLint       internalformat,
-                                                GLsizei     width,
-                                                GLint       border,
-                                                GLenum      format,
-                                                GLenum      type,
+    typedef void(APIENTRYP PFNGLTEXPARAMETERIVPROC)(GLenum_t target, GLenum_t pname, const GLint_t* params);
+    PFNGLTEXPARAMETERIVPROC iglTexParameteriv;
+
+    typedef void(APIENTRYP PFNGLTEXIMAGE1DPROC)(GLenum_t    target,
+                                                GLint_t     level,
+                                                GLint_t     internalformat,
+                                                GLsizei_t   width,
+                                                GLint_t     border,
+                                                GLenum_t    format,
+                                                GLenum_t    type,
                                                 const void* pixels);
-    PFNGLTEXIMAGE1DPROC glTexImage1D;
+    PFNGLTEXIMAGE1DPROC iglTexImage1D;
 
-    typedef void(APIENTRYP PFNGLTEXIMAGE2DPROC)(GLenum      target,
-                                                GLint       level,
-                                                GLint       internalformat,
-                                                GLsizei     width,
-                                                GLsizei     height,
-                                                GLint       border,
-                                                GLenum      format,
-                                                GLenum      type,
+    typedef void(APIENTRYP PFNGLTEXIMAGE2DPROC)(GLenum_t    target,
+                                                GLint_t     level,
+                                                GLint_t     internalformat,
+                                                GLsizei_t   width,
+                                                GLsizei_t   height,
+                                                GLint_t     border,
+                                                GLenum_t    format,
+                                                GLenum_t    type,
                                                 const void* pixels);
-    PFNGLTEXIMAGE2DPROC glTexImage2D;
+    PFNGLTEXIMAGE2DPROC iglTexImage2D;
 
-    typedef void(APIENTRYP PFNGLDRAWBUFFERPROC)(GLenum buf);
-    PFNGLDRAWBUFFERPROC glDrawBuffer;
+    typedef void(APIENTRYP PFNGLDRAWBUFFERPROC)(GLenum_t buf);
+    PFNGLDRAWBUFFERPROC iglDrawBuffer;
 
-    typedef void(APIENTRYP PFNGLCLEARPROC)(GLbitfield mask);
-    PFNGLCLEARPROC glClear;
+    typedef void(APIENTRYP PFNGLCLEARPROC)(GLbitfield_t mask);
+    PFNGLCLEARPROC iglClear;
 
-    typedef void(APIENTRYP PFNGLCLEARCOLORPROC)(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
-    PFNGLCLEARCOLORPROC glClearColor;
+    typedef void(APIENTRYP PFNGLCLEARCOLORPROC)(GLfloat_t red, GLfloat_t green, GLfloat_t blue, GLfloat_t alpha);
+    PFNGLCLEARCOLORPROC iglClearColor;
 
-    typedef void(APIENTRYP PFNGLCLEARSTENCILPROC)(GLint s);
-    PFNGLCLEARSTENCILPROC glClearStencil;
+    typedef void(APIENTRYP PFNGLCLEARSTENCILPROC)(GLint_t s);
+    PFNGLCLEARSTENCILPROC iglClearStencil;
 
-    typedef void(APIENTRYP PFNGLCLEARDEPTHPROC)(GLdouble depth);
-    PFNGLCLEARDEPTHPROC glClearDepth;
+    typedef void(APIENTRYP PFNGLCLEARDEPTHPROC)(GLdouble_t depth);
+    PFNGLCLEARDEPTHPROC iglClearDepth;
 
-    typedef void(APIENTRYP PFNGLSTENCILMASKPROC)(GLuint mask);
-    PFNGLSTENCILMASKPROC glStencilMask;
+    typedef void(APIENTRYP PFNGLSTENCILMASKPROC)(GLuint_t mask);
+    PFNGLSTENCILMASKPROC iglStencilMask;
 
-    typedef void(APIENTRYP PFNGLCOLORMASKPROC)(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha);
-    PFNGLCOLORMASKPROC glColorMask;
+    typedef void(APIENTRYP PFNGLCOLORMASKPROC)(GLboolean_t red, GLboolean_t green, GLboolean_t blue, GLboolean_t alpha);
+    PFNGLCOLORMASKPROC iglColorMask;
 
-    typedef void(APIENTRYP PFNGLDEPTHMASKPROC)(GLboolean flag);
-    PFNGLDEPTHMASKPROC glDepthMask;
+    typedef void(APIENTRYP PFNGLDEPTHMASKPROC)(GLboolean_t flag);
+    PFNGLDEPTHMASKPROC iglDepthMask;
 
-    typedef void(APIENTRYP PFNGLDISABLEPROC)(GLenum cap);
-    PFNGLDISABLEPROC glDisable;
+    typedef void(APIENTRYP PFNGLDISABLEPROC)(GLenum_t cap);
+    PFNGLDISABLEPROC iglDisable;
 
-    typedef void(APIENTRYP PFNGLENABLEPROC)(GLenum cap);
-    PFNGLENABLEPROC glEnable;
+    typedef void(APIENTRYP PFNGLENABLEPROC)(GLenum_t cap);
+    PFNGLENABLEPROC iglEnable;
 
     typedef void(APIENTRYP PFNGLFINISHPROC)(void);
-    PFNGLFINISHPROC glFinish;
+    PFNGLFINISHPROC iglFinish;
 
     typedef void(APIENTRYP PFNGLFLUSHPROC)(void);
-    PFNGLFLUSHPROC glFlush;
+    PFNGLFLUSHPROC iglFlush;
 
-    typedef void(APIENTRYP PFNGLBLENDFUNCPROC)(GLenum sfactor, GLenum dfactor);
-    PFNGLBLENDFUNCPROC glBlendFunc;
+    typedef void(APIENTRYP PFNGLBLENDFUNCPROC)(GLenum_t sfactor, GLenum_t dfactor);
+    PFNGLBLENDFUNCPROC iglBlendFunc;
 
-    typedef void(APIENTRYP PFNGLLOGICOPPROC)(GLenum opcode);
-    PFNGLLOGICOPPROC glLogicOp;
+    typedef void(APIENTRYP PFNGLLOGICOPPROC)(GLenum_t opcode);
+    PFNGLLOGICOPPROC iglLogicOp;
 
-    typedef void(APIENTRYP PFNGLSTENCILFUNCPROC)(GLenum func, GLint ref, GLuint mask);
-    PFNGLSTENCILFUNCPROC glStencilFunc;
+    typedef void(APIENTRYP PFNGLSTENCILFUNCPROC)(GLenum_t func, GLint_t ref, GLuint_t mask);
+    PFNGLSTENCILFUNCPROC iglStencilFunc;
 
-    typedef void(APIENTRYP PFNGLSTENCILOPPROC)(GLenum fail, GLenum zfail, GLenum zpass);
-    PFNGLSTENCILOPPROC glStencilOp;
+    typedef void(APIENTRYP PFNGLSTENCILOPPROC)(GLenum_t fail, GLenum_t zfail, GLenum_t zpass);
+    PFNGLSTENCILOPPROC iglStencilOp;
 
-    typedef void(APIENTRYP PFNGLDEPTHFUNCPROC)(GLenum func);
-    PFNGLDEPTHFUNCPROC glDepthFunc;
+    typedef void(APIENTRYP PFNGLDEPTHFUNCPROC)(GLenum_t func);
+    PFNGLDEPTHFUNCPROC iglDepthFunc;
 
-    typedef void(APIENTRYP PFNGLPIXELSTOREFPROC)(GLenum pname, GLfloat param);
-    PFNGLPIXELSTOREFPROC glPixelStoref;
+    typedef void(APIENTRYP PFNGLPIXELSTOREFPROC)(GLenum_t pname, GLfloat_t param);
+    PFNGLPIXELSTOREFPROC iglPixelStoref;
 
-    typedef void(APIENTRYP PFNGLPIXELSTOREIPROC)(GLenum pname, GLint param);
-    PFNGLPIXELSTOREIPROC glPixelStorei;
+    typedef void(APIENTRYP PFNGLPIXELSTOREIPROC)(GLenum_t pname, GLint_t param);
+    PFNGLPIXELSTOREIPROC iglPixelStorei;
 
-    typedef void(APIENTRYP PFNGLREADBUFFERPROC)(GLenum src);
-    PFNGLREADBUFFERPROC glReadBuffer;
+    typedef void(APIENTRYP PFNGLREADBUFFERPROC)(GLenum_t src);
+    PFNGLREADBUFFERPROC iglReadBuffer;
 
-    typedef void(APIENTRYP PFNGLREADPIXELSPROC)(GLint   x,
-                                                GLint   y,
-                                                GLsizei width,
-                                                GLsizei height,
-                                                GLenum  format,
-                                                GLenum  type,
-                                                void*   pixels);
-    PFNGLREADPIXELSPROC glReadPixels;
+    typedef void(APIENTRYP PFNGLREADPIXELSPROC)(GLint_t   x,
+                                                GLint_t   y,
+                                                GLsizei_t width,
+                                                GLsizei_t height,
+                                                GLenum_t  format,
+                                                GLenum_t  type,
+                                                void*     pixels);
+    PFNGLREADPIXELSPROC iglReadPixels;
 
-    typedef void(APIENTRYP PFNGLGETBOOLEANVPROC)(GLenum pname, GLboolean* data);
-    PFNGLGETBOOLEANVPROC glGetBooleanv;
+    typedef void(APIENTRYP PFNGLGETBOOLEANVPROC)(GLenum_t pname, GLboolean_t* data);
+    PFNGLGETBOOLEANVPROC iglGetBooleanv;
 
-    typedef void(APIENTRYP PFNGLGETDOUBLEVPROC)(GLenum pname, GLdouble* data);
-    PFNGLGETDOUBLEVPROC glGetDoublev;
+    typedef void(APIENTRYP PFNGLGETDOUBLEVPROC)(GLenum_t pname, GLdouble_t* data);
+    PFNGLGETDOUBLEVPROC iglGetDoublev;
 
-    typedef GLenum(APIENTRYP PFNGLGETERRORPROC)(void);
-    PFNGLGETERRORPROC glGetError;
+    typedef GLenum_t(APIENTRYP PFNGLGETERRORPROC)(void);
+    PFNGLGETERRORPROC iglGetError;
 
-    typedef void(APIENTRYP PFNGLGETFLOATVPROC)(GLenum pname, GLfloat* data);
-    PFNGLGETFLOATVPROC glGetFloatv;
+    typedef void(APIENTRYP PFNGLGETFLOATVPROC)(GLenum_t pname, GLfloat_t* data);
+    PFNGLGETFLOATVPROC iglGetFloatv;
 
-    typedef void(APIENTRYP PFNGLGETINTEGERVPROC)(GLenum pname, GLint* data);
-    PFNGLGETINTEGERVPROC glGetIntegerv;
+    typedef void(APIENTRYP PFNGLGETINTEGERVPROC)(GLenum_t pname, GLint_t* data);
+    PFNGLGETINTEGERVPROC iglGetIntegerv;
 
-    typedef const GLubyte*(APIENTRYP PFNGLGETSTRINGPROC)(GLenum name);
-    PFNGLGETSTRINGPROC glGetString;
+    typedef const GLubyte*(APIENTRYP PFNGLGETSTRINGPROC)(GLenum_t name);
+    PFNGLGETSTRINGPROC iglGetString;
 
-    typedef void(APIENTRYP PFNGLGETTEXIMAGEPROC)(GLenum target, GLint level, GLenum format, GLenum type, void* pixels);
-    PFNGLGETTEXIMAGEPROC glGetTexImage;
+    typedef void(
+        APIENTRYP PFNGLGETTEXIMAGEPROC)(GLenum_t target, GLint_t level, GLenum_t format, GLenum_t type, void* pixels);
+    PFNGLGETTEXIMAGEPROC iglGetTexImage;
 
-    typedef void(APIENTRYP PFNGLGETTEXPARAMETERFVPROC)(GLenum target, GLenum pname, GLfloat* params);
-    PFNGLGETTEXPARAMETERFVPROC glGetTexParameterfv;
+    typedef void(APIENTRYP PFNGLGETTEXPARAMETERFVPROC)(GLenum_t target, GLenum_t pname, GLfloat_t* params);
+    PFNGLGETTEXPARAMETERFVPROC iglGetTexParameterfv;
 
-    typedef void(APIENTRYP PFNGLGETTEXPARAMETERIVPROC)(GLenum target, GLenum pname, GLint* params);
-    PFNGLGETTEXPARAMETERIVPROC glGetTexParameteriv;
+    typedef void(APIENTRYP PFNGLGETTEXPARAMETERIVPROC)(GLenum_t target, GLenum_t pname, GLint_t* params);
+    PFNGLGETTEXPARAMETERIVPROC iglGetTexParameteriv;
 
-    typedef void(APIENTRYP PFNGLGETTEXLEVELPARAMETERFVPROC)(GLenum target, GLint level, GLenum pname, GLfloat* params);
-    PFNGLGETTEXLEVELPARAMETERFVPROC glGetTexLevelParameterfv;
+    typedef void(APIENTRYP PFNGLGETTEXLEVELPARAMETERFVPROC)(GLenum_t   target,
+                                                            GLint_t    level,
+                                                            GLenum_t   pname,
+                                                            GLfloat_t* params);
+    PFNGLGETTEXLEVELPARAMETERFVPROC iglGetTexLevelParameterfv;
 
-    typedef void(APIENTRYP PFNGLGETTEXLEVELPARAMETERIVPROC)(GLenum target, GLint level, GLenum pname, GLint* params);
-    PFNGLGETTEXLEVELPARAMETERIVPROC glGetTexLevelParameteriv;
+    typedef void(APIENTRYP PFNGLGETTEXLEVELPARAMETERIVPROC)(GLenum_t target,
+                                                            GLint_t  level,
+                                                            GLenum_t pname,
+                                                            GLint_t* params);
+    PFNGLGETTEXLEVELPARAMETERIVPROC iglGetTexLevelParameteriv;
 
-    typedef GLboolean(APIENTRYP PFNGLISENABLEDPROC)(GLenum cap);
-    PFNGLISENABLEDPROC glIsEnabled;
+    typedef GLboolean_t(APIENTRYP PFNGLISENABLEDPROC)(GLenum_t cap);
+    PFNGLISENABLEDPROC iglIsEnabled;
 
-    typedef void(APIENTRYP PFNGLDEPTHRANGEPROC)(GLdouble n, GLdouble f);
-    PFNGLDEPTHRANGEPROC glDepthRange;
+    typedef void(APIENTRYP PFNGLDEPTHRANGEPROC)(GLdouble_t n, GLdouble_t f);
+    PFNGLDEPTHRANGEPROC iglDepthRange;
 
-    typedef void(APIENTRYP PFNGLVIEWPORTPROC)(GLint x, GLint y, GLsizei width, GLsizei height);
-    PFNGLVIEWPORTPROC glViewport;
+    typedef void(APIENTRYP PFNGLVIEWPORTPROC)(GLint_t x, GLint_t y, GLsizei_t width, GLsizei_t height);
+    PFNGLVIEWPORTPROC iglViewport;
 
   public:
     GLfuncsv100();
 
   protected:
-    virtual void loadFuncs(Loader loader) override;
+    virtual void loadFuncs(Loader loader);
 };
 
 } // namespace glr

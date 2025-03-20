@@ -4,55 +4,54 @@
 
 namespace glr {
 class GLR_API GLfuncsv440 : public GLfuncsv430 {
-    VI_OBJECT_META;
 
   public:
-    typedef void(APIENTRYP PFNGLBUFFERSTORAGEPROC)(GLenum target, GLsizeiptr size, const void* data, GLbitfield flags);
-    PFNGLBUFFERSTORAGEPROC glBufferStorage;
+    typedef void(APIENTRYP PFNGLBUFFERSTORAGEPROC)(GLenum_t target, GLsizeiptr size, const void* data, GLbitfield_t flags);
+    PFNGLBUFFERSTORAGEPROC iglBufferStorage;
 
     typedef void(
-        APIENTRYP PFNGLCLEARTEXIMAGEPROC)(GLuint texture, GLint level, GLenum format, GLenum type, const void* data);
-    PFNGLCLEARTEXIMAGEPROC glClearTexImage;
+        APIENTRYP PFNGLCLEARTEXIMAGEPROC)(GLuint_t texture, GLint_t level, GLenum_t format, GLenum_t type, const void* data);
+    PFNGLCLEARTEXIMAGEPROC iglClearTexImage;
 
-    typedef void(APIENTRYP PFNGLCLEARTEXSUBIMAGEPROC)(GLuint      texture,
-                                                      GLint       level,
-                                                      GLint       xoffset,
-                                                      GLint       yoffset,
-                                                      GLint       zoffset,
-                                                      GLsizei     width,
-                                                      GLsizei     height,
-                                                      GLsizei     depth,
-                                                      GLenum      format,
-                                                      GLenum      type,
+    typedef void(APIENTRYP PFNGLCLEARTEXSUBIMAGEPROC)(GLuint_t      texture,
+                                                      GLint_t       level,
+                                                      GLint_t       xoffset,
+                                                      GLint_t       yoffset,
+                                                      GLint_t       zoffset,
+                                                      GLsizei_t     width,
+                                                      GLsizei_t     height,
+                                                      GLsizei_t     depth,
+                                                      GLenum_t      format,
+                                                      GLenum_t      type,
                                                       const void* data);
-    PFNGLCLEARTEXSUBIMAGEPROC glClearTexSubImage;
+    PFNGLCLEARTEXSUBIMAGEPROC iglClearTexSubImage;
 
-    typedef void(APIENTRYP PFNGLBINDBUFFERSBASEPROC)(GLenum target, GLuint first, GLsizei count, const GLuint* buffers);
-    PFNGLBINDBUFFERSBASEPROC glBindBuffersBase;
+    typedef void(APIENTRYP PFNGLBINDBUFFERSBASEPROC)(GLenum_t target, GLuint_t first, GLsizei_t count, const GLuint_t* buffers);
+    PFNGLBINDBUFFERSBASEPROC iglBindBuffersBase;
 
-    typedef void(APIENTRYP PFNGLBINDBUFFERSRANGEPROC)(GLenum            target,
-                                                      GLuint            first,
-                                                      GLsizei           count,
-                                                      const GLuint*     buffers,
+    typedef void(APIENTRYP PFNGLBINDBUFFERSRANGEPROC)(GLenum_t            target,
+                                                      GLuint_t            first,
+                                                      GLsizei_t           count,
+                                                      const GLuint_t*     buffers,
                                                       const GLintptr*   offsets,
                                                       const GLsizeiptr* sizes);
-    PFNGLBINDBUFFERSRANGEPROC glBindBuffersRange;
+    PFNGLBINDBUFFERSRANGEPROC iglBindBuffersRange;
 
-    typedef void(APIENTRYP PFNGLBINDTEXTURESPROC)(GLuint first, GLsizei count, const GLuint* textures);
-    PFNGLBINDTEXTURESPROC glBindTextures;
+    typedef void(APIENTRYP PFNGLBINDTEXTURESPROC)(GLuint_t first, GLsizei_t count, const GLuint_t* textures);
+    PFNGLBINDTEXTURESPROC iglBindTextures;
 
-    typedef void(APIENTRYP PFNGLBINDSAMPLERSPROC)(GLuint first, GLsizei count, const GLuint* samplers);
-    PFNGLBINDSAMPLERSPROC glBindSamplers;
+    typedef void(APIENTRYP PFNGLBINDSAMPLERSPROC)(GLuint_t first, GLsizei_t count, const GLuint_t* samplers);
+    PFNGLBINDSAMPLERSPROC iglBindSamplers;
 
-    typedef void(APIENTRYP PFNGLBINDIMAGETEXTURESPROC)(GLuint first, GLsizei count, const GLuint* textures);
-    PFNGLBINDIMAGETEXTURESPROC glBindImageTextures;
+    typedef void(APIENTRYP PFNGLBINDIMAGETEXTURESPROC)(GLuint_t first, GLsizei_t count, const GLuint_t* textures);
+    PFNGLBINDIMAGETEXTURESPROC iglBindImageTextures;
 
-    typedef void(APIENTRYP PFNGLBINDVERTEXBUFFERSPROC)(GLuint          first,
-                                                       GLsizei         count,
-                                                       const GLuint*   buffers,
+    typedef void(APIENTRYP PFNGLBINDVERTEXBUFFERSPROC)(GLuint_t          first,
+                                                       GLsizei_t         count,
+                                                       const GLuint_t*   buffers,
                                                        const GLintptr* offsets,
-                                                       const GLsizei*  strides);
-    PFNGLBINDVERTEXBUFFERSPROC glBindVertexBuffers;
+                                                       const GLsizei_t*  strides);
+    PFNGLBINDVERTEXBUFFERSPROC iglBindVertexBuffers;
 
   public:
     GLfuncsv440();

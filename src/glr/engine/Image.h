@@ -5,6 +5,7 @@
 #include <glr/engine/Object.h>
 
 namespace glr {
+class State;
 class GLR_API Image : public Object {
     VI_OBJECT_META;
     VI_DISABLE_COPY_MOVE(Image);
@@ -73,7 +74,7 @@ class GLR_API Image : public Object {
      * GL_STENCIL_INDEX	    GL_UNSIGNED_BYTE	8   位无符号整数表示的模板值，常用于模板缓冲区。
      * GL_STENCIL_INDEX	    GL_UNSIGNED_INT	    32  位无符号整数表示的模板值，常用于模板缓冲区。
      */
-    static Image* readPixels(int x, int y, int w, int h, int fmt, int type);
+    static Image* readPixels(State& state, int x, int y, int w, int h, int fmt, int type);
 
   private:
     struct Data;

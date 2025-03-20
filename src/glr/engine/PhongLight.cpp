@@ -3,8 +3,10 @@
 #include <cmath>
 
 #include <glr/engine/Camera.h>
+#include <glr/engine/GraphicContext.h>
 #include <glr/engine/Program.h>
 #include <glr/engine/State.h>
+#include <glr/igl/GLfuncs.h>
 
 namespace glr {
 VI_OBJECT_META_IMPL(PhongLight, Object);
@@ -142,7 +144,7 @@ const std::string& PhongLights::getName() const {
 }
 
 void PhongLights::apply(State& state) const {
-    auto prog = state.getCurrentProgram();
+    auto prog  = state.getCurrentProgram();
     if (prog) {
         auto max_light = getMaxLight();
         for (int i = 0; i < lights_.size(); i++) {

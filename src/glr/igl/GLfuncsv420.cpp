@@ -2,43 +2,42 @@
 
 namespace glr {
 
-VI_OBJECT_META_IMPL(GLfuncsv420, GLfuncsv410);
 
 GLfuncsv420::GLfuncsv420()
-  : glBindImageTexture(nullptr)
-  , glDrawArraysInstancedBaseInstance(nullptr)
-  , glDrawElementsInstancedBaseInstance(nullptr)
-  , glDrawElementsInstancedBaseVertexBaseInstance(nullptr)
-  , glDrawTransformFeedbackInstanced(nullptr)
-  , glDrawTransformFeedbackStreamInstanced(nullptr)
-  , glGetActiveAtomicCounterBufferiv(nullptr)
-  , glGetInternalformativ(nullptr)
-  , glMemoryBarrier(nullptr)
-  , glTexStorage1D(nullptr)
-  , glTexStorage2D(nullptr)
-  , glTexStorage3D(nullptr) {
+  : iglBindImageTexture(nullptr)
+  , iglDrawArraysInstancedBaseInstance(nullptr)
+  , iglDrawElementsInstancedBaseInstance(nullptr)
+  , iglDrawElementsInstancedBaseVertexBaseInstance(nullptr)
+  , iglDrawTransformFeedbackInstanced(nullptr)
+  , iglDrawTransformFeedbackStreamInstanced(nullptr)
+  , iglGetActiveAtomicCounterBufferiv(nullptr)
+  , iglGetInternalformativ(nullptr)
+  , iglMemoryBarrier(nullptr)
+  , iglTexStorage1D(nullptr)
+  , iglTexStorage2D(nullptr)
+  , iglTexStorage3D(nullptr) {
 }
 void GLfuncsv420::loadFuncs(Loader loader) {
     GLfuncsv410::loadFuncs(loader);
-    glBindImageTexture = reinterpret_cast<PFNGLBINDIMAGETEXTUREPROC>(loader("glBindImageTexture"));
-    glDrawArraysInstancedBaseInstance =
+    iglBindImageTexture = reinterpret_cast<PFNGLBINDIMAGETEXTUREPROC>(loader("glBindImageTexture"));
+    iglDrawArraysInstancedBaseInstance =
         reinterpret_cast<PFNGLDRAWARRAYSINSTANCEDBASEINSTANCEPROC>(loader("glDrawArraysInstancedBaseInstance"));
-    glDrawElementsInstancedBaseInstance =
+    iglDrawElementsInstancedBaseInstance =
         reinterpret_cast<PFNGLDRAWELEMENTSINSTANCEDBASEINSTANCEPROC>(loader("glDrawElementsInstancedBaseInstance"));
-    glDrawElementsInstancedBaseVertexBaseInstance =
+    iglDrawElementsInstancedBaseVertexBaseInstance =
         reinterpret_cast<PFNGLDRAWELEMENTSINSTANCEDBASEVERTEXBASEINSTANCEPROC>(
             loader("glDrawElementsInstancedBaseVertexBaseInstance"));
-    glDrawTransformFeedbackInstanced =
+    iglDrawTransformFeedbackInstanced =
         reinterpret_cast<PFNGLDRAWTRANSFORMFEEDBACKINSTANCEDPROC>(loader("glDrawTransformFeedbackInstanced"));
-    glDrawTransformFeedbackStreamInstanced = reinterpret_cast<PFNGLDRAWTRANSFORMFEEDBACKSTREAMINSTANCEDPROC>(
+    iglDrawTransformFeedbackStreamInstanced = reinterpret_cast<PFNGLDRAWTRANSFORMFEEDBACKSTREAMINSTANCEDPROC>(
         loader("glDrawTransformFeedbackStreamInstanced"));
-    glGetActiveAtomicCounterBufferiv =
+    iglGetActiveAtomicCounterBufferiv =
         reinterpret_cast<PFNGLGETACTIVEATOMICCOUNTERBUFFERIVPROC>(loader("glGetActiveAtomicCounterBufferiv"));
-    glGetInternalformativ = reinterpret_cast<PFNGLGETINTERNALFORMATIVPROC>(loader("glGetInternalformativ"));
-    glMemoryBarrier       = reinterpret_cast<PFNGLMEMORYBARRIERPROC>(loader("glMemoryBarrier"));
-    glTexStorage1D        = reinterpret_cast<PFNGLTEXSTORAGE1DPROC>(loader("glTexStorage1D"));
-    glTexStorage2D        = reinterpret_cast<PFNGLTEXSTORAGE2DPROC>(loader("glTexStorage2D"));
-    glTexStorage3D        = reinterpret_cast<PFNGLTEXSTORAGE3DPROC>(loader("glTexStorage3D"));
+    iglGetInternalformativ = reinterpret_cast<PFNGLGETINTERNALFORMATIVPROC>(loader("glGetInternalformativ"));
+    iglMemoryBarrier       = reinterpret_cast<PFNGLMEMORYBARRIERPROC>(loader("glMemoryBarrier"));
+    iglTexStorage1D        = reinterpret_cast<PFNGLTEXSTORAGE1DPROC>(loader("glTexStorage1D"));
+    iglTexStorage2D        = reinterpret_cast<PFNGLTEXSTORAGE2DPROC>(loader("glTexStorage2D"));
+    iglTexStorage3D        = reinterpret_cast<PFNGLTEXSTORAGE3DPROC>(loader("glTexStorage3D"));
 }
 
 } // namespace glr

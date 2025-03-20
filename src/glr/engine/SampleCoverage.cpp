@@ -1,14 +1,16 @@
 #include <glr/engine/SampleCoverage.h>
 
-#include <glad/glad.h>
+#include <glr/engine/GraphicContext.h>
+#include <glr/engine/State.h>
+#include <glr/igl/GLfuncs.h>
 
 namespace glr {
 
 VI_OBJECT_META_IMPL(SampleCoverage, StateAttribute);
 
 struct SampleCoverage::Data {
-    GLfloat_t value  = 0.f;
-    GLboolean invert = 0.f;
+    GLfloat_t   value  = 0.f;
+    GLboolean_t invert = 0.f;
 };
 
 SampleCoverage::SampleCoverage()
@@ -46,7 +48,8 @@ SampleCoverage::Type SampleCoverage::getType() const {
 }
 
 void SampleCoverage::apply(State& state) const {
-    glSampleCoverage(d->value, d->invert);
+    auto funcs = state.getContext()->getFuncs();
+    funcs->iglSampleCoverage(d->value, d->invert);
 }
 
 } // namespace glr

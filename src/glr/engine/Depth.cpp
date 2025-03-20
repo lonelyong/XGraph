@@ -1,6 +1,8 @@
 ﻿#include <glr/engine/Depth.h>
 
-#include <glad/glad.h>
+#include <glr/engine/GraphicContext.h>
+#include <glr/engine/State.h>
+#include <glr/igl/GLfuncs.h>
 
 #include <vector>
 
@@ -11,10 +13,10 @@ namespace glr {
 VI_OBJECT_META_IMPL(Depth, StateAttribute);
 
 struct Depth::Data {
-    GLdouble  near = 0.0;
-    GLdouble  far  = 1.0;
-    GLint     func = LESS;
-    GLboolean mask = true;
+    GLdouble_t  near = 0.0;
+    GLdouble_t  far  = 1.0;
+    GLint_t     func = LESS;
+    GLboolean_t mask = true;
 };
 
 Depth::Depth(GLdouble_t near, GLdouble_t far, Func func, GLboolean_t mask)
@@ -34,13 +36,14 @@ Depth::Type Depth::getType() const {
 }
 
 void Depth::apply(State& state) const {
-    // glGetDoublev(GL_DEPTH_RANGE, d->prev_near_far);
-    // glGetBooleanv(GL_DEPTH_WRITEMASK, &d->prev_mask);
-    // glGetIntegerv(GL_DEPTH_FUNC, &d->prev_func);
+    auto funcs = state.getContext()->getFuncs();
+    // glGetDoublev(IGL_DEPTH_RANGE, d->prev_near_far);
+    // glGetBooleanv(IGL_DEPTH_WRITEMASK, &d->prev_mask);
+    // glGetIntegerv(IGL_DEPTH_FUNC, &d->prev_func);
 
-    glDepthFunc(d->func);
-    glDepthMask(d->mask);
-    glDepthRange(d->near, d->far);
+    funcs->iglDepthFunc(d->func);
+    funcs->iglDepthMask(d->mask);
+    funcs->iglDepthRange(d->near, d->far);
 }
 #pragma endregion
 
@@ -48,9 +51,9 @@ void Depth::apply(State& state) const {
 VI_OBJECT_META_IMPL(DepthRangeIndexed, StateAttribute);
 
 struct DepthRangeIndexed::Data {
-    GLuint_t index = 0;
-    GLdouble near  = 0.0;
-    GLdouble far   = 1.0;
+    GLuint_t   index = 0;
+    GLdouble_t near  = 0.0;
+    GLdouble_t far   = 1.0;
 };
 
 DepthRangeIndexed::DepthRangeIndexed(GLuint_t index, GLdouble_t near, GLdouble_t far)
@@ -69,7 +72,8 @@ DepthRangeIndexed::Type DepthRangeIndexed::getType() const {
 }
 
 void DepthRangeIndexed::apply(State& state) const {
-    glDepthRangeIndexed(d->index, d->near, d->far);
+    auto funcs = state.getContext()->getFuncs();
+    funcs->iglDepthRangeIndexed(d->index, d->near, d->far);
 }
 #pragma endregion
 
@@ -78,7 +82,7 @@ VI_OBJECT_META_IMPL(DepthRangeArray, StateAttribute);
 
 struct DepthRangeArray::Data {
     GLuint_t                first = 0;
-    GLsizei                 count = 0;
+    GLsizei_t               count = 0;
     std::vector<GLdouble_t> near_far_pairs;
 };
 
@@ -96,7 +100,8 @@ DepthRangeArray::Type DepthRangeArray::getType() const {
 
 void DepthRangeArray::apply(State& state) const {
     if (d->count > 0) {
-        glDepthRangeArrayv(d->first, d->count, d->near_far_pairs.data());
+        auto funcs = state.getContext()->getFuncs();
+        funcs->iglDepthRangeArrayv(d->first, d->count, d->near_far_pairs.data());
     }
 }
 #pragma endregion

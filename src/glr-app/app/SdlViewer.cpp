@@ -4,8 +4,6 @@
 #include <iostream>
 #include <memory>
 
-#include <glad/glad.h>
-
 #define __SDL_VER 3
 
 #if __SDL_VER == 3
@@ -20,12 +18,12 @@
 
 #include <vine/core/Ptr.h>
 
+#include <glr/app/Viewer.h>
 #include <glr/engine/Camera.h>
 #include <glr/engine/CameraManipulator.h>
 #include <glr/engine/Event.h>
 #include <glr/engine/GraphicContext.h>
 #include <glr/engine/Renderer.h>
-#include <glr/app/Viewer.h>
 
 namespace glr {
 namespace {
@@ -83,16 +81,6 @@ class SdlGraphicContext : public GraphicContext {
         }
 
         SDL_GL_SetSwapInterval(0);
-        SDL_GL_MakeCurrent(sdl_wnd, sdl_ctx);
-
-        if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)) {
-            SDL_GL_DestroyContext(sdl_ctx);
-            SDL_DestroyWindow(sdl_wnd);
-            // SDL_Quit();
-            std::cout << "Failed to initialize glad." << std::endl;
-            return false;
-        }
-
         SDL_ShowWindow(sdl_wnd);
         SDL_GL_MakeCurrent(sdl_wnd_, sdl_ctx);
         sdl_wnd_ = sdl_wnd;

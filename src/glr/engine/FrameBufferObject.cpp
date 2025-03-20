@@ -3,14 +3,14 @@
 #include <iostream>
 #include <map>
 
-#include <glad/glad.h>
-
 #include <vine/core/Exception.h>
 #include <vine/core/Ptr.h>
 
+#include <glr/engine/GraphicContext.h>
 #include <glr/engine/RenderBuffer.h>
 #include <glr/engine/State.h>
 #include <glr/engine/Texture2D.h>
+#include <glr/igl/GLfuncs.h>
 
 namespace glr {
 VI_OBJECT_META_IMPL(FrameBufferObject, BindableObject);
@@ -74,23 +74,25 @@ PixelData* FrameBufferObject::getComponent(BufferComponent comp) const {
 }
 
 GLuint_t FrameBufferObject::onCreate(State& state) {
+    auto funcs = state.getContext()->getFuncs();
+
     GLuint_t id;
-    glGenFramebuffers(1, &id);
-    glBindFramebuffer(GL_FRAMEBUFFER, id);
+    funcs->iglGenFramebuffers(1, &id);
+    funcs->iglBindFramebuffer(IGL_FRAMEBUFFER, id);
 
     for (auto&& kv : d->components) {
         auto& buffer = kv.second;
         buffer->bind(state);
         if (buffer->isKindOf<Texture2D>()) {
-            glFramebufferTexture2D(GL_FRAMEBUFFER, kv.first, GL_TEXTURE_2D, buffer->getId(state), 0);
+            funcs->iglFramebufferTexture2D(IGL_FRAMEBUFFER, kv.first, IGL_TEXTURE_2D, buffer->getId(state), 0);
         }
         else if (buffer->isKindOf<RenderBuffer>()) {
-            glFramebufferRenderbuffer(GL_FRAMEBUFFER, kv.first, GL_RENDERBUFFER, buffer->getId(state));
+            funcs->iglFramebufferRenderbuffer(IGL_FRAMEBUFFER, kv.first, IGL_RENDERBUFFER, buffer->getId(state));
         }
         buffer->unbind(state);
     }
 
-    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+    if (funcs->iglCheckFramebufferStatus(IGL_FRAMEBUFFER) != IGL_FRAMEBUFFER_COMPLETE) {
         std::cerr << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
     }
 
@@ -98,8 +100,9 @@ GLuint_t FrameBufferObject::onCreate(State& state) {
 }
 
 bool FrameBufferObject::onRelease(State& state) {
-    auto id = getId(state);
-    glDeleteFramebuffers(1, &id);
+    auto id    = getId(state);
+    auto funcs = state.getContext()->getFuncs();
+    funcs->iglDeleteFramebuffers(1, &id);
     return true;
 }
 
@@ -108,16 +111,18 @@ bool FrameBufferObject::onUpdate(State& state) {
 }
 
 bool FrameBufferObject::onBind(State& state) {
-    auto id = getId(state);
-    glBindFramebuffer(GL_FRAMEBUFFER, id);
+    auto id    = getId(state);
+    auto funcs = state.getContext()->getFuncs();
+    funcs->iglBindFramebuffer(IGL_FRAMEBUFFER, id);
     return true;
 }
 
 bool FrameBufferObject::onUnbind(State& state) {
-    GLint curr_id = 0;
-    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &curr_id);
+    GLint_t curr_id = 0;
+    auto    funcs   = state.getContext()->getFuncs();
+    funcs->iglGetIntegerv(IGL_FRAMEBUFFER_BINDING, &curr_id);
     if (curr_id == getId(state)) {
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        funcs->iglBindFramebuffer(IGL_FRAMEBUFFER, 0);
     }
     return true;
 }

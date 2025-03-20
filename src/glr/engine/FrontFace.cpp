@@ -1,7 +1,8 @@
 #include <glr/engine/FrontFace.h>
 
-#include <glad/glad.h>
-
+#include <glr/engine/GraphicContext.h>
+#include <glr/engine/State.h>
+#include <glr/igl/GLfuncs.h>
 
 namespace glr {
 
@@ -37,7 +38,8 @@ FrontFace::Type FrontFace::getType() const {
 }
 
 void FrontFace::apply(State& state) const {
-    glFrontFace(d->mode);
+    auto funcs = state.getContext()->getFuncs();
+    funcs->iglFrontFace(d->mode);
 }
 
 } // namespace glr

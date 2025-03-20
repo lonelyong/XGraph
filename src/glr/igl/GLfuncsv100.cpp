@@ -2,108 +2,107 @@
 
 namespace glr {
 
-VI_OBJECT_META_IMPL(GLfuncsv100, GLfuncs);
 
 GLfuncsv100::GLfuncsv100()
-  : glCullFace(nullptr)
-  , glFrontFace(nullptr)
-  , glHint(nullptr)
-  , glLineWidth(nullptr)
-  , glPointSize(nullptr)
-  , glPolygonMode(nullptr)
-  , glScissor(nullptr)
-  , glTexParameterf(nullptr)
-  , glTexParameterfv(nullptr)
-  , glTexParameteri(nullptr)
-  , glTexParameteriv(nullptr)
-  , glTexImage1D(nullptr)
-  , glTexImage2D(nullptr)
-  , glDrawBuffer(nullptr)
-  , glClear(nullptr)
-  , glClearColor(nullptr)
-  , glClearStencil(nullptr)
-  , glClearDepth(nullptr)
-  , glStencilMask(nullptr)
-  , glColorMask(nullptr)
-  , glDepthMask(nullptr)
-  , glDisable(nullptr)
-  , glEnable(nullptr)
-  , glFinish(nullptr)
-  , glFlush(nullptr)
-  , glBlendFunc(nullptr)
-  , glLogicOp(nullptr)
-  , glStencilFunc(nullptr)
-  , glStencilOp(nullptr)
-  , glDepthFunc(nullptr)
-  , glPixelStoref(nullptr)
-  , glPixelStorei(nullptr)
-  , glReadBuffer(nullptr)
-  , glReadPixels(nullptr)
-  , glGetBooleanv(nullptr)
-  , glGetDoublev(nullptr)
-  , glGetError(nullptr)
-  , glGetFloatv(nullptr)
-  , glGetIntegerv(nullptr)
-  , glGetString(nullptr)
-  , glGetTexImage(nullptr)
-  , glGetTexParameterfv(nullptr)
-  , glGetTexParameteriv(nullptr)
-  , glGetTexLevelParameterfv(nullptr)
-  , glGetTexLevelParameteriv(nullptr)
-  , glIsEnabled(nullptr)
-  , glDepthRange(nullptr)
-  , glViewport(nullptr) {
+  : iglCullFace(nullptr)
+  , iglFrontFace(nullptr)
+  , iglHint(nullptr)
+  , iglLineWidth(nullptr)
+  , iglPointSize(nullptr)
+  , iglPolygonMode(nullptr)
+  , iglScissor(nullptr)
+  , iglTexParameterf(nullptr)
+  , iglTexParameterfv(nullptr)
+  , iglTexParameteri(nullptr)
+  , iglTexParameteriv(nullptr)
+  , iglTexImage1D(nullptr)
+  , iglTexImage2D(nullptr)
+  , iglDrawBuffer(nullptr)
+  , iglClear(nullptr)
+  , iglClearColor(nullptr)
+  , iglClearStencil(nullptr)
+  , iglClearDepth(nullptr)
+  , iglStencilMask(nullptr)
+  , iglColorMask(nullptr)
+  , iglDepthMask(nullptr)
+  , iglDisable(nullptr)
+  , iglEnable(nullptr)
+  , iglFinish(nullptr)
+  , iglFlush(nullptr)
+  , iglBlendFunc(nullptr)
+  , iglLogicOp(nullptr)
+  , iglStencilFunc(nullptr)
+  , iglStencilOp(nullptr)
+  , iglDepthFunc(nullptr)
+  , iglPixelStoref(nullptr)
+  , iglPixelStorei(nullptr)
+  , iglReadBuffer(nullptr)
+  , iglReadPixels(nullptr)
+  , iglGetBooleanv(nullptr)
+  , iglGetDoublev(nullptr)
+  , iglGetError(nullptr)
+  , iglGetFloatv(nullptr)
+  , iglGetIntegerv(nullptr)
+  , iglGetString(nullptr)
+  , iglGetTexImage(nullptr)
+  , iglGetTexParameterfv(nullptr)
+  , iglGetTexParameteriv(nullptr)
+  , iglGetTexLevelParameterfv(nullptr)
+  , iglGetTexLevelParameteriv(nullptr)
+  , iglIsEnabled(nullptr)
+  , iglDepthRange(nullptr)
+  , iglViewport(nullptr) {
 }
 
 void GLfuncsv100::loadFuncs(Loader loader) {
-    glCullFace               = (PFNGLCULLFACEPROC)loader("glCullFace");
-    glFrontFace              = (PFNGLFRONTFACEPROC)loader("glFrontFace");
-    glHint                   = (PFNGLHINTPROC)loader("glHint");
-    glLineWidth              = (PFNGLLINEWIDTHPROC)loader("glLineWidth");
-    glPointSize              = (PFNGLPOINTSIZEPROC)loader("glPointSize");
-    glPolygonMode            = (PFNGLPOLYGONMODEPROC)loader("glPolygonMode");
-    glScissor                = (PFNGLSCISSORPROC)loader("glScissor");
-    glTexParameterf          = (PFNGLTEXPARAMETERFPROC)loader("glTexParameterf");
-    glTexParameterfv         = (PFNGLTEXPARAMETERFVPROC)loader("glTexParameterfv");
-    glTexParameteri          = (PFNGLTEXPARAMETERIPROC)loader("glTexParameteri");
-    glTexParameteriv         = (PFNGLTEXPARAMETERIVPROC)loader("glTexParameteriv");
-    glTexImage1D             = (PFNGLTEXIMAGE1DPROC)loader("glTexImage1D");
-    glTexImage2D             = (PFNGLTEXIMAGE2DPROC)loader("glTexImage2D");
-    glDrawBuffer             = (PFNGLDRAWBUFFERPROC)loader("glDrawBuffer");
-    glClear                  = (PFNGLCLEARPROC)loader("glClear");
-    glClearColor             = (PFNGLCLEARCOLORPROC)loader("glClearColor");
-    glClearStencil           = (PFNGLCLEARSTENCILPROC)loader("glClearStencil");
-    glClearDepth             = (PFNGLCLEARDEPTHPROC)loader("glClearDepth");
-    glStencilMask            = (PFNGLSTENCILMASKPROC)loader("glStencilMask");
-    glColorMask              = (PFNGLCOLORMASKPROC)loader("glColorMask");
-    glDepthMask              = (PFNGLDEPTHMASKPROC)loader("glDepthMask");
-    glDisable                = (PFNGLDISABLEPROC)loader("glDisable");
-    glEnable                 = (PFNGLENABLEPROC)loader("glEnable");
-    glFinish                 = (PFNGLFINISHPROC)loader("glFinish");
-    glFlush                  = (PFNGLFLUSHPROC)loader("glFlush");
-    glBlendFunc              = (PFNGLBLENDFUNCPROC)loader("glBlendFunc");
-    glLogicOp                = (PFNGLLOGICOPPROC)loader("glLogicOp");
-    glStencilFunc            = (PFNGLSTENCILFUNCPROC)loader("glStencilFunc");
-    glStencilOp              = (PFNGLSTENCILOPPROC)loader("glStencilOp");
-    glDepthFunc              = (PFNGLDEPTHFUNCPROC)loader("glDepthFunc");
-    glPixelStoref            = (PFNGLPIXELSTOREFPROC)loader("glPixelStoref");
-    glPixelStorei            = (PFNGLPIXELSTOREIPROC)loader("glPixelStorei");
-    glReadBuffer             = (PFNGLREADBUFFERPROC)loader("glReadBuffer");
-    glReadPixels             = (PFNGLREADPIXELSPROC)loader("glReadPixels");
-    glGetBooleanv            = (PFNGLGETBOOLEANVPROC)loader("glGetBooleanv");
-    glGetDoublev             = (PFNGLGETDOUBLEVPROC)loader("glGetDoublev");
-    glGetError               = (PFNGLGETERRORPROC)loader("glGetError");
-    glGetFloatv              = (PFNGLGETFLOATVPROC)loader("glGetFloatv");
-    glGetIntegerv            = (PFNGLGETINTEGERVPROC)loader("glGetIntegerv");
-    glGetString              = (PFNGLGETSTRINGPROC)loader("glGetString");
-    glGetTexImage            = (PFNGLGETTEXIMAGEPROC)loader("glGetTexImage");
-    glGetTexParameterfv      = (PFNGLGETTEXPARAMETERFVPROC)loader("glGetTexParameterfv");
-    glGetTexParameteriv      = (PFNGLGETTEXPARAMETERIVPROC)loader("glGetTexParameteriv");
-    glGetTexLevelParameterfv = (PFNGLGETTEXLEVELPARAMETERFVPROC)loader("glGetTexLevelParameterfv");
-    glGetTexLevelParameteriv = (PFNGLGETTEXLEVELPARAMETERIVPROC)loader("glGetTexLevelParameteriv");
-    glIsEnabled              = (PFNGLISENABLEDPROC)loader("glIsEnabled");
-    glDepthRange             = (PFNGLDEPTHRANGEPROC)loader("glDepthRange");
-    glViewport               = (PFNGLVIEWPORTPROC)loader("glViewport");
+    iglCullFace               = (PFNGLCULLFACEPROC)loader("glCullFace");
+    iglFrontFace              = (PFNGLFRONTFACEPROC)loader("glFrontFace");
+    iglHint                   = (PFNGLHINTPROC)loader("glHint");
+    iglLineWidth              = (PFNGLLINEWIDTHPROC)loader("glLineWidth");
+    iglPointSize              = (PFNGLPOINTSIZEPROC)loader("glPointSize");
+    iglPolygonMode            = (PFNGLPOLYGONMODEPROC)loader("glPolygonMode");
+    iglScissor                = (PFNGLSCISSORPROC)loader("glScissor");
+    iglTexParameterf          = (PFNGLTEXPARAMETERFPROC)loader("glTexParameterf");
+    iglTexParameterfv         = (PFNGLTEXPARAMETERFVPROC)loader("glTexParameterfv");
+    iglTexParameteri          = (PFNGLTEXPARAMETERIPROC)loader("glTexParameteri");
+    iglTexParameteriv         = (PFNGLTEXPARAMETERIVPROC)loader("glTexParameteriv");
+    iglTexImage1D             = (PFNGLTEXIMAGE1DPROC)loader("glTexImage1D");
+    iglTexImage2D             = (PFNGLTEXIMAGE2DPROC)loader("glTexImage2D");
+    iglDrawBuffer             = (PFNGLDRAWBUFFERPROC)loader("glDrawBuffer");
+    iglClear                  = (PFNGLCLEARPROC)loader("glClear");
+    iglClearColor             = (PFNGLCLEARCOLORPROC)loader("glClearColor");
+    iglClearStencil           = (PFNGLCLEARSTENCILPROC)loader("glClearStencil");
+    iglClearDepth             = (PFNGLCLEARDEPTHPROC)loader("glClearDepth");
+    iglStencilMask            = (PFNGLSTENCILMASKPROC)loader("glStencilMask");
+    iglColorMask              = (PFNGLCOLORMASKPROC)loader("glColorMask");
+    iglDepthMask              = (PFNGLDEPTHMASKPROC)loader("glDepthMask");
+    iglDisable                = (PFNGLDISABLEPROC)loader("glDisable");
+    iglEnable                 = (PFNGLENABLEPROC)loader("glEnable");
+    iglFinish                 = (PFNGLFINISHPROC)loader("glFinish");
+    iglFlush                  = (PFNGLFLUSHPROC)loader("glFlush");
+    iglBlendFunc              = (PFNGLBLENDFUNCPROC)loader("glBlendFunc");
+    iglLogicOp                = (PFNGLLOGICOPPROC)loader("glLogicOp");
+    iglStencilFunc            = (PFNGLSTENCILFUNCPROC)loader("glStencilFunc");
+    iglStencilOp              = (PFNGLSTENCILOPPROC)loader("glStencilOp");
+    iglDepthFunc              = (PFNGLDEPTHFUNCPROC)loader("glDepthFunc");
+    iglPixelStoref            = (PFNGLPIXELSTOREFPROC)loader("glPixelStoref");
+    iglPixelStorei            = (PFNGLPIXELSTOREIPROC)loader("glPixelStorei");
+    iglReadBuffer             = (PFNGLREADBUFFERPROC)loader("glReadBuffer");
+    iglReadPixels             = (PFNGLREADPIXELSPROC)loader("glReadPixels");
+    iglGetBooleanv            = (PFNGLGETBOOLEANVPROC)loader("glGetBooleanv");
+    iglGetDoublev             = (PFNGLGETDOUBLEVPROC)loader("glGetDoublev");
+    iglGetError               = (PFNGLGETERRORPROC)loader("glGetError");
+    iglGetFloatv              = (PFNGLGETFLOATVPROC)loader("glGetFloatv");
+    iglGetIntegerv            = (PFNGLGETINTEGERVPROC)loader("glGetIntegerv");
+    iglGetString              = (PFNGLGETSTRINGPROC)loader("glGetString");
+    iglGetTexImage            = (PFNGLGETTEXIMAGEPROC)loader("glGetTexImage");
+    iglGetTexParameterfv      = (PFNGLGETTEXPARAMETERFVPROC)loader("glGetTexParameterfv");
+    iglGetTexParameteriv      = (PFNGLGETTEXPARAMETERIVPROC)loader("glGetTexParameteriv");
+    iglGetTexLevelParameterfv = (PFNGLGETTEXLEVELPARAMETERFVPROC)loader("glGetTexLevelParameterfv");
+    iglGetTexLevelParameteriv = (PFNGLGETTEXLEVELPARAMETERIVPROC)loader("glGetTexLevelParameteriv");
+    iglIsEnabled              = (PFNGLISENABLEDPROC)loader("glIsEnabled");
+    iglDepthRange             = (PFNGLDEPTHRANGEPROC)loader("glDepthRange");
+    iglViewport               = (PFNGLVIEWPORTPROC)loader("glViewport");
 }
 
 } // namespace glr

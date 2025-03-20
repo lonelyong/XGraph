@@ -4,45 +4,44 @@
 
 namespace glr {
 class GLR_API GLfuncsv140 : public GLfuncsv130 {
-    VI_OBJECT_META;
 
   public:
-    typedef void(APIENTRYP PFNGLBLENDFUNCSEPARATEPROC)(GLenum sfactorRGB,
-                                                       GLenum dfactorRGB,
-                                                       GLenum sfactorAlpha,
-                                                       GLenum dfactorAlpha);
-    PFNGLBLENDFUNCSEPARATEPROC glBlendFuncSeparate;
+    typedef void(APIENTRYP PFNGLBLENDFUNCSEPARATEPROC)(GLenum_t sfactorRGB,
+                                                       GLenum_t dfactorRGB,
+                                                       GLenum_t sfactorAlpha,
+                                                       GLenum_t dfactorAlpha);
+    PFNGLBLENDFUNCSEPARATEPROC iglBlendFuncSeparate;
 
-    typedef void(APIENTRYP PFNGLMULTIDRAWARRAYSPROC)(GLenum         mode,
-                                                     const GLint*   first,
-                                                     const GLsizei* count,
-                                                     GLsizei        drawcount);
-    PFNGLMULTIDRAWARRAYSPROC glMultiDrawArrays;
+    typedef void(APIENTRYP PFNGLMULTIDRAWARRAYSPROC)(GLenum_t         mode,
+                                                     const GLint_t*   first,
+                                                     const GLsizei_t* count,
+                                                     GLsizei_t        drawcount);
+    PFNGLMULTIDRAWARRAYSPROC iglMultiDrawArrays;
 
-    typedef void(APIENTRYP PFNGLMULTIDRAWELEMENTSPROC)(GLenum             mode,
-                                                       const GLsizei*     count,
-                                                       GLenum             type,
+    typedef void(APIENTRYP PFNGLMULTIDRAWELEMENTSPROC)(GLenum_t             mode,
+                                                       const GLsizei_t*     count,
+                                                       GLenum_t             type,
                                                        const void* const* indices,
-                                                       GLsizei            drawcount);
-    PFNGLMULTIDRAWELEMENTSPROC glMultiDrawElements;
+                                                       GLsizei_t            drawcount);
+    PFNGLMULTIDRAWELEMENTSPROC iglMultiDrawElements;
 
-    typedef void(APIENTRYP PFNGLPOINTPARAMETERFPROC)(GLenum pname, GLfloat param);
-    PFNGLPOINTPARAMETERFPROC glPointParameterf;
+    typedef void(APIENTRYP PFNGLPOINTPARAMETERFPROC)(GLenum_t pname, GLfloat_t param);
+    PFNGLPOINTPARAMETERFPROC iglPointParameterf;
 
-    typedef void(APIENTRYP PFNGLPOINTPARAMETERFVPROC)(GLenum pname, const GLfloat* params);
-    PFNGLPOINTPARAMETERFVPROC glPointParameterfv;
+    typedef void(APIENTRYP PFNGLPOINTPARAMETERFVPROC)(GLenum_t pname, const GLfloat_t* params);
+    PFNGLPOINTPARAMETERFVPROC iglPointParameterfv;
 
-    typedef void(APIENTRYP PFNGLPOINTPARAMETERIPROC)(GLenum pname, GLint param);
-    PFNGLPOINTPARAMETERIPROC glPointParameteri;
+    typedef void(APIENTRYP PFNGLPOINTPARAMETERIPROC)(GLenum_t pname, GLint_t param);
+    PFNGLPOINTPARAMETERIPROC iglPointParameteri;
 
-    typedef void(APIENTRYP PFNGLPOINTPARAMETERIVPROC)(GLenum pname, const GLint* params);
-    PFNGLPOINTPARAMETERIVPROC glPointParameteriv;
+    typedef void(APIENTRYP PFNGLPOINTPARAMETERIVPROC)(GLenum_t pname, const GLint_t* params);
+    PFNGLPOINTPARAMETERIVPROC iglPointParameteriv;
 
-    typedef void(APIENTRYP PFNGLBLENDCOLORPROC)(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
-    PFNGLBLENDCOLORPROC glBlendColor;
+    typedef void(APIENTRYP PFNGLBLENDCOLORPROC)(GLfloat_t red, GLfloat_t green, GLfloat_t blue, GLfloat_t alpha);
+    PFNGLBLENDCOLORPROC iglBlendColor;
 
-    typedef void(APIENTRYP PFNGLBLENDEQUATIONPROC)(GLenum mode);
-    PFNGLBLENDEQUATIONPROC glBlendEquation;
+    typedef void(APIENTRYP PFNGLBLENDEQUATIONPROC)(GLenum_t mode);
+    PFNGLBLENDEQUATIONPROC iglBlendEquation;
 
   public:
     GLfuncsv140();

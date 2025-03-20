@@ -2,298 +2,297 @@
 
 namespace glr {
 
-VI_OBJECT_META_IMPL(GLfuncsv450, GLfuncsv440);
 
 GLfuncsv450::GLfuncsv450()
-  : glBindTextureUnit(nullptr)
-  , glBlitNamedFramebuffer(nullptr)
-  , glCheckNamedFramebufferStatus(nullptr)
-  , glClearNamedBufferData(nullptr)
-  , glClearNamedBufferSubData(nullptr)
-  , glClearNamedFramebufferfi(nullptr)
-  , glClearNamedFramebufferfv(nullptr)
-  , glClearNamedFramebufferiv(nullptr)
-  , glClearNamedFramebufferuiv(nullptr)
-  , glClipControl(nullptr)
-  , glCompressedTextureSubImage1D(nullptr)
-  , glCompressedTextureSubImage2D(nullptr)
-  , glCompressedTextureSubImage3D(nullptr)
-  , glCopyNamedBufferSubData(nullptr)
-  , glCopyTextureSubImage1D(nullptr)
-  , glCopyTextureSubImage2D(nullptr)
-  , glCopyTextureSubImage3D(nullptr)
-  , glCreateBuffers(nullptr)
-  , glCreateFramebuffers(nullptr)
-  , glCreateProgramPipelines(nullptr)
-  , glCreateQueries(nullptr)
-  , glCreateRenderbuffers(nullptr)
-  , glCreateSamplers(nullptr)
-  , glCreateTextures(nullptr)
-  , glCreateTransformFeedbacks(nullptr)
-  , glCreateVertexArrays(nullptr)
-  , glDisableVertexArrayAttrib(nullptr)
-  , glEnableVertexArrayAttrib(nullptr)
-  , glFlushMappedNamedBufferRange(nullptr)
-  , glGenerateTextureMipmap(nullptr)
-  , glGetCompressedTextureImage(nullptr)
-  , glGetCompressedTextureSubImage(nullptr)
-  , glGetGraphicsResetStatus(nullptr)
-  , glGetNamedBufferParameteri64v(nullptr)
-  , glGetNamedBufferParameteriv(nullptr)
-  , glGetNamedBufferPointerv(nullptr)
-  , glGetNamedBufferSubData(nullptr)
-  , glGetNamedFramebufferAttachmentParameteriv(nullptr)
-  , glGetNamedFramebufferParameteriv(nullptr)
-  , glGetNamedRenderbufferParameteriv(nullptr)
-  , glGetQueryBufferObjecti64v(nullptr)
-  , glGetQueryBufferObjectiv(nullptr)
-  , glGetQueryBufferObjectui64v(nullptr)
-  , glGetQueryBufferObjectuiv(nullptr)
-  , glGetTextureImage(nullptr)
-  , glGetTextureLevelParameterfv(nullptr)
-  , glGetTextureLevelParameteriv(nullptr)
-  , glGetTextureParameterIiv(nullptr)
-  , glGetTextureParameterIuiv(nullptr)
-  , glGetTextureParameterfv(nullptr)
-  , glGetTextureParameteriv(nullptr)
-  , glGetTextureSubImage(nullptr)
-  , glGetTransformFeedbacki64_v(nullptr)
-  , glGetTransformFeedbacki_v(nullptr)
-  , glGetTransformFeedbackiv(nullptr)
-  , glGetVertexArrayIndexed64iv(nullptr)
-  , glGetVertexArrayIndexediv(nullptr)
-  , glGetVertexArrayiv(nullptr)
-  , glGetnColorTable(nullptr)
-  , glGetnCompressedTexImage(nullptr)
-  , glGetnConvolutionFilter(nullptr)
-  , glGetnHistogram(nullptr)
-  , glGetnMapdv(nullptr)
-  , glGetnMapfv(nullptr)
-  , glGetnMapiv(nullptr)
-  , glGetnMinmax(nullptr)
-  , glGetnPixelMapfv(nullptr)
-  , glGetnPixelMapuiv(nullptr)
-  , glGetnPixelMapusv(nullptr)
-  , glGetnPolygonStipple(nullptr)
-  , glGetnSeparableFilter(nullptr)
-  , glGetnTexImage(nullptr)
-  , glGetnUniformdv(nullptr)
-  , glGetnUniformfv(nullptr)
-  , glGetnUniformiv(nullptr)
-  , glGetnUniformuiv(nullptr)
-  , glInvalidateNamedFramebufferData(nullptr)
-  , glInvalidateNamedFramebufferSubData(nullptr)
-  , glMapNamedBufferRange(nullptr)
-  , glMapNamedBuffer(nullptr)
-  , glMemoryBarrierByRegion(nullptr)
-  , glNamedBufferData(nullptr)
-  , glNamedBufferStorage(nullptr)
-  , glNamedBufferSubData(nullptr)
-  , glNamedFramebufferDrawBuffers(nullptr)
-  , glNamedFramebufferDrawBuffer(nullptr)
-  , glNamedFramebufferParameteri(nullptr)
-  , glNamedFramebufferReadBuffer(nullptr)
-  , glNamedFramebufferRenderbuffer(nullptr)
-  , glNamedFramebufferTextureLayer(nullptr)
-  , glNamedFramebufferTexture(nullptr)
-  , glNamedRenderbufferStorageMultisample(nullptr)
-  , glNamedRenderbufferStorage(nullptr)
-  , glReadnPixels(nullptr)
-  , glTextureBarrier(nullptr)
-  , glTextureBufferRange(nullptr)
-  , glTextureBuffer(nullptr)
-  , glTextureParameterIiv(nullptr)
-  , glTextureParameterIuiv(nullptr)
-  , glTextureParameterfv(nullptr)
-  , glTextureParameterf(nullptr)
-  , glTextureParameteriv(nullptr)
-  , glTextureParameteri(nullptr)
-  , glTextureStorage1D(nullptr)
-  , glTextureStorage2DMultisample(nullptr)
-  , glTextureStorage2D(nullptr)
-  , glTextureStorage3DMultisample(nullptr)
-  , glTextureStorage3D(nullptr)
-  , glTextureSubImage1D(nullptr)
-  , glTextureSubImage2D(nullptr)
-  , glTextureSubImage3D(nullptr)
-  , glTransformFeedbackBufferBase(nullptr)
-  , glTransformFeedbackBufferRange(nullptr)
-  , glUnmapNamedBuffer(nullptr)
-  , glVertexArrayAttribBinding(nullptr)
-  , glVertexArrayAttribFormat(nullptr)
-  , glVertexArrayAttribIFormat(nullptr)
-  , glVertexArrayAttribLFormat(nullptr)
-  , glVertexArrayBindingDivisor(nullptr)
-  , glVertexArrayElementBuffer(nullptr)
-  , glVertexArrayVertexBuffers(nullptr)
-  , glVertexArrayVertexBuffer(nullptr) {
+  : iglBindTextureUnit(nullptr)
+  , iglBlitNamedFramebuffer(nullptr)
+  , iglCheckNamedFramebufferStatus(nullptr)
+  , iglClearNamedBufferData(nullptr)
+  , iglClearNamedBufferSubData(nullptr)
+  , iglClearNamedFramebufferfi(nullptr)
+  , iglClearNamedFramebufferfv(nullptr)
+  , iglClearNamedFramebufferiv(nullptr)
+  , iglClearNamedFramebufferuiv(nullptr)
+  , iglClipControl(nullptr)
+  , iglCompressedTextureSubImage1D(nullptr)
+  , iglCompressedTextureSubImage2D(nullptr)
+  , iglCompressedTextureSubImage3D(nullptr)
+  , iglCopyNamedBufferSubData(nullptr)
+  , iglCopyTextureSubImage1D(nullptr)
+  , iglCopyTextureSubImage2D(nullptr)
+  , iglCopyTextureSubImage3D(nullptr)
+  , iglCreateBuffers(nullptr)
+  , iglCreateFramebuffers(nullptr)
+  , iglCreateProgramPipelines(nullptr)
+  , iglCreateQueries(nullptr)
+  , iglCreateRenderbuffers(nullptr)
+  , iglCreateSamplers(nullptr)
+  , iglCreateTextures(nullptr)
+  , iglCreateTransformFeedbacks(nullptr)
+  , iglCreateVertexArrays(nullptr)
+  , iglDisableVertexArrayAttrib(nullptr)
+  , iglEnableVertexArrayAttrib(nullptr)
+  , iglFlushMappedNamedBufferRange(nullptr)
+  , iglGenerateTextureMipmap(nullptr)
+  , iglGetCompressedTextureImage(nullptr)
+  , iglGetCompressedTextureSubImage(nullptr)
+  , iglGetGraphicsResetStatus(nullptr)
+  , iglGetNamedBufferParameteri64v(nullptr)
+  , iglGetNamedBufferParameteriv(nullptr)
+  , iglGetNamedBufferPointerv(nullptr)
+  , iglGetNamedBufferSubData(nullptr)
+  , iglGetNamedFramebufferAttachmentParameteriv(nullptr)
+  , iglGetNamedFramebufferParameteriv(nullptr)
+  , iglGetNamedRenderbufferParameteriv(nullptr)
+  , iglGetQueryBufferObjecti64v(nullptr)
+  , iglGetQueryBufferObjectiv(nullptr)
+  , iglGetQueryBufferObjectui64v(nullptr)
+  , iglGetQueryBufferObjectuiv(nullptr)
+  , iglGetTextureImage(nullptr)
+  , iglGetTextureLevelParameterfv(nullptr)
+  , iglGetTextureLevelParameteriv(nullptr)
+  , iglGetTextureParameterIiv(nullptr)
+  , iglGetTextureParameterIuiv(nullptr)
+  , iglGetTextureParameterfv(nullptr)
+  , iglGetTextureParameteriv(nullptr)
+  , iglGetTextureSubImage(nullptr)
+  , iglGetTransformFeedbacki64_v(nullptr)
+  , iglGetTransformFeedbacki_v(nullptr)
+  , iglGetTransformFeedbackiv(nullptr)
+  , iglGetVertexArrayIndexed64iv(nullptr)
+  , iglGetVertexArrayIndexediv(nullptr)
+  , iglGetVertexArrayiv(nullptr)
+  , iglGetnColorTable(nullptr)
+  , iglGetnCompressedTexImage(nullptr)
+  , iglGetnConvolutionFilter(nullptr)
+  , iglGetnHistogram(nullptr)
+  , iglGetnMapdv(nullptr)
+  , iglGetnMapfv(nullptr)
+  , iglGetnMapiv(nullptr)
+  , iglGetnMinmax(nullptr)
+  , iglGetnPixelMapfv(nullptr)
+  , iglGetnPixelMapuiv(nullptr)
+  , iglGetnPixelMapusv(nullptr)
+  , iglGetnPolygonStipple(nullptr)
+  , iglGetnSeparableFilter(nullptr)
+  , iglGetnTexImage(nullptr)
+  , iglGetnUniformdv(nullptr)
+  , iglGetnUniformfv(nullptr)
+  , iglGetnUniformiv(nullptr)
+  , iglGetnUniformuiv(nullptr)
+  , iglInvalidateNamedFramebufferData(nullptr)
+  , iglInvalidateNamedFramebufferSubData(nullptr)
+  , iglMapNamedBufferRange(nullptr)
+  , iglMapNamedBuffer(nullptr)
+  , iglMemoryBarrierByRegion(nullptr)
+  , iglNamedBufferData(nullptr)
+  , iglNamedBufferStorage(nullptr)
+  , iglNamedBufferSubData(nullptr)
+  , iglNamedFramebufferDrawBuffers(nullptr)
+  , iglNamedFramebufferDrawBuffer(nullptr)
+  , iglNamedFramebufferParameteri(nullptr)
+  , iglNamedFramebufferReadBuffer(nullptr)
+  , iglNamedFramebufferRenderbuffer(nullptr)
+  , iglNamedFramebufferTextureLayer(nullptr)
+  , iglNamedFramebufferTexture(nullptr)
+  , iglNamedRenderbufferStorageMultisample(nullptr)
+  , iglNamedRenderbufferStorage(nullptr)
+  , iglReadnPixels(nullptr)
+  , iglTextureBarrier(nullptr)
+  , iglTextureBufferRange(nullptr)
+  , iglTextureBuffer(nullptr)
+  , iglTextureParameterIiv(nullptr)
+  , iglTextureParameterIuiv(nullptr)
+  , iglTextureParameterfv(nullptr)
+  , iglTextureParameterf(nullptr)
+  , iglTextureParameteriv(nullptr)
+  , iglTextureParameteri(nullptr)
+  , iglTextureStorage1D(nullptr)
+  , iglTextureStorage2DMultisample(nullptr)
+  , iglTextureStorage2D(nullptr)
+  , iglTextureStorage3DMultisample(nullptr)
+  , iglTextureStorage3D(nullptr)
+  , iglTextureSubImage1D(nullptr)
+  , iglTextureSubImage2D(nullptr)
+  , iglTextureSubImage3D(nullptr)
+  , iglTransformFeedbackBufferBase(nullptr)
+  , iglTransformFeedbackBufferRange(nullptr)
+  , iglUnmapNamedBuffer(nullptr)
+  , iglVertexArrayAttribBinding(nullptr)
+  , iglVertexArrayAttribFormat(nullptr)
+  , iglVertexArrayAttribIFormat(nullptr)
+  , iglVertexArrayAttribLFormat(nullptr)
+  , iglVertexArrayBindingDivisor(nullptr)
+  , iglVertexArrayElementBuffer(nullptr)
+  , iglVertexArrayVertexBuffers(nullptr)
+  , iglVertexArrayVertexBuffer(nullptr) {
 }
 
 void GLfuncsv450::loadFuncs(Loader loader) {
     GLfuncsv440::loadFuncs(loader);
-    glBindTextureUnit      = reinterpret_cast<PFNGLBINDTEXTUREUNITPROC>(loader("glBindTextureUnit"));
-    glBlitNamedFramebuffer = reinterpret_cast<PFNGLBLITNAMEDFRAMEBUFFERPROC>(loader("glBlitNamedFramebuffer"));
-    glCheckNamedFramebufferStatus =
+    iglBindTextureUnit      = reinterpret_cast<PFNGLBINDTEXTUREUNITPROC>(loader("glBindTextureUnit"));
+    iglBlitNamedFramebuffer = reinterpret_cast<PFNGLBLITNAMEDFRAMEBUFFERPROC>(loader("glBlitNamedFramebuffer"));
+    iglCheckNamedFramebufferStatus =
         reinterpret_cast<PFNGLCHECKNAMEDFRAMEBUFFERSTATUSPROC>(loader("glCheckNamedFramebufferStatus"));
-    glClearNamedBufferData    = reinterpret_cast<PFNGLCLEARNAMEDBUFFERDATAPROC>(loader("glClearNamedBufferData"));
-    glClearNamedBufferSubData = reinterpret_cast<PFNGLCLEARNAMEDBUFFERSUBDATAPROC>(loader("glClearNamedBufferSubData"));
-    glClearNamedFramebufferfi = reinterpret_cast<PFNGLCLEARNAMEDFRAMEBUFFERFIPROC>(loader("glClearNamedFramebufferfi"));
-    glClearNamedFramebufferfv = reinterpret_cast<PFNGLCLEARNAMEDFRAMEBUFFERFVPROC>(loader("glClearNamedFramebufferfv"));
-    glClearNamedFramebufferiv = reinterpret_cast<PFNGLCLEARNAMEDFRAMEBUFFERIVPROC>(loader("glClearNamedFramebufferiv"));
-    glClearNamedFramebufferuiv =
+    iglClearNamedBufferData    = reinterpret_cast<PFNGLCLEARNAMEDBUFFERDATAPROC>(loader("glClearNamedBufferData"));
+    iglClearNamedBufferSubData = reinterpret_cast<PFNGLCLEARNAMEDBUFFERSUBDATAPROC>(loader("glClearNamedBufferSubData"));
+    iglClearNamedFramebufferfi = reinterpret_cast<PFNGLCLEARNAMEDFRAMEBUFFERFIPROC>(loader("glClearNamedFramebufferfi"));
+    iglClearNamedFramebufferfv = reinterpret_cast<PFNGLCLEARNAMEDFRAMEBUFFERFVPROC>(loader("glClearNamedFramebufferfv"));
+    iglClearNamedFramebufferiv = reinterpret_cast<PFNGLCLEARNAMEDFRAMEBUFFERIVPROC>(loader("glClearNamedFramebufferiv"));
+    iglClearNamedFramebufferuiv =
         reinterpret_cast<PFNGLCLEARNAMEDFRAMEBUFFERUIVPROC>(loader("glClearNamedFramebufferuiv"));
-    glClipControl = reinterpret_cast<PFNGLCLIPCONTROLPROC>(loader("glClipControl"));
-    glCompressedTextureSubImage1D =
+    iglClipControl = reinterpret_cast<PFNGLCLIPCONTROLPROC>(loader("glClipControl"));
+    iglCompressedTextureSubImage1D =
         reinterpret_cast<PFNGLCOMPRESSEDTEXTURESUBIMAGE1DPROC>(loader("glCompressedTextureSubImage1D"));
-    glCompressedTextureSubImage2D =
+    iglCompressedTextureSubImage2D =
         reinterpret_cast<PFNGLCOMPRESSEDTEXTURESUBIMAGE2DPROC>(loader("glCompressedTextureSubImage2D"));
-    glCompressedTextureSubImage3D =
+    iglCompressedTextureSubImage3D =
         reinterpret_cast<PFNGLCOMPRESSEDTEXTURESUBIMAGE3DPROC>(loader("glCompressedTextureSubImage3D"));
-    glCopyNamedBufferSubData = reinterpret_cast<PFNGLCOPYNAMEDBUFFERSUBDATAPROC>(loader("glCopyNamedBufferSubData"));
-    glCopyTextureSubImage1D  = reinterpret_cast<PFNGLCOPYTEXTURESUBIMAGE1DPROC>(loader("glCopyTextureSubImage1D"));
-    glCopyTextureSubImage2D  = reinterpret_cast<PFNGLCOPYTEXTURESUBIMAGE2DPROC>(loader("glCopyTextureSubImage2D"));
-    glCopyTextureSubImage3D  = reinterpret_cast<PFNGLCOPYTEXTURESUBIMAGE3DPROC>(loader("glCopyTextureSubImage3D"));
-    glCreateBuffers          = reinterpret_cast<PFNGLCREATEBUFFERSPROC>(loader("glCreateBuffers"));
-    glCreateFramebuffers     = reinterpret_cast<PFNGLCREATEFRAMEBUFFERSPROC>(loader("glCreateFramebuffers"));
-    glCreateProgramPipelines = reinterpret_cast<PFNGLCREATEPROGRAMPIPELINESPROC>(loader("glCreateProgramPipelines"));
-    glCreateQueries          = reinterpret_cast<PFNGLCREATEQUERIESPROC>(loader("glCreateQueries"));
-    glCreateRenderbuffers    = reinterpret_cast<PFNGLCREATERENDERBUFFERSPROC>(loader("glCreateRenderbuffers"));
-    glCreateSamplers         = reinterpret_cast<PFNGLCREATESAMPLERSPROC>(loader("glCreateSamplers"));
-    glCreateTextures         = reinterpret_cast<PFNGLCREATETEXTURESPROC>(loader("glCreateTextures"));
-    glCreateTransformFeedbacks =
+    iglCopyNamedBufferSubData = reinterpret_cast<PFNGLCOPYNAMEDBUFFERSUBDATAPROC>(loader("glCopyNamedBufferSubData"));
+    iglCopyTextureSubImage1D  = reinterpret_cast<PFNGLCOPYTEXTURESUBIMAGE1DPROC>(loader("glCopyTextureSubImage1D"));
+    iglCopyTextureSubImage2D  = reinterpret_cast<PFNGLCOPYTEXTURESUBIMAGE2DPROC>(loader("glCopyTextureSubImage2D"));
+    iglCopyTextureSubImage3D  = reinterpret_cast<PFNGLCOPYTEXTURESUBIMAGE3DPROC>(loader("glCopyTextureSubImage3D"));
+    iglCreateBuffers          = reinterpret_cast<PFNGLCREATEBUFFERSPROC>(loader("glCreateBuffers"));
+    iglCreateFramebuffers     = reinterpret_cast<PFNGLCREATEFRAMEBUFFERSPROC>(loader("glCreateFramebuffers"));
+    iglCreateProgramPipelines = reinterpret_cast<PFNGLCREATEPROGRAMPIPELINESPROC>(loader("glCreateProgramPipelines"));
+    iglCreateQueries          = reinterpret_cast<PFNGLCREATEQUERIESPROC>(loader("glCreateQueries"));
+    iglCreateRenderbuffers    = reinterpret_cast<PFNGLCREATERENDERBUFFERSPROC>(loader("glCreateRenderbuffers"));
+    iglCreateSamplers         = reinterpret_cast<PFNGLCREATESAMPLERSPROC>(loader("glCreateSamplers"));
+    iglCreateTextures         = reinterpret_cast<PFNGLCREATETEXTURESPROC>(loader("glCreateTextures"));
+    iglCreateTransformFeedbacks =
         reinterpret_cast<PFNGLCREATETRANSFORMFEEDBACKSPROC>(loader("glCreateTransformFeedbacks"));
-    glCreateVertexArrays = reinterpret_cast<PFNGLCREATEVERTEXARRAYSPROC>(loader("glCreateVertexArrays"));
-    glDisableVertexArrayAttrib =
+    iglCreateVertexArrays = reinterpret_cast<PFNGLCREATEVERTEXARRAYSPROC>(loader("glCreateVertexArrays"));
+    iglDisableVertexArrayAttrib =
         reinterpret_cast<PFNGLDISABLEVERTEXARRAYATTRIBPROC>(loader("glDisableVertexArrayAttrib"));
-    glEnableVertexArrayAttrib = reinterpret_cast<PFNGLENABLEVERTEXARRAYATTRIBPROC>(loader("glEnableVertexArrayAttrib"));
-    glFlushMappedNamedBufferRange =
+    iglEnableVertexArrayAttrib = reinterpret_cast<PFNGLENABLEVERTEXARRAYATTRIBPROC>(loader("glEnableVertexArrayAttrib"));
+    iglFlushMappedNamedBufferRange =
         reinterpret_cast<PFNGLFLUSHMAPPEDNAMEDBUFFERRANGEPROC>(loader("glFlushMappedNamedBufferRange"));
-    glGenerateTextureMipmap = reinterpret_cast<PFNGLGENERATETEXTUREMIPMAPPROC>(loader("glGenerateTextureMipmap"));
-    glGetCompressedTextureImage =
+    iglGenerateTextureMipmap = reinterpret_cast<PFNGLGENERATETEXTUREMIPMAPPROC>(loader("glGenerateTextureMipmap"));
+    iglGetCompressedTextureImage =
         reinterpret_cast<PFNGLGETCOMPRESSEDTEXTUREIMAGEPROC>(loader("glGetCompressedTextureImage"));
-    glGetCompressedTextureSubImage =
+    iglGetCompressedTextureSubImage =
         reinterpret_cast<PFNGLGETCOMPRESSEDTEXTURESUBIMAGEPROC>(loader("glGetCompressedTextureSubImage"));
-    glGetGraphicsResetStatus = reinterpret_cast<PFNGLGETGRAPHICSRESETSTATUSPROC>(loader("glGetGraphicsResetStatus"));
-    glGetNamedBufferParameteri64v =
+    iglGetGraphicsResetStatus = reinterpret_cast<PFNGLGETGRAPHICSRESETSTATUSPROC>(loader("glGetGraphicsResetStatus"));
+    iglGetNamedBufferParameteri64v =
         reinterpret_cast<PFNGLGETNAMEDBUFFERPARAMETERI64VPROC>(loader("glGetNamedBufferParameteri64v"));
-    glGetNamedBufferParameteriv =
+    iglGetNamedBufferParameteriv =
         reinterpret_cast<PFNGLGETNAMEDBUFFERPARAMETERIVPROC>(loader("glGetNamedBufferParameteriv"));
-    glGetNamedBufferPointerv = reinterpret_cast<PFNGLGETNAMEDBUFFERPOINTERVPROC>(loader("glGetNamedBufferPointerv"));
-    glGetNamedBufferSubData  = reinterpret_cast<PFNGLGETNAMEDBUFFERSUBDATAPROC>(loader("glGetNamedBufferSubData"));
-    glGetNamedFramebufferAttachmentParameteriv = reinterpret_cast<PFNGLGETNAMEDFRAMEBUFFERATTACHMENTPARAMETERIVPROC>(
+    iglGetNamedBufferPointerv = reinterpret_cast<PFNGLGETNAMEDBUFFERPOINTERVPROC>(loader("glGetNamedBufferPointerv"));
+    iglGetNamedBufferSubData  = reinterpret_cast<PFNGLGETNAMEDBUFFERSUBDATAPROC>(loader("glGetNamedBufferSubData"));
+    iglGetNamedFramebufferAttachmentParameteriv = reinterpret_cast<PFNGLGETNAMEDFRAMEBUFFERATTACHMENTPARAMETERIVPROC>(
         loader("glGetNamedFramebufferAttachmentParameteriv"));
-    glGetNamedFramebufferParameteriv =
+    iglGetNamedFramebufferParameteriv =
         reinterpret_cast<PFNGLGETNAMEDFRAMEBUFFERPARAMETERIVPROC>(loader("glGetNamedFramebufferParameteriv"));
-    glGetNamedRenderbufferParameteriv =
+    iglGetNamedRenderbufferParameteriv =
         reinterpret_cast<PFNGLGETNAMEDRENDERBUFFERPARAMETERIVPROC>(loader("glGetNamedRenderbufferParameteriv"));
-    glGetQueryBufferObjecti64v =
+    iglGetQueryBufferObjecti64v =
         reinterpret_cast<PFNGLGETQUERYBUFFEROBJECTI64VPROC>(loader("glGetQueryBufferObjecti64v"));
-    glGetQueryBufferObjectiv = reinterpret_cast<PFNGLGETQUERYBUFFEROBJECTIVPROC>(loader("glGetQueryBufferObjectiv"));
-    glGetQueryBufferObjectui64v =
+    iglGetQueryBufferObjectiv = reinterpret_cast<PFNGLGETQUERYBUFFEROBJECTIVPROC>(loader("glGetQueryBufferObjectiv"));
+    iglGetQueryBufferObjectui64v =
         reinterpret_cast<PFNGLGETQUERYBUFFEROBJECTUI64VPROC>(loader("glGetQueryBufferObjectui64v"));
-    glGetQueryBufferObjectuiv = reinterpret_cast<PFNGLGETQUERYBUFFEROBJECTUIVPROC>(loader("glGetQueryBufferObjectuiv"));
-    glGetTextureImage         = reinterpret_cast<PFNGLGETTEXTUREIMAGEPROC>(loader("glGetTextureImage"));
-    glGetTextureLevelParameterfv =
+    iglGetQueryBufferObjectuiv = reinterpret_cast<PFNGLGETQUERYBUFFEROBJECTUIVPROC>(loader("glGetQueryBufferObjectuiv"));
+    iglGetTextureImage         = reinterpret_cast<PFNGLGETTEXTUREIMAGEPROC>(loader("glGetTextureImage"));
+    iglGetTextureLevelParameterfv =
         reinterpret_cast<PFNGLGETTEXTURELEVELPARAMETERFVPROC>(loader("glGetTextureLevelParameterfv"));
-    glGetTextureLevelParameteriv =
+    iglGetTextureLevelParameteriv =
         reinterpret_cast<PFNGLGETTEXTURELEVELPARAMETERIVPROC>(loader("glGetTextureLevelParameteriv"));
-    glGetTextureParameterIiv  = reinterpret_cast<PFNGLGETTEXTUREPARAMETERIIVPROC>(loader("glGetTextureParameterIiv"));
-    glGetTextureParameterIuiv = reinterpret_cast<PFNGLGETTEXTUREPARAMETERIUIVPROC>(loader("glGetTextureParameterIuiv"));
-    glGetTextureParameterfv   = reinterpret_cast<PFNGLGETTEXTUREPARAMETERFVPROC>(loader("glGetTextureParameterfv"));
-    glGetTextureParameteriv   = reinterpret_cast<PFNGLGETTEXTUREPARAMETERIVPROC>(loader("glGetTextureParameteriv"));
-    glGetTextureSubImage      = reinterpret_cast<PFNGLGETTEXTURESUBIMAGEPROC>(loader("glGetTextureSubImage"));
-    glGetTransformFeedbacki64_v =
+    iglGetTextureParameterIiv  = reinterpret_cast<PFNGLGETTEXTUREPARAMETERIIVPROC>(loader("glGetTextureParameterIiv"));
+    iglGetTextureParameterIuiv = reinterpret_cast<PFNGLGETTEXTUREPARAMETERIUIVPROC>(loader("glGetTextureParameterIuiv"));
+    iglGetTextureParameterfv   = reinterpret_cast<PFNGLGETTEXTUREPARAMETERFVPROC>(loader("glGetTextureParameterfv"));
+    iglGetTextureParameteriv   = reinterpret_cast<PFNGLGETTEXTUREPARAMETERIVPROC>(loader("glGetTextureParameteriv"));
+    iglGetTextureSubImage      = reinterpret_cast<PFNGLGETTEXTURESUBIMAGEPROC>(loader("glGetTextureSubImage"));
+    iglGetTransformFeedbacki64_v =
         reinterpret_cast<PFNGLGETTRANSFORMFEEDBACKI64_VPROC>(loader("glGetTransformFeedbacki64_v"));
-    glGetTransformFeedbacki_v = reinterpret_cast<PFNGLGETTRANSFORMFEEDBACKI_VPROC>(loader("glGetTransformFeedbacki_v"));
-    glGetTransformFeedbackiv  = reinterpret_cast<PFNGLGETTRANSFORMFEEDBACKIVPROC>(loader("glGetTransformFeedbackiv"));
-    glGetVertexArrayIndexed64iv =
+    iglGetTransformFeedbacki_v = reinterpret_cast<PFNGLGETTRANSFORMFEEDBACKI_VPROC>(loader("glGetTransformFeedbacki_v"));
+    iglGetTransformFeedbackiv  = reinterpret_cast<PFNGLGETTRANSFORMFEEDBACKIVPROC>(loader("glGetTransformFeedbackiv"));
+    iglGetVertexArrayIndexed64iv =
         reinterpret_cast<PFNGLGETVERTEXARRAYINDEXED64IVPROC>(loader("glGetVertexArrayIndexed64iv"));
-    glGetVertexArrayIndexediv = reinterpret_cast<PFNGLGETVERTEXARRAYINDEXEDIVPROC>(loader("glGetVertexArrayIndexediv"));
-    glGetVertexArrayiv        = reinterpret_cast<PFNGLGETVERTEXARRAYIVPROC>(loader("glGetVertexArrayiv"));
-    glGetnColorTable          = reinterpret_cast<PFNGLGETNCOLORTABLEPROC>(loader("glGetnColorTable"));
-    glGetnCompressedTexImage  = reinterpret_cast<PFNGLGETNCOMPRESSEDTEXIMAGEPROC>(loader("glGetnCompressedTexImage"));
-    glGetnConvolutionFilter   = reinterpret_cast<PFNGLGETNCONVOLUTIONFILTERPROC>(loader("glGetnConvolutionFilter"));
-    glGetnHistogram           = reinterpret_cast<PFNGLGETNHISTOGRAMPROC>(loader("glGetnHistogram"));
-    glGetnMapdv               = reinterpret_cast<PFNGLGETNMAPDVPROC>(loader("glGetnMapdv"));
-    glGetnMapfv               = reinterpret_cast<PFNGLGETNMAPFVPROC>(loader("glGetnMapfv"));
-    glGetnMapiv               = reinterpret_cast<PFNGLGETNMAPIVPROC>(loader("glGetnMapiv"));
-    glGetnMinmax              = reinterpret_cast<PFNGLGETNMINMAXPROC>(loader("glGetnMinmax"));
-    glGetnPixelMapfv          = reinterpret_cast<PFNGLGETNPIXELMAPFVPROC>(loader("glGetnPixelMapfv"));
-    glGetnPixelMapuiv         = reinterpret_cast<PFNGLGETNPIXELMAPUIVPROC>(loader("glGetnPixelMapuiv"));
-    glGetnPixelMapusv         = reinterpret_cast<PFNGLGETNPIXELMAPUSVPROC>(loader("glGetnPixelMapusv"));
-    glGetnPolygonStipple      = reinterpret_cast<PFNGLGETNPOLYGONSTIPPLEPROC>(loader("glGetnPolygonStipple"));
-    glGetnSeparableFilter     = reinterpret_cast<PFNGLGETNSEPARABLEFILTERPROC>(loader("glGetnSeparableFilter"));
-    glGetnTexImage            = reinterpret_cast<PFNGLGETNTEXIMAGEPROC>(loader("glGetnTexImage"));
-    glGetnUniformdv           = reinterpret_cast<PFNGLGETNUNIFORMDVPROC>(loader("glGetnUniformdv"));
-    glGetnUniformfv           = reinterpret_cast<PFNGLGETNUNIFORMFVPROC>(loader("glGetnUniformfv"));
-    glGetnUniformiv           = reinterpret_cast<PFNGLGETNUNIFORMIVPROC>(loader("glGetnUniformiv"));
-    glGetnUniformuiv          = reinterpret_cast<PFNGLGETNUNIFORMUIVPROC>(loader("glGetnUniformuiv"));
-    glInvalidateNamedFramebufferData =
+    iglGetVertexArrayIndexediv = reinterpret_cast<PFNGLGETVERTEXARRAYINDEXEDIVPROC>(loader("glGetVertexArrayIndexediv"));
+    iglGetVertexArrayiv        = reinterpret_cast<PFNGLGETVERTEXARRAYIVPROC>(loader("glGetVertexArrayiv"));
+    iglGetnColorTable          = reinterpret_cast<PFNGLGETNCOLORTABLEPROC>(loader("glGetnColorTable"));
+    iglGetnCompressedTexImage  = reinterpret_cast<PFNGLGETNCOMPRESSEDTEXIMAGEPROC>(loader("glGetnCompressedTexImage"));
+    iglGetnConvolutionFilter   = reinterpret_cast<PFNGLGETNCONVOLUTIONFILTERPROC>(loader("glGetnConvolutionFilter"));
+    iglGetnHistogram           = reinterpret_cast<PFNGLGETNHISTOGRAMPROC>(loader("glGetnHistogram"));
+    iglGetnMapdv               = reinterpret_cast<PFNGLGETNMAPDVPROC>(loader("glGetnMapdv"));
+    iglGetnMapfv               = reinterpret_cast<PFNGLGETNMAPFVPROC>(loader("glGetnMapfv"));
+    iglGetnMapiv               = reinterpret_cast<PFNGLGETNMAPIVPROC>(loader("glGetnMapiv"));
+    iglGetnMinmax              = reinterpret_cast<PFNGLGETNMINMAXPROC>(loader("glGetnMinmax"));
+    iglGetnPixelMapfv          = reinterpret_cast<PFNGLGETNPIXELMAPFVPROC>(loader("glGetnPixelMapfv"));
+    iglGetnPixelMapuiv         = reinterpret_cast<PFNGLGETNPIXELMAPUIVPROC>(loader("glGetnPixelMapuiv"));
+    iglGetnPixelMapusv         = reinterpret_cast<PFNGLGETNPIXELMAPUSVPROC>(loader("glGetnPixelMapusv"));
+    iglGetnPolygonStipple      = reinterpret_cast<PFNGLGETNPOLYGONSTIPPLEPROC>(loader("glGetnPolygonStipple"));
+    iglGetnSeparableFilter     = reinterpret_cast<PFNGLGETNSEPARABLEFILTERPROC>(loader("glGetnSeparableFilter"));
+    iglGetnTexImage            = reinterpret_cast<PFNGLGETNTEXIMAGEPROC>(loader("glGetnTexImage"));
+    iglGetnUniformdv           = reinterpret_cast<PFNGLGETNUNIFORMDVPROC>(loader("glGetnUniformdv"));
+    iglGetnUniformfv           = reinterpret_cast<PFNGLGETNUNIFORMFVPROC>(loader("glGetnUniformfv"));
+    iglGetnUniformiv           = reinterpret_cast<PFNGLGETNUNIFORMIVPROC>(loader("glGetnUniformiv"));
+    iglGetnUniformuiv          = reinterpret_cast<PFNGLGETNUNIFORMUIVPROC>(loader("glGetnUniformuiv"));
+    iglInvalidateNamedFramebufferData =
         reinterpret_cast<PFNGLINVALIDATENAMEDFRAMEBUFFERDATAPROC>(loader("glInvalidateNamedFramebufferData"));
-    glInvalidateNamedFramebufferSubData =
+    iglInvalidateNamedFramebufferSubData =
         reinterpret_cast<PFNGLINVALIDATENAMEDFRAMEBUFFERSUBDATAPROC>(loader("glInvalidateNamedFramebufferSubData"));
-    glMapNamedBufferRange   = reinterpret_cast<PFNGLMAPNAMEDBUFFERRANGEPROC>(loader("glMapNamedBufferRange"));
-    glMapNamedBuffer        = reinterpret_cast<PFNGLMAPNAMEDBUFFERPROC>(loader("glMapNamedBuffer"));
-    glMemoryBarrierByRegion = reinterpret_cast<PFNGLMEMORYBARRIERBYREGIONPROC>(loader("glMemoryBarrierByRegion"));
-    glNamedBufferData       = reinterpret_cast<PFNGLNAMEDBUFFERDATAPROC>(loader("glNamedBufferData"));
-    glNamedBufferStorage    = reinterpret_cast<PFNGLNAMEDBUFFERSTORAGEPROC>(loader("glNamedBufferStorage"));
-    glNamedBufferSubData    = reinterpret_cast<PFNGLNAMEDBUFFERSUBDATAPROC>(loader("glNamedBufferSubData"));
-    glNamedFramebufferDrawBuffers =
+    iglMapNamedBufferRange   = reinterpret_cast<PFNGLMAPNAMEDBUFFERRANGEPROC>(loader("glMapNamedBufferRange"));
+    iglMapNamedBuffer        = reinterpret_cast<PFNGLMAPNAMEDBUFFERPROC>(loader("glMapNamedBuffer"));
+    iglMemoryBarrierByRegion = reinterpret_cast<PFNGLMEMORYBARRIERBYREGIONPROC>(loader("glMemoryBarrierByRegion"));
+    iglNamedBufferData       = reinterpret_cast<PFNGLNAMEDBUFFERDATAPROC>(loader("glNamedBufferData"));
+    iglNamedBufferStorage    = reinterpret_cast<PFNGLNAMEDBUFFERSTORAGEPROC>(loader("glNamedBufferStorage"));
+    iglNamedBufferSubData    = reinterpret_cast<PFNGLNAMEDBUFFERSUBDATAPROC>(loader("glNamedBufferSubData"));
+    iglNamedFramebufferDrawBuffers =
         reinterpret_cast<PFNGLNAMEDFRAMEBUFFERDRAWBUFFERSPROC>(loader("glNamedFramebufferDrawBuffers"));
-    glNamedFramebufferDrawBuffer =
+    iglNamedFramebufferDrawBuffer =
         reinterpret_cast<PFNGLNAMEDFRAMEBUFFERDRAWBUFFERPROC>(loader("glNamedFramebufferDrawBuffer"));
-    glNamedFramebufferParameteri =
+    iglNamedFramebufferParameteri =
         reinterpret_cast<PFNGLNAMEDFRAMEBUFFERPARAMETERIPROC>(loader("glNamedFramebufferParameteri"));
-    glNamedFramebufferReadBuffer =
+    iglNamedFramebufferReadBuffer =
         reinterpret_cast<PFNGLNAMEDFRAMEBUFFERREADBUFFERPROC>(loader("glNamedFramebufferReadBuffer"));
-    glNamedFramebufferRenderbuffer =
+    iglNamedFramebufferRenderbuffer =
         reinterpret_cast<PFNGLNAMEDFRAMEBUFFERRENDERBUFFERPROC>(loader("glNamedFramebufferRenderbuffer"));
-    glNamedFramebufferTextureLayer =
+    iglNamedFramebufferTextureLayer =
         reinterpret_cast<PFNGLNAMEDFRAMEBUFFERTEXTURELAYERPROC>(loader("glNamedFramebufferTextureLayer"));
-    glNamedFramebufferTexture = reinterpret_cast<PFNGLNAMEDFRAMEBUFFERTEXTUREPROC>(loader("glNamedFramebufferTexture"));
-    glNamedRenderbufferStorageMultisample =
+    iglNamedFramebufferTexture = reinterpret_cast<PFNGLNAMEDFRAMEBUFFERTEXTUREPROC>(loader("glNamedFramebufferTexture"));
+    iglNamedRenderbufferStorageMultisample =
         reinterpret_cast<PFNGLNAMEDRENDERBUFFERSTORAGEMULTISAMPLEPROC>(loader("glNamedRenderbufferStorageMultisample"));
-    glNamedRenderbufferStorage =
+    iglNamedRenderbufferStorage =
         reinterpret_cast<PFNGLNAMEDRENDERBUFFERSTORAGEPROC>(loader("glNamedRenderbufferStorage"));
-    glReadnPixels          = reinterpret_cast<PFNGLREADNPIXELSPROC>(loader("glReadnPixels"));
-    glTextureBarrier       = reinterpret_cast<PFNGLTEXTUREBARRIERPROC>(loader("glTextureBarrier"));
-    glTextureBufferRange   = reinterpret_cast<PFNGLTEXTUREBUFFERRANGEPROC>(loader("glTextureBufferRange"));
-    glTextureBuffer        = reinterpret_cast<PFNGLTEXTUREBUFFERPROC>(loader("glTextureBuffer"));
-    glTextureParameterIiv  = reinterpret_cast<PFNGLTEXTUREPARAMETERIIVPROC>(loader("glTextureParameterIiv"));
-    glTextureParameterIuiv = reinterpret_cast<PFNGLTEXTUREPARAMETERIUIVPROC>(loader("glTextureParameterIuiv"));
-    glTextureParameterfv   = reinterpret_cast<PFNGLTEXTUREPARAMETERFVPROC>(loader("glTextureParameterfv"));
-    glTextureParameterf    = reinterpret_cast<PFNGLTEXTUREPARAMETERFPROC>(loader("glTextureParameterf"));
-    glTextureParameteriv   = reinterpret_cast<PFNGLTEXTUREPARAMETERIVPROC>(loader("glTextureParameteriv"));
-    glTextureParameteri    = reinterpret_cast<PFNGLTEXTUREPARAMETERIPROC>(loader("glTextureParameteri"));
-    glTextureStorage1D     = reinterpret_cast<PFNGLTEXTURESTORAGE1DPROC>(loader("glTextureStorage1D"));
-    glTextureStorage2DMultisample =
+    iglReadnPixels          = reinterpret_cast<PFNGLREADNPIXELSPROC>(loader("glReadnPixels"));
+    iglTextureBarrier       = reinterpret_cast<PFNGLTEXTUREBARRIERPROC>(loader("glTextureBarrier"));
+    iglTextureBufferRange   = reinterpret_cast<PFNGLTEXTUREBUFFERRANGEPROC>(loader("glTextureBufferRange"));
+    iglTextureBuffer        = reinterpret_cast<PFNGLTEXTUREBUFFERPROC>(loader("glTextureBuffer"));
+    iglTextureParameterIiv  = reinterpret_cast<PFNGLTEXTUREPARAMETERIIVPROC>(loader("glTextureParameterIiv"));
+    iglTextureParameterIuiv = reinterpret_cast<PFNGLTEXTUREPARAMETERIUIVPROC>(loader("glTextureParameterIuiv"));
+    iglTextureParameterfv   = reinterpret_cast<PFNGLTEXTUREPARAMETERFVPROC>(loader("glTextureParameterfv"));
+    iglTextureParameterf    = reinterpret_cast<PFNGLTEXTUREPARAMETERFPROC>(loader("glTextureParameterf"));
+    iglTextureParameteriv   = reinterpret_cast<PFNGLTEXTUREPARAMETERIVPROC>(loader("glTextureParameteriv"));
+    iglTextureParameteri    = reinterpret_cast<PFNGLTEXTUREPARAMETERIPROC>(loader("glTextureParameteri"));
+    iglTextureStorage1D     = reinterpret_cast<PFNGLTEXTURESTORAGE1DPROC>(loader("glTextureStorage1D"));
+    iglTextureStorage2DMultisample =
         reinterpret_cast<PFNGLTEXTURESTORAGE2DMULTISAMPLEPROC>(loader("glTextureStorage2DMultisample"));
-    glTextureStorage2D = reinterpret_cast<PFNGLTEXTURESTORAGE2DPROC>(loader("glTextureStorage2D"));
-    glTextureStorage3DMultisample =
+    iglTextureStorage2D = reinterpret_cast<PFNGLTEXTURESTORAGE2DPROC>(loader("glTextureStorage2D"));
+    iglTextureStorage3DMultisample =
         reinterpret_cast<PFNGLTEXTURESTORAGE3DMULTISAMPLEPROC>(loader("glTextureStorage3DMultisample"));
-    glTextureStorage3D  = reinterpret_cast<PFNGLTEXTURESTORAGE3DPROC>(loader("glTextureStorage3D"));
-    glTextureSubImage1D = reinterpret_cast<PFNGLTEXTURESUBIMAGE1DPROC>(loader("glTextureSubImage1D"));
-    glTextureSubImage2D = reinterpret_cast<PFNGLTEXTURESUBIMAGE2DPROC>(loader("glTextureSubImage2D"));
-    glTextureSubImage3D = reinterpret_cast<PFNGLTEXTURESUBIMAGE3DPROC>(loader("glTextureSubImage3D"));
-    glTransformFeedbackBufferBase =
+    iglTextureStorage3D  = reinterpret_cast<PFNGLTEXTURESTORAGE3DPROC>(loader("glTextureStorage3D"));
+    iglTextureSubImage1D = reinterpret_cast<PFNGLTEXTURESUBIMAGE1DPROC>(loader("glTextureSubImage1D"));
+    iglTextureSubImage2D = reinterpret_cast<PFNGLTEXTURESUBIMAGE2DPROC>(loader("glTextureSubImage2D"));
+    iglTextureSubImage3D = reinterpret_cast<PFNGLTEXTURESUBIMAGE3DPROC>(loader("glTextureSubImage3D"));
+    iglTransformFeedbackBufferBase =
         reinterpret_cast<PFNGLTRANSFORMFEEDBACKBUFFERBASEPROC>(loader("glTransformFeedbackBufferBase"));
-    glTransformFeedbackBufferRange =
+    iglTransformFeedbackBufferRange =
         reinterpret_cast<PFNGLTRANSFORMFEEDBACKBUFFERRANGEPROC>(loader("glTransformFeedbackBufferRange"));
-    glUnmapNamedBuffer = reinterpret_cast<PFNGLUNMAPNAMEDBUFFERPROC>(loader("glUnmapNamedBuffer"));
-    glVertexArrayAttribBinding =
+    iglUnmapNamedBuffer = reinterpret_cast<PFNGLUNMAPNAMEDBUFFERPROC>(loader("glUnmapNamedBuffer"));
+    iglVertexArrayAttribBinding =
         reinterpret_cast<PFNGLVERTEXARRAYATTRIBBINDINGPROC>(loader("glVertexArrayAttribBinding"));
-    glVertexArrayAttribFormat = reinterpret_cast<PFNGLVERTEXARRAYATTRIBFORMATPROC>(loader("glVertexArrayAttribFormat"));
-    glVertexArrayAttribIFormat =
+    iglVertexArrayAttribFormat = reinterpret_cast<PFNGLVERTEXARRAYATTRIBFORMATPROC>(loader("glVertexArrayAttribFormat"));
+    iglVertexArrayAttribIFormat =
         reinterpret_cast<PFNGLVERTEXARRAYATTRIBIFORMATPROC>(loader("glVertexArrayAttribIFormat"));
-    glVertexArrayAttribLFormat =
+    iglVertexArrayAttribLFormat =
         reinterpret_cast<PFNGLVERTEXARRAYATTRIBLFORMATPROC>(loader("glVertexArrayAttribLFormat"));
-    glVertexArrayBindingDivisor =
+    iglVertexArrayBindingDivisor =
         reinterpret_cast<PFNGLVERTEXARRAYBINDINGDIVISORPROC>(loader("glVertexArrayBindingDivisor"));
-    glVertexArrayElementBuffer =
+    iglVertexArrayElementBuffer =
         reinterpret_cast<PFNGLVERTEXARRAYELEMENTBUFFERPROC>(loader("glVertexArrayElementBuffer"));
-    glVertexArrayVertexBuffers =
+    iglVertexArrayVertexBuffers =
         reinterpret_cast<PFNGLVERTEXARRAYVERTEXBUFFERSPROC>(loader("glVertexArrayVertexBuffers"));
-    glVertexArrayVertexBuffer = reinterpret_cast<PFNGLVERTEXARRAYVERTEXBUFFERPROC>(loader("glVertexArrayVertexBuffer"));
+    iglVertexArrayVertexBuffer = reinterpret_cast<PFNGLVERTEXARRAYVERTEXBUFFERPROC>(loader("glVertexArrayVertexBuffer"));
 }
 
 

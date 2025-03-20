@@ -1,6 +1,8 @@
 #include <glr/engine/BlendEquation.h>
 
-#include <glad/glad.h>
+#include <glr/engine/GraphicContext.h>
+#include <glr/engine/State.h>
+#include <glr/igl/GLfuncs.h>
 
 namespace glr {
 
@@ -54,11 +56,12 @@ void BlendEquation::setEquationAlpha(Equation equation) {
 }
 
 void BlendEquation::apply(State& state) const {
+    auto funcs = state.getContext()->getFuncs();
     if (d->equation_alpha == d->equation_rdb) {
-        glBlendEquation(d->equation_rdb);
+        funcs->iglBlendEquation(d->equation_rdb);
     }
     else {
-        glBlendEquationSeparate(d->equation_rdb, d->equation_alpha);
+        //funcs->iglBlendEquationSeparate(d->equation_rdb, d->equation_alpha);
     }
 }
 #pragma endregion
@@ -97,13 +100,14 @@ GLuint_t BlendEquationi::getIndex() const {
 }
 
 void BlendEquationi::apply(State& state) const {
+    auto funcs          = state.getContext()->getFuncs();
     auto equation_rgb   = getEquationRGB();
     auto equation_alpha = getEquationAlpha();
     if (equation_rgb == equation_alpha) {
-        glBlendEquationi(d->index, equation_rgb);
+        funcs->iglBlendEquationi(d->index, equation_rgb);
     }
     else {
-        glBlendEquationSeparatei(d->index, equation_rgb, equation_alpha);
+        funcs->iglBlendEquationSeparatei(d->index, equation_rgb, equation_alpha);
     }
 }
 #pragma endregion

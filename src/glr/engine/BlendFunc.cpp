@@ -1,6 +1,8 @@
 #include <glr/engine/BlendFunc.h>
 
-#include <glad/glad.h>
+#include <glr/engine/GraphicContext.h>
+#include <glr/engine/State.h>
+#include <glr/igl/GLfuncs.h>
 
 namespace glr {
 #pragma region BlendFunc
@@ -82,11 +84,11 @@ BlendFunc::Func BlendFunc::getDestinationAlpha() const {
     return d->source_alpha;
 }
 
-void BlendFunc::apply(State& state) const {
+void BlendFunc::apply(State& state) const {     auto funcs = state.getContext()->getFuncs();
     if (d->source_alpha != d->source_rgb || d->dest_alpha != d->dest_rgb) {
-        glBlendFuncSeparate(d->source_rgb, d->dest_rgb, d->source_alpha, d->dest_alpha);
+        funcs->iglBlendFuncSeparate(d->source_rgb, d->dest_rgb, d->source_alpha, d->dest_alpha);
     }
-    glBlendFunc(d->source_rgb, d->dest_rgb);
+    funcs->iglBlendFunc(d->source_rgb, d->dest_rgb);
 }
 
 #pragma endregion
@@ -125,16 +127,16 @@ void BlendFunci::setIndex(GLuint_t index) {
     d->index = index;
 }
 
-void BlendFunci::apply(State& state) const {
+void BlendFunci::apply(State& state) const {     auto funcs = state.getContext()->getFuncs();
     auto source_alpha = getSourceAlpha();
     auto source_rgb   = getSourceRGB();
     auto dest_alpha   = getDestinationAlpha();
     auto dest_rgb     = getDestinationRGB();
 
     if (source_alpha != source_rgb || dest_alpha != dest_rgb) {
-        glBlendFuncSeparatei(d->index, source_rgb, dest_rgb, source_alpha, dest_alpha);
+        funcs->iglBlendFuncSeparatei(d->index, source_rgb, dest_rgb, source_alpha, dest_alpha);
     }
-    glBlendFunci(d->index, source_rgb, dest_rgb);
+    funcs->iglBlendFunci(d->index, source_rgb, dest_rgb);
 }
 #pragma endregion
 } // namespace glr

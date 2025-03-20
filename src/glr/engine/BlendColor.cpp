@@ -1,6 +1,8 @@
 #include <glr/engine/BlendColor.h>
 
-#include <glad/glad.h>
+#include <glr/engine/GraphicContext.h>
+#include <glr/engine/State.h>
+#include <glr/igl/GLfuncs.h>
 
 namespace glr {
 
@@ -31,7 +33,8 @@ Vec4f BlendColor::getColor() const {
 }
 
 void BlendColor::apply(State& state) const {
-    glBlendColor(d->color.r, d->color.g, d->color.b, d->color.a);
+    auto funcs = state.getContext()->getFuncs();
+    funcs->iglBlendColor(d->color.r, d->color.g, d->color.b, d->color.a);
 }
 
 } // namespace glr

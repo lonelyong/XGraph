@@ -2,109 +2,108 @@
 
 namespace glr {
 
-VI_OBJECT_META_IMPL(GLfuncsv400, GLfuncsv330);
 
 GLfuncsv400::GLfuncsv400()
-  : glBeginQueryIndexed(nullptr)
-  , glBindTransformFeedback(nullptr)
-  , glBlendEquationSeparatei(nullptr)
-  , glBlendEquationi(nullptr)
-  , glBlendFuncSeparatei(nullptr)
-  , glBlendFunci(nullptr)
-  , glDeleteTransformFeedbacks(nullptr)
-  , glDrawArraysIndirect(nullptr)
-  , glDrawElementsIndirect(nullptr)
-  , glDrawTransformFeedbackStream(nullptr)
-  , glDrawTransformFeedback(nullptr)
-  , glEndQueryIndexed(nullptr)
-  , glGenTransformFeedbacks(nullptr)
-  , glGetActiveSubroutineName(nullptr)
-  , glGetActiveSubroutineUniformName(nullptr)
-  , glGetActiveSubroutineUniformiv(nullptr)
-  , glGetProgramStageiv(nullptr)
-  , glGetQueryIndexediv(nullptr)
-  , glGetSubroutineIndex(nullptr)
-  , glGetSubroutineUniformLocation(nullptr)
-  , glGetUniformSubroutineuiv(nullptr)
-  , glGetUniformdv(nullptr)
-  , glIsTransformFeedback(nullptr)
-  , glMinSampleShading(nullptr)
-  , glPatchParameterfv(nullptr)
-  , glPatchParameteri(nullptr)
-  , glPauseTransformFeedback(nullptr)
-  , glResumeTransformFeedback(nullptr)
-  , glUniform1dv(nullptr)
-  , glUniform1d(nullptr)
-  , glUniform2dv(nullptr)
-  , glUniform2d(nullptr)
-  , glUniform3dv(nullptr)
-  , glUniform3d(nullptr)
-  , glUniform4dv(nullptr)
-  , glUniform4d(nullptr)
-  , glUniformMatrix2dv(nullptr)
-  , glUniformMatrix2x3dv(nullptr)
-  , glUniformMatrix2x4dv(nullptr)
-  , glUniformMatrix3dv(nullptr)
-  , glUniformMatrix3x2dv(nullptr)
-  , glUniformMatrix3x4dv(nullptr)
-  , glUniformMatrix4dv(nullptr)
-  , glUniformMatrix4x2dv(nullptr)
-  , glUniformMatrix4x3dv(nullptr)
-  , glUniformSubroutinesuiv(nullptr) {
+  : iglBeginQueryIndexed(nullptr)
+  , iglBindTransformFeedback(nullptr)
+  , iglBlendEquationSeparatei(nullptr)
+  , iglBlendEquationi(nullptr)
+  , iglBlendFuncSeparatei(nullptr)
+  , iglBlendFunci(nullptr)
+  , iglDeleteTransformFeedbacks(nullptr)
+  , iglDrawArraysIndirect(nullptr)
+  , iglDrawElementsIndirect(nullptr)
+  , iglDrawTransformFeedbackStream(nullptr)
+  , iglDrawTransformFeedback(nullptr)
+  , iglEndQueryIndexed(nullptr)
+  , iglGenTransformFeedbacks(nullptr)
+  , iglGetActiveSubroutineName(nullptr)
+  , iglGetActiveSubroutineUniformName(nullptr)
+  , iglGetActiveSubroutineUniformiv(nullptr)
+  , iglGetProgramStageiv(nullptr)
+  , iglGetQueryIndexediv(nullptr)
+  , iglGetSubroutineIndex(nullptr)
+  , iglGetSubroutineUniformLocation(nullptr)
+  , iglGetUniformSubroutineuiv(nullptr)
+  , iglGetUniformdv(nullptr)
+  , iglIsTransformFeedback(nullptr)
+  , iglMinSampleShading(nullptr)
+  , iglPatchParameterfv(nullptr)
+  , iglPatchParameteri(nullptr)
+  , iglPauseTransformFeedback(nullptr)
+  , iglResumeTransformFeedback(nullptr)
+  , iglUniform1dv(nullptr)
+  , iglUniform1d(nullptr)
+  , iglUniform2dv(nullptr)
+  , iglUniform2d(nullptr)
+  , iglUniform3dv(nullptr)
+  , iglUniform3d(nullptr)
+  , iglUniform4dv(nullptr)
+  , iglUniform4d(nullptr)
+  , iglUniformMatrix2dv(nullptr)
+  , iglUniformMatrix2x3dv(nullptr)
+  , iglUniformMatrix2x4dv(nullptr)
+  , iglUniformMatrix3dv(nullptr)
+  , iglUniformMatrix3x2dv(nullptr)
+  , iglUniformMatrix3x4dv(nullptr)
+  , iglUniformMatrix4dv(nullptr)
+  , iglUniformMatrix4x2dv(nullptr)
+  , iglUniformMatrix4x3dv(nullptr)
+  , iglUniformSubroutinesuiv(nullptr) {
 }
 
 void GLfuncsv400::loadFuncs(Loader loader) {
     GLfuncsv330::loadFuncs(loader);
-    glBeginQueryIndexed      = reinterpret_cast<PFNGLBEGINQUERYINDEXEDPROC>(loader("glBeginQueryIndexed"));
-    glBindTransformFeedback  = reinterpret_cast<PFNGLBINDTRANSFORMFEEDBACKPROC>(loader("glBindTransformFeedback"));
-    glBlendEquationSeparatei = reinterpret_cast<PFNGLBLENDEQUATIONSEPARATEIPROC>(loader("glBlendEquationSeparatei"));
-    glBlendEquationi         = reinterpret_cast<PFNGLBLENDEQUATIONIPROC>(loader("glBlendEquationi"));
-    glBlendFuncSeparatei     = reinterpret_cast<PFNGLBLENDFUNCSEPARATEIPROC>(loader("glBlendFuncSeparatei"));
-    glBlendFunci             = reinterpret_cast<PFNGLBLENDFUNCIPROC>(loader("glBlendFunci"));
-    glDeleteTransformFeedbacks =
+    iglBeginQueryIndexed      = reinterpret_cast<PFNGLBEGINQUERYINDEXEDPROC>(loader("glBeginQueryIndexed"));
+    iglBindTransformFeedback  = reinterpret_cast<PFNGLBINDTRANSFORMFEEDBACKPROC>(loader("glBindTransformFeedback"));
+    iglBlendEquationSeparatei = reinterpret_cast<PFNGLBLENDEQUATIONSEPARATEIPROC>(loader("glBlendEquationSeparatei"));
+    iglBlendEquationi         = reinterpret_cast<PFNGLBLENDEQUATIONIPROC>(loader("glBlendEquationi"));
+    iglBlendFuncSeparatei     = reinterpret_cast<PFNGLBLENDFUNCSEPARATEIPROC>(loader("glBlendFuncSeparatei"));
+    iglBlendFunci             = reinterpret_cast<PFNGLBLENDFUNCIPROC>(loader("glBlendFunci"));
+    iglDeleteTransformFeedbacks =
         reinterpret_cast<PFNGLDELETETRANSFORMFEEDBACKSPROC>(loader("glDeleteTransformFeedbacks"));
-    glDrawArraysIndirect   = reinterpret_cast<PFNGLDRAWARRAYSINDIRECTPROC>(loader("glDrawArraysIndirect"));
-    glDrawElementsIndirect = reinterpret_cast<PFNGLDRAWELEMENTSINDIRECTPROC>(loader("glDrawElementsIndirect"));
-    glDrawTransformFeedbackStream =
+    iglDrawArraysIndirect   = reinterpret_cast<PFNGLDRAWARRAYSINDIRECTPROC>(loader("glDrawArraysIndirect"));
+    iglDrawElementsIndirect = reinterpret_cast<PFNGLDRAWELEMENTSINDIRECTPROC>(loader("glDrawElementsIndirect"));
+    iglDrawTransformFeedbackStream =
         reinterpret_cast<PFNGLDRAWTRANSFORMFEEDBACKSTREAMPROC>(loader("glDrawTransformFeedbackStream"));
-    glDrawTransformFeedback   = reinterpret_cast<PFNGLDRAWTRANSFORMFEEDBACKPROC>(loader("glDrawTransformFeedback"));
-    glEndQueryIndexed         = reinterpret_cast<PFNGLENDQUERYINDEXEDPROC>(loader("glEndQueryIndexed"));
-    glGenTransformFeedbacks   = reinterpret_cast<PFNGLGENTRANSFORMFEEDBACKSPROC>(loader("glGenTransformFeedbacks"));
-    glGetActiveSubroutineName = reinterpret_cast<PFNGLGETACTIVESUBROUTINENAMEPROC>(loader("glGetActiveSubroutineName"));
-    glGetActiveSubroutineUniformName =
+    iglDrawTransformFeedback   = reinterpret_cast<PFNGLDRAWTRANSFORMFEEDBACKPROC>(loader("glDrawTransformFeedback"));
+    iglEndQueryIndexed         = reinterpret_cast<PFNGLENDQUERYINDEXEDPROC>(loader("glEndQueryIndexed"));
+    iglGenTransformFeedbacks   = reinterpret_cast<PFNGLGENTRANSFORMFEEDBACKSPROC>(loader("glGenTransformFeedbacks"));
+    iglGetActiveSubroutineName = reinterpret_cast<PFNGLGETACTIVESUBROUTINENAMEPROC>(loader("glGetActiveSubroutineName"));
+    iglGetActiveSubroutineUniformName =
         reinterpret_cast<PFNGLGETACTIVESUBROUTINEUNIFORMNAMEPROC>(loader("glGetActiveSubroutineUniformName"));
-    glGetActiveSubroutineUniformiv =
+    iglGetActiveSubroutineUniformiv =
         reinterpret_cast<PFNGLGETACTIVESUBROUTINEUNIFORMIVPROC>(loader("glGetActiveSubroutineUniformiv"));
-    glGetProgramStageiv  = reinterpret_cast<PFNGLGETPROGRAMSTAGEIVPROC>(loader("glGetProgramStageiv"));
-    glGetQueryIndexediv  = reinterpret_cast<PFNGLGETQUERYINDEXEDIVPROC>(loader("glGetQueryIndexediv"));
-    glGetSubroutineIndex = reinterpret_cast<PFNGLGETSUBROUTINEINDEXPROC>(loader("glGetSubroutineIndex"));
-    glGetSubroutineUniformLocation =
+    iglGetProgramStageiv  = reinterpret_cast<PFNGLGETPROGRAMSTAGEIVPROC>(loader("glGetProgramStageiv"));
+    iglGetQueryIndexediv  = reinterpret_cast<PFNGLGETQUERYINDEXEDIVPROC>(loader("glGetQueryIndexediv"));
+    iglGetSubroutineIndex = reinterpret_cast<PFNGLGETSUBROUTINEINDEXPROC>(loader("glGetSubroutineIndex"));
+    iglGetSubroutineUniformLocation =
         reinterpret_cast<PFNGLGETSUBROUTINEUNIFORMLOCATIONPROC>(loader("glGetSubroutineUniformLocation"));
-    glGetUniformSubroutineuiv = reinterpret_cast<PFNGLGETUNIFORMSUBROUTINEUIVPROC>(loader("glGetUniformSubroutineuiv"));
-    glGetUniformdv            = reinterpret_cast<PFNGLGETUNIFORMDVPROC>(loader("glGetUniformdv"));
-    glIsTransformFeedback     = reinterpret_cast<PFNGLISTRANSFORMFEEDBACKPROC>(loader("glIsTransformFeedback"));
-    glMinSampleShading        = reinterpret_cast<PFNGLMINSAMPLESHADINGPROC>(loader("glMinSampleShading"));
-    glPatchParameterfv        = reinterpret_cast<PFNGLPATCHPARAMETERFVPROC>(loader("glPatchParameterfv"));
-    glPatchParameteri         = reinterpret_cast<PFNGLPATCHPARAMETERIPROC>(loader("glPatchParameteri"));
-    glPauseTransformFeedback  = reinterpret_cast<PFNGLPAUSETRANSFORMFEEDBACKPROC>(loader("glPauseTransformFeedback"));
-    glResumeTransformFeedback = reinterpret_cast<PFNGLRESUMETRANSFORMFEEDBACKPROC>(loader("glResumeTransformFeedback"));
-    glUniform1dv              = reinterpret_cast<PFNGLUNIFORM1DVPROC>(loader("glUniform1dv"));
-    glUniform1d               = reinterpret_cast<PFNGLUNIFORM1DPROC>(loader("glUniform1d"));
-    glUniform2dv              = reinterpret_cast<PFNGLUNIFORM2DVPROC>(loader("glUniform2dv"));
-    glUniform2d               = reinterpret_cast<PFNGLUNIFORM2DPROC>(loader("glUniform2d"));
-    glUniform3dv              = reinterpret_cast<PFNGLUNIFORM3DVPROC>(loader("glUniform3dv"));
-    glUniform3d               = reinterpret_cast<PFNGLUNIFORM3DPROC>(loader("glUniform3d"));
-    glUniform4dv              = reinterpret_cast<PFNGLUNIFORM4DVPROC>(loader("glUniform4dv"));
-    glUniform4d               = reinterpret_cast<PFNGLUNIFORM4DPROC>(loader("glUniform4d"));
-    glUniformMatrix2dv        = reinterpret_cast<PFNGLUNIFORMMATRIX2DVPROC>(loader("glUniformMatrix2dv"));
-    glUniformMatrix2x3dv      = reinterpret_cast<PFNGLUNIFORMMATRIX2X3DVPROC>(loader("glUniformMatrix2x3dv"));
-    glUniformMatrix2x4dv      = reinterpret_cast<PFNGLUNIFORMMATRIX2X4DVPROC>(loader("glUniformMatrix2x4dv"));
-    glUniformMatrix3dv        = reinterpret_cast<PFNGLUNIFORMMATRIX3DVPROC>(loader("glUniformMatrix3dv"));
-    glUniformMatrix3x2dv      = reinterpret_cast<PFNGLUNIFORMMATRIX3X2DVPROC>(loader("glUniformMatrix3x2dv"));
-    glUniformMatrix3x4dv      = reinterpret_cast<PFNGLUNIFORMMATRIX3X4DVPROC>(loader("glUniformMatrix3x4dv"));
-    glUniformMatrix4dv        = reinterpret_cast<PFNGLUNIFORMMATRIX4DVPROC>(loader("glUniformMatrix4dv"));
-    glUniformMatrix4x2dv      = reinterpret_cast<PFNGLUNIFORMMATRIX4X2DVPROC>(loader("glUniformMatrix4x2dv"));
-    glUniformMatrix4x3dv      = reinterpret_cast<PFNGLUNIFORMMATRIX4X3DVPROC>(loader("glUniformMatrix4x3dv"));
-    glUniformSubroutinesuiv   = reinterpret_cast<PFNGLUNIFORMSUBROUTINESUIVPROC>(loader("glUniformSubroutinesuiv"));
+    iglGetUniformSubroutineuiv = reinterpret_cast<PFNGLGETUNIFORMSUBROUTINEUIVPROC>(loader("glGetUniformSubroutineuiv"));
+    iglGetUniformdv            = reinterpret_cast<PFNGLGETUNIFORMDVPROC>(loader("glGetUniformdv"));
+    iglIsTransformFeedback     = reinterpret_cast<PFNGLISTRANSFORMFEEDBACKPROC>(loader("glIsTransformFeedback"));
+    iglMinSampleShading        = reinterpret_cast<PFNGLMINSAMPLESHADINGPROC>(loader("glMinSampleShading"));
+    iglPatchParameterfv        = reinterpret_cast<PFNGLPATCHPARAMETERFVPROC>(loader("glPatchParameterfv"));
+    iglPatchParameteri         = reinterpret_cast<PFNGLPATCHPARAMETERIPROC>(loader("glPatchParameteri"));
+    iglPauseTransformFeedback  = reinterpret_cast<PFNGLPAUSETRANSFORMFEEDBACKPROC>(loader("glPauseTransformFeedback"));
+    iglResumeTransformFeedback = reinterpret_cast<PFNGLRESUMETRANSFORMFEEDBACKPROC>(loader("glResumeTransformFeedback"));
+    iglUniform1dv              = reinterpret_cast<PFNGLUNIFORM1DVPROC>(loader("glUniform1dv"));
+    iglUniform1d               = reinterpret_cast<PFNGLUNIFORM1DPROC>(loader("glUniform1d"));
+    iglUniform2dv              = reinterpret_cast<PFNGLUNIFORM2DVPROC>(loader("glUniform2dv"));
+    iglUniform2d               = reinterpret_cast<PFNGLUNIFORM2DPROC>(loader("glUniform2d"));
+    iglUniform3dv              = reinterpret_cast<PFNGLUNIFORM3DVPROC>(loader("glUniform3dv"));
+    iglUniform3d               = reinterpret_cast<PFNGLUNIFORM3DPROC>(loader("glUniform3d"));
+    iglUniform4dv              = reinterpret_cast<PFNGLUNIFORM4DVPROC>(loader("glUniform4dv"));
+    iglUniform4d               = reinterpret_cast<PFNGLUNIFORM4DPROC>(loader("glUniform4d"));
+    iglUniformMatrix2dv        = reinterpret_cast<PFNGLUNIFORMMATRIX2DVPROC>(loader("glUniformMatrix2dv"));
+    iglUniformMatrix2x3dv      = reinterpret_cast<PFNGLUNIFORMMATRIX2X3DVPROC>(loader("glUniformMatrix2x3dv"));
+    iglUniformMatrix2x4dv      = reinterpret_cast<PFNGLUNIFORMMATRIX2X4DVPROC>(loader("glUniformMatrix2x4dv"));
+    iglUniformMatrix3dv        = reinterpret_cast<PFNGLUNIFORMMATRIX3DVPROC>(loader("glUniformMatrix3dv"));
+    iglUniformMatrix3x2dv      = reinterpret_cast<PFNGLUNIFORMMATRIX3X2DVPROC>(loader("glUniformMatrix3x2dv"));
+    iglUniformMatrix3x4dv      = reinterpret_cast<PFNGLUNIFORMMATRIX3X4DVPROC>(loader("glUniformMatrix3x4dv"));
+    iglUniformMatrix4dv        = reinterpret_cast<PFNGLUNIFORMMATRIX4DVPROC>(loader("glUniformMatrix4dv"));
+    iglUniformMatrix4x2dv      = reinterpret_cast<PFNGLUNIFORMMATRIX4X2DVPROC>(loader("glUniformMatrix4x2dv"));
+    iglUniformMatrix4x3dv      = reinterpret_cast<PFNGLUNIFORMMATRIX4X3DVPROC>(loader("glUniformMatrix4x3dv"));
+    iglUniformSubroutinesuiv   = reinterpret_cast<PFNGLUNIFORMSUBROUTINESUIVPROC>(loader("glUniformSubroutinesuiv"));
 }
 } // namespace glr

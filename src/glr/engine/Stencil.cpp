@@ -1,20 +1,22 @@
 #include <glr/engine/Stencil.h>
 
-#include <glad/glad.h>
+#include <glr/engine/GraphicContext.h>
+#include <glr/engine/State.h>
+#include <glr/igl/GLfuncs.h>
 
 VI_OBJECT_META_IMPL(glr::Stencil, glr::StateAttribute)
 
 namespace glr {
 struct Stencil::Data {
-    Func   fn      = ALWAYS;
-    GLint  fn_ref  = 0;
-    GLuint fn_mask = ~0u;
+    Func     fn      = ALWAYS;
+    GLint_t  fn_ref  = 0;
+    GLuint_t fn_mask = ~0u;
 
     Operation op_sfail = KEEP;
     Operation op_zfail = KEEP;
     Operation op_zpass = KEEP;
 
-    GLuint write_mask = ~0u;
+    GLuint_t write_mask = ~0u;
 };
 
 Stencil::Stencil()
@@ -56,8 +58,9 @@ inline GLuint_t Stencil::getWriteMask() const {
 }
 
 void Stencil::apply(State& state) const {
-    glStencilFunc((GLenum)d->fn, d->fn_ref, d->fn_mask);
-    glStencilOp((GLenum)d->op_sfail, (GLenum)d->op_zfail, (GLenum)d->op_zpass);
-    glStencilMask(d->write_mask);
+    auto funcs = state.getContext()->getFuncs();
+    funcs->iglStencilFunc((GLenum_t)d->fn, d->fn_ref, d->fn_mask);
+    funcs->iglStencilOp((GLenum_t)d->op_sfail, (GLenum_t)d->op_zfail, (GLenum_t)d->op_zpass);
+    funcs->iglStencilMask(d->write_mask);
 }
 } // namespace glr

@@ -4,33 +4,32 @@
 
 namespace glr {
 class GLR_API GLfuncsv460 : public GLfuncsv450 {
-    VI_OBJECT_META;
 
   public:
-    typedef void(APIENTRYP PFNGLSPECIALIZESHADERPROC)(GLuint        shader,
-                                                      const GLchar* pEntryPoint,
-                                                      GLuint        numSpecializationConstants,
-                                                      const GLuint* pConstantIndex,
-                                                      const GLuint* pConstantValue);
-    PFNGLSPECIALIZESHADERPROC glSpecializeShader;
+    typedef void(APIENTRYP PFNGLSPECIALIZESHADERPROC)(GLuint_t        shader,
+                                                      const GLchar_t* pEntryPoint,
+                                                      GLuint_t        numSpecializationConstants,
+                                                      const GLuint_t* pConstantIndex,
+                                                      const GLuint_t* pConstantValue);
+    PFNGLSPECIALIZESHADERPROC iglSpecializeShader;
 
-    typedef void(APIENTRYP PFNGLMULTIDRAWARRAYSINDIRECTCOUNTPROC)(GLenum      mode,
+    typedef void(APIENTRYP PFNGLMULTIDRAWARRAYSINDIRECTCOUNTPROC)(GLenum_t      mode,
                                                                   const void* indirect,
                                                                   GLintptr    drawcount,
-                                                                  GLsizei     maxdrawcount,
-                                                                  GLsizei     stride);
-    PFNGLMULTIDRAWARRAYSINDIRECTCOUNTPROC glMultiDrawArraysIndirectCount;
+                                                                  GLsizei_t     maxdrawcount,
+                                                                  GLsizei_t     stride);
+    PFNGLMULTIDRAWARRAYSINDIRECTCOUNTPROC iglMultiDrawArraysIndirectCount;
 
-    typedef void(APIENTRYP PFNGLMULTIDRAWELEMENTSINDIRECTCOUNTPROC)(GLenum      mode,
-                                                                    GLenum      type,
+    typedef void(APIENTRYP PFNGLMULTIDRAWELEMENTSINDIRECTCOUNTPROC)(GLenum_t      mode,
+                                                                    GLenum_t      type,
                                                                     const void* indirect,
                                                                     GLintptr    drawcount,
-                                                                    GLsizei     maxdrawcount,
-                                                                    GLsizei     stride);
-    PFNGLMULTIDRAWELEMENTSINDIRECTCOUNTPROC glMultiDrawElementsIndirectCount;
+                                                                    GLsizei_t     maxdrawcount,
+                                                                    GLsizei_t     stride);
+    PFNGLMULTIDRAWELEMENTSINDIRECTCOUNTPROC iglMultiDrawElementsIndirectCount;
 
-    typedef void(APIENTRYP PFNGLPOLYGONOFFSETCLAMPPROC)(GLfloat factor, GLfloat units, GLfloat clamp);
-    PFNGLPOLYGONOFFSETCLAMPPROC glPolygonOffsetClamp;
+    typedef void(APIENTRYP PFNGLPOLYGONOFFSETCLAMPPROC)(GLfloat_t factor, GLfloat_t units, GLfloat_t clamp);
+    PFNGLPOLYGONOFFSETCLAMPPROC iglPolygonOffsetClamp;
 
 
   public:

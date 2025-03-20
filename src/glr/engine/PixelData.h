@@ -91,9 +91,9 @@ class GLR_API PixelData : public BindableObject {
     };
 
     /*
-      glReadPixels
-      glTexImage2D
-      glTexSubImage2D
+      funcs->iglReadPixels
+      funcs->iglTexImage2D
+      funcs->iglTexSubImage2D
 
       某些类型也可以作为内部格式使用，如IGL_RGBA, IGL_RGB
     */

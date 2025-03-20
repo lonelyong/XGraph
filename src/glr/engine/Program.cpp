@@ -9,12 +9,13 @@
 #include <sstream>
 #include <unordered_map>
 
-#include <glad/glad.h>
-
 #include <glm/gtc/type_ptr.hpp>
 
+#include <glr/engine/GraphicContext.h>
 #include <glr/engine/Shader.h>
+#include <glr/engine/State.h>
 #include <glr/engine/types.h>
+#include <glr/igl/GLfuncs.h>
 
 namespace glr {
 
@@ -51,15 +52,17 @@ Program::~Program() {
 void Program::use(State& state) {
     if (!isCreated(state)) GLObject::create(state);
     if (!isCreated(state)) return;
-    glUseProgram(getId(state));
+    auto funcs = state.getContext()->getFuncs();
+    funcs->iglUseProgram(getId(state));
 }
 
 void Program::unuse(State& state) {
     auto id = getId(state);
     if (id) {
-        GLint current_prog;
-        glGetIntegerv(GL_CURRENT_PROGRAM, &current_prog);
-        if (current_prog == id) glUseProgram(0);
+        auto    funcs = state.getContext()->getFuncs();
+        GLint_t current_prog;
+        funcs->iglGetIntegerv(IGL_CURRENT_PROGRAM, &current_prog);
+        if (current_prog == id) funcs->iglUseProgram(0);
     }
 }
 
@@ -83,73 +86,74 @@ void Program::attachShader(Shader* shader) {
 }
 
 template <typename T> void Program::set(State& state, GLuint_t loc, const T& val) {
+    auto funcs = state.getContext()->getFuncs();
     if constexpr (std::is_same<T, bool>::value) {
-        glUniform1i(loc, (int)val);
+        funcs->iglUniform1i(loc, (int)val);
     }
     else if constexpr (std::is_same<T, Vec2b>::value) {
-        glUniform2i(loc, val.x, val.y);
+        funcs->iglUniform2i(loc, val.x, val.y);
     }
     else if constexpr (std::is_same<T, Vec3b>::value) {
-        glUniform3i(loc, val.x, val.y, val.z);
+        funcs->iglUniform3i(loc, val.x, val.y, val.z);
     }
     else if constexpr (std::is_same<T, Vec4b>::value) {
-        glUniform4i(loc, val.r, val.g, val.b, val.a);
+        funcs->iglUniform4i(loc, val.r, val.g, val.b, val.a);
     }
 
     else if constexpr (std::is_same<T, int>::value) {
-        glUniform1i(loc, val);
+        funcs->iglUniform1i(loc, val);
     }
     else if constexpr (std::is_same<T, unsigned int>::value) {
-        glUniform1ui(loc, val);
+        funcs->iglUniform1ui(loc, val);
     }
     else if constexpr (std::is_same<T, Vec2i>::value) {
-        glUniform2i(loc, val.x, val.y);
+        funcs->iglUniform2i(loc, val.x, val.y);
     }
     else if constexpr (std::is_same<T, Vec3i>::value) {
-        glUniform3i(loc, val.x, val.y, val.z);
+        funcs->iglUniform3i(loc, val.x, val.y, val.z);
     }
     else if constexpr (std::is_same<T, Vec4i>::value) {
-        glUniform4i(loc, val.r, val.g, val.b, val.a);
+        funcs->iglUniform4i(loc, val.r, val.g, val.b, val.a);
     }
 
     else if constexpr (std::is_same<T, float>::value) {
-        glUniform1f(loc, val);
+        funcs->iglUniform1f(loc, val);
     }
     else if constexpr (std::is_same<T, Vec2f>::value) {
-        glUniform2f(loc, val.x, val.y);
+        funcs->iglUniform2f(loc, val.x, val.y);
     }
     else if constexpr (std::is_same<T, Vec3f>::value) {
-        glUniform3f(loc, val.x, val.y, val.z);
+        funcs->iglUniform3f(loc, val.x, val.y, val.z);
     }
     else if constexpr (std::is_same<T, Vec4f>::value) {
-        glUniform4f(loc, val.r, val.g, val.b, val.a);
+        funcs->iglUniform4f(loc, val.r, val.g, val.b, val.a);
     }
     else if constexpr (std::is_same<T, Mat3f>::value) {
-        glUniformMatrix3fv(loc, 1, GL_FALSE, glm::value_ptr(val));
+        funcs->iglUniformMatrix3fv(loc, 1, IGL_FALSE, glm::value_ptr(val));
     }
     else if constexpr (std::is_same<T, Mat4f>::value) {
-        glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(val));
+        funcs->iglUniformMatrix4fv(loc, 1, IGL_FALSE, glm::value_ptr(val));
     }
 
     else if constexpr (std::is_same<T, double>::value) {
-        glUniform1d(loc, val);
+        funcs->iglUniform1d(loc, val);
     }
     else if constexpr (std::is_same<T, Vec2d>::value) {
-        glUniform2d(loc, val.x, val.y);
+        funcs->iglUniform2d(loc, val.x, val.y);
     }
     else if constexpr (std::is_same<T, Vec3d>::value) {
-        glUniform3d(loc, val.x, val.y, val.z);
+        funcs->iglUniform3d(loc, val.x, val.y, val.z);
     }
     else if constexpr (std::is_same<T, Vec4d>::value) {
-        glUniform4d(loc, val.r, val.g, val.b, val.a);
+        funcs->iglUniform4d(loc, val.r, val.g, val.b, val.a);
     }
     else if constexpr (std::is_same<T, Mat3d>::value) {
         // glUniformMatrix3dv(loc, 1, GL_FALSE, glm::value_ptr(val));
-        glUniformMatrix3fv(loc, 1, GL_FALSE, glm::value_ptr(Mat3f(val)));
+        funcs->iglUniformMatrix3fv(loc, 1, IGL_FALSE, glm::value_ptr(Mat3f(val)));
     }
     else if constexpr (std::is_same<T, Mat4d>::value) {
         // glUniformMatrix4dv(loc, 1, GL_FALSE, glm::value_ptr(val));
-        glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(Mat4f(val)));
+        funcs->iglUniformMatrix4fv(loc, 1, IGL_FALSE, glm::value_ptr(Mat4f(val)));
     }
     else {
         static_assert("type not supported");
@@ -157,8 +161,9 @@ template <typename T> void Program::set(State& state, GLuint_t loc, const T& val
 }
 
 template <typename T> void Program::set(State& state, const std::string& name, const T& val) {
-    auto id  = getId(state);
-    auto loc = glGetUniformLocation(id, name.data());
+    auto funcs = state.getContext()->getFuncs();
+    auto id    = getId(state);
+    auto loc   = funcs->iglGetUniformLocation(id, name.data());
     if (loc >= 0) {
         set<T>(state, loc, val);
     }
@@ -168,23 +173,23 @@ GLuint_t Program::onCreate(State& state) {
     if (d->shaders.empty()) {
         return 0;
     }
-
-    auto app_id = glCreateProgram();
+    auto funcs  = state.getContext()->getFuncs();
+    auto app_id = funcs->iglCreateProgram();
 
     for (auto& kv : d->shaders) {
         if (kv.second->create(state)) {
-            glAttachShader(app_id, kv.second->getId(state));
+            funcs->iglAttachShader(app_id, kv.second->getId(state));
         }
     }
 
-    glLinkProgram(app_id);
+    funcs->iglLinkProgram(app_id);
 
-    GLint link_status;
-    glGetProgramiv(app_id, GL_LINK_STATUS, &link_status);
+    GLint_t link_status;
+    funcs->iglGetProgramiv(app_id, IGL_LINK_STATUS, &link_status);
 
     if (0 == link_status) {
         char msg[512];
-        glGetProgramInfoLog(app_id, sizeof(msg), NULL, msg);
+        funcs->iglGetProgramInfoLog(app_id, sizeof(msg), NULL, msg);
         std::cerr << "ERROR: failed to link the shaders" << msg << std::endl;
         throw std::exception("Link shaders failed.");
     }
@@ -196,8 +201,9 @@ bool Program::onUpdate(State& state) {
 }
 
 bool Program::onRelease(State& state) {
-    auto id = getId(state);
-    glDeleteProgram(id);
+    auto funcs = state.getContext()->getFuncs();
+    auto id    = getId(state);
+    funcs->iglDeleteProgram(id);
     return true;
 }
 

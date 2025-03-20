@@ -88,7 +88,7 @@ Camera* State::getCurrentCamera() const {
 void State::pushCamera(Camera* cam) {
     if (cam) {
         d->cameras.push(cam);
-        cam->apply();
+        cam->apply(*this);
         updateMvpUniforms();
     }
 }

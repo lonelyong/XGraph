@@ -8,11 +8,15 @@
 #include <iostream>
 #include <sstream>
 
-#include <glad/glad.h>
+#include <glr/engine/GraphicContext.h>
+#include <glr/engine/State.h>
+#include <glr/igl/GLfuncs.h>
+
 
 #include <glm/gtc/type_ptr.hpp>
 
 namespace glr {
+
 namespace {
 std::string readCode(const std::string& path) {
     if (path.empty()) return {};
@@ -31,17 +35,18 @@ std::string readCode(const std::string& path) {
     return code;
 }
 
-inline void compileShader(GLuint_t id, const std::string& source) {
+inline void compileShader(GLfuncs* funcs, GLuint_t id, const std::string& source) {
+
     auto code_cstr = source.data();
-    glShaderSource(id, 1, &code_cstr, NULL);
-    glCompileShader(id);
+    funcs->iglShaderSource(id, 1, &code_cstr, NULL);
+    funcs->iglCompileShader(id);
 
-    GLint status;
-    char  msg[512];
+    GLint_t status;
+    char    msg[512];
 
-    glGetShaderiv(id, GL_COMPILE_STATUS, &status);
+    funcs->iglGetShaderiv(id, IGL_COMPILE_STATUS, &status);
     if (0 == status) {
-        glGetShaderInfoLog(id, sizeof(msg), NULL, msg);
+        funcs->iglGetShaderInfoLog(id, sizeof(msg), NULL, msg);
         std::cerr << "ERROR: failed to compile the shader" << msg << std::endl;
         throw std::exception("Compile shader failed.");
     }
@@ -92,18 +97,20 @@ void Shader::setSource(const std::string& source) {
 }
 
 GLuint_t Shader::onCreate(State& state) {
+    auto funcs = state.getContext()->getFuncs();
     if (d->type && !d->code.empty()) {
-        auto id = glCreateShader(d->type);
-        compileShader(id, d->code);
+        auto id = funcs->iglCreateShader(d->type);
+        compileShader(funcs, id, d->code);
         return id;
     }
     return 0;
 }
 
 bool Shader::onUpdate(State& state) {
+    auto funcs = state.getContext()->getFuncs();
     if (d->type && !d->code.empty()) {
         auto id = getId(state);
-        compileShader(id, d->code);
+        compileShader(funcs, id, d->code);
         return true;
     }
     else {
@@ -113,8 +120,9 @@ bool Shader::onUpdate(State& state) {
 }
 
 bool Shader::onRelease(State& state) {
-    auto id = getId(state);
-    glDeleteShader(id);
+    auto funcs = state.getContext()->getFuncs();
+    auto id    = getId(state);
+    funcs->iglDeleteShader(id);
     return true;
 }
 

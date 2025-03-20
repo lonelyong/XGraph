@@ -1,7 +1,9 @@
 ﻿#include "PhongMaterial.h"
 
+#include <glr/engine/GraphicContext.h>
 #include <glr/engine/Program.h>
 #include <glr/engine/State.h>
+#include <glr/igl/GLfuncs.h>
 
 namespace glr {
 VI_OBJECT_META_IMPL(PhongMaterial, UniformBase);
@@ -67,7 +69,7 @@ const std::string& PhongMaterial::getName() const {
 }
 
 void PhongMaterial::apply(State& state) const {
-    auto prog = state.getCurrentProgram();
+    auto prog  = state.getCurrentProgram();
     if (prog) {
         prog->set(state, name_ + ".ambient", a_);
         prog->set(state, name_ + ".diffuse", d_);

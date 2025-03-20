@@ -49,9 +49,10 @@ class GLR_API GraphicContext : public Object {
     void         notify(Event* e);
     EventQueue*  getEventQueue() const;
 
-    const Capabilities& getCapabilities() const;
-
     GLfuncs* getFuncs() const;
+
+protected:
+    virtual GLfuncs* createGLfuncs();
 
   public:
     static GraphicContext* getContextById(int id);

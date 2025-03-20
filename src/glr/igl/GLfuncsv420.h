@@ -4,84 +4,83 @@
 
 namespace glr {
 class GLR_API GLfuncsv420 : public GLfuncsv410 {
-    VI_OBJECT_META;
 
   public:
-    typedef void(APIENTRYP PFNGLDRAWARRAYSINSTANCEDBASEINSTANCEPROC)(GLenum  mode,
-                                                                     GLint   first,
-                                                                     GLsizei count,
-                                                                     GLsizei instancecount,
-                                                                     GLuint  baseinstance);
-    PFNGLDRAWARRAYSINSTANCEDBASEINSTANCEPROC glDrawArraysInstancedBaseInstance;
+    typedef void(APIENTRYP PFNGLDRAWARRAYSINSTANCEDBASEINSTANCEPROC)(GLenum_t  mode,
+                                                                     GLint_t   first,
+                                                                     GLsizei_t count,
+                                                                     GLsizei_t instancecount,
+                                                                     GLuint_t  baseinstance);
+    PFNGLDRAWARRAYSINSTANCEDBASEINSTANCEPROC iglDrawArraysInstancedBaseInstance;
 
-    typedef void(APIENTRYP PFNGLDRAWELEMENTSINSTANCEDBASEINSTANCEPROC)(GLenum      mode,
-                                                                       GLsizei     count,
-                                                                       GLenum      type,
+    typedef void(APIENTRYP PFNGLDRAWELEMENTSINSTANCEDBASEINSTANCEPROC)(GLenum_t      mode,
+                                                                       GLsizei_t     count,
+                                                                       GLenum_t      type,
                                                                        const void* indices,
-                                                                       GLsizei     instancecount,
-                                                                       GLuint      baseinstance);
-    PFNGLDRAWELEMENTSINSTANCEDBASEINSTANCEPROC glDrawElementsInstancedBaseInstance;
+                                                                       GLsizei_t     instancecount,
+                                                                       GLuint_t      baseinstance);
+    PFNGLDRAWELEMENTSINSTANCEDBASEINSTANCEPROC iglDrawElementsInstancedBaseInstance;
 
-    typedef void(APIENTRYP PFNGLDRAWELEMENTSINSTANCEDBASEVERTEXBASEINSTANCEPROC)(GLenum      mode,
-                                                                                 GLsizei     count,
-                                                                                 GLenum      type,
+    typedef void(APIENTRYP PFNGLDRAWELEMENTSINSTANCEDBASEVERTEXBASEINSTANCEPROC)(GLenum_t      mode,
+                                                                                 GLsizei_t     count,
+                                                                                 GLenum_t      type,
                                                                                  const void* indices,
-                                                                                 GLsizei     instancecount,
-                                                                                 GLint       basevertex,
-                                                                                 GLuint      baseinstance);
-    PFNGLDRAWELEMENTSINSTANCEDBASEVERTEXBASEINSTANCEPROC glDrawElementsInstancedBaseVertexBaseInstance;
+                                                                                 GLsizei_t     instancecount,
+                                                                                 GLint_t       basevertex,
+                                                                                 GLuint_t      baseinstance);
+    PFNGLDRAWELEMENTSINSTANCEDBASEVERTEXBASEINSTANCEPROC iglDrawElementsInstancedBaseVertexBaseInstance;
 
-    typedef void(APIENTRYP PFNGLGETINTERNALFORMATIVPROC)(GLenum  target,
-                                                         GLenum  internalformat,
-                                                         GLenum  pname,
-                                                         GLsizei count,
-                                                         GLint*  params);
-    PFNGLGETINTERNALFORMATIVPROC glGetInternalformativ;
+    typedef void(APIENTRYP PFNGLGETINTERNALFORMATIVPROC)(GLenum_t  target,
+                                                         GLenum_t  internalformat,
+                                                         GLenum_t  pname,
+                                                         GLsizei_t count,
+                                                         GLint_t*  params);
+    PFNGLGETINTERNALFORMATIVPROC iglGetInternalformativ;
 
-    typedef void(APIENTRYP PFNGLGETACTIVEATOMICCOUNTERBUFFERIVPROC)(GLuint program,
-                                                                    GLuint bufferIndex,
-                                                                    GLenum pname,
-                                                                    GLint* params);
-    PFNGLGETACTIVEATOMICCOUNTERBUFFERIVPROC glGetActiveAtomicCounterBufferiv;
+    typedef void(APIENTRYP PFNGLGETACTIVEATOMICCOUNTERBUFFERIVPROC)(GLuint_t program,
+                                                                    GLuint_t bufferIndex,
+                                                                    GLenum_t pname,
+                                                                    GLint_t* params);
+    PFNGLGETACTIVEATOMICCOUNTERBUFFERIVPROC iglGetActiveAtomicCounterBufferiv;
 
-    typedef void(APIENTRYP PFNGLBINDIMAGETEXTUREPROC)(GLuint    unit,
-                                                      GLuint    texture,
-                                                      GLint     level,
-                                                      GLboolean layered,
-                                                      GLint     layer,
-                                                      GLenum    access,
-                                                      GLenum    format);
-    PFNGLBINDIMAGETEXTUREPROC glBindImageTexture;
+    typedef void(APIENTRYP PFNGLBINDIMAGETEXTUREPROC)(GLuint_t    unit,
+                                                      GLuint_t    texture,
+                                                      GLint_t     level,
+                                                      GLboolean_t layered,
+                                                      GLint_t     layer,
+                                                      GLenum_t    access,
+                                                      GLenum_t    format);
+    PFNGLBINDIMAGETEXTUREPROC iglBindImageTexture;
 
-    typedef void(APIENTRYP PFNGLMEMORYBARRIERPROC)(GLbitfield barriers);
-    PFNGLMEMORYBARRIERPROC glMemoryBarrier;
+    typedef void(APIENTRYP PFNGLMEMORYBARRIERPROC)(GLbitfield_t barriers);
+    PFNGLMEMORYBARRIERPROC iglMemoryBarrier;
 
-    typedef void(APIENTRYP PFNGLTEXSTORAGE1DPROC)(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width);
-    PFNGLTEXSTORAGE1DPROC glTexStorage1D;
+    typedef void(APIENTRYP PFNGLTEXSTORAGE1DPROC)(GLenum_t target, GLsizei_t levels, GLenum_t internalformat, GLsizei_t width);
+    PFNGLTEXSTORAGE1DPROC iglTexStorage1D;
 
-    typedef void(APIENTRYP PFNGLTEXSTORAGE2DPROC)(GLenum  target,
-                                                  GLsizei levels,
-                                                  GLenum  internalformat,
-                                                  GLsizei width,
-                                                  GLsizei height);
-    PFNGLTEXSTORAGE2DPROC glTexStorage2D;
+    typedef void(APIENTRYP PFNGLTEXSTORAGE2DPROC)(GLenum_t  target,
+                                                  GLsizei_t levels,
+                                                  GLenum_t  internalformat,
+                                                  GLsizei_t width,
+                                                  GLsizei_t height);
+    PFNGLTEXSTORAGE2DPROC iglTexStorage2D;
 
-    typedef void(APIENTRYP PFNGLTEXSTORAGE3DPROC)(GLenum  target,
-                                                  GLsizei levels,
-                                                  GLenum  internalformat,
-                                                  GLsizei width,
-                                                  GLsizei height,
-                                                  GLsizei depth);
-    PFNGLTEXSTORAGE3DPROC glTexStorage3D;
+    typedef void(APIENTRYP PFNGLTEXSTORAGE3DPROC)(GLenum_t  target,
+                                                  GLsizei_t levels,
+                                                  GLenum_t  internalformat,
+                                                  GLsizei_t width,
+                                                  GLsizei_t height,
+                                                  GLsizei_t depth);
+    PFNGLTEXSTORAGE3DPROC iglTexStorage3D;
 
-    typedef void(APIENTRYP PFNGLDRAWTRANSFORMFEEDBACKINSTANCEDPROC)(GLenum mode, GLuint id, GLsizei instancecount);
-    PFNGLDRAWTRANSFORMFEEDBACKINSTANCEDPROC glDrawTransformFeedbackInstanced;
+    typedef void(APIENTRYP PFNGLDRAWTRANSFORMFEEDBACKINSTANCEDPROC)(GLenum_t mode, GLuint_t id, GLsizei_t instancecount);
+    PFNGLDRAWTRANSFORMFEEDBACKINSTANCEDPROC iglDrawTransformFeedbackInstanced;
 
-    typedef void(APIENTRYP PFNGLDRAWTRANSFORMFEEDBACKSTREAMINSTANCEDPROC)(GLenum  mode,
-                                                                          GLuint  id,
-                                                                          GLuint  stream,
-                                                                          GLsizei instancecount);
-    PFNGLDRAWTRANSFORMFEEDBACKSTREAMINSTANCEDPROC glDrawTransformFeedbackStreamInstanced;
+    typedef void(APIENTRYP PFNGLDRAWTRANSFORMFEEDBACKSTREAMINSTANCEDPROC)(GLenum_t  mode,
+                                                                          GLuint_t  id,
+                                                                          GLuint_t  stream,
+                                                                          GLsizei_t instancecount);
+    PFNGLDRAWTRANSFORMFEEDBACKSTREAMINSTANCEDPROC iglDrawTransformFeedbackStreamInstanced;
 
   public:
     GLfuncsv420();

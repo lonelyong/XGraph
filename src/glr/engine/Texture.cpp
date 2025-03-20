@@ -1,9 +1,8 @@
 #include <glr/engine/Texture.h>
 
-#include <glad/glad.h>
-
 #include <glr/engine/GraphicContext.h>
 #include <glr/engine/State.h>
+#include <glr/igl/GLfuncs.h>
 
 #include <unordered_set>
 
@@ -53,20 +52,23 @@ bool Texture::getGenerateMipmapLevels() const {
 }
 
 bool Texture::onBind(State& state) {
+    auto funcs = state.getContext()->getFuncs();
     auto type = getType();
-    glBindTexture(type, getId(state));
+    funcs->iglBindTexture(type, getId(state));
     return true;
 }
 
 bool Texture::onUnbind(State& state) {
+    auto funcs = state.getContext()->getFuncs();
     auto type = getType();
-    glBindTexture(type, 0);
+    funcs->iglBindTexture(type, 0);
     return true;
 }
 
 bool Texture::onRelease(State& state) {
+    auto funcs = state.getContext()->getFuncs();
     auto id = getId(state);
-    glDeleteTextures(1, &id);
+    funcs->iglDeleteTextures(1, &id);
     return true;
 }
 

@@ -3,12 +3,7 @@
 #include <memory>
 #include <stdio.h>
 
-#include <glr/igl/GLdefs.h>
-
-#include <glr/igl/GLfuncsv460.h>
-
-
-static void* gl_get_rpoc(const char* namez);
+static void* gl_get_proc(const char* namez);
 
 #if defined(_WIN32) || defined(__CYGWIN__)
 
@@ -105,7 +100,7 @@ static void close_gl(void) {
 
 #endif
 
-static void* gl_get_rpoc(const char* namez) {
+static void* gl_get_proc(const char* namez) {
     void* result = NULL;
     if (libGL == NULL) return NULL;
 
@@ -126,18 +121,23 @@ static void* gl_get_rpoc(const char* namez) {
 }
 
 namespace glr {
-VI_OBJECT_META_IMPL(GLfuncs, vine::Object);
+GLfuncs::GLfuncs()
+  : major_version(0)
+  , minor_version(0) {
+}
 
-typedef const GLubyte_t* (*PFNGLGETSTRINGPROC)(GLenum_t name);
+bool GLfuncs::hasExtension(Extension ext) const {
+    return true;
+}
 
 GLfuncs* GLfuncs::loadGLLoader(Loader loader) {
     if (!loader) {
         return nullptr;
     }
 
-    auto glGetString = reinterpret_cast<PFNGLGETSTRINGPROC>(loader("glGetString"));
+    auto getstr = reinterpret_cast<PFNGLGETSTRINGPROC>(loader("glGetString"));
 
-    if (!glGetString) return nullptr;
+    if (!getstr) return nullptr;
 
 
 #pragma region copy from glad
@@ -146,7 +146,7 @@ GLfuncs* GLfuncs::loadGLLoader(Loader loader) {
     const char* version;
     const char* prefixes[] = { "OpenGL ES-CM ", "OpenGL ES-CL ", "OpenGL ES ", NULL };
 
-    version = (const char*)glGetString(IGL_VERSION);
+    version = (const char*)getstr(IGL_VERSION);
     if (!version) return nullptr;
 
     for (i = 0; prefixes[i]; i++) {
@@ -165,70 +165,13 @@ GLfuncs* GLfuncs::loadGLLoader(Loader loader) {
 #endif
 #pragma endregion
 
-    std::unique_ptr<GLfuncs> funcs;
+    std::unique_ptr<GLfuncs> funcs = std::make_unique<GLfuncs>();
 
     const_cast<int&>(funcs->major_version) = major;
     const_cast<int&>(funcs->minor_version) = minor;
 
-    if (major == 1 && minor == 0) {
-        funcs.reset(new GLfuncsv100());
-    }
-    else if (major == 1 && minor == 1) {
-        funcs.reset(new GLfuncsv110());
-    }
-    else if (major == 1 && minor == 2) {
-        funcs.reset(new GLfuncsv120());
-    }
-    else if (major == 1 && minor == 3) {
-        funcs.reset(new GLfuncsv130());
-    }
-    else if (major == 1 && minor == 4) {
-        funcs.reset(new GLfuncsv140());
-    }
-    else if (major == 1 && minor == 5) {
-        funcs.reset(new GLfuncsv150());
-    }
-    else if (major == 2 && minor == 0) {
-        funcs.reset(new GLfuncsv200());
-    }
-    else if (major == 2 && minor == 1) {
-        funcs.reset(new GLfuncsv210());
-    }
-    else if (major == 3 && minor == 0) {
-        funcs.reset(new GLfuncsv300());
-    }
-    else if (major == 3 && minor == 1) {
-        funcs.reset(new GLfuncsv310());
-    }
-    else if (major == 3 && minor == 2) {
-        funcs.reset(new GLfuncsv320());
-    }
-    else if (major == 3 && minor == 3) {
-        funcs.reset(new GLfuncsv330());
-    }
-    else if (major == 4 && minor == 0) {
-        funcs.reset(new GLfuncsv400());
-    }
-    else if (major == 4 && minor == 1) {
-        funcs.reset(new GLfuncsv410());
-    }
-    else if (major == 4 && minor == 2) {
-        funcs.reset(new GLfuncsv420());
-    }
-    else if (major == 4 && minor == 3) {
-        funcs.reset(new GLfuncsv430());
-    }
-    else if (major == 4 && minor == 4) {
-        funcs.reset(new GLfuncsv440());
-    }
-    else if (major == 4 && minor == 5) {
-        funcs.reset(new GLfuncsv450());
-    }
-    else if (major == 4 && minor == 6) {
-        funcs.reset(new GLfuncsv460());
-    }
-
     funcs->loadFuncs(loader);
+    funcs->loadFuncsArb(loader);
 
     return funcs.release();
 }
@@ -236,7 +179,7 @@ GLfuncs* GLfuncs::loadGLLoader(Loader loader) {
 GLfuncs* GLfuncs::load() {
 
     if (open_gl()) {
-        return loadGLLoader(&gl_get_rpoc);
+        return loadGLLoader(&gl_get_proc);
         close_gl();
     }
 

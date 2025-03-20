@@ -3,13 +3,10 @@
 #include <iostream>
 #include <queue>
 
-#include <glad/glad.h>
-
 #include <vine/core/Ptr.h>
 
 #include <xgcomm/Text.h>
 
-#include <glr/engine/Capabilities.h>
 #include <glr/engine/State.h>
 #include <glr/igl/GLfuncs.h>
 
@@ -21,13 +18,13 @@ VI_OBJECT_META_IMPL(GraphicContext, Object);
 struct GraphicContext::EventQueue::Data {
     std::queue<vine::RefPtr<Event>> events;
 };
-static void debugMessageCallback(GLenum        source,
-                                 GLenum        type,
-                                 GLuint        id,
-                                 GLenum        severity,
-                                 GLsizei       length,
-                                 const GLchar* message,
-                                 const void*   userParam) {
+static void debugMessageCallback(GLenum_t        source,
+                                 GLenum_t        type,
+                                 GLuint_t        id,
+                                 GLenum_t        severity,
+                                 GLsizei_t       length,
+                                 const GLchar_t* message,
+                                 const void*     userParam) {
     auto ctx = static_cast<const GraphicContext*>(userParam);
     std::cout << message << std::endl;
 }
@@ -63,8 +60,7 @@ struct GraphicContext::Data {
     bool                     is_initialized = false;
     vine::RefPtr<State>      state;
     vine::RefPtr<EventQueue> events;
-    Capabilities             caps;
-    vine::RefPtr<GLfuncs>    funcs;
+    GLfuncs*                 funcs = nullptr;
 };
 
 int GraphicContext::Data::max_id = 0;
@@ -77,6 +73,7 @@ GraphicContext::GraphicContext()
 }
 
 GraphicContext::~GraphicContext() {
+    if (d->funcs) delete d->funcs;
     delete d;
 }
 
@@ -99,12 +96,13 @@ GraphicContext* GraphicContext::getContextById(int id) {
 bool GraphicContext::realize() {
     if (d->is_initialized) return true;
 
-    d->funcs = GLfuncs::load();
+    auto funcs = createGLfuncs();
 
-    glEnable(GL_DEBUG_OUTPUT);
-    glDebugMessageCallback(debugMessageCallback, this);
-    glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
+    funcs->iglEnable(IGL_DEBUG_OUTPUT);
+    funcs->iglDebugMessageCallback(debugMessageCallback, this);
+    funcs->iglDebugMessageControl(IGL_DONT_CARE, IGL_DONT_CARE, IGL_DONT_CARE, 0, nullptr, IGL_TRUE);
 
+    d->funcs          = funcs;
     d->is_initialized = true;
     return true;
 }
@@ -124,10 +122,10 @@ GraphicContext::EventQueue* GraphicContext::getEventQueue() const {
     return d->events.get();
 }
 
-const Capabilities& GraphicContext::getCapabilities() const {
-    return d->caps;
-}
 GLfuncs* GraphicContext::getFuncs() const {
-    return d->funcs.get();
+    return d->funcs;
+}
+GLfuncs* GraphicContext::createGLfuncs() {
+    return GLfuncs::load();
 }
 } // namespace glr

@@ -1,6 +1,8 @@
 #include <glr/engine/VertexArrayObject.h>
 
-#include <glad/glad.h>
+#include <glr/engine/GraphicContext.h>
+#include <glr/engine/State.h>
+#include <glr/igl/GLfuncs.h>
 
 VI_OBJECT_META_IMPL(glr::VertexArrayObject, glr::BindableObject);
 VI_OBJECT_META_IMPL(glr::VertexAttribPointer, glr::Object);
@@ -11,12 +13,12 @@ VI_OBJECT_META_IMPL(glr::VertexAttribDivisor, glr::Object);
 namespace glr {
 
 struct VertexAttribPointer::Data {
-    GLuint_t      index;
-    GLint         size;
-    GLenum        type;
-    GLboolean     normalized;
-    GLsizei       stride;
-    const GLvoid* pointer;
+    GLuint_t        index;
+    GLint_t         size;
+    GLenum_t        type;
+    GLboolean_t     normalized;
+    GLsizei_t       stride;
+    const GLvoid_t* pointer;
 };
 VertexAttribPointer::VertexAttribPointer(GLuint_t        index,
                                          GLint_t         size,
@@ -66,20 +68,23 @@ VertexArrayObject::~VertexArrayObject() {
     delete d;
 }
 GLuint_t VertexArrayObject::onCreate(State& state) {
+    auto     funcs = state.getContext()->getFuncs();
     GLuint_t vao;
-    glGenVertexArrays(1, &vao);
+    funcs->iglGenVertexArrays(1, &vao);
     return vao;
 }
 bool VertexArrayObject::onBind(State& state) {
-    auto id = getId(state);
-    glBindVertexArray(id);
+    auto funcs = state.getContext()->getFuncs();
+    auto id    = getId(state);
+    funcs->iglBindVertexArray(id);
     return true;
 }
 bool VertexArrayObject::onUnbind(State& state) {
-    GLint curr_id = 0;
-    glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &curr_id);
+    auto    funcs   = state.getContext()->getFuncs();
+    GLint_t curr_id = 0;
+    funcs->iglGetIntegerv(IGL_VERTEX_ARRAY_BINDING, &curr_id);
     if (curr_id == getId(state)) {
-        glBindVertexArray(0);
+        funcs->iglBindVertexArray(0);
     }
     return true;
 }
@@ -87,8 +92,9 @@ bool VertexArrayObject::onUpdate(State& state) {
     return false;
 }
 bool VertexArrayObject::onRelease(State& state) {
-    auto id = getId(state);
-    glDeleteVertexArrays(1, &id);
+    auto funcs = state.getContext()->getFuncs();
+    auto id    = getId(state);
+    funcs->iglDeleteVertexArrays(1, &id);
     return true;
 }
 } // namespace glr

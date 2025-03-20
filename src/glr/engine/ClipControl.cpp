@@ -1,6 +1,8 @@
 #include <glr/engine/ClipControl.h>
 
-#include <glad/glad.h>
+#include <glr/engine/GraphicContext.h>
+#include <glr/engine/State.h>
+#include <glr/igl/GLfuncs.h>
 
 namespace glr {
 
@@ -40,7 +42,8 @@ ClipControl::Depth ClipControl::getDepth() const {
 }
 
 void ClipControl::apply(State& state) const {
-    glClipControl(d->origin, d->depth);
+    auto funcs = state.getContext()->getFuncs();
+    funcs->iglClipControl(d->origin, d->depth);
 }
 
 } // namespace glr

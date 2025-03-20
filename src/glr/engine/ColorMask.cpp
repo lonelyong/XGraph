@@ -1,6 +1,8 @@
 #include <glr/engine/ColorMask.h>
 
-#include <glad/glad.h>
+#include <glr/engine/GraphicContext.h>
+#include <glr/engine/State.h>
+#include <glr/igl/GLfuncs.h>
 
 namespace glr {
 
@@ -72,7 +74,8 @@ bool ColorMask::getAlpha() const {
 }
 
 void ColorMask::apply(State& state) const {
-    glColorMask(d->r, d->g, d->b, d->a);
+    auto funcs = state.getContext()->getFuncs();
+    funcs->iglColorMask(d->r, d->g, d->b, d->a);
 }
 
 #pragma endregion
@@ -111,7 +114,8 @@ GLuint_t ColorMaski::getIndex() const {
 }
 
 void ColorMaski::apply(State& state) const {
-    glColorMaski(d->index, getRed(), getGreen(), getBlue(), getAlpha());
+    auto funcs = state.getContext()->getFuncs();
+    funcs->iglColorMaski(d->index, getRed(), getGreen(), getBlue(), getAlpha());
 }
 
 #pragma endregion

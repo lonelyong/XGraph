@@ -2,7 +2,9 @@
 
 #include <vector>
 
-#include <glad/glad.h>
+#include <glr/engine/GraphicContext.h>
+#include <glr/engine/State.h>
+#include <glr/igl/GLfuncs.h>
 
 namespace glr {
 
@@ -10,8 +12,8 @@ namespace glr {
 VI_OBJECT_META_IMPL(Viewport, StateAttribute);
 
 struct Viewport::Data {
-    GLint   x = 0, y = 0;
-    GLsizei w = 1, h = 1;
+    GLint_t   x = 0, y = 0;
+    GLsizei_t w = 1, h = 1;
 };
 
 Viewport::Viewport()
@@ -44,7 +46,8 @@ void Viewport::get(GLint_t& o_x, GLint_t& o_y, GLsizei_t& o_w, GLsizei_t& o_h) {
     o_h = d->h;
 }
 void Viewport::apply(State& state) const {
-    glViewport(d->x, d->y, d->w, d->h);
+    auto funcs = state.getContext()->getFuncs();
+    funcs->iglViewport(d->x, d->y, d->w, d->h);
 }
 
 #pragma endregion
@@ -53,7 +56,7 @@ void Viewport::apply(State& state) const {
 VI_OBJECT_META_IMPL(ViewportIndexed, StateAttribute);
 
 struct ViewportIndexed::Data {
-    GLuint    index = 0;
+    GLuint_t  index = 0;
     GLfloat_t x = 0.f, y = 0.f;
     GLfloat_t w = 1.f, h = 1.f;
 };
@@ -91,7 +94,8 @@ void ViewportIndexed::get(GLuint_t& o_index, GLfloat_t& o_x, GLfloat_t& o_y, GLf
     o_h     = d->h;
 }
 void ViewportIndexed::apply(State& state) const {
-    glViewportIndexedf(d->index, d->x, d->y, d->w, d->h);
+    auto funcs = state.getContext()->getFuncs();
+    funcs->iglViewportIndexedf(d->index, d->x, d->y, d->w, d->h);
 }
 #pragma endregion
 
@@ -100,9 +104,9 @@ void ViewportIndexed::apply(State& state) const {
 VI_OBJECT_META_IMPL(ViewportArray, StateAttribute);
 
 struct ViewportArray::Data {
-    GLuint               first = 0;
-    GLsizei              count = 0;
-    std::vector<GLfloat> xywh_pairs;
+    GLuint_t               first = 0;
+    GLsizei_t              count = 0;
+    std::vector<GLfloat_t> xywh_pairs;
 };
 
 ViewportArray::ViewportArray()
@@ -126,7 +130,8 @@ GLuint_t ViewportArray::getFirst() const {
 }
 
 void ViewportArray::apply(State& state) const {
-    glViewportArrayv(d->first, d->count, d->xywh_pairs.data());
+    auto funcs = state.getContext()->getFuncs();
+    funcs->iglViewportArrayv(d->first, d->count, d->xywh_pairs.data());
 }
 #pragma endregion
 

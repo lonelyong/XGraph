@@ -4,75 +4,74 @@
 
 namespace glr {
 class GLR_API GLfuncsv310 : public GLfuncsv300 {
-    VI_OBJECT_META;
 
   public:
-    typedef void(APIENTRYP PFNGLDRAWARRAYSINSTANCEDPROC)(GLenum  mode,
-                                                         GLint   first,
-                                                         GLsizei count,
-                                                         GLsizei instancecount);
-    PFNGLDRAWARRAYSINSTANCEDPROC glDrawArraysInstanced;
+    typedef void(APIENTRYP PFNGLDRAWARRAYSINSTANCEDPROC)(GLenum_t  mode,
+                                                         GLint_t   first,
+                                                         GLsizei_t count,
+                                                         GLsizei_t instancecount);
+    PFNGLDRAWARRAYSINSTANCEDPROC iglDrawArraysInstanced;
 
-    typedef void(APIENTRYP PFNGLDRAWELEMENTSINSTANCEDPROC)(GLenum      mode,
-                                                           GLsizei     count,
-                                                           GLenum      type,
+    typedef void(APIENTRYP PFNGLDRAWELEMENTSINSTANCEDPROC)(GLenum_t      mode,
+                                                           GLsizei_t     count,
+                                                           GLenum_t      type,
                                                            const void* indices,
-                                                           GLsizei     instancecount);
-    PFNGLDRAWELEMENTSINSTANCEDPROC glDrawElementsInstanced;
+                                                           GLsizei_t     instancecount);
+    PFNGLDRAWELEMENTSINSTANCEDPROC iglDrawElementsInstanced;
 
-    typedef void(APIENTRYP PFNGLTEXBUFFERPROC)(GLenum target, GLenum internalformat, GLuint buffer);
-    PFNGLTEXBUFFERPROC glTexBuffer;
+    typedef void(APIENTRYP PFNGLTEXBUFFERPROC)(GLenum_t target, GLenum_t internalformat, GLuint_t buffer);
+    PFNGLTEXBUFFERPROC iglTexBuffer;
 
-    typedef void(APIENTRYP PFNGLPRIMITIVERESTARTINDEXPROC)(GLuint index);
-    PFNGLPRIMITIVERESTARTINDEXPROC glPrimitiveRestartIndex;
+    typedef void(APIENTRYP PFNGLPRIMITIVERESTARTINDEXPROC)(GLuint_t index);
+    PFNGLPRIMITIVERESTARTINDEXPROC iglPrimitiveRestartIndex;
 
-    typedef void(APIENTRYP PFNGLCOPYBUFFERSUBDATAPROC)(GLenum     readTarget,
-                                                       GLenum     writeTarget,
+    typedef void(APIENTRYP PFNGLCOPYBUFFERSUBDATAPROC)(GLenum_t     readTarget,
+                                                       GLenum_t     writeTarget,
                                                        GLintptr   readOffset,
                                                        GLintptr   writeOffset,
                                                        GLsizeiptr size);
-    PFNGLCOPYBUFFERSUBDATAPROC glCopyBufferSubData;
+    PFNGLCOPYBUFFERSUBDATAPROC iglCopyBufferSubData;
 
-    typedef void(APIENTRYP PFNGLGETUNIFORMINDICESPROC)(GLuint               program,
-                                                       GLsizei              uniformCount,
-                                                       const GLchar* const* uniformNames,
-                                                       GLuint*              uniformIndices);
-    PFNGLGETUNIFORMINDICESPROC glGetUniformIndices;
+    typedef void(APIENTRYP PFNGLGETUNIFORMINDICESPROC)(GLuint_t               program,
+                                                       GLsizei_t              uniformCount,
+                                                       const GLchar_t* const* uniformNames,
+                                                       GLuint_t*              uniformIndices);
+    PFNGLGETUNIFORMINDICESPROC iglGetUniformIndices;
 
-    typedef void(APIENTRYP PFNGLGETACTIVEUNIFORMSIVPROC)(GLuint        program,
-                                                         GLsizei       uniformCount,
-                                                         const GLuint* uniformIndices,
-                                                         GLenum        pname,
-                                                         GLint*        params);
-    PFNGLGETACTIVEUNIFORMSIVPROC glGetActiveUniformsiv;
+    typedef void(APIENTRYP PFNGLGETACTIVEUNIFORMSIVPROC)(GLuint_t        program,
+                                                         GLsizei_t       uniformCount,
+                                                         const GLuint_t* uniformIndices,
+                                                         GLenum_t        pname,
+                                                         GLint_t*        params);
+    PFNGLGETACTIVEUNIFORMSIVPROC iglGetActiveUniformsiv;
 
-    typedef void(APIENTRYP PFNGLGETACTIVEUNIFORMNAMEPROC)(GLuint   program,
-                                                          GLuint   uniformIndex,
-                                                          GLsizei  bufSize,
-                                                          GLsizei* length,
-                                                          GLchar*  uniformName);
-    PFNGLGETACTIVEUNIFORMNAMEPROC glGetActiveUniformName;
+    typedef void(APIENTRYP PFNGLGETACTIVEUNIFORMNAMEPROC)(GLuint_t   program,
+                                                          GLuint_t   uniformIndex,
+                                                          GLsizei_t  bufSize,
+                                                          GLsizei_t* length,
+                                                          GLchar_t*  uniformName);
+    PFNGLGETACTIVEUNIFORMNAMEPROC iglGetActiveUniformName;
 
-    typedef GLuint(APIENTRYP PFNGLGETUNIFORMBLOCKINDEXPROC)(GLuint program, const GLchar* uniformBlockName);
-    PFNGLGETUNIFORMBLOCKINDEXPROC glGetUniformBlockIndex;
+    typedef GLuint_t(APIENTRYP PFNGLGETUNIFORMBLOCKINDEXPROC)(GLuint_t program, const GLchar_t* uniformBlockName);
+    PFNGLGETUNIFORMBLOCKINDEXPROC iglGetUniformBlockIndex;
 
-    typedef void(APIENTRYP PFNGLGETACTIVEUNIFORMBLOCKIVPROC)(GLuint program,
-                                                             GLuint uniformBlockIndex,
-                                                             GLenum pname,
-                                                             GLint* params);
-    PFNGLGETACTIVEUNIFORMBLOCKIVPROC glGetActiveUniformBlockiv;
+    typedef void(APIENTRYP PFNGLGETACTIVEUNIFORMBLOCKIVPROC)(GLuint_t program,
+                                                             GLuint_t uniformBlockIndex,
+                                                             GLenum_t pname,
+                                                             GLint_t* params);
+    PFNGLGETACTIVEUNIFORMBLOCKIVPROC iglGetActiveUniformBlockiv;
 
-    typedef void(APIENTRYP PFNGLGETACTIVEUNIFORMBLOCKNAMEPROC)(GLuint   program,
-                                                               GLuint   uniformBlockIndex,
-                                                               GLsizei  bufSize,
-                                                               GLsizei* length,
-                                                               GLchar*  uniformBlockName);
-    PFNGLGETACTIVEUNIFORMBLOCKNAMEPROC glGetActiveUniformBlockName;
+    typedef void(APIENTRYP PFNGLGETACTIVEUNIFORMBLOCKNAMEPROC)(GLuint_t   program,
+                                                               GLuint_t   uniformBlockIndex,
+                                                               GLsizei_t  bufSize,
+                                                               GLsizei_t* length,
+                                                               GLchar_t*  uniformBlockName);
+    PFNGLGETACTIVEUNIFORMBLOCKNAMEPROC iglGetActiveUniformBlockName;
 
-    typedef void(APIENTRYP PFNGLUNIFORMBLOCKBINDINGPROC)(GLuint program,
-                                                         GLuint uniformBlockIndex,
-                                                         GLuint uniformBlockBinding);
-    PFNGLUNIFORMBLOCKBINDINGPROC glUniformBlockBinding;
+    typedef void(APIENTRYP PFNGLUNIFORMBLOCKBINDINGPROC)(GLuint_t program,
+                                                         GLuint_t uniformBlockIndex,
+                                                         GLuint_t uniformBlockBinding);
+    PFNGLUNIFORMBLOCKBINDINGPROC iglUniformBlockBinding;
 
   public:
     GLfuncsv310();

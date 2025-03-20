@@ -4,79 +4,78 @@
 
 namespace glr {
 class GLR_API GLfuncsv130 : public GLfuncsv120 {
-    VI_OBJECT_META;
+  public:
+    typedef void(APIENTRYP PFNGLACTIVETEXTUREPROC)(GLenum_t texture);
+    PFNGLACTIVETEXTUREPROC iglActiveTexture;
 
-    typedef void(APIENTRYP PFNGLACTIVETEXTUREPROC)(GLenum texture);
-    PFNGLACTIVETEXTUREPROC glActiveTexture;
+    typedef void(APIENTRYP PFNGLSAMPLECOVERAGEPROC)(GLfloat_t value, GLboolean_t invert);
+    PFNGLSAMPLECOVERAGEPROC iglSampleCoverage;
 
-    typedef void(APIENTRYP PFNGLSAMPLECOVERAGEPROC)(GLfloat value, GLboolean invert);
-    PFNGLSAMPLECOVERAGEPROC glSampleCoverage;
-
-    typedef void(APIENTRYP PFNGLCOMPRESSEDTEXIMAGE3DPROC)(GLenum      target,
-                                                          GLint       level,
-                                                          GLenum      internalformat,
-                                                          GLsizei     width,
-                                                          GLsizei     height,
-                                                          GLsizei     depth,
-                                                          GLint       border,
-                                                          GLsizei     imageSize,
+    typedef void(APIENTRYP PFNGLCOMPRESSEDTEXIMAGE3DPROC)(GLenum_t    target,
+                                                          GLint_t     level,
+                                                          GLenum_t    internalformat,
+                                                          GLsizei_t   width,
+                                                          GLsizei_t   height,
+                                                          GLsizei_t   depth,
+                                                          GLint_t     border,
+                                                          GLsizei_t   imageSize,
                                                           const void* data);
-    PFNGLCOMPRESSEDTEXIMAGE3DPROC glCompressedTexImage3D;
+    PFNGLCOMPRESSEDTEXIMAGE3DPROC iglCompressedTexImage3D;
 
-    typedef void(APIENTRYP PFNGLCOMPRESSEDTEXIMAGE2DPROC)(GLenum      target,
-                                                          GLint       level,
-                                                          GLenum      internalformat,
-                                                          GLsizei     width,
-                                                          GLsizei     height,
-                                                          GLint       border,
-                                                          GLsizei     imageSize,
+    typedef void(APIENTRYP PFNGLCOMPRESSEDTEXIMAGE2DPROC)(GLenum_t    target,
+                                                          GLint_t     level,
+                                                          GLenum_t    internalformat,
+                                                          GLsizei_t   width,
+                                                          GLsizei_t   height,
+                                                          GLint_t     border,
+                                                          GLsizei_t   imageSize,
                                                           const void* data);
-    PFNGLCOMPRESSEDTEXIMAGE2DPROC glCompressedTexImage2D;
+    PFNGLCOMPRESSEDTEXIMAGE2DPROC iglCompressedTexImage2D;
 
-    typedef void(APIENTRYP PFNGLCOMPRESSEDTEXIMAGE1DPROC)(GLenum      target,
-                                                          GLint       level,
-                                                          GLenum      internalformat,
-                                                          GLsizei     width,
-                                                          GLint       border,
-                                                          GLsizei     imageSize,
+    typedef void(APIENTRYP PFNGLCOMPRESSEDTEXIMAGE1DPROC)(GLenum_t    target,
+                                                          GLint_t     level,
+                                                          GLenum_t    internalformat,
+                                                          GLsizei_t   width,
+                                                          GLint_t     border,
+                                                          GLsizei_t   imageSize,
                                                           const void* data);
-    PFNGLCOMPRESSEDTEXIMAGE1DPROC glCompressedTexImage1D;
+    PFNGLCOMPRESSEDTEXIMAGE1DPROC iglCompressedTexImage1D;
 
-    typedef void(APIENTRYP PFNGLCOMPRESSEDTEXSUBIMAGE3DPROC)(GLenum      target,
-                                                             GLint       level,
-                                                             GLint       xoffset,
-                                                             GLint       yoffset,
-                                                             GLint       zoffset,
-                                                             GLsizei     width,
-                                                             GLsizei     height,
-                                                             GLsizei     depth,
-                                                             GLenum      format,
-                                                             GLsizei     imageSize,
+    typedef void(APIENTRYP PFNGLCOMPRESSEDTEXSUBIMAGE3DPROC)(GLenum_t    target,
+                                                             GLint_t     level,
+                                                             GLint_t     xoffset,
+                                                             GLint_t     yoffset,
+                                                             GLint_t     zoffset,
+                                                             GLsizei_t   width,
+                                                             GLsizei_t   height,
+                                                             GLsizei_t   depth,
+                                                             GLenum_t    format,
+                                                             GLsizei_t   imageSize,
                                                              const void* data);
-    PFNGLCOMPRESSEDTEXSUBIMAGE3DPROC glCompressedTexSubImage3D;
+    PFNGLCOMPRESSEDTEXSUBIMAGE3DPROC iglCompressedTexSubImage3D;
 
-    typedef void(APIENTRYP PFNGLCOMPRESSEDTEXSUBIMAGE2DPROC)(GLenum      target,
-                                                             GLint       level,
-                                                             GLint       xoffset,
-                                                             GLint       yoffset,
-                                                             GLsizei     width,
-                                                             GLsizei     height,
-                                                             GLenum      format,
-                                                             GLsizei     imageSize,
+    typedef void(APIENTRYP PFNGLCOMPRESSEDTEXSUBIMAGE2DPROC)(GLenum_t    target,
+                                                             GLint_t     level,
+                                                             GLint_t     xoffset,
+                                                             GLint_t     yoffset,
+                                                             GLsizei_t   width,
+                                                             GLsizei_t   height,
+                                                             GLenum_t    format,
+                                                             GLsizei_t   imageSize,
                                                              const void* data);
-    PFNGLCOMPRESSEDTEXSUBIMAGE2DPROC glCompressedTexSubImage2D;
+    PFNGLCOMPRESSEDTEXSUBIMAGE2DPROC iglCompressedTexSubImage2D;
 
-    typedef void(APIENTRYP PFNGLCOMPRESSEDTEXSUBIMAGE1DPROC)(GLenum      target,
-                                                             GLint       level,
-                                                             GLint       xoffset,
-                                                             GLsizei     width,
-                                                             GLenum      format,
-                                                             GLsizei     imageSize,
+    typedef void(APIENTRYP PFNGLCOMPRESSEDTEXSUBIMAGE1DPROC)(GLenum_t    target,
+                                                             GLint_t     level,
+                                                             GLint_t     xoffset,
+                                                             GLsizei_t   width,
+                                                             GLenum_t    format,
+                                                             GLsizei_t   imageSize,
                                                              const void* data);
-    PFNGLCOMPRESSEDTEXSUBIMAGE1DPROC glCompressedTexSubImage1D;
+    PFNGLCOMPRESSEDTEXSUBIMAGE1DPROC iglCompressedTexSubImage1D;
 
-    typedef void(APIENTRYP PFNGLGETCOMPRESSEDTEXIMAGEPROC)(GLenum target, GLint level, void* img);
-    PFNGLGETCOMPRESSEDTEXIMAGEPROC glGetCompressedTexImage;
+    typedef void(APIENTRYP PFNGLGETCOMPRESSEDTEXIMAGEPROC)(GLenum_t target, GLint_t level, void* img);
+    PFNGLGETCOMPRESSEDTEXIMAGEPROC iglGetCompressedTexImage;
 
   public:
     GLfuncsv130();

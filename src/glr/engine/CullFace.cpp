@@ -1,7 +1,8 @@
 #include <glr/engine/CullFace.h>
 
-#include <glad/glad.h>
-
+#include <glr/engine/GraphicContext.h>
+#include <glr/engine/State.h>
+#include <glr/igl/GLfuncs.h>
 
 namespace glr {
 
@@ -37,7 +38,8 @@ CullFace::Type CullFace::getType() const {
 }
 
 void CullFace::apply(State& state) const {
-    glCullFace(d->mode);
+    auto funcs = state.getContext()->getFuncs();
+    funcs->iglCullFace(d->mode);
 }
 
 } // namespace glr

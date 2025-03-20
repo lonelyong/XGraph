@@ -4,17 +4,16 @@
 #include <iostream>
 #include <memory>
 
-#include <glad/glad.h>
-
 #include <GLFW/glfw3.h>
 #include <vine/core/Ptr.h>
 
+#include <glr/app/Viewer.h>
 #include <glr/engine/Camera.h>
 #include <glr/engine/CameraManipulator.h>
 #include <glr/engine/Event.h>
 #include <glr/engine/GraphicContext.h>
 #include <glr/engine/Renderer.h>
-#include <glr/app/Viewer.h>
+#include <glr/igl/GLfuncs.h>
 
 namespace glr {
 class GraphicContextGlfwImpl : public GraphicContextGlfw {
@@ -223,18 +222,20 @@ bool GlfwViewer::initialize() {
     cam->setClearMask(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
     cm->init(ctx->getWidth(), ctx->getHeight());
-
     addRenderer(renderer.get());
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    glEnable(GL_TEXTURE_2D);
-    glEnable(GL_PROGRAM_POINT_SIZE);
-    // glEnable(GL_CULL_FACE);
-    glDisable(GL_CULL_FACE);
-    // glCullFace(GL_BACK);
-    glFrontFace(GL_CCW);
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
-    glDepthRange(0, 1);
+
+    auto funcs = ctx->getFuncs();
+
+    funcs->iglPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    funcs->iglEnable(IGL_TEXTURE_2D);
+    funcs->iglEnable(IGL_PROGRAM_POINT_SIZE);
+    // funcs->iglEnable(GL_CULL_FACE);
+    funcs->iglDisable(IGL_CULL_FACE);
+    // funcs->iglCullFace(GL_BACK);
+    funcs->iglFrontFace(IGL_CCW);
+    funcs->iglEnable(IGL_DEPTH_TEST);
+    funcs->iglDepthFunc(IGL_LESS);
+    funcs->iglDepthRange(0, 1);
 
     d->renderer       = renderer;
     d->ctx            = ctx;

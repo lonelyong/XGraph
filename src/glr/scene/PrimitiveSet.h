@@ -7,6 +7,7 @@
 #include <glr/engine/ArrayBuffer.h>
 
 namespace glr {
+class State;
 class GLR_API PrimitiveSet : public Object {
     VI_OBJECT_META;
 
@@ -40,7 +41,7 @@ class GLR_API PrimitiveSet : public Object {
     GLsizei_t instances_ = 1;
 
   public:
-    virtual void draw() = 0;
+    virtual void draw(State& state) = 0;
 };
 
 class GLR_API DrawArrays : public PrimitiveSet {
@@ -58,7 +59,7 @@ class GLR_API DrawArrays : public PrimitiveSet {
     GLsizei_t getCount() const;
     void      setCount(GLsizei_t count);
 
-    virtual void draw() override;
+    virtual void draw(State& state) override;
 
   private:
     GLint_t   offset_ = 0;
@@ -77,7 +78,7 @@ class GLR_API DrawElementsUInt : public PrimitiveSet {
     void                   setIndices(std::vector<GLuint_t> indices);
     std::vector<GLuint_t>& getIndices();
 
-    virtual void draw() override;
+    virtual void draw(State& state) override;
 
   private:
     std::vector<GLuint_t> indices_;

@@ -1,9 +1,12 @@
 #include <glr/engine/PointParameter.h>
 
-#include <glad/glad.h>
+
 #include <glm/gtc/type_ptr.hpp>
 
+#include <glr/engine/GraphicContext.h>
+#include <glr/engine/State.h>
 #include <glr/engine/types.h>
+#include <glr/igl/GLfuncs.h>
 
 VI_OBJECT_META_IMPL(glr::PointParameter, glr::StateAttribute)
 
@@ -61,8 +64,9 @@ PointParameter::SpriteCoordOrigin PointParameter::getSpriteCoordOrigin() const {
 }
 
 void PointParameter::apply(State& state) const {
-    glPointSize(d->size);
-    glPointParameteri(IGL_POINT_SPRITE_COORD_ORIGIN, d->origin);
-    glPointParameterf(IGL_POINT_FADE_THRESHOLD_SIZE, d->size);
+    auto funcs = state.getContext()->getFuncs();
+    funcs->iglPointSize(d->size);
+    funcs->iglPointParameteri(IGL_POINT_SPRITE_COORD_ORIGIN, d->origin);
+    funcs->iglPointParameterf(IGL_POINT_FADE_THRESHOLD_SIZE, d->size);
 }
 } // namespace glr

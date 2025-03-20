@@ -2,7 +2,7 @@
 
 #include <glm/ext.hpp>
 
-#include <glad/glad.h>
+
 
 #include <vine/ge/Rect2.h>
 
@@ -66,7 +66,7 @@ Model* ExampleModels::createCube(float len, const Vec3d& posi, bool with_tex) {
     auto geom = Geometry::createCube(len, true);
     if (with_tex) {
         auto tex = ResMgr::instance()->getInternalCubeMap(ResMgr::EXAMPLE_CUBE_MAP1);
-        geom->addTexture(GL_TEXTURE0, 0, tex);
+        geom->addTexture(IGL_TEXTURE0, 0, tex);
     }
     else {
         auto colors = new Vec4fArray();
@@ -137,7 +137,7 @@ Model* ExampleModels::createImage(const char* file) {
     if (tex->getWidth() > 0) {
         auto img_size = Rect2d(0., 0., tex->getWidth() / 400., tex->getHeight() / 400.);
         auto geom_img = Geometry::createTexturedQuad(img_size, Rect2d(0, 0, 1, 1));
-        geom_img->addTexture(GL_TEXTURE0, 0, tex.get());
+        geom_img->addTexture(IGL_TEXTURE0, 0, tex.get());
         img->addDrawable(geom_img);
         GeometryConfigurer::configureStdPhong(geom_img, img->getOrCreateStateSet());
     }

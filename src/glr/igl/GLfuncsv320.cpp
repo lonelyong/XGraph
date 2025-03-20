@@ -2,54 +2,53 @@
 
 namespace glr {
 
-VI_OBJECT_META_IMPL(GLfuncsv320, GLfuncsv310);
 
 glr::GLfuncsv320::GLfuncsv320()
-  : glClientWaitSync(nullptr)
-  , glDeleteSync(nullptr)
-  , glDrawElementsBaseVertex(nullptr)
-  , glDrawElementsInstancedBaseVertex(nullptr)
-  , glDrawRangeElementsBaseVertex(nullptr)
-  , glFenceSync(nullptr)
-  , glFramebufferTexture(nullptr)
-  , glGetBufferParameteri64v(nullptr)
-  , glGetInteger64i_v(nullptr)
-  , glGetInteger64v(nullptr)
-  , glGetMultisamplefv(nullptr)
-  , glGetSynciv(nullptr)
-  , glIsSync(nullptr)
-  , glMultiDrawElementsBaseVertex(nullptr)
-  , glProvokingVertex(nullptr)
-  , glSampleMaski(nullptr)
-  , glTexImage2DMultisample(nullptr)
-  , glTexImage3DMultisample(nullptr)
-  , glWaitSync(nullptr) {
+  : iglClientWaitSync(nullptr)
+  , iglDeleteSync(nullptr)
+  , iglDrawElementsBaseVertex(nullptr)
+  , iglDrawElementsInstancedBaseVertex(nullptr)
+  , iglDrawRangeElementsBaseVertex(nullptr)
+  , iglFenceSync(nullptr)
+  , iglFramebufferTexture(nullptr)
+  , iglGetBufferParameteri64v(nullptr)
+  , iglGetInteger64i_v(nullptr)
+  , iglGetInteger64v(nullptr)
+  , iglGetMultisamplefv(nullptr)
+  , iglGetSynciv(nullptr)
+  , iglIsSync(nullptr)
+  , iglMultiDrawElementsBaseVertex(nullptr)
+  , iglProvokingVertex(nullptr)
+  , iglSampleMaski(nullptr)
+  , iglTexImage2DMultisample(nullptr)
+  , iglTexImage3DMultisample(nullptr)
+  , iglWaitSync(nullptr) {
 }
 
 void glr::GLfuncsv320::loadFuncs(Loader loader) {
     GLfuncsv310::loadFuncs(loader);
-    glClientWaitSync         = reinterpret_cast<PFNGLCLIENTWAITSYNCPROC>(loader("glClientWaitSync"));
-    glDeleteSync             = reinterpret_cast<PFNGLDELETESYNCPROC>(loader("glDeleteSync"));
-    glDrawElementsBaseVertex = reinterpret_cast<PFNGLDRAWELEMENTSBASEVERTEXPROC>(loader("glDrawElementsBaseVertex"));
-    glDrawElementsInstancedBaseVertex =
+    iglClientWaitSync         = reinterpret_cast<PFNGLCLIENTWAITSYNCPROC>(loader("glClientWaitSync"));
+    iglDeleteSync             = reinterpret_cast<PFNGLDELETESYNCPROC>(loader("glDeleteSync"));
+    iglDrawElementsBaseVertex = reinterpret_cast<PFNGLDRAWELEMENTSBASEVERTEXPROC>(loader("glDrawElementsBaseVertex"));
+    iglDrawElementsInstancedBaseVertex =
         reinterpret_cast<PFNGLDRAWELEMENTSINSTANCEDBASEVERTEXPROC>(loader("glDrawElementsInstancedBaseVertex"));
-    glDrawRangeElementsBaseVertex =
+    iglDrawRangeElementsBaseVertex =
         reinterpret_cast<PFNGLDRAWRANGEELEMENTSBASEVERTEXPROC>(loader("glDrawRangeElementsBaseVertex"));
-    glFenceSync              = reinterpret_cast<PFNGLFENCESYNCPROC>(loader("glFenceSync"));
-    glFramebufferTexture     = reinterpret_cast<PFNGLFRAMEBUFFERTEXTUREPROC>(loader("glFramebufferTexture"));
-    glGetBufferParameteri64v = reinterpret_cast<PFNGLGETBUFFERPARAMETERI64VPROC>(loader("glGetBufferParameteri64v"));
-    glGetInteger64i_v        = reinterpret_cast<PFNGLGETINTEGER64I_VPROC>(loader("glGetInteger64i_v"));
-    glGetInteger64v          = reinterpret_cast<PFNGLGETINTEGER64VPROC>(loader("glGetInteger64v"));
-    glGetMultisamplefv       = reinterpret_cast<PFNGLGETMULTISAMPLEFVPROC>(loader("glGetMultisamplefv"));
-    glGetSynciv              = reinterpret_cast<PFNGLGETSYNCIVPROC>(loader("glGetSynciv"));
-    glIsSync                 = reinterpret_cast<PFNGLISSYNCPROC>(loader("glIsSync"));
-    glMultiDrawElementsBaseVertex =
+    iglFenceSync              = reinterpret_cast<PFNGLFENCESYNCPROC>(loader("glFenceSync"));
+    iglFramebufferTexture     = reinterpret_cast<PFNGLFRAMEBUFFERTEXTUREPROC>(loader("glFramebufferTexture"));
+    iglGetBufferParameteri64v = reinterpret_cast<PFNGLGETBUFFERPARAMETERI64VPROC>(loader("glGetBufferParameteri64v"));
+    iglGetInteger64i_v        = reinterpret_cast<PFNGLGETINTEGER64I_VPROC>(loader("glGetInteger64i_v"));
+    iglGetInteger64v          = reinterpret_cast<PFNGLGETINTEGER64VPROC>(loader("glGetInteger64v"));
+    iglGetMultisamplefv       = reinterpret_cast<PFNGLGETMULTISAMPLEFVPROC>(loader("glGetMultisamplefv"));
+    iglGetSynciv              = reinterpret_cast<PFNGLGETSYNCIVPROC>(loader("glGetSynciv"));
+    iglIsSync                 = reinterpret_cast<PFNGLISSYNCPROC>(loader("glIsSync"));
+    iglMultiDrawElementsBaseVertex =
         reinterpret_cast<PFNGLMULTIDRAWELEMENTSBASEVERTEXPROC>(loader("glMultiDrawElementsBaseVertex"));
-    glProvokingVertex       = reinterpret_cast<PFNGLPROVOKINGVERTEXPROC>(loader("glProvokingVertex"));
-    glSampleMaski           = reinterpret_cast<PFNGLSAMPLEMASKIPROC>(loader("glSampleMaski"));
-    glTexImage2DMultisample = reinterpret_cast<PFNGLTEXIMAGE2DMULTISAMPLEPROC>(loader("glTexImage2DMultisample"));
-    glTexImage3DMultisample = reinterpret_cast<PFNGLTEXIMAGE3DMULTISAMPLEPROC>(loader("glTexImage3DMultisample"));
-    glWaitSync              = reinterpret_cast<PFNGLWAITSYNCPROC>(loader("glWaitSync"));
+    iglProvokingVertex       = reinterpret_cast<PFNGLPROVOKINGVERTEXPROC>(loader("glProvokingVertex"));
+    iglSampleMaski           = reinterpret_cast<PFNGLSAMPLEMASKIPROC>(loader("glSampleMaski"));
+    iglTexImage2DMultisample = reinterpret_cast<PFNGLTEXIMAGE2DMULTISAMPLEPROC>(loader("glTexImage2DMultisample"));
+    iglTexImage3DMultisample = reinterpret_cast<PFNGLTEXIMAGE3DMULTISAMPLEPROC>(loader("glTexImage3DMultisample"));
+    iglWaitSync              = reinterpret_cast<PFNGLWAITSYNCPROC>(loader("glWaitSync"));
 }
 }
 

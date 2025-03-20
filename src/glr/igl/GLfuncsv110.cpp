@@ -2,39 +2,38 @@
 
 namespace glr {
 
-VI_OBJECT_META_IMPL(GLfuncsv110, GLfuncsv100);
 
 GLfuncsv110::GLfuncsv110()
-  : glBindTexture(nullptr)
-  , glCopyTexImage1D(nullptr)
-  , glCopyTexImage2D(nullptr)
-  , glCopyTexSubImage1D(nullptr)
-  , glCopyTexSubImage2D(nullptr)
-  , glDeleteTextures(nullptr)
-  , glDrawArrays(nullptr)
-  , glDrawElements(nullptr)
-  , glGenTextures(nullptr)
-  , glIsTexture(nullptr)
-  , glPolygonOffset(nullptr)
-  , glTexSubImage1D(nullptr)
-  , glTexSubImage2D(nullptr) {
+  : iglBindTexture(nullptr)
+  , iglCopyTexImage1D(nullptr)
+  , iglCopyTexImage2D(nullptr)
+  , iglCopyTexSubImage1D(nullptr)
+  , iglCopyTexSubImage2D(nullptr)
+  , iglDeleteTextures(nullptr)
+  , iglDrawArrays(nullptr)
+  , iglDrawElements(nullptr)
+  , iglGenTextures(nullptr)
+  , iglIsTexture(nullptr)
+  , iglPolygonOffset(nullptr)
+  , iglTexSubImage1D(nullptr)
+  , iglTexSubImage2D(nullptr) {
 }
 
 
 void GLfuncsv110::loadFuncs(Loader loader) {
     GLfuncsv100::loadFuncs(loader);
-    glBindTexture       = reinterpret_cast<PFNGLBINDTEXTUREPROC>(loader("glBindTexture"));
-    glCopyTexImage1D    = reinterpret_cast<PFNGLCOPYTEXIMAGE1DPROC>(loader("glCopyTexImage1D"));
-    glCopyTexImage2D    = reinterpret_cast<PFNGLCOPYTEXIMAGE2DPROC>(loader("glCopyTexImage2D"));
-    glCopyTexSubImage1D = reinterpret_cast<PFNGLCOPYTEXSUBIMAGE1DPROC>(loader("glCopyTexSubImage1D"));
-    glCopyTexSubImage2D = reinterpret_cast<PFNGLCOPYTEXSUBIMAGE2DPROC>(loader("glCopyTexSubImage2D"));
-    glDeleteTextures    = reinterpret_cast<PFNGLDELETETEXTURESPROC>(loader("glDeleteTextures"));
-    glDrawArrays        = reinterpret_cast<PFNGLDRAWARRAYSPROC>(loader("glDrawArrays"));
-    glDrawElements      = reinterpret_cast<PFNGLDRAWELEMENTSPROC>(loader("glDrawElements"));
-    glGenTextures       = reinterpret_cast<PFNGLGENTEXTURESPROC>(loader("glGenTextures"));
-    glIsTexture         = reinterpret_cast<PFNGLISTEXTUREPROC>(loader("glIsTexture"));
-    glPolygonOffset     = reinterpret_cast<PFNGLPOLYGONOFFSETPROC>(loader("glPolygonOffset"));
-    glTexSubImage1D     = reinterpret_cast<PFNGLTEXSUBIMAGE1DPROC>(loader("glTexSubImage1D"));
-    glTexSubImage2D     = reinterpret_cast<PFNGLTEXSUBIMAGE2DPROC>(loader("glTexSubImage2D"));
+    iglBindTexture       = reinterpret_cast<PFNGLBINDTEXTUREPROC>(loader("glBindTexture"));
+    iglCopyTexImage1D    = reinterpret_cast<PFNGLCOPYTEXIMAGE1DPROC>(loader("glCopyTexImage1D"));
+    iglCopyTexImage2D    = reinterpret_cast<PFNGLCOPYTEXIMAGE2DPROC>(loader("glCopyTexImage2D"));
+    iglCopyTexSubImage1D = reinterpret_cast<PFNGLCOPYTEXSUBIMAGE1DPROC>(loader("glCopyTexSubImage1D"));
+    iglCopyTexSubImage2D = reinterpret_cast<PFNGLCOPYTEXSUBIMAGE2DPROC>(loader("glCopyTexSubImage2D"));
+    iglDeleteTextures    = reinterpret_cast<PFNGLDELETETEXTURESPROC>(loader("glDeleteTextures"));
+    iglDrawArrays        = reinterpret_cast<PFNGLDRAWARRAYSPROC>(loader("glDrawArrays"));
+    iglDrawElements      = reinterpret_cast<PFNGLDRAWELEMENTSPROC>(loader("glDrawElements"));
+    iglGenTextures       = reinterpret_cast<PFNGLGENTEXTURESPROC>(loader("glGenTextures"));
+    iglIsTexture         = reinterpret_cast<PFNGLISTEXTUREPROC>(loader("glIsTexture"));
+    iglPolygonOffset     = reinterpret_cast<PFNGLPOLYGONOFFSETPROC>(loader("glPolygonOffset"));
+    iglTexSubImage1D     = reinterpret_cast<PFNGLTEXSUBIMAGE1DPROC>(loader("glTexSubImage1D"));
+    iglTexSubImage2D     = reinterpret_cast<PFNGLTEXSUBIMAGE2DPROC>(loader("glTexSubImage2D"));
 }
 } // namespace glr

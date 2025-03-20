@@ -4,52 +4,51 @@
 
 namespace glr {
 class GLR_API GLfuncsv120 : public GLfuncsv110 {
-    VI_OBJECT_META;
 
   public:
-    typedef void(APIENTRYP PFNGLDRAWRANGEELEMENTSPROC)(GLenum      mode,
-                                                       GLuint      start,
-                                                       GLuint      end,
-                                                       GLsizei     count,
-                                                       GLenum      type,
+    typedef void(APIENTRYP PFNGLDRAWRANGEELEMENTSPROC)(GLenum_t      mode,
+                                                       GLuint_t      start,
+                                                       GLuint_t      end,
+                                                       GLsizei_t     count,
+                                                       GLenum_t      type,
                                                        const void* indices);
-    PFNGLDRAWRANGEELEMENTSPROC glDrawRangeElements;
+    PFNGLDRAWRANGEELEMENTSPROC iglDrawRangeElements;
 
-    typedef void(APIENTRYP PFNGLTEXIMAGE3DPROC)(GLenum      target,
-                                                GLint       level,
-                                                GLint       internalformat,
-                                                GLsizei     width,
-                                                GLsizei     height,
-                                                GLsizei     depth,
-                                                GLint       border,
-                                                GLenum      format,
-                                                GLenum      type,
+    typedef void(APIENTRYP PFNGLTEXIMAGE3DPROC)(GLenum_t      target,
+                                                GLint_t       level,
+                                                GLint_t       internalformat,
+                                                GLsizei_t     width,
+                                                GLsizei_t     height,
+                                                GLsizei_t     depth,
+                                                GLint_t       border,
+                                                GLenum_t      format,
+                                                GLenum_t      type,
                                                 const void* pixels);
-    PFNGLTEXIMAGE3DPROC glTexImage3D;
+    PFNGLTEXIMAGE3DPROC iglTexImage3D;
 
-    typedef void(APIENTRYP PFNGLTEXSUBIMAGE3DPROC)(GLenum      target,
-                                                   GLint       level,
-                                                   GLint       xoffset,
-                                                   GLint       yoffset,
-                                                   GLint       zoffset,
-                                                   GLsizei     width,
-                                                   GLsizei     height,
-                                                   GLsizei     depth,
-                                                   GLenum      format,
-                                                   GLenum      type,
+    typedef void(APIENTRYP PFNGLTEXSUBIMAGE3DPROC)(GLenum_t      target,
+                                                   GLint_t       level,
+                                                   GLint_t       xoffset,
+                                                   GLint_t       yoffset,
+                                                   GLint_t       zoffset,
+                                                   GLsizei_t     width,
+                                                   GLsizei_t     height,
+                                                   GLsizei_t     depth,
+                                                   GLenum_t      format,
+                                                   GLenum_t      type,
                                                    const void* pixels);
-    PFNGLTEXSUBIMAGE3DPROC glTexSubImage3D;
+    PFNGLTEXSUBIMAGE3DPROC iglTexSubImage3D;
 
-    typedef void(APIENTRYP PFNGLCOPYTEXSUBIMAGE3DPROC)(GLenum  target,
-                                                       GLint   level,
-                                                       GLint   xoffset,
-                                                       GLint   yoffset,
-                                                       GLint   zoffset,
-                                                       GLint   x,
-                                                       GLint   y,
-                                                       GLsizei width,
-                                                       GLsizei height);
-    PFNGLCOPYTEXSUBIMAGE3DPROC glCopyTexSubImage3D;
+    typedef void(APIENTRYP PFNGLCOPYTEXSUBIMAGE3DPROC)(GLenum_t  target,
+                                                       GLint_t   level,
+                                                       GLint_t   xoffset,
+                                                       GLint_t   yoffset,
+                                                       GLint_t   zoffset,
+                                                       GLint_t   x,
+                                                       GLint_t   y,
+                                                       GLsizei_t width,
+                                                       GLsizei_t height);
+    PFNGLCOPYTEXSUBIMAGE3DPROC iglCopyTexSubImage3D;
 
   public:
     GLfuncsv120();

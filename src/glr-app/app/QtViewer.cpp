@@ -1,6 +1,4 @@
-﻿#include <glad/glad.h>
-
-#include "QtViewer.h"
+﻿#include "QtViewer.h"
 
 #include <QApplication>
 #include <QMouseEvent>
@@ -8,12 +6,13 @@
 
 #include <vine/core/Ptr.h>
 
+#include <glr/app/Viewer.h>
 #include <glr/engine/Camera.h>
 #include <glr/engine/CameraManipulator.h>
 #include <glr/engine/Event.h>
 #include <glr/engine/GraphicContext.h>
 #include <glr/engine/Renderer.h>
-#include <glr/app/Viewer.h>
+#include <glr/igl/GLfuncs.h>
 
 namespace glr {
 namespace {
@@ -28,6 +27,13 @@ class GraphicContextQt : public GraphicContext {
     virtual int getWidth() const { return widget_->width(); }
 
     virtual int getHeight() const { return widget_->height(); }
+
+  protected:
+    virtual GLfuncs* createGLfuncs() override {
+        static auto ctx = widget_->context();
+        return GLfuncs::loadGLLoader(
+            (GLfuncs::Loader)[](const char* name) { return (void*)ctx->getProcAddress(name); });
+    }
 
   private:
     QOpenGLWidget* widget_ = nullptr;
@@ -100,18 +106,20 @@ void QtViewer::initializeGL() {
     cam->setClearColor(Vec4f(0., 0., 0., 1.));
     cam->setClearMask(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    glEnable(GL_DEPTH_TEST);
+    auto funcs = d->ctx->getFuncs();
+
+    funcs->iglPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    funcs->iglEnable(GL_DEPTH_TEST);
     // glEnable(GL_TEXTURE_2D); //removed after v3.2+
-    glEnable(GL_PROGRAM_POINT_SIZE);
+    funcs->iglEnable(GL_PROGRAM_POINT_SIZE);
     // glEnable(GL_CULL_FACE);
     // glCullFace(GL_BACK);
 
-    glFrontFace(GL_CCW);
-    glDepthFunc(GL_LESS);
+    funcs->iglFrontFace(GL_CCW);
+    funcs->iglDepthFunc(GL_LESS);
 
-    //glEnable(GL_NO_ERROR);
-    //glDisable(GL_RASTERIZER_DISCARD);
+    // glEnable(GL_NO_ERROR);
+    // glDisable(GL_RASTERIZER_DISCARD);
     return;
 }
 

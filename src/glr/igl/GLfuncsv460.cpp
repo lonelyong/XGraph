@@ -2,22 +2,21 @@
 
 namespace glr {
 
-VI_OBJECT_META_IMPL(GLfuncsv460, GLfuncsv450);
 
 GLfuncsv460::GLfuncsv460()
-  : glMultiDrawArraysIndirectCount(nullptr)
-  , glMultiDrawElementsIndirectCount(nullptr)
-  , glPolygonOffsetClamp(nullptr)
-  , glSpecializeShader(nullptr) {
+  : iglMultiDrawArraysIndirectCount(nullptr)
+  , iglMultiDrawElementsIndirectCount(nullptr)
+  , iglPolygonOffsetClamp(nullptr)
+  , iglSpecializeShader(nullptr) {
 }
 
 void GLfuncsv460::loadFuncs(Loader loader) {
     GLfuncsv450::loadFuncs(loader);
-    glMultiDrawArraysIndirectCount =
+    iglMultiDrawArraysIndirectCount =
         reinterpret_cast<PFNGLMULTIDRAWARRAYSINDIRECTCOUNTPROC>(loader("glMultiDrawArraysIndirectCount"));
-    glMultiDrawElementsIndirectCount =
+    iglMultiDrawElementsIndirectCount =
         reinterpret_cast<PFNGLMULTIDRAWELEMENTSINDIRECTCOUNTPROC>(loader("glMultiDrawElementsIndirectCount"));
-    glPolygonOffsetClamp = reinterpret_cast<PFNGLPOLYGONOFFSETCLAMPPROC>(loader("glPolygonOffsetClamp"));
-    glSpecializeShader   = reinterpret_cast<PFNGLSPECIALIZESHADERPROC>(loader("glSpecializeShader"));
+    iglPolygonOffsetClamp = reinterpret_cast<PFNGLPOLYGONOFFSETCLAMPPROC>(loader("glPolygonOffsetClamp"));
+    iglSpecializeShader   = reinterpret_cast<PFNGLSPECIALIZESHADERPROC>(loader("glSpecializeShader"));
 }
 } // namespace glr

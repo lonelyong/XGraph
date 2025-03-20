@@ -1,6 +1,8 @@
 ﻿#include <glr/engine/Camera.h>
 
-#include <glad/glad.h>
+#include <glr/engine/GraphicContext.h>
+#include <glr/engine/State.h>
+#include <glr/igl/GLfuncs.h>
 
 #include <glm/ext.hpp>
 
@@ -11,7 +13,7 @@ Camera::Camera()
   : clear_depth_(1.0)
   , clear_stencil_(1)
   , clear_color_(0.f, 0.f, 0.f, 1.f)
-  , clear_mask_(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT)
+  , clear_mask_(IGL_COLOR_BUFFER_BIT | IGL_DEPTH_BUFFER_BIT | IGL_STENCIL_BUFFER_BIT)
   , vp_x_(0.)
   , vp_y_(0.)
   , vp_w_(800)
@@ -105,19 +107,21 @@ Mat4d Camera::getViewProjectionMatrix() const {
     return proj_matrix_ * view_matrix_;
 }
 
-void Camera::apply() const {
-    applyViewport();
-    applyAllExceptViewport();
+void Camera::apply(State& state) const {
+    applyViewport(state);
+    applyAllExceptViewport(state);
 }
-void Camera::applyViewport() const {
-    glViewport(vp_x_, vp_y_, vp_w_, vp_h_);
-    glScissor(vp_x_, vp_y_, vp_w_, vp_h_);
-    glEnable(GL_SCISSOR_TEST);
+void Camera::applyViewport(State& state) const {
+    auto funcs = state.getContext()->getFuncs();
+    funcs->iglViewport(vp_x_, vp_y_, vp_w_, vp_h_);
+    funcs->iglScissor(vp_x_, vp_y_, vp_w_, vp_h_);
+    funcs->iglEnable(IGL_SCISSOR_TEST);
 }
-void Camera::applyAllExceptViewport() const {
-    glClearColor(clear_color_.r, clear_color_.g, clear_color_.b, clear_color_.a);
-    glClearDepth(clear_depth_);
-    glClearStencil(clear_stencil_);
-    glClear(clear_mask_);
+void Camera::applyAllExceptViewport(State& state) const {
+    auto funcs = state.getContext()->getFuncs();
+    funcs->iglClearColor(clear_color_.r, clear_color_.g, clear_color_.b, clear_color_.a);
+    funcs->iglClearDepth(clear_depth_);
+    funcs->iglClearStencil(clear_stencil_);
+    funcs->iglClear(clear_mask_);
 }
 } // namespace glr

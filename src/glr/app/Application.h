@@ -17,11 +17,7 @@ class GLR_API Application {
   public:
     virtual bool initGlfw();
 
-    virtual bool initGlad();
-
     virtual bool isGlfwInitialized() const;
-
-    virtual bool isGladInitialized() const;
 
   public:
     const AppParameters& getParameters() const { return params_; }

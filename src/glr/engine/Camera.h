@@ -2,11 +2,12 @@
 
 #include <glr/glr_global.h>
 
-#include <glr/igl/GLdefs.h>
 #include <glr/engine/Object.h>
 #include <glr/engine/types.h>
+#include <glr/igl/GLdefs.h>
 
 namespace glr {
+class State;
 class GLR_API Camera : public Object {
     VI_OBJECT_META;
 
@@ -44,9 +45,9 @@ class GLR_API Camera : public Object {
     void setViewport(int x, int y, int w, int h);
     void getViewport(int& x, int& y, int& w, int& h) const;
 
-    void apply() const;
-    void applyViewport() const;
-    void applyAllExceptViewport() const;
+    void apply(State& state) const;
+    void applyViewport(State& state) const;
+    void applyAllExceptViewport(State& state) const;
 
   private:
     Mat4d        view_matrix_;

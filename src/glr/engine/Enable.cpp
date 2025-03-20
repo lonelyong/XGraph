@@ -1,5 +1,9 @@
 #include <glr/engine/Enable.h>
 
+#include <glr/engine/GraphicContext.h>
+#include <glr/engine/State.h>
+#include <glr/igl/GLfuncs.h>
+
 namespace glr {
 
 VI_OBJECT_META_IMPL(Enable, StateAttribute);
@@ -18,6 +22,7 @@ Enable::Type Enable::getType() const {
 }
 
 void Enable::apply(State& state) const {
+    auto funcs = state.getContext()->getFuncs();
 }
 
 } // namespace glr

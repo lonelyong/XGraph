@@ -1,6 +1,8 @@
 #include <glr/scene/PrimitiveSet.h>
 
-#include <glad/glad.h>
+#include <glr/engine/GraphicContext.h>
+#include <glr/engine/State.h>
+#include <glr/igl/GLfuncs.h>
 
 namespace glr {
 using Mode = PrimitiveSet::Mode;
@@ -62,15 +64,16 @@ void DrawArrays::setCount(GLsizei_t count) {
     count = count;
 }
 
-void DrawArrays::draw() {
+void DrawArrays::draw(State& state) {
+    auto funcs = state.getContext()->getFuncs();
     auto mode  = getMode();
     auto insts = getInstances();
 
     if (insts > 1) {
-        glDrawArraysInstanced(mode, offset_, count_, insts);
+        funcs->iglDrawArraysInstanced(mode, offset_, count_, insts);
     }
     else {
-        glDrawArrays(mode, offset_, count_);
+        funcs->iglDrawArrays(mode, offset_, count_);
     }
 }
 
@@ -93,15 +96,16 @@ std::vector<GLuint_t>& DrawElementsUInt::getIndices() {
     return indices_;
 }
 
-void DrawElementsUInt::draw() {
+void DrawElementsUInt::draw(State& state) {
+    auto funcs = state.getContext()->getFuncs();
     if (indices_.empty()) return;
     auto mode  = getMode();
     auto insts = getInstances();
     if (insts > 1) {
-        glDrawElementsInstanced(mode, indices_.size(), GL_UNSIGNED_INT, (void*)indices_.data(), insts);
+        funcs->iglDrawElementsInstanced(mode, indices_.size(), IGL_UNSIGNED_INT, (void*)indices_.data(), insts);
     }
     else {
-        glDrawElements(mode, indices_.size(), GL_UNSIGNED_INT, (void*)indices_.data());
+        funcs->iglDrawElements(mode, indices_.size(), IGL_UNSIGNED_INT, (void*)indices_.data());
     }
 }
 } // namespace glr

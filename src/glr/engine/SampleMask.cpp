@@ -1,6 +1,8 @@
 #include <glr/engine/SampleMask.h>
 
-#include <glad/glad.h>
+#include <glr/engine/GraphicContext.h>
+#include <glr/engine/State.h>
+#include <glr/igl/GLfuncs.h>
 
 namespace glr {
 
@@ -15,7 +17,7 @@ SampleMask::SampleMask()
   : d(new Data()) {
 }
 
-SampleMask::SampleMask(GLuint_t mask_number, GLbitfield mask)
+SampleMask::SampleMask(GLuint_t mask_number, GLbitfield_t mask)
   : d(new Data()) {
     setNumber(mask_number);
     setMask(mask);
@@ -47,7 +49,8 @@ SampleMask::Type SampleMask::getType() const {
 }
 
 void SampleMask::apply(State& state) const {
-    glSampleMaski(d->number, d->mask);
+    auto funcs = state.getContext()->getFuncs();
+    funcs->iglSampleMaski(d->number, d->mask);
 }
 
 } // namespace glr

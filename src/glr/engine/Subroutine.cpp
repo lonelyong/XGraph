@@ -1,9 +1,9 @@
 ﻿#include <glr/engine/Subroutine.h>
 
-#include <glad/glad.h>
-
+#include <glr/engine/GraphicContext.h>
 #include <glr/engine/Program.h>
 #include <glr/engine/State.h>
+#include <glr/igl/GLfuncs.h>
 
 namespace glr {
 VI_OBJECT_META_IMPL(Subroutine, UniformBase);
@@ -28,12 +28,13 @@ StateAttribute::Type Subroutine::getType() const {
 }
 
 void Subroutine::apply(State& state) const {
+    auto funcs  = state.getContext()->getFuncs();
     auto shader = state.getCurrentProgram();
     if (shader && d->type != NO_TYPE) {
         if (!d->name.empty()) {
-            auto loc = glGetSubroutineIndex(shader->getId(state), d->type, d->name.data());
-            if (loc != GL_INVALID_INDEX) {
-                glUniformSubroutinesuiv(d->type, 1, &loc);
+            auto loc = funcs->iglGetSubroutineIndex(shader->getId(state), d->type, d->name.data());
+            if (loc != IGL_INVALID_INDEX) {
+                funcs->iglUniformSubroutinesuiv(d->type, 1, &loc);
             }
         }
     }

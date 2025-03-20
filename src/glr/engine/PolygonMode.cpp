@@ -1,6 +1,8 @@
 #include <glr/engine/PolygonMode.h>
 
-#include <glad/glad.h>
+#include <glr/engine/GraphicContext.h>
+#include <glr/engine/State.h>
+#include <glr/igl/GLfuncs.h>
 
 namespace glr {
 
@@ -36,7 +38,8 @@ void PolygonMode::setMode(Mode mode) {
 }
 
 void PolygonMode::apply(State& state) const {
-    glPolygonMode(IGL_FRONT_AND_BACK, d->mode);
+    auto funcs = state.getContext()->getFuncs();
+    funcs->iglPolygonMode(IGL_FRONT_AND_BACK, d->mode);
 }
 
 } // namespace glr

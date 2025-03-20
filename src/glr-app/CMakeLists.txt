@@ -24,7 +24,6 @@ add_executable(
     ${CURRENT_TARGET_NAME} 
     ${SRC_FILES} 
     ${HEADER_FILES}
-    ${GLAD_HEADER_FILES}
     ${SRC_FIELS_APP}
     ${HEADER_FIELS_APP}
 )
@@ -34,7 +33,6 @@ target_sources(${CURRENT_TARGET_NAME} PRIVATE ${RES_SHADER_FILES} ${RES_IMAGE_FI
 source_group(app FILES ${HEADER_FIELS_APP} ${SRC_FIELS_APP})
 source_group(res/images FILES ${RES_IMAGE_FILES})
 source_group(res/shaders FILES ${RES_SHADER_FILES})
-source_group(third/glad FILES ${GLAD_HEADER_FILES})
 
 target_include_directories(${CURRENT_TARGET_NAME}
     PRIVATE

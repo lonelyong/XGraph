@@ -2,7 +2,9 @@
 
 #include <vector>
 
-#include <glad/glad.h>
+#include <glr/engine/GraphicContext.h>
+#include <glr/engine/State.h>
+#include <glr/igl/GLfuncs.h>
 
 namespace glr {
 
@@ -10,8 +12,8 @@ namespace glr {
 VI_OBJECT_META_IMPL(Scissor, StateAttribute);
 
 struct Scissor::Data {
-    GLint   x = 0, y = 0;
-    GLsizei w = 1, h = 1;
+    GLint_t   x = 0, y = 0;
+    GLsizei_t w = 1, h = 1;
 };
 
 Scissor::Scissor()
@@ -44,7 +46,8 @@ void Scissor::get(GLint_t& o_x, GLint_t& o_y, GLsizei_t& o_w, GLsizei_t& o_h) {
     o_h = d->h;
 }
 void Scissor::apply(State& state) const {
-    glScissor(d->x, d->y, d->w, d->h);
+    auto funcs = state.getContext()->getFuncs();
+    funcs->iglScissor(d->x, d->y, d->w, d->h);
 }
 
 #pragma endregion
@@ -53,9 +56,9 @@ void Scissor::apply(State& state) const {
 VI_OBJECT_META_IMPL(ScissorIndexed, StateAttribute);
 
 struct ScissorIndexed::Data {
-    GLuint  index = 0;
-    GLint   x = 0, y = 0;
-    GLsizei w = 1, h = 1;
+    GLuint_t  index = 0;
+    GLint_t   x = 0, y = 0;
+    GLsizei_t w = 1, h = 1;
 };
 
 ScissorIndexed::ScissorIndexed()
@@ -91,7 +94,8 @@ void ScissorIndexed::get(GLuint_t& o_index, GLint_t& o_x, GLint_t& o_y, GLsizei_
     o_h     = d->h;
 }
 void ScissorIndexed::apply(State& state) const {
-    glScissorIndexed(d->index, d->x, d->y, d->w, d->h);
+    auto funcs = state.getContext()->getFuncs();
+    funcs->iglScissorIndexed(d->index, d->x, d->y, d->w, d->h);
 }
 #pragma endregion
 
@@ -100,9 +104,9 @@ void ScissorIndexed::apply(State& state) const {
 VI_OBJECT_META_IMPL(ScissorArray, StateAttribute);
 
 struct ScissorArray::Data {
-    GLuint             first = 0;
-    GLsizei            count = 0;
-    std::vector<GLint> xywh_pairs;
+    GLuint_t             first = 0;
+    GLsizei_t            count = 0;
+    std::vector<GLint_t> xywh_pairs;
 };
 
 ScissorArray::ScissorArray()
@@ -126,7 +130,8 @@ GLuint_t ScissorArray::getFirst() const {
 }
 
 void ScissorArray::apply(State& state) const {
-    glScissorArrayv(d->first, d->count, d->xywh_pairs.data());
+    auto funcs = state.getContext()->getFuncs();
+    funcs->iglScissorArrayv(d->first, d->count, d->xywh_pairs.data());
 }
 #pragma endregion
 

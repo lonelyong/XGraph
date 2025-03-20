@@ -2,17 +2,13 @@
 
 #include <functional>
 
-#include <glad/glad.h>
-
 #include <vine/core/Ptr.h>
 
 #include <glr/engine/Camera.h>
 #include <glr/engine/CameraManipulator.h>
 #include <glr/engine/GraphicContext.h>
 #include <glr/engine/RenderInfo.h>
-#include <glr/engine/Program.h>
 #include <glr/engine/State.h>
-#include <glr/engine/StateSet.h>
 #include <glr/scene/Drawable.h>
 #include <glr/scene/Model.h>
 #include <glr/scene/Scene.h>
@@ -77,9 +73,9 @@ int Renderer::render(RenderInfo& info) {
         d->is_first_frame = false;
     }
 
-    // glEnable(GL_DEPTH_TEST);
-    // glDepthFunc(GL_LESS);
-    // glDepthMask(GL_TRUE);
+    // glEnable(IGL_DEPTH_TEST);
+    // glDepthFunc(IGL_LESS);
+    // glDepthMask(IGL_TRUE);
     // glDepthRange(0.0, 1.0);
 
     auto master_renderer = info.getMasterRenderer();

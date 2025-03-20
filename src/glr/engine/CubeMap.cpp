@@ -2,9 +2,10 @@
 
 #include <type_traits>
 
-#include <glad/glad.h>
-
+#include <glr/engine/GraphicContext.h>
 #include <glr/engine/Image.h>
+#include <glr/engine/State.h>
+#include <glr/igl/GLfuncs.h>
 #include <glr/io/ImageLoader.h>
 
 namespace glr {
@@ -47,14 +48,16 @@ void CubeMap::setImages(const std::vector<Image*>& imgs) {
 GLuint_t CubeMap::onCreate(State& state) {
     if (d->imgs.size() != 6) return 0;
 
+    auto funcs = state.getContext()->getFuncs();
+
     GLuint_t id = 0;
-    glGenTextures(1, &id);
-    glBindTexture(getType(), id);
-    glTexParameteri(getType(), GL_TEXTURE_MIN_FILTER, getFilter(MIN_FILTER));
-    glTexParameteri(getType(), GL_TEXTURE_MAG_FILTER, getFilter(MAX_FILTER));
-    glTexParameteri(getType(), GL_TEXTURE_WRAP_S, getWrap(WRAP_S));
-    glTexParameteri(getType(), GL_TEXTURE_WRAP_T, getWrap(WRAP_T));
-    glTexParameteri(getType(), GL_TEXTURE_WRAP_R, getWrap(WRAP_R));
+    funcs->iglGenTextures(1, &id);
+    funcs->iglBindTexture(getType(), id);
+    funcs->iglTexParameteri(getType(), IGL_TEXTURE_MIN_FILTER, getFilter(MIN_FILTER));
+    funcs->iglTexParameteri(getType(), IGL_TEXTURE_MAG_FILTER, getFilter(MAX_FILTER));
+    funcs->iglTexParameteri(getType(), IGL_TEXTURE_WRAP_S, getWrap(WRAP_S));
+    funcs->iglTexParameteri(getType(), IGL_TEXTURE_WRAP_T, getWrap(WRAP_T));
+    funcs->iglTexParameteri(getType(), IGL_TEXTURE_WRAP_R, getWrap(WRAP_R));
 
     for (int i = 0; i < 6; i++) {
         auto& img = d->imgs[i];
@@ -68,7 +71,7 @@ GLuint_t CubeMap::onCreate(State& state) {
         auto src_type = d->imgs[i]->getDataType();
         auto img_data = img->data();
 
-        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, fmt, w, h, 0, src_fmt, src_type, img_data);
+        funcs->iglTexImage2D(IGL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, fmt, w, h, 0, src_fmt, src_type, img_data);
     }
 
     return id;
