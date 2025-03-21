@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <glr/glr_global.h>
 
@@ -25,6 +25,9 @@ class GLR_API GLfuncs : public GLfuncsv460, public GLfuncsArb {
         GL_ARB_BINDLESS_TEXTURE,
         GL_ARB_CL_EVENT,
 
+        /**
+         * 稀疏纹理
+         */
         GL_ARB_SPARSE_TEXTURE,
         GL_ARB_SPARSE_BUFFER,
         GL_ARB_SHADING_LANGUAGE_INCLUDE,

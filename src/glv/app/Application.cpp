@@ -2,10 +2,6 @@
 
 #include <iostream>
 
-#include <glad/glad.h>
-
-#include <GLFW/glfw3.h>
-
 #include <osg/Notify>
 #include <osgDB/Registry>
 
@@ -68,23 +64,5 @@ static void initOpenSceneGraph() {
     auto  new_plugin_dir = xg::getApplicationDir();
     new_plugin_dir += "\\plugins\\osg";
     paths.insert(paths.begin(), new_plugin_dir);
-
-    bool glad_loaded = false;
-
-    if (glfwInit() == GLFW_TRUE) {
-        auto wnd = glfwCreateWindow(1, 1, "GladAppInitializer", NULL, NULL);
-        if (wnd) {
-            glfwMakeContextCurrent(wnd);
-            if (gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-                glad_loaded = true;
-            }
-            glfwDestroyWindow(wnd);
-        }
-    }
-
-    if (!glad_loaded) {
-        std::cout << "Failed to initialize GLAD." << std::endl;
-    }
 }
-
 } // namespace glv

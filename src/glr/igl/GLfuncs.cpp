@@ -179,8 +179,9 @@ GLfuncs* GLfuncs::loadGLLoader(Loader loader) {
 GLfuncs* GLfuncs::load() {
 
     if (open_gl()) {
-        return loadGLLoader(&gl_get_proc);
+        auto funcs = loadGLLoader(&gl_get_proc);
         close_gl();
+        return funcs;
     }
 
     return nullptr;

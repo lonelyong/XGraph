@@ -23,6 +23,9 @@ file(GLOB HEADER_FIELS_MODELING modeling/*.h)
 file(GLOB SRC_FIELS_APP app/*.cpp)
 file(GLOB HEADER_FIELS_APP app/*.h)
 
+file(GLOB SRC_FIELS_UTILS utils/*.cpp)
+file(GLOB HEADER_FIELS_UTILS utils/*.h)
+
 set(RES_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/res/)
 set(RES_OUTPUT_DIR ${CONFIG_XG_RES_OUTPUT_DIR}/${CURRENT_TARGET_NAME}/)
 set(RES_SHADER_OUTPUT_DIR ${RES_OUTPUT_DIR}shaders/)
@@ -40,8 +43,9 @@ add_executable(
     ${HEADER_FIELS_MODELING}
     ${SRC_FIELS_APP}
     ${HEADER_FIELS_APP}
+    ${SRC_FIELS_UTILS}
+    ${HEADER_FIELS_UTILS}
     
-    ${GLAD_SRC_FILES}
     ${BACKWARD_SRC_FILES}
 )
 
@@ -50,9 +54,9 @@ target_sources(${CURRENT_TARGET_NAME} PRIVATE ${RES_SHADER_FILES} ${RES_IMAGE_FI
 source_group(io FILES ${HEADER_FIELS_IO} ${SRC_FIELS_IO})
 source_group(modeling FILES ${HEADER_FIELS_MODELING} ${SRC_FIELS_MODELING})
 source_group(app FILES ${SRC_FIELS_APP} ${HEADER_FIELS_APP})
+source_group(utils FILES ${SRC_FIELS_UTILS} ${HEADER_FIELS_UTILS})
 source_group(res/images FILES ${RES_IMAGE_FILES})
 source_group(res/shaders FILES ${RES_SHADER_FILES})
-source_group(third/glad FILES ${GLAD_SRC_FILES})
 source_group(third/backward FILES ${BACKWARD_SRC_FILES})
 
 
@@ -63,7 +67,8 @@ target_include_directories(${CURRENT_TARGET_NAME}
         
 )
 target_link_libraries(${CURRENT_TARGET_NAME} 
-    PRIVATE 
+    PRIVATE
+        glr-core
         glfw
         xgcomm
         assimp::assimp

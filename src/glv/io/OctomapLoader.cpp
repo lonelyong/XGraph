@@ -2,8 +2,6 @@
 
 #include <filesystem>
 
-#include <glad/glad.h>
-
 #include <osg/CullFace>
 #include <osg/Geode>
 #include <osg/Geometry>
@@ -18,6 +16,10 @@
 #include <xgcomm/Environment.h>
 #include <xgcomm/Resources.h>
 
+#include <glr/igl/GLfuncs.h>
+
+#include <glv/utils/GLfuncsManager.h>
+
 namespace glv {
 
 namespace {
@@ -30,18 +32,26 @@ osg::Vec4 s_default_face_color = osg::Vec4(0.88, 0.88, 0.88, 1.0);
 struct DrawCallback_Transform : osg::Drawable::DrawCallback {
 
     virtual void drawImplementation(osg::RenderInfo& renderInfo, const osg::Drawable* drawable) const override {
+        auto funcs = GLfuncsManager::instance().getOrRegisterByContext(renderInfo.getState()->getGraphicsContext());
+        if (!funcs) return;
+
         if (transform_feedback_id_ == 0) {
+
+
             auto geom     = drawable->asGeometry();
             auto vertices = (osg::Vec3Array*)geom->getVertexArray();
 
-            glGenTransformFeedbacks(1, &transform_feedback_id_);
-            glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, transform_feedback_id_);
+            funcs->iglGenTransformFeedbacks(1, &transform_feedback_id_);
+            funcs->iglBindTransformFeedback(IGL_TRANSFORM_FEEDBACK, transform_feedback_id_);
 
-            glGenBuffers(1, &transform_feedback_buffer_id_);
-            glBindBuffer(GL_TRANSFORM_FEEDBACK_BUFFER, transform_feedback_buffer_id_);
+            funcs->iglGenBuffers(1, &transform_feedback_buffer_id_);
+            funcs->iglBindBuffer(IGL_TRANSFORM_FEEDBACK_BUFFER, transform_feedback_buffer_id_);
 
-            glBufferData(GL_TRANSFORM_FEEDBACK_BUFFER, sizeof(float) * 10 * vertices->size(), nullptr, GL_STATIC_DRAW);
-            glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, transform_feedback_buffer_id_);
+            funcs->iglBufferData(IGL_TRANSFORM_FEEDBACK_BUFFER,
+                                 sizeof(float) * 10 * vertices->size(),
+                                 nullptr,
+                                 GL_STATIC_DRAW);
+            funcs->iglBindBufferBase(IGL_TRANSFORM_FEEDBACK_BUFFER, 0, transform_feedback_buffer_id_);
 
             /*
             glDrawTransformFeedback 使用由 mode 指定的图元类型，并根据由 id 指定的变换反馈（Transform
@@ -57,23 +67,23 @@ struct DrawCallback_Transform : osg::Drawable::DrawCallback {
             之间，变换反馈被认为是处于活动状态的。 变换反馈命令必须成对使用。
             如果没有几何着色器，在变换反馈处于活动状态时，glDrawArrays 的 mode 参数必须与下表中指定的模式匹配：
             */
-            glBeginTransformFeedback(GL_TRIANGLE_STRIP);
-            glEnable(GL_RASTERIZER_DISCARD);
+            funcs->iglBeginTransformFeedback(GL_TRIANGLE_STRIP);
+            funcs->iglEnable(GL_RASTERIZER_DISCARD);
             drawable->drawImplementation(renderInfo);
-            glDisable(GL_RASTERIZER_DISCARD);
-            glEndTransformFeedback();
+            funcs->iglDisable(GL_RASTERIZER_DISCARD);
+            funcs->iglEndTransformFeedback();
 
-            //glGetTransformFeedbackiv(, );
+            // glGetTransformFeedbackiv(, );
 
-            glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
-            glBindBuffer(GL_TRANSFORM_FEEDBACK_BUFFER, 0);
+            funcs->iglBindTransformFeedback(IGL_TRANSFORM_FEEDBACK, 0);
+            funcs->iglBindBuffer(IGL_TRANSFORM_FEEDBACK_BUFFER, 0);
         }
-        glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, transform_feedback_id_);
+        funcs->iglBindTransformFeedback(IGL_TRANSFORM_FEEDBACK, transform_feedback_id_);
         drawable->drawImplementation(renderInfo);
-        glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
+        funcs->iglBindTransformFeedback(IGL_TRANSFORM_FEEDBACK, 0);
     }
-    mutable GLuint             transform_feedback_id_        = 0;
-    mutable GLuint             transform_feedback_buffer_id_ = 0;
+    mutable GLuint transform_feedback_id_        = 0;
+    mutable GLuint transform_feedback_buffer_id_ = 0;
 };
 
 bool OctomapLoader::isSupported(const std::string& file) {
@@ -261,11 +271,11 @@ osg::MatrixTransform* OctomapLoader::loadFile(const std::string& file) {
         geom->addPrimitiveSet(new osg::DrawArrays(GL_POINTS, 0, vertices->size()));
         geom->setVertexAttribArray(1, colors, osg::Array::BIND_OVERALL);
         geom->setVertexAttribArray(15, sizes, osg::Array::BIND_PER_VERTEX);
-        //geom->setDrawCallback(new DrawCallbackTransformFeedback());
+        // geom->setDrawCallback(new DrawCallbackTransformFeedback());
 
         auto appdir = xg::getApplicationDir() + "/";
 
-    // use transform feedback
+        // use transform feedback
 #if 1
         auto vs = osg::ref_ptr(new osg::Shader(osg::Shader::VERTEX));
         auto gs = osg::ref_ptr(new osg::Shader(osg::Shader::GEOMETRY));
