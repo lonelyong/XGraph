@@ -36,67 +36,68 @@ struct DrawCallback_Transform : osg::Drawable::DrawCallback {
       , norms_feedback_(norms_feedback) {}
 
     virtual void drawImplementation(osg::RenderInfo& renderInfo, const osg::Drawable* drawable) const override {
+        if (transform_feedback_id_) return;
+
         auto funcs = GLfuncsManager::instance().getOrRegisterByContext(renderInfo.getState()->getGraphicsContext());
         if (!funcs) return;
 
-        if (transform_feedback_id_ == 0) {
-            auto vertices_feedback_buffer = vertices_feedback_->getOrCreateGLBufferObject(renderInfo.getContextID());
-            auto norms_feedback_buffer    = norms_feedback_->getOrCreateGLBufferObject(renderInfo.getContextID());
+        auto vertices_feedback_buffer = vertices_feedback_->getOrCreateGLBufferObject(renderInfo.getContextID());
+        auto norms_feedback_buffer    = norms_feedback_->getOrCreateGLBufferObject(renderInfo.getContextID());
 
-            funcs->iglGenTransformFeedbacks(1, &transform_feedback_id_);
-            funcs->iglBindTransformFeedback(IGL_TRANSFORM_FEEDBACK, transform_feedback_id_);
-            funcs->iglBindBufferBase(IGL_TRANSFORM_FEEDBACK_BUFFER, 0, vertices_feedback_buffer->getGLObjectID());
-            funcs->iglBindBufferBase(IGL_TRANSFORM_FEEDBACK_BUFFER, 1, norms_feedback_buffer->getGLObjectID());
-            // funcs->iglTransformFeedbackBufferBase(transform_feedback_id_, 0,
-            // vertices_feedback_buffer->getGLObjectID()); funcs->iglTransformFeedbackBufferBase(transform_feedback_id_,
-            // 1, norms_feedback_buffer->getGLObjectID());
+        funcs->iglGenTransformFeedbacks(1, &transform_feedback_id_);
+        funcs->iglBindTransformFeedback(IGL_TRANSFORM_FEEDBACK, transform_feedback_id_);
+        //funcs->iglBindBufferBase(IGL_TRANSFORM_FEEDBACK_BUFFER, 0, vertices_feedback_buffer->getGLObjectID());
+        //funcs->iglBindBufferBase(IGL_TRANSFORM_FEEDBACK_BUFFER, 1, norms_feedback_buffer->getGLObjectID());
+        funcs->iglTransformFeedbackBufferBase(transform_feedback_id_, 0, vertices_feedback_buffer->getGLObjectID());
+        funcs->iglTransformFeedbackBufferBase(transform_feedback_id_, 1, norms_feedback_buffer->getGLObjectID());
 
-            /*
-            glDrawTransformFeedback 使用由 mode 指定的图元类型，并根据由 id 指定的变换反馈（Transform
-            Feedback）对象检索的计数来绘制图元。 调用 glDrawTransformFeedback 等效于调用 glDrawArrays，其中 mode
-            采用相同的指定值，first 设为 0，count 设为上次该变换反馈对象处于活动状态时，在顶点流 0 上捕获的顶点数量。
-            */
-            // glDrawTransformFeedback(GL_POINTS, transform_feedback_id_);
+        /*
+        glDrawTransformFeedback 使用由 mode 指定的图元类型，并根据由 id 指定的变换反馈（Transform
+        Feedback）对象检索的计数来绘制图元。 调用 glDrawTransformFeedback 等效于调用 glDrawArrays，其中 mode
+        采用相同的指定值，first 设为 0，count 设为上次该变换反馈对象处于活动状态时，在顶点流 0 上捕获的顶点数量。
+        */
+        // glDrawTransformFeedback(GL_POINTS, transform_feedback_id_);
 
-            GLuint_t query_id(0);
-            funcs->iglGenQueries(1, &query_id);
-            funcs->iglBeginQuery(IGL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN, query_id);
+        GLuint_t query_id(0);
+        funcs->iglGenQueries(1, &query_id);
+        funcs->iglBeginQuery(IGL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN, query_id);
 
-            GLint_t query_counter_bits(0);
-            funcs->iglGetQueryiv(IGL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN,
-                                 IGL_QUERY_COUNTER_BITS,
-                                 &query_counter_bits);
+        GLint_t query_counter_bits(0);
+        funcs->iglGetQueryiv(IGL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN, IGL_QUERY_COUNTER_BITS, &query_counter_bits);
 
-            assert(query_counter_bits >= 1);
+        assert(query_counter_bits >= 1);
 
-            /*
-            变换反馈模式（Transform Feedback
-            Mode）用于捕获由顶点着色器（或如果启用了几何着色器，则由几何着色器）写入的可变变量（Varying
-            Variables）的值。 从调用 glBeginTransformFeedback 直到后续调用 glEndTransformFeedback
-            之间，变换反馈被认为是处于活动状态的。 变换反馈命令必须成对使用。
-            如果没有几何着色器，在变换反馈处于活动状态时，glDrawArrays 的 mode 参数必须与下表中指定的模式匹配：
-            */
-            funcs->iglBeginTransformFeedback(GL_POINTS);
-            funcs->iglEnable(GL_RASTERIZER_DISCARD);
-            drawable->drawImplementation(renderInfo);
-            funcs->iglDisable(GL_RASTERIZER_DISCARD);
-            funcs->iglEndTransformFeedback();
+        /*
+        变换反馈模式（Transform Feedback
+        Mode）用于捕获由顶点着色器（或如果启用了几何着色器，则由几何着色器）写入的可变变量（Varying
+        Variables）的值。 从调用 glBeginTransformFeedback 直到后续调用 glEndTransformFeedback
+        之间，变换反馈被认为是处于活动状态的。 变换反馈命令必须成对使用。
+        如果没有几何着色器，在变换反馈处于活动状态时，glDrawArrays 的 mode 参数必须与下表中指定的模式匹配：
+        */
+        funcs->iglBeginTransformFeedback(GL_POINTS);
+        funcs->iglEnable(GL_RASTERIZER_DISCARD);
+        drawable->drawImplementation(renderInfo);
+        funcs->iglDisable(GL_RASTERIZER_DISCARD);
+        funcs->iglEndTransformFeedback();
 
-            funcs->iglEndQuery(IGL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN);
-            GLuint_t nb_priv_written(0);
-            funcs->iglGetQueryObjectuiv(query_id, GL_QUERY_RESULT, &nb_priv_written);
-            funcs->iglDeleteQueries(1, &query_id);
+        funcs->iglEndQuery(IGL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN);
+        GLuint_t nb_priv_written(0);
+        funcs->iglGetQueryObjectuiv(query_id, GL_QUERY_RESULT, &nb_priv_written);
+        funcs->iglDeleteQueries(1, &query_id);
 
-            GLint_t            size_of_buffer(0);
+        GLint_t size_of_buffer(0);
 
-            funcs->iglBindBuffer(IGL_TRANSFORM_FEEDBACK_BUFFER, vertices_feedback_buffer->getGLObjectID());
-            funcs->iglGetBufferSubData(IGL_TRANSFORM_FEEDBACK_BUFFER, 0, vertices_feedback_->size() * 3 * sizeof(float), (void*)vertices_feedback_->getDataPointer());
-            funcs->iglGetBufferParameteriv(IGL_TRANSFORM_FEEDBACK_BUFFER, IGL_BUFFER_SIZE, &size_of_buffer);
+        funcs->iglBindBuffer(IGL_TRANSFORM_FEEDBACK_BUFFER, vertices_feedback_buffer->getGLObjectID());
+        funcs->iglGetBufferSubData(IGL_TRANSFORM_FEEDBACK_BUFFER,
+                                   0,
+                                   vertices_feedback_->size() * 3 * sizeof(float),
+                                   (void*)vertices_feedback_->getDataPointer());
+        funcs->iglGetBufferParameteriv(IGL_TRANSFORM_FEEDBACK_BUFFER, IGL_BUFFER_SIZE, &size_of_buffer);
 
-            funcs->iglBindTransformFeedback(IGL_TRANSFORM_FEEDBACK, 0);
-            funcs->iglBindBufferBase(IGL_TRANSFORM_FEEDBACK_BUFFER, 0, 0);
-            funcs->iglBindBufferBase(IGL_TRANSFORM_FEEDBACK_BUFFER, 1, 0);
-        }
+        funcs->iglBindTransformFeedback(IGL_TRANSFORM_FEEDBACK, 0);
+        funcs->iglBindBufferBase(IGL_TRANSFORM_FEEDBACK_BUFFER, 0, 0);
+        funcs->iglBindBufferBase(IGL_TRANSFORM_FEEDBACK_BUFFER, 1, 0);
+
         // funcs->iglBindTransformFeedback(IGL_TRANSFORM_FEEDBACK, transform_feedback_id_);
         // drawable->drawImplementation(renderInfo);
         // funcs->iglBindTransformFeedback(IGL_TRANSFORM_FEEDBACK, 0);
