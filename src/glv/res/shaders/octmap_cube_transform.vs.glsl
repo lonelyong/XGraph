@@ -9,5 +9,5 @@ out float box_size;
 
 void main(){
     gl_Position = vec4(position, 1.0);
-    box_size    = box_size;
+    box_size    = size;
 }

@@ -12,6 +12,7 @@ class GLR_API GLfuncs : public GLfuncsv460, public GLfuncsArb {
 
   public:
     GLfuncs();
+    virtual ~GLfuncs();
 
   public:
     enum Extension
@@ -46,10 +47,16 @@ class GLR_API GLfuncs : public GLfuncsv460, public GLfuncsArb {
   public:
     bool hasExtension(Extension ext) const;
 
+    bool hasExtension(const char* ext) const;
+
   public:
     static GLfuncs* loadGLLoader(Loader loader);
 
     static GLfuncs* load();
+
+  private:
+    struct Data;
+    Data* const d;
 };
 
 } // namespace glr

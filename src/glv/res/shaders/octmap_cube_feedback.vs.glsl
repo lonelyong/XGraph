@@ -20,6 +20,6 @@ void main(){
     gl_Position     = osg_ModelViewProjectionMatrix * vec4(position, 1.0);
     frag_color      = color;
     frag_normal_cam = osg_NormalMatrix * norm;
-    frag_posi_cam   = osg_ModelViewMatrix * position;
+    frag_posi_cam   = (osg_ModelViewMatrix * vec4(position, 1.0)).xyz;
     
 }
