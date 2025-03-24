@@ -2,27 +2,30 @@
 
 precision highp float;
 
+// supports points, lines, line_strip, triangles, triangle_strip, triangle_fan
 layout(points, invocations = 1) in;
-layout(triangle_strip, max_vertices = 24) out;
+// supports points, line_strip, triangle_strip
+layout(triangle_strip, max_vertices = 36) out;
 
 in float box_size[];
 
-flat out vec3 norm;
+out vec3 out_vert;
+out vec3 out_norm;
 
 void main(){
     vec3 posi = gl_in[0].gl_Position.xyz;
 
     float half_size = box_size[0] * 0.5;
 
-    vec4 vertices[8] = vec4[](
-        vec4(-half_size + posi.x, -half_size + posi.y, -half_size + posi.z, 1.0), // b1
-        vec4( half_size + posi.x, -half_size + posi.y, -half_size + posi.z, 1.0), // b2
-        vec4( half_size + posi.x,  half_size + posi.y, -half_size + posi.z, 1.0), // b3
-        vec4(-half_size + posi.x,  half_size + posi.y, -half_size + posi.z, 1.0), // b4
-        vec4(-half_size + posi.x, -half_size + posi.y,  half_size + posi.z, 1.0), // t1
-        vec4( half_size + posi.x, -half_size + posi.y,  half_size + posi.z, 1.0), // t2
-        vec4( half_size + posi.x,  half_size + posi.y,  half_size + posi.z, 1.0), // t3
-        vec4(-half_size + posi.x,  half_size + posi.y,  half_size + posi.z, 1.0)  // t4
+    vec3 vertices[8] = vec3[](
+        vec3(-half_size + posi.x, -half_size + posi.y, -half_size + posi.z), // b1
+        vec3( half_size + posi.x, -half_size + posi.y, -half_size + posi.z), // b2
+        vec3( half_size + posi.x,  half_size + posi.y, -half_size + posi.z), // b3
+        vec3(-half_size + posi.x,  half_size + posi.y, -half_size + posi.z), // b4
+        vec3(-half_size + posi.x, -half_size + posi.y,  half_size + posi.z), // t1
+        vec3( half_size + posi.x, -half_size + posi.y,  half_size + posi.z), // t2
+        vec3( half_size + posi.x,  half_size + posi.y,  half_size + posi.z), // t3
+        vec3(-half_size + posi.x,  half_size + posi.y,  half_size + posi.z)  // t4
     );
 
     vec3 norms[6] = vec3[](
@@ -31,99 +34,142 @@ void main(){
         vec3( 0, -1,  0 ), // front
         vec3( 0,  1,  0 ), // back
         vec3(-1,  0,  0 ), // left
-        vec3( 1,  0,  0 ) // right
+        vec3( 1,  0,  0 )  // right
     );
 
+    // 
+
     // Bottom
+    out_norm = norms[0];
+    out_vert = vertices[0];
+    EmitVertex(); 
     
-    norm = norms[0];
-    gl_Position = vertices[0];
+    out_vert = vertices[1];
     EmitVertex();
-    
-    gl_Position = vertices[1];
+
+    out_vert = vertices[3];
     EmitVertex();
+    EndPrimitive(); 
     
-    gl_Position = vertices[3];
+    out_vert = vertices[1];
     EmitVertex();
-    
-    gl_Position = vertices[2];
+
+    out_vert = vertices[3];
+    EmitVertex();
+
+    out_vert = vertices[2];
     EmitVertex();
     EndPrimitive(); 
 
     // Top
     
-    norm = norms[1];
-    gl_Position = vertices[4];
+    out_norm = norms[1];
+    out_vert = vertices[4];
     EmitVertex();
     
-    gl_Position = vertices[5];
+    out_vert = vertices[5];
     EmitVertex();
     
-    gl_Position = vertices[7];
+    out_vert = vertices[7];
     EmitVertex();
-    
-    gl_Position = vertices[6];
+    EndPrimitive(); 
+        
+    out_vert = vertices[5];
+    EmitVertex();
+
+    out_vert = vertices[7];
+    EmitVertex();
+
+    out_vert = vertices[6];
     EmitVertex();
     EndPrimitive(); 
 
     // Front
-    norm = norms[2];
-    gl_Position = vertices[0];
+    out_norm = norms[2];
+    out_vert = vertices[0];
     EmitVertex();
     
-    gl_Position = vertices[1];
+    out_vert = vertices[1];
     EmitVertex();
     
-    gl_Position = vertices[4];
+    out_vert = vertices[4];
     EmitVertex();
+    EndPrimitive(); 
     
-    gl_Position = vertices[5];
+    out_vert = vertices[1];
+    EmitVertex();
+
+    out_vert = vertices[4];
+    EmitVertex();
+
+    out_vert = vertices[5];
     EmitVertex();
     EndPrimitive(); 
 
     // Back
-    norm = norms[3];
-    gl_Position = vertices[2];
+    out_norm = norms[3];
+    out_vert = vertices[2];
     EmitVertex();
     
-    gl_Position = vertices[3];
+    out_vert = vertices[3];
     EmitVertex();
     
-    gl_Position = vertices[6];
+    out_vert = vertices[6];
     EmitVertex();
-    
-    gl_Position = vertices[7];
+    EndPrimitive(); 
+
+    out_vert = vertices[3];
+    EmitVertex();
+
+    out_vert = vertices[6];
+    EmitVertex();
+
+    out_vert = vertices[7];
     EmitVertex();
     EndPrimitive(); 
 
     // Left
-    norm = norms[4];
-    gl_Position = vertices[3];
+    out_norm = norms[4];
+    out_vert = vertices[3];
     EmitVertex();
     
-    gl_Position = vertices[0];
+    out_vert = vertices[0];
     EmitVertex();
     
-    gl_Position = vertices[7];
+    out_vert = vertices[7];
     EmitVertex();
-    
-    gl_Position = vertices[4];
+    EndPrimitive();
+
+    out_vert = vertices[0];
+    EmitVertex();
+
+    out_vert = vertices[7];
+    EmitVertex();
+
+    out_vert = vertices[4];
     EmitVertex();
     EndPrimitive();
 
     
     // Right
-    norm = norms[5];
-    gl_Position = vertices[1];
+    out_norm = norms[5];
+    out_vert = vertices[1];
     EmitVertex();
     
-    gl_Position = vertices[2];
+    out_vert = vertices[2];
     EmitVertex();
     
-    gl_Position = vertices[5];
+    out_vert = vertices[5];
     EmitVertex();
-    
-    gl_Position = vertices[6];
+    EndPrimitive();
+
+    out_vert = vertices[2];
+    EmitVertex();
+
+    out_vert = vertices[5];
+    EmitVertex();
+
+    out_vert = vertices[6];
     EmitVertex();
     EndPrimitive(); 
 

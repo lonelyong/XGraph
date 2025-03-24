@@ -6,7 +6,7 @@ flat in vec4 frag_color;
 flat in vec3 frag_normal_cam;
 flat in vec3 frag_posi_cam;
 //in vec4 box_color;
-out vec4 FragColor;
+layout(location = 0) out vec4 FragColor;
 
 void main(){
     const vec3 v_dir = vec3(0.0, 0.0, -1.0);
