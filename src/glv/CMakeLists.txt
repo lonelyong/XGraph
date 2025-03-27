@@ -79,6 +79,7 @@ target_link_libraries(${CURRENT_TARGET_NAME}
         ${PCL_LIBRARIES}
         opengl32.lib
         octomap octomath octomap-static octomath-static
+        Qt6::Core Qt6::Gui Qt6::Widgets Qt6::OpenGL Qt6::OpenGLWidgets
 )
 
 target_include_directories(${CURRENT_TARGET_NAME} 

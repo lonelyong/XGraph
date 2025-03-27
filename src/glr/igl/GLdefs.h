@@ -1910,51 +1910,51 @@ constexpr int IGL_CONTEXT_ROBUST_ACCESS                                      = 0
 // ARB
 
 // GL_ARB_ES3_1_compatibility
-constexpr int IGLPRIMITIVE_BOUNDING_BOX_ARB             = 0x92BE;
-constexpr int IGLMULTISAMPLE_LINE_WIDTH_RANGE_ARB       = 0x9381;
-constexpr int IGLMULTISAMPLE_LINE_WIDTH_GRANULARITY_ARB = 0x9382;
+constexpr int IGL_PRIMITIVE_BOUNDING_BOX_ARB             = 0x92BE;
+constexpr int IGL_MULTISAMPLE_LINE_WIDTH_RANGE_ARB       = 0x9381;
+constexpr int IGL_MULTISAMPLE_LINE_WIDTH_GRANULARITY_ARB = 0x9382;
 
 // GL_ARB_robustness
-constexpr int IGLCONTEXT_FLAG_ROBUST_ACCESS_BIT_ARB = 0x00000004;
-constexpr int IGLLOSE_CONTEXT_ON_RESET_ARB          = 0x8252;
-constexpr int IGLGUILTY_CONTEXT_RESET_ARB           = 0x8253;
-constexpr int IGLINNOCENT_CONTEXT_RESET_ARB         = 0x8254;
-constexpr int IGLUNKNOWN_CONTEXT_RESET_ARB          = 0x8255;
-constexpr int IGLRESET_NOTIFICATION_STRATEGY_ARB    = 0x8256;
-constexpr int IGLNO_RESET_NOTIFICATION_ARB          = 0x8261;
+constexpr int IGL_CONTEXT_FLAG_ROBUST_ACCESS_BIT_ARB = 0x00000004;
+constexpr int IGL_LOSE_CONTEXT_ON_RESET_ARB          = 0x8252;
+constexpr int IGL_GUILTY_CONTEXT_RESET_ARB           = 0x8253;
+constexpr int IGL_INNOCENT_CONTEXT_RESET_ARB         = 0x8254;
+constexpr int IGL_UNKNOWN_CONTEXT_RESET_ARB          = 0x8255;
+constexpr int IGL_RESET_NOTIFICATION_STRATEGY_ARB    = 0x8256;
+constexpr int IGL_NO_RESET_NOTIFICATION_ARB          = 0x8261;
 
 //  GL_ARB_sample_locations
-constexpr int IGLSAMPLE_LOCATION_SUBPIXEL_BITS_ARB             = 0x933D;
-constexpr int IGLSAMPLE_LOCATION_PIXEL_GRID_WIDTH_ARB          = 0x933E;
-constexpr int IGLSAMPLE_LOCATION_PIXEL_GRID_HEIGHT_ARB         = 0x933F;
-constexpr int IGLPROGRAMMABLE_SAMPLE_LOCATION_TABLE_SIZE_ARB   = 0x9340;
-constexpr int IGLSAMPLE_LOCATION_ARB                           = 0x8E50;
-constexpr int IGLPROGRAMMABLE_SAMPLE_LOCATION_ARB              = 0x9341;
-constexpr int IGLFRAMEBUFFER_PROGRAMMABLE_SAMPLE_LOCATIONS_ARB = 0x9342;
-constexpr int IGLFRAMEBUFFER_SAMPLE_LOCATION_PIXEL_GRID_ARB    = 0x9343;
+constexpr int IGL_SAMPLE_LOCATION_SUBPIXEL_BITS_ARB             = 0x933D;
+constexpr int IGL_SAMPLE_LOCATION_PIXEL_GRID_WIDTH_ARB          = 0x933E;
+constexpr int IGL_SAMPLE_LOCATION_PIXEL_GRID_HEIGHT_ARB         = 0x933F;
+constexpr int IGL_PROGRAMMABLE_SAMPLE_LOCATION_TABLE_SIZE_ARB   = 0x9340;
+constexpr int IGL_SAMPLE_LOCATION_ARB                           = 0x8E50;
+constexpr int IGL_PROGRAMMABLE_SAMPLE_LOCATION_ARB              = 0x9341;
+constexpr int IGL_FRAMEBUFFER_PROGRAMMABLE_SAMPLE_LOCATIONS_ARB = 0x9342;
+constexpr int IGL_FRAMEBUFFER_SAMPLE_LOCATION_PIXEL_GRID_ARB    = 0x9343;
 
 // GL_ARB_sample_shading 1
-constexpr int IGLSAMPLE_SHADING_ARB           = 0x8C36;
-constexpr int IGLMIN_SAMPLE_SHADING_VALUE_ARB = 0x8C37;
+constexpr int IGL_SAMPLE_SHADING_ARB           = 0x8C36;
+constexpr int IGL_MIN_SAMPLE_SHADING_VALUE_ARB = 0x8C37;
 
 // GL_ARB_shading_language_include 1
-constexpr int IGLSHADER_INCLUDE_ARB      = 0x8DAE;
-constexpr int IGLNAMED_STRING_LENGTH_ARB = 0x8DE9;
-constexpr int IGLNAMED_STRING_TYPE_ARB   = 0x8DEA;
+constexpr int IGL_SHADER_INCLUDE_ARB      = 0x8DAE;
+constexpr int IGL_NAMED_STRING_LENGTH_ARB = 0x8DE9;
+constexpr int IGL_NAMED_STRING_TYPE_ARB   = 0x8DEA;
 
 // GL_ARB_sparse_buffer
-constexpr int IGLSPARSE_STORAGE_BIT_ARB      = 0x0400;
-constexpr int IGLSPARSE_BUFFER_PAGE_SIZE_ARB = 0x82F8;
+constexpr int IGL_SPARSE_STORAGE_BIT_ARB      = 0x0400;
+constexpr int IGL_SPARSE_BUFFER_PAGE_SIZE_ARB = 0x82F8;
 
 // GL_ARB_sparse_texture 1
-constexpr int IGLTEXTURE_SPARSE_ARB                         = 0x91A6;
-constexpr int IGLVIRTUAL_PAGE_SIZE_INDEX_ARB                = 0x91A7;
-constexpr int IGLNUM_SPARSE_LEVELS_ARB                      = 0x91AA;
-constexpr int IGLNUM_VIRTUAL_PAGE_SIZES_ARB                 = 0x91A8;
-constexpr int IGLVIRTUAL_PAGE_SIZE_X_ARB                    = 0x9195;
-constexpr int IGLVIRTUAL_PAGE_SIZE_Y_ARB                    = 0x9196;
-constexpr int IGLVIRTUAL_PAGE_SIZE_Z_ARB                    = 0x9197;
-constexpr int IGLMAX_SPARSE_TEXTURE_SIZE_ARB                = 0x9198;
-constexpr int IGLMAX_SPARSE_3D_TEXTURE_SIZE_ARB             = 0x9199;
-constexpr int IGLMAX_SPARSE_ARRAY_TEXTURE_LAYERS_ARB        = 0x919A;
-constexpr int IGLSPARSE_TEXTURE_FULL_ARRAY_CUBE_MIPMAPS_ARB = 0x91A9;
+constexpr int IGL_TEXTURE_SPARSE_ARB                         = 0x91A6;
+constexpr int IGL_VIRTUAL_PAGE_SIZE_INDEX_ARB                = 0x91A7;
+constexpr int IGL_NUM_SPARSE_LEVELS_ARB                      = 0x91AA;
+constexpr int IGL_NUM_VIRTUAL_PAGE_SIZES_ARB                 = 0x91A8;
+constexpr int IGL_VIRTUAL_PAGE_SIZE_X_ARB                    = 0x9195;
+constexpr int IGL_VIRTUAL_PAGE_SIZE_Y_ARB                    = 0x9196;
+constexpr int IGL_VIRTUAL_PAGE_SIZE_Z_ARB                    = 0x9197;
+constexpr int IGL_MAX_SPARSE_TEXTURE_SIZE_ARB                = 0x9198;
+constexpr int IGL_MAX_SPARSE_3D_TEXTURE_SIZE_ARB             = 0x9199;
+constexpr int IGL_MAX_SPARSE_ARRAY_TEXTURE_LAYERS_ARB        = 0x919A;
+constexpr int IGL_SPARSE_TEXTURE_FULL_ARRAY_CUBE_MIPMAPS_ARB = 0x91A9;

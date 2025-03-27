@@ -126,6 +126,7 @@ class GLR_API PixelData : public BindableObject {
         DF_LUMINANCE       = IGL_LUMINANCE
     };
 
+    // 像素颜色通道的数据类型
     enum DataType
     {
         DT_UNKNOW                         = IGL_ZERO,

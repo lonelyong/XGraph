@@ -152,7 +152,7 @@ int Image::size() const {
 }
 
 bool Image::isNull() const {
-    return d->data == nullptr;
+    return d->data == nullptr || (d->w == 0 && d->h == 0);
 }
 
 Image* Image::readPixels(State& state, int x, int y, int w, int h, int fmt, int type) {

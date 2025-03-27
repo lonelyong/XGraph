@@ -22,7 +22,7 @@ file(GLOB SRC_FIELS_IO io/*.cpp)
 file(GLOB HEADER_FIELS_IO io/*.h)
 
 file(GLOB SRC_FIELS_SCENE scene/*.cpp)
-file(GLOB HEADER_FIELS_SCENE scene/*.h)
+file(GLOB HEADER_FIELS_SCENE scea   ne/*.h)
 
 file(GLOB SRC_FIELS_UTILS utils/*.cpp)
 file(GLOB HEADER_FIELS_UTILS utils/*.h)

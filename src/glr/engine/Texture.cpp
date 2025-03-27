@@ -15,7 +15,7 @@ struct Texture::Data {
     WrapMode wrap_r = CLAMP_TO_EDGE;
 
     FilterMode filter_min = LINEAR;
-    FilterMode filter_max = LINEAR;
+    FilterMode filter_mag = LINEAR;
 
     InternalFormat internal_format = IF_RGBA;
 
@@ -53,21 +53,21 @@ bool Texture::getGenerateMipmapLevels() const {
 
 bool Texture::onBind(State& state) {
     auto funcs = state.getContext()->getFuncs();
-    auto type = getType();
+    auto type  = getType();
     funcs->iglBindTexture(type, getId(state));
     return true;
 }
 
 bool Texture::onUnbind(State& state) {
     auto funcs = state.getContext()->getFuncs();
-    auto type = getType();
+    auto type  = getType();
     funcs->iglBindTexture(type, 0);
     return true;
 }
 
 bool Texture::onRelease(State& state) {
     auto funcs = state.getContext()->getFuncs();
-    auto id = getId(state);
+    auto id    = getId(state);
     funcs->iglDeleteTextures(1, &id);
     return true;
 }
@@ -81,6 +81,7 @@ bool Texture::isParametersDirty(State& state) const {
 }
 
 void Texture::dirtyStorage() {
+    dirty();
 }
 
 bool Texture::isStorageDirty(State& state) const {
@@ -88,6 +89,7 @@ bool Texture::isStorageDirty(State& state) const {
 }
 
 void Texture::dirtyMipmapLevels() {
+    dirty();
 }
 
 bool Texture::isMipmapLevelsDirty(State& state) const {
@@ -95,9 +97,9 @@ bool Texture::isMipmapLevelsDirty(State& state) const {
 }
 
 void Texture::setFilter(FilterParameter param, FilterMode mode) {
-    if (param == MAX_FILTER) {
-        if (mode == d->filter_max) return;
-        d->filter_max = mode;
+    if (param == MAG_FILTER) {
+        if (mode == d->filter_mag) return;
+        d->filter_mag = mode;
         dirtyParameters();
     }
     else if (param == MIN_FILTER) {
@@ -108,10 +110,12 @@ void Texture::setFilter(FilterParameter param, FilterMode mode) {
 }
 
 Texture::FilterMode Texture::getFilter(FilterParameter param) const {
-    if (param == MAX_FILTER)
-        return d->filter_max;
-    else
+    if (param == MAG_FILTER)
+        return d->filter_mag;
+    else if (param == MIN_FILTER)
         return d->filter_min;
+    else
+        return FILTER_UNSET;
 }
 
 void Texture::setWrap(WrapParameter param, WrapMode mode) {
@@ -139,13 +143,13 @@ Texture::WrapMode Texture::getWrap(WrapParameter param) const {
         return d->wrap_t;
     else if (param == WRAP_R)
         return d->wrap_r;
-    return d->wrap_s;
+    return WRAP_UNSET;
 }
 
 void Texture::setInternalFormat(InternalFormat fmt) {
     if (d->internal_format == fmt) return;
     d->internal_format = fmt;
-    dirty();
+    dirtyStorage();
 }
 
 Texture::InternalFormat Texture::getInternalFormat() const {

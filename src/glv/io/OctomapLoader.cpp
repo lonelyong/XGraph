@@ -29,6 +29,8 @@ osg::Vec4 s_default_face_color = osg::Vec4(0.88, 0.88, 0.88, 1.0);
 } // namespace
 
 
+
+
 struct DrawCallback_Transform : osg::Drawable::DrawCallback {
 
     DrawCallback_Transform(osg::Vec3Array* vertices_feedback, osg::Vec3Array* norms_feedback)
@@ -36,18 +38,22 @@ struct DrawCallback_Transform : osg::Drawable::DrawCallback {
       , norms_feedback_(norms_feedback) {}
 
     virtual void drawImplementation(osg::RenderInfo& renderInfo, const osg::Drawable* drawable) const override {
-        if (transform_feedback_id_) return;
-
         auto funcs = GLfuncsManager::instance().getOrRegisterByContext(renderInfo.getState()->getGraphicsContext());
         if (!funcs) return;
 
+        auto geom = drawable->asGeometry();
+
+        //if (transform_feedback_id_) {
+        //    funcs->iglDrawTransformFeedback(GL_TRIANGLES, transform_feedback_id_);
+        //}
+        //
         auto vertices_feedback_buffer = vertices_feedback_->getOrCreateGLBufferObject(renderInfo.getContextID());
         auto norms_feedback_buffer    = norms_feedback_->getOrCreateGLBufferObject(renderInfo.getContextID());
 
         funcs->iglGenTransformFeedbacks(1, &transform_feedback_id_);
         funcs->iglBindTransformFeedback(IGL_TRANSFORM_FEEDBACK, transform_feedback_id_);
-        //funcs->iglBindBufferBase(IGL_TRANSFORM_FEEDBACK_BUFFER, 0, vertices_feedback_buffer->getGLObjectID());
-        //funcs->iglBindBufferBase(IGL_TRANSFORM_FEEDBACK_BUFFER, 1, norms_feedback_buffer->getGLObjectID());
+        // funcs->iglBindBufferBase(IGL_TRANSFORM_FEEDBACK_BUFFER, 0, vertices_feedback_buffer->getGLObjectID());
+        // funcs->iglBindBufferBase(IGL_TRANSFORM_FEEDBACK_BUFFER, 1, norms_feedback_buffer->getGLObjectID());
         funcs->iglTransformFeedbackBufferBase(transform_feedback_id_, 0, vertices_feedback_buffer->getGLObjectID());
         funcs->iglTransformFeedbackBufferBase(transform_feedback_id_, 1, norms_feedback_buffer->getGLObjectID());
 
@@ -56,8 +62,10 @@ struct DrawCallback_Transform : osg::Drawable::DrawCallback {
         Feedback）对象检索的计数来绘制图元。 调用 glDrawTransformFeedback 等效于调用 glDrawArrays，其中 mode
         采用相同的指定值，first 设为 0，count 设为上次该变换反馈对象处于活动状态时，在顶点流 0 上捕获的顶点数量。
         */
-
-        funcs->iglEnable(GL_RASTERIZER_DISCARD);
+        auto is_enabled = funcs->iglIsEnabled(GL_RASTERIZER_DISCARD);
+        if (!is_enabled) {
+            funcs->iglEnable(GL_RASTERIZER_DISCARD);
+        }
         GLuint_t query_id(0);
         funcs->iglGenQueries(1, &query_id);
         funcs->iglBeginQuery(IGL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN, query_id);
@@ -71,7 +79,9 @@ struct DrawCallback_Transform : osg::Drawable::DrawCallback {
         drawable->drawImplementation(renderInfo);
         funcs->iglEndTransformFeedback();
         funcs->iglEndQuery(IGL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN);
-        funcs->iglDisable(GL_RASTERIZER_DISCARD);
+        if (!is_enabled) {
+            funcs->iglDisable(GL_RASTERIZER_DISCARD);
+        }
 
         GLuint_t nb_priv_written(0);
         funcs->iglGetQueryObjectuiv(query_id, GL_QUERY_RESULT, &nb_priv_written);
@@ -86,10 +96,6 @@ struct DrawCallback_Transform : osg::Drawable::DrawCallback {
         funcs->iglBindTransformFeedback(IGL_TRANSFORM_FEEDBACK, 0);
         funcs->iglBindBufferBase(IGL_TRANSFORM_FEEDBACK_BUFFER, 0, 0);
         funcs->iglBindBufferBase(IGL_TRANSFORM_FEEDBACK_BUFFER, 1, 0);
-
-        // funcs->iglBindTransformFeedback(IGL_TRANSFORM_FEEDBACK, transform_feedback_id_);
-        // drawable->drawImplementation(renderInfo);
-        // funcs->iglBindTransformFeedback(IGL_TRANSFORM_FEEDBACK, 0);
     }
     mutable GLuint transform_feedback_id_ = 0;
 
@@ -138,7 +144,7 @@ osg::MatrixTransform* OctomapLoader::loadFile(const std::string& file) {
     auto root = osg::ref_ptr(new osg::MatrixTransform());
     root->addChild(geod);
     root->getOrCreateStateSet()->setAttribute(new osg::CullFace(osg::CullFace::BACK));
-    //render_option_ = RENDER_AS_BOX;
+    // render_option_ = RENDER_AS_BOX;
     if (render_option_ == RENDER_AS_POINT) {
         for (octomap::OcTree::leaf_iterator it = tree.begin_leafs(tree.getTreeDepth()), end = tree.end_leafs();
              it != end;
@@ -311,24 +317,24 @@ osg::MatrixTransform* OctomapLoader::loadFile(const std::string& file) {
         geom->setDrawCallback(new DrawCallback_Transform(vertices_feedback, norms_feedback));
         geom->getOrCreateStateSet()->setAttributeAndModes(prog, 1);
 
-        auto vs_feedback = osg::ref_ptr(new osg::Shader(osg::Shader::VERTEX));
-        auto fs_feedback = osg::ref_ptr(new osg::Shader(osg::Shader::FRAGMENT));
-        vs_feedback->loadShaderSourceFromFile(appdir + XG_RES("shaders/octmap_cube_feedback.vs.glsl"));
-        fs_feedback->loadShaderSourceFromFile(appdir + XG_RES("shaders/octmap_cube_feedback.fs.glsl"));
+         auto vs_feedback = osg::ref_ptr(new osg::Shader(osg::Shader::VERTEX));
+         auto fs_feedback = osg::ref_ptr(new osg::Shader(osg::Shader::FRAGMENT));
+         vs_feedback->loadShaderSourceFromFile(appdir + XG_RES("shaders/octmap_cube_feedback.vs.glsl"));
+         fs_feedback->loadShaderSourceFromFile(appdir + XG_RES("shaders/octmap_cube_feedback.fs.glsl"));
 
-        auto prog_feedback = new osg::Program();
-        prog_feedback->addShader(vs_feedback);
-        prog_feedback->addShader(fs_feedback);
+         auto prog_feedback = new osg::Program();
+         prog_feedback->addShader(vs_feedback);
+         prog_feedback->addShader(fs_feedback);
 
-        auto geom_feedback = osg::ref_ptr(new osg::Geometry());
-        geom_feedback->setVertexArray(vertices_feedback);
-        geom_feedback->setNormalArray(norms_feedback, osg::Array::BIND_PER_VERTEX);
-        geom_feedback->addPrimitiveSet(new osg::DrawArrays(GL_TRIANGLES, 0, vertices_feedback->size()));
-        geom_feedback->getOrCreateStateSet()->setAttributeAndModes(prog_feedback, 1);
-        geom_feedback->setUseVertexBufferObjects(true);
-        geom_feedback->setColorArray(colors, osg::Array::BIND_OVERALL);
+         auto geom_feedback = osg::ref_ptr(new osg::Geometry());
+         geom_feedback->setVertexArray(vertices_feedback);
+         geom_feedback->setNormalArray(norms_feedback, osg::Array::BIND_PER_VERTEX);
+         geom_feedback->addPrimitiveSet(new osg::DrawArrays(GL_TRIANGLES, 0, vertices_feedback->size()));
+         geom_feedback->getOrCreateStateSet()->setAttributeAndModes(prog_feedback, 1);
+         geom_feedback->setUseVertexBufferObjects(true);
+         geom_feedback->setColorArray(colors, osg::Array::BIND_OVERALL);
 
-        geod->addDrawable(geom_feedback);
+         geod->addDrawable(geom_feedback);
 #else
         geom->setVertexAttribArray(1, colors, osg::Array::BIND_OVERALL);
 

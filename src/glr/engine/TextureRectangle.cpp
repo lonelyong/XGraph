@@ -73,29 +73,10 @@ GLuint_t TextureRectangle::onCreate(State& state) {
     GLuint_t id    = 0;
     funcs->iglGenTextures(1, &id);
     funcs->iglBindTexture(getType(), id);
-    funcs->iglTexParameteri(getType(), IGL_TEXTURE_MIN_FILTER, getFilter(MIN_FILTER));
-    funcs->iglTexParameteri(getType(), IGL_TEXTURE_MAG_FILTER, getFilter(MAX_FILTER));
-    funcs->iglTexParameteri(getType(), IGL_TEXTURE_WRAP_S, getWrap(WRAP_S));
-    funcs->iglTexParameteri(getType(), IGL_TEXTURE_WRAP_T, getWrap(WRAP_T));
 
-    void*   img_data = nullptr;
-    GLint_t w = d->w, h = d->h, internal_fmt = getInternalFormat(), src_type = 0, src_format = 0;
+    applyParams(funcs);
 
-    if (d->img.get()) {
-        img_data     = d->img->data();
-        w            = d->img->getWidth();
-        h            = d->img->getHeight();
-        internal_fmt = d->img->getInternalTextureFormat();
-        src_type     = d->img->getDataType();
-        src_format   = d->img->getDataFormat();
-    }
-    else {
-        src_format = computeDataFormat(InternalFormat(internal_fmt));
-        src_type   = computeDataType(InternalFormat(internal_fmt));
-    }
-    if (w && h) {
-        funcs->iglTexImage2D(getType(), 0, internal_fmt, w, h, 0, src_format, src_type, img_data);
-    }
+    applyStorage(funcs);
 
     float max_anisotropy = getMaxAnisotropy();
 
@@ -116,6 +97,39 @@ bool TextureRectangle::onUpdate(State& state) {
         create(state);
     }
     return true;
+}
+
+
+void TextureRectangle::applyParams(GLfuncs* funcs) {
+    FilterMode min_filter = getFilter(MIN_FILTER), mag_filter = getFilter(MAG_FILTER);
+    WrapMode   wrap_s = getWrap(WRAP_S), wrap_t = getWrap(WRAP_T);
+
+    if (min_filter != FILTER_UNSET) funcs->iglTexParameteri(getType(), IGL_TEXTURE_MIN_FILTER, min_filter);
+    if (mag_filter != FILTER_UNSET) funcs->iglTexParameteri(getType(), IGL_TEXTURE_MAG_FILTER, mag_filter);
+    if (wrap_s != WRAP_UNSET) funcs->iglTexParameteri(getType(), IGL_TEXTURE_WRAP_S, wrap_s);
+    if (wrap_t != WRAP_UNSET) funcs->iglTexParameteri(getType(), IGL_TEXTURE_WRAP_T, wrap_t);
+}
+
+void TextureRectangle::applyStorage(GLfuncs* funcs) {
+    void*     img_data = nullptr;
+    GLsizei_t w = d->w, h = d->h, internal_fmt = getInternalFormat();
+    GLenum_t  src_type = 0, src_format = 0;
+
+    if (d->img.get()) {
+        img_data     = d->img->data();
+        w            = d->img->getWidth();
+        h            = d->img->getHeight();
+        internal_fmt = d->img->getInternalTextureFormat();
+        src_type     = d->img->getDataType();
+        src_format   = d->img->getDataFormat();
+    }
+    else {
+        src_format = computeDataFormat(InternalFormat(internal_fmt));
+        src_type   = computeDataType(InternalFormat(internal_fmt));
+    }
+    if (w && h) {
+        funcs->iglTexImage2D(getType(), 0, internal_fmt, w, h, 0, src_format, src_type, img_data);
+    }
 }
 
 } // namespace glr

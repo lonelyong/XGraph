@@ -7,7 +7,9 @@
 #include <glr/engine/Texture.h>
 
 namespace glr {
+
 class Image;
+class GLfuncs;
 
 class GLR_API TextureRectangle : public Texture {
     VI_OBJECT_META;
@@ -35,6 +37,10 @@ class GLR_API TextureRectangle : public Texture {
     virtual GLuint_t onCreate(State& state) override;
 
     virtual bool onUpdate(State& state) override;
+
+  private:
+    void applyParams(GLfuncs* funcs);
+    void applyStorage(GLfuncs* funcs);
 
   private:
     VI_OBJECT_DATA;

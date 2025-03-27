@@ -8,13 +8,21 @@ namespace glr {
 
 VI_OBJECT_META_IMPL(Hint, StateAttribute);
 
-struct Hint::Data {};
+struct Hint::Data {
+    HintType  type = HintType(0);
+    HintValue val  = DONT_CARE;
+};
 
 Hint::Hint()
   : d(new Data()) {
 }
 
+Hint::Hint(HintType type, HintValue val)
+  : d(new Data) {
+}
+
 Hint::~Hint() {
+    delete d;
 }
 
 Hint::Type Hint::getType() const {
@@ -23,6 +31,9 @@ Hint::Type Hint::getType() const {
 
 void Hint::apply(State& state) const {
     auto funcs = state.getContext()->getFuncs();
+    if (d->type) {
+        funcs->iglHint(d->type, d->val);
+    }
 }
 
 } // namespace glr

@@ -8,7 +8,10 @@
 #include <glr/engine/Texture.h>
 
 namespace glr {
+
 class Image;
+class GLfuncs;
+
 class GLR_API CubeMap : public Texture {
     VI_OBJECT_META;
 
@@ -23,7 +26,11 @@ class GLR_API CubeMap : public Texture {
 
   protected:
     virtual GLuint_t onCreate(State& ctx) override;
-    virtual bool   onUpdate(State& ctx) override;
+    virtual bool     onUpdate(State& ctx) override;
+
+  private:
+    void applyParams(GLfuncs* funcs);
+    void applyStorage(GLfuncs* funcs);
 
   private:
     VI_OBJECT_DATA;

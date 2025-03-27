@@ -25,8 +25,9 @@ class GLR_API Texture : public PixelData {
     enum FilterParameter
     {
         MIN_FILTER = IGL_TEXTURE_MIN_FILTER,
+        // 
         // Only support LINEAR,NEAREST, use base level
-        MAX_FILTER = IGL_TEXTURE_MAG_FILTER
+        MAG_FILTER = IGL_TEXTURE_MAG_FILTER
     };
 
     enum FilterMode

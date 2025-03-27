@@ -51,7 +51,8 @@ class GLR_API StateAttribute : public Object {
         POLYGON_MODE,
         POINT_PARAMETER,
         SAMPLE_MASK,
-        SAMPLE_COVERAGE
+        SAMPLE_COVERAGE,
+        SAMPLER
     };
 
   public:
