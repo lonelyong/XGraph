@@ -66,6 +66,7 @@ osg::Group* CreateExampleModels() {
     return root.release();
 }
 
+
 int main(int argc, char** argv) {
     using namespace glv;
     namespace fs = std::filesystem;
@@ -112,7 +113,7 @@ int main(int argc, char** argv) {
 
     v.addNode(model);
     v.addNode(coord);
-    v.addCamera(hud_coord, false, false);
+    v.addSlave(hud_coord, false, false);
     v.fitToScreen();
     v.run();
 

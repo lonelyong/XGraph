@@ -126,7 +126,7 @@ void RealizeOperation::operator()(osg::GraphicsContext* gc) {
     OSG_INFO << "\nGL2 Available: " << is_gl2_available;
     OSG_INFO << "\n\n";
 
-    if (ver_maj == 4 && ver_min >= 3) {
+    if (true || ver_maj == 4 && ver_min >= 3) {
 
         funcs->iglEnable(IGL_DEBUG_OUTPUT);
         funcs->iglDebugMessageCallback(debugMessageCallback, nullptr);

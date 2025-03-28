@@ -18,12 +18,15 @@
 #include <osgViewer/Viewer>
 #include <osgViewer/ViewerEventHandlers>
 
+
 // #include <osgVerse/Pipeline/LightModule.h>
 // #include <osgVerse/Pipeline/Pipeline.h>
 // #include <osgVerse/Pipeline/ShadowModule.h>
 // #include <osgVerse/Pipeline/SkyBox.h>
 
 #include <xgcomm/Resources.h>
+
+#include <glr/igl/GLdefs.h>
 
 #include <glv/app/Application.h>
 #include <glv/app/PickerCamera.h>
@@ -32,38 +35,34 @@
 namespace glv {
 namespace {} // namespace
 
-struct Viewer::Data {
-    osg::ref_ptr<osg::Group>   root_node;
-    osg::ref_ptr<PickerCamera> picker_cam;
-};
-
-Viewer::Viewer()
-  : d(new Data()) {
+Viewer::Viewer() {
     auto root   = osg::ref_ptr(new osg::Group());
     auto traits = osg::ref_ptr(new osg::GraphicsContext::Traits());
 
-    auto& app_params = Application::current()->getParameters();
+    // auto& app_params = Application::current()->getParameters();
 
-    traits->x                = 100;
-    traits->y                = 100;
-    traits->width            = 1280;
-    traits->height           = 720;
-    traits->windowDecoration = true;
-    traits->supportsResize   = true;
-    traits->doubleBuffer     = true;
-    traits->depth            = 24;
-    traits->stencil          = 8;
-    traits->samples          = 0;
-    traits->screenNum        = 0;
+    // traits->x                = 100;
+    // traits->y                = 100;
+    // traits->width            = 1280;
+    // traits->height           = 720;
+    // traits->windowDecoration = true;
+    // traits->supportsResize   = true;
+    // traits->doubleBuffer     = true;
+    // traits->depth            = 24;
+    // traits->stencil          = 8;
+    // traits->samples          = 0;
+    // traits->screenNum        = 0;
+    // traits->windowName = "ModelViewer";
 
-    //  在使用gl3编译时使用
-    // traits->glContextProfileMask = GL_CONTEXT_COMPATIBILITY_PROFILE_BIT;
-    // traits->glContextVersion     = "3.3";
+    // 在使用GL3编译时使用(OSG_GL3_AVAILABLE=TRUE)
+    // traits->glContextProfileMask = IGL_CONTEXT_COMPATIBILITY_PROFILE_BIT;
+    // traits->glContextVersion     = "4.5";
     // traits->glContextFlags       = 0;
 
-    traits->windowName = "ModelViewer";
+    // auto gc = osg::ref_ptr(osg::GraphicsContext::createGraphicsContext(traits));
 
-    auto gc = osg::ref_ptr(osg::GraphicsContext::createGraphicsContext(traits));
+    auto gc = osg::ref_ptr(new osgViewer::GraphicsWindowEmbedded());
+
     // false: gl_Vertex=0,gl_Normal=2,gl_Color=3
     // true : gl_Vertex=0,gl_Normal=1,gl_Color=2
     // default: true
@@ -75,6 +74,7 @@ Viewer::Viewer()
     // --Intel|Mesa3d：固定功能管线模型法线有问题
     gc->getState()->setUseVertexAttributeAliasing(true);
 
+    // 配置MasterCamera
     auto cam = getCamera();
     cam->setGraphicsContext(gc);
     cam->setViewport(0, 0, traits->width, traits->height);
@@ -90,8 +90,8 @@ Viewer::Viewer()
     camm->setByMatrix(cam->getViewMatrix());
     // camm->setVerticalAxisFixed(true);
 
-    auto picker_cam = osg::ref_ptr(new PickerCamera());
-    picker_cam->setGraphicsContext(gc);
+    auto cam_picker = osg::ref_ptr(new PickerCamera());
+    cam_picker->setGraphicsContext(gc);
 
     setCameraManipulator(camm);
     setCamera(cam);
@@ -125,10 +125,10 @@ Viewer::Viewer()
     root->getOrCreateStateSet()->setAttributeAndModes(root_mat, osg::StateAttribute::ON);
     root->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::ON);
 
-    d->root_node  = root;
-    d->picker_cam = picker_cam;
+    root_node  = root;
+    picker_cam = picker_cam;
 
-    // addCamera(picker_cam, true, true, true, true);
+    addSlave(cam_picker, true, true, true, true);
 
     //// Main light
     // auto light0 = new osgVerse::LightDrawable;
@@ -194,15 +194,15 @@ Viewer::Viewer()
 void Viewer::addNode(osg::Node* node) {
     // osgVerse::TangentSpaceVisitor tsv;
     // node->accept(tsv);
-    d->root_node->addChild(node);
+    root_node->addChild(node);
 }
 
-void Viewer::addCamera(osg::Camera* cam,
-                       bool         useMasterSceneData,
-                       bool         useMasterViewMatrix,
-                       bool         useMasterProjMatrix,
-                       bool         useMasterViewport) {
-    addSlave(cam, useMasterSceneData);
+void Viewer::addSlave(osg::Camera* cam,
+                              bool         useMasterSceneData,
+                              bool         useMasterViewMatrix,
+                              bool         useMasterProjMatrix,
+                              bool         useMasterViewport) {
+    osgViewer::Viewer::addSlave(cam, useMasterSceneData);
 
     if (useMasterViewMatrix || useMasterProjMatrix || useMasterViewport) {
         struct UpdateCallback : osg::NodeCallback {
