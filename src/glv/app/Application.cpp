@@ -26,13 +26,15 @@ static bool         s_is_osg_initialized = false;
 
 static void initOpenSceneGraph();
 
-Application::Application(const AppParameters& params)
-  : params_(params) {
+Application::Application(int argc, char** argv) {
     if (s_app_inst) {
         throw std::exception("There should be only one application object.");
     }
 
-    if (params.mesa_always_software) {
+    params_.argc = argc;
+    params_.argv = argv;
+
+    if (params_.mesa_always_software) {
 #ifdef _WIN32
         _putenv_s("LIBGL_ALWAYS_SOFTWARE", "1");
         _putenv_s("MESA_LOADER_DRIVER_OVERRIDE", "swrast");

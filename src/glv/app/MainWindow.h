@@ -4,14 +4,18 @@
 
 namespace glv {
 
-class GraphicsContextQt;
 class Viewer;
+class ViewWidget;
 
 class MainWindow : public QMainWindow {
+  public:
     MainWindow();
+    virtual ~MainWindow();
+
+  public:
+    ViewWidget* getViewWidget() const;
 
   private:
-    GraphicsContextQt* main_gc_ = nullptr;
-    Viewer*    viewer_;
+    ViewWidget* vw_ = nullptr;
 };
 } // namespace glv

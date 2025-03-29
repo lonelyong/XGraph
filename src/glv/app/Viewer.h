@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <osgViewer/Viewer>
 
-#include "PickerCamera.h"
+#include "CameraPicker.h"
 
 namespace osg {
 class Node;
@@ -12,6 +12,8 @@ namespace glv {
 class Viewer : public osgViewer::Viewer {
   public:
     Viewer();
+
+  public:
     void fitToScreen();
     void addNode(osg::Node* node);
     void addSlave(osg::Camera* cam,
@@ -22,6 +24,6 @@ class Viewer : public osgViewer::Viewer {
 
   private:
     osg::ref_ptr<osg::Group>   root_node;
-    osg::ref_ptr<PickerCamera> picker_cam;
+    osg::ref_ptr<CameraPicker> cam_picker;
 };
 } // namespace glv

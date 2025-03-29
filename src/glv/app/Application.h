@@ -4,6 +4,9 @@
 
 namespace glv {
 struct AppParameters {
+    int    argc = 0;
+    char** argv = nullptr;
+
     int  gl_ver_maj           = 3;
     int  gl_ver_min           = 3;
     bool gl_use_core_profile  = true;
@@ -12,12 +15,11 @@ struct AppParameters {
 
 class Application {
   public:
-    Application(const AppParameters& params);
+    Application(int argc, char** argv);
     virtual ~Application();
 
   public:
     const AppParameters& getParameters() const { return params_; }
-
 
   public:
     static Application* current();

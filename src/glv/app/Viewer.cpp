@@ -29,7 +29,7 @@
 #include <glr/igl/GLdefs.h>
 
 #include <glv/app/Application.h>
-#include <glv/app/PickerCamera.h>
+#include <glv/app/CameraPicker.h>
 #include <glv/app/RealizeOperation.h>
 
 namespace glv {
@@ -39,20 +39,18 @@ Viewer::Viewer() {
     auto root   = osg::ref_ptr(new osg::Group());
     auto traits = osg::ref_ptr(new osg::GraphicsContext::Traits());
 
-    // auto& app_params = Application::current()->getParameters();
-
-    // traits->x                = 100;
-    // traits->y                = 100;
-    // traits->width            = 1280;
-    // traits->height           = 720;
-    // traits->windowDecoration = true;
-    // traits->supportsResize   = true;
-    // traits->doubleBuffer     = true;
-    // traits->depth            = 24;
-    // traits->stencil          = 8;
-    // traits->samples          = 0;
-    // traits->screenNum        = 0;
-    // traits->windowName = "ModelViewer";
+    traits->x                = 100;
+    traits->y                = 100;
+    traits->width            = 1280;
+    traits->height           = 720;
+    traits->windowDecoration = true;
+    traits->supportsResize   = true;
+    traits->doubleBuffer     = true;
+    traits->depth            = 24;
+    traits->stencil          = 8;
+    traits->samples          = 0;
+    traits->screenNum        = 0;
+    traits->windowName       = "ModelViewer";
 
     // 在使用GL3编译时使用(OSG_GL3_AVAILABLE=TRUE)
     // traits->glContextProfileMask = IGL_CONTEXT_COMPATIBILITY_PROFILE_BIT;
@@ -61,7 +59,7 @@ Viewer::Viewer() {
 
     // auto gc = osg::ref_ptr(osg::GraphicsContext::createGraphicsContext(traits));
 
-    auto gc = osg::ref_ptr(new osgViewer::GraphicsWindowEmbedded());
+    auto gc = osg::ref_ptr(new osgViewer::GraphicsWindowEmbedded(traits));
 
     // false: gl_Vertex=0,gl_Normal=2,gl_Color=3
     // true : gl_Vertex=0,gl_Normal=1,gl_Color=2
@@ -90,18 +88,17 @@ Viewer::Viewer() {
     camm->setByMatrix(cam->getViewMatrix());
     // camm->setVerticalAxisFixed(true);
 
-    auto cam_picker = osg::ref_ptr(new PickerCamera());
+    auto cam_picker = osg::ref_ptr(new CameraPicker());
     cam_picker->setGraphicsContext(gc);
 
-    setCameraManipulator(camm);
     setCamera(cam);
+    setCameraManipulator(camm);
     addEventHandler(new osgViewer::StatsHandler());
-    addEventHandler(new osgViewer::WindowSizeHandler());
     addEventHandler(new osgGA::StateSetManipulator(cam->getOrCreateStateSet()));
     setThreadingModel(osgViewer::Viewer::SingleThreaded);
+    setLightingMode(osg::View::HEADLIGHT);
     setSceneData(root);
     setRealizeOperation(new RealizeOperation());
-    setLightingMode(osg::View::HEADLIGHT);
 
     auto fn_create_shader = [](const char* file) {
         std::ifstream ifs(file);
@@ -126,7 +123,7 @@ Viewer::Viewer() {
     root->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::ON);
 
     root_node  = root;
-    picker_cam = picker_cam;
+    cam_picker = cam_picker;
 
     addSlave(cam_picker, true, true, true, true);
 
@@ -198,10 +195,10 @@ void Viewer::addNode(osg::Node* node) {
 }
 
 void Viewer::addSlave(osg::Camera* cam,
-                              bool         useMasterSceneData,
-                              bool         useMasterViewMatrix,
-                              bool         useMasterProjMatrix,
-                              bool         useMasterViewport) {
+                      bool         useMasterSceneData,
+                      bool         useMasterViewMatrix,
+                      bool         useMasterProjMatrix,
+                      bool         useMasterViewport) {
     osgViewer::Viewer::addSlave(cam, useMasterSceneData);
 
     if (useMasterViewMatrix || useMasterProjMatrix || useMasterViewport) {
@@ -244,7 +241,6 @@ void Viewer::fitToScreen() {
     auto cm = getCameraManipulator();
     cm->computeHomePosition(getCamera());
     cm->home(0);
-    cm->setByMatrix(cm->getMatrix() * osg::Matrix::rotate(osg::inRadians(45), osg::Vec3d(1, 0, 0)));
 }
 
 } // namespace glv
