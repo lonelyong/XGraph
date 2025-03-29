@@ -2,6 +2,8 @@
 #include <filesystem>
 #include <iostream>
 
+#include <QApplication>
+
 #include <glv/app/RealizeOperation.h>
 
 #include <osg/Material>
@@ -12,7 +14,6 @@
 #include <xgcomm/Text.h>
 
 #include <glv/app/Application.h>
-#include <glv/app/Viewer.h>
 #include <glv/io/BrepLoader.h>
 #include <glv/io/MeshLoader.h>
 #include <glv/io/OctomapLoader.h>
@@ -21,6 +22,10 @@
 #include <glv/modeling/CurveGenerator.h>
 #include <glv/modeling/DottedCurve.h>
 #include <glv/modeling/MeshCutterVTK.h>
+
+#include <glv/app/MainWindow.h>
+#include <glv/app/ViewWidget.h>
+#include <glv/app/Viewer.h>
 
 osg::Group* CreateExampleModels() {
     auto root = osg::ref_ptr(new osg::Group());
@@ -69,11 +74,11 @@ osg::Group* CreateExampleModels() {
 
 int main(int argc, char** argv) {
     using namespace glv;
+
     namespace fs = std::filesystem;
     fs::current_path(xg::getApplicationDir());
 
-    AppParameters params;
-    Application   app(params);
+    Application app(argc, argv);
 
     osg::ref_ptr<osg::Group> model;
     if (argc == 1) {
@@ -106,16 +111,20 @@ int main(int argc, char** argv) {
         }
     }
 
-    Viewer v;
+    auto v = new Viewer();
 
     auto coord     = createCoord(100, 2, 20, 4, true);
-    auto hud_coord = createHudCoord(v.getCamera(), 60, 2, 12, 4);
+    auto hud_coord = createHudCoord(v->getCamera(), 60, 2, 12, 4);
 
-    v.addNode(model);
-    v.addNode(coord);
-    v.addSlave(hud_coord, false, false);
-    v.fitToScreen();
-    v.run();
+    v->addNode(model);
+    v->addNode(coord);
+    v->addSlave(hud_coord, false, false);
+    v->fitToScreen();
 
-    return 0;
+    QApplication qapp(argc, argv);
+    MainWindow   mwnd;
+    mwnd.getViewWidget()->setViewer(v);
+    mwnd.show();
+
+    return qapp.exec();
 }
