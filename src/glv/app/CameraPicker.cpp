@@ -92,12 +92,6 @@ void PostDrawCallback::operator()(osg::RenderInfo& renderInfo) const {
         glReadBuffer(IGL_COLOR_ATTACHMENT0);
         img->readPixels(0, 0, vp->width(), vp->height(), GL_RGBA, GL_UNSIGNED_BYTE);
 
-        auto  ver = glGetString(IGL_VERSION);
-        GLint mask;
-        glGetIntegerv(IGL_CONTEXT_FLAGS, &mask);
-        if (mask & IGL_CONTEXT_COMPATIBILITY_PROFILE_BIT) {
-            int x = 1;
-        }
         // glBindFramebuffer(IGL_FRAMEBUFFER, 0);
         osgDB::writeImageFile(*img, "d:/1.bmp");
     }

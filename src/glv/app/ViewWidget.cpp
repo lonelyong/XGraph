@@ -112,7 +112,7 @@ ViewWidget::ViewWidget(QObject* parent /*= nullptr*/) {
     QSurfaceFormat format;
     format.setRenderableType(QSurfaceFormat::OpenGL);
     format.setProfile(QSurfaceFormat::CompatibilityProfile);
-    format.setSamples(0);
+    format.setSamples(4);
     setFormat(format);
 
     this->setFocusPolicy(Qt::StrongFocus);
@@ -268,7 +268,7 @@ void ViewWidget::wheelEvent(QWheelEvent* event) {
         auto gc  = cam->getGraphicsContext();
         auto gw  = dynamic_cast<osgViewer::GraphicsWindow*>(gc);
         if (gw) {
-            auto delta  = event->pixelDelta().y();
+            auto delta  = event->angleDelta().y();
             auto motion = (delta > 0) ? osgGA::GUIEventAdapter::SCROLL_UP : osgGA::GUIEventAdapter::SCROLL_DOWN;
             gw->getEventQueue()->mouseScroll(motion);
         }

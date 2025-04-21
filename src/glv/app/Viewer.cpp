@@ -125,7 +125,7 @@ Viewer::Viewer() {
     root_node  = root;
     cam_picker = cam_picker;
 
-    addSlave(cam_picker, true, true, true, true);
+    //addSlave(cam_picker, true, true, true, true);
 
     //// Main light
     // auto light0 = new osgVerse::LightDrawable;

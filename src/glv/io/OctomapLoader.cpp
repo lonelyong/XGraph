@@ -144,7 +144,7 @@ osg::MatrixTransform* OctomapLoader::loadFile(const std::string& file) {
     auto root = osg::ref_ptr(new osg::MatrixTransform());
     root->addChild(geod);
     root->getOrCreateStateSet()->setAttribute(new osg::CullFace(osg::CullFace::BACK));
-    // render_option_ = RENDER_AS_BOX;
+     //render_option_ = RENDER_AS_BOX;
     if (render_option_ == RENDER_AS_POINT) {
         for (octomap::OcTree::leaf_iterator it = tree.begin_leafs(tree.getTreeDepth()), end = tree.end_leafs();
              it != end;
