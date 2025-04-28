@@ -1,8 +1,8 @@
 SET(CURRENT_TARGET_NAME vkv)
 
-find_package(vsg REQUIRED)
-find_package(opencascade REQUIRED)
-find_package(assimp REQUIRED)
+find_package(vsg CONFIG REQUIRED)
+find_package(opencascade CONFIG REQUIRED)
+find_package(assimp CONFIG REQUIRED)
 find_package(PCL CONFIG REQUIRED)
 
 file(GLOB SRC_FILES *.cpp)

@@ -71,7 +71,6 @@ osg::Group* CreateExampleModels() {
     return root.release();
 }
 
-
 int main(int argc, char** argv) {
     using namespace glv;
 
@@ -116,8 +115,8 @@ int main(int argc, char** argv) {
     auto coord     = createCoord(100, 2, 20, 4, true);
     auto hud_coord = createHudCoord(v->getCamera(), 60, 2, 12, 4);
 
-    v->addNode(model);
-    v->addNode(coord);
+    v->addNodeAsDeferred(model);
+    v->addNodeAsCustom(coord);
     v->addSlave(hud_coord, false, false);
     v->fitToScreen();
 

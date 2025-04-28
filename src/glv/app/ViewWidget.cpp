@@ -138,8 +138,7 @@ void ViewWidget::resizeGL(int w, int h) {
 
 void ViewWidget::paintGL() {
     if (isValid()) {
-        auto cam = viewer_->getCamera();
-        auto gc  = cam->getGraphicsContext();
+        auto gc  = viewer_->getGraphicsContext();
 
         if (first_frame_) {
             auto def_fbo = defaultFramebufferObject();
@@ -155,8 +154,7 @@ void ViewWidget::resizeEvent(QResizeEvent* event) {
     if (isValid()) {
         auto  ratio = this->screen()->devicePixelRatio();
         auto& size  = event->size();
-        auto  cam   = viewer_->getCamera();
-        auto  gc    = cam->getGraphicsContext();
+        auto  gc    = viewer_->getGraphicsContext();
         // 会更新gc下所有相机的Viewport与投影矩阵
         gc->resized(0, 0, size.width() * ratio, size.height() * ratio);
 
@@ -177,9 +175,8 @@ void ViewWidget::closeEvent(QCloseEvent* event) {
 
 void ViewWidget::keyPressEvent(QKeyEvent* event) {
     if (isValid()) {
-        auto cam = viewer_->getCamera();
-        auto gc  = cam->getGraphicsContext();
-        auto gw  = dynamic_cast<osgViewer::GraphicsWindow*>(gc);
+        auto gc = viewer_->getGraphicsContext();
+        auto gw = dynamic_cast<osgViewer::GraphicsWindow*>(gc);
         if (gw) {
             gw->getEventQueue()->keyPress(mapToOsgKey(event->key()), mapToOsgModifiers(event->modifiers()));
         }
@@ -190,9 +187,8 @@ void ViewWidget::keyPressEvent(QKeyEvent* event) {
 
 void ViewWidget::keyReleaseEvent(QKeyEvent* event) {
     if (isValid()) {
-        auto cam = viewer_->getCamera();
-        auto gc  = cam->getGraphicsContext();
-        auto gw  = dynamic_cast<osgViewer::GraphicsWindow*>(gc);
+        auto gc = viewer_->getGraphicsContext();
+        auto gw = dynamic_cast<osgViewer::GraphicsWindow*>(gc);
         if (gw) {
             gw->getEventQueue()->keyRelease(mapToOsgKey(event->key()), mapToOsgModifiers(event->modifiers()));
         }
@@ -203,8 +199,7 @@ void ViewWidget::keyReleaseEvent(QKeyEvent* event) {
 void ViewWidget::mousePressEvent(QMouseEvent* event) {
     if (isValid()) {
         auto ratio = this->screen()->devicePixelRatio();
-        auto cam   = viewer_->getCamera();
-        auto gc    = cam->getGraphicsContext();
+        auto gc    = viewer_->getGraphicsContext();
         auto gw    = dynamic_cast<osgViewer::GraphicsWindow*>(gc);
         if (gw) {
             gw->getEventQueue()->mouseButtonPress(event->pos().x() * ratio,
@@ -219,8 +214,7 @@ void ViewWidget::mousePressEvent(QMouseEvent* event) {
 void ViewWidget::mouseReleaseEvent(QMouseEvent* event) {
     if (isValid()) {
         auto ratio = this->screen()->devicePixelRatio();
-        auto cam   = viewer_->getCamera();
-        auto gc    = cam->getGraphicsContext();
+        auto gc    = viewer_->getGraphicsContext();
         auto gw    = dynamic_cast<osgViewer::GraphicsWindow*>(gc);
         if (gw) {
             gw->getEventQueue()->mouseButtonRelease(event->pos().x() * ratio,
@@ -235,8 +229,7 @@ void ViewWidget::mouseReleaseEvent(QMouseEvent* event) {
 void ViewWidget::mouseDoubleClickEvent(QMouseEvent* event) {
     if (isValid()) {
         auto ratio = this->screen()->devicePixelRatio();
-        auto cam   = viewer_->getCamera();
-        auto gc    = cam->getGraphicsContext();
+        auto gc    = viewer_->getGraphicsContext();
         auto gw    = dynamic_cast<osgViewer::GraphicsWindow*>(gc);
         if (gw) {
             gw->getEventQueue()->mouseDoubleButtonPress(event->pos().x() * ratio,
@@ -251,8 +244,7 @@ void ViewWidget::mouseDoubleClickEvent(QMouseEvent* event) {
 void ViewWidget::mouseMoveEvent(QMouseEvent* event) {
     if (isValid()) {
         auto ratio = this->screen()->devicePixelRatio();
-        auto cam   = viewer_->getCamera();
-        auto gc    = cam->getGraphicsContext();
+        auto gc    = viewer_->getGraphicsContext();
         auto gw    = dynamic_cast<osgViewer::GraphicsWindow*>(gc);
         if (gw) {
             gw->getEventQueue()->mouseMotion(event->pos().x() * ratio, event->pos().y() * ratio);
@@ -264,8 +256,7 @@ void ViewWidget::mouseMoveEvent(QMouseEvent* event) {
 
 void ViewWidget::wheelEvent(QWheelEvent* event) {
     if (isValid()) {
-        auto cam = viewer_->getCamera();
-        auto gc  = cam->getGraphicsContext();
+        auto gc  = viewer_->getGraphicsContext();
         auto gw  = dynamic_cast<osgViewer::GraphicsWindow*>(gc);
         if (gw) {
             auto delta  = event->angleDelta().y();

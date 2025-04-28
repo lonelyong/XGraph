@@ -1,4 +1,4 @@
-#include "OctomapLoader.h"
+ï»¿#include "OctomapLoader.h"
 
 #include <filesystem>
 
@@ -58,9 +58,9 @@ struct DrawCallback_Transform : osg::Drawable::DrawCallback {
         funcs->iglTransformFeedbackBufferBase(transform_feedback_id_, 1, norms_feedback_buffer->getGLObjectID());
 
         /*
-        glDrawTransformFeedback Ê¹ÓÃÓÉ mode Ö¸¶¨µÄÍ¼ÔªÀàÐÍ£¬²¢¸ù¾ÝÓÉ id Ö¸¶¨µÄ±ä»»·´À¡£¨Transform
-        Feedback£©¶ÔÏó¼ìË÷µÄ¼ÆÊýÀ´»æÖÆÍ¼Ôª¡£ µ÷ÓÃ glDrawTransformFeedback µÈÐ§ÓÚµ÷ÓÃ glDrawArrays£¬ÆäÖÐ mode
-        ²ÉÓÃÏàÍ¬µÄÖ¸¶¨Öµ£¬first ÉèÎª 0£¬count ÉèÎªÉÏ´Î¸Ã±ä»»·´À¡¶ÔÏó´¦ÓÚ»î¶¯×´Ì¬Ê±£¬ÔÚ¶¥µãÁ÷ 0 ÉÏ²¶»ñµÄ¶¥µãÊýÁ¿¡£
+        glDrawTransformFeedback ä½¿ç”¨ç”± mode æŒ‡å®šçš„å›¾å…ƒç±»åž‹ï¼Œå¹¶æ ¹æ®ç”± id æŒ‡å®šçš„å˜æ¢åé¦ˆï¼ˆTransform
+        Feedbackï¼‰å¯¹è±¡æ£€ç´¢çš„è®¡æ•°æ¥ç»˜åˆ¶å›¾å…ƒã€‚ è°ƒç”¨ glDrawTransformFeedback ç­‰æ•ˆäºŽè°ƒç”¨ glDrawArraysï¼Œå…¶ä¸­ mode
+        é‡‡ç”¨ç›¸åŒçš„æŒ‡å®šå€¼ï¼Œfirst è®¾ä¸º 0ï¼Œcount è®¾ä¸ºä¸Šæ¬¡è¯¥å˜æ¢åé¦ˆå¯¹è±¡å¤„äºŽæ´»åŠ¨çŠ¶æ€æ—¶ï¼Œåœ¨é¡¶ç‚¹æµ 0 ä¸Šæ•èŽ·çš„é¡¶ç‚¹æ•°é‡ã€‚
         */
         auto is_enabled = funcs->iglIsEnabled(GL_RASTERIZER_DISCARD);
         if (!is_enabled) {
@@ -74,7 +74,7 @@ struct DrawCallback_Transform : osg::Drawable::DrawCallback {
         funcs->iglGetQueryiv(IGL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN, IGL_QUERY_COUNTER_BITS, &query_counter_bits);
         assert(query_counter_bits >= 1);
 
-        // Ö»Ö§³ÖGL_POINTS,GL_LINES,GL_TRIANGLES
+        // åªæ”¯æŒGL_POINTS,GL_LINES,GL_TRIANGLES
         funcs->iglBeginTransformFeedback(GL_TRIANGLES);
         drawable->drawImplementation(renderInfo);
         funcs->iglEndTransformFeedback();
@@ -298,9 +298,9 @@ osg::MatrixTransform* OctomapLoader::loadFile(const std::string& file) {
         auto prog = new osg::Program();
         prog->addShader(vs);
         prog->addShader(gs);
-        // Êä³ö±äÁ¿½»Ìæ´æ´¢ÔÙÍ¬Ò»¸ö»º³åÇø
+        // è¾“å‡ºå˜é‡äº¤æ›¿å­˜å‚¨å†åŒä¸€ä¸ªç¼“å†²åŒº
         // prog->setTransformFeedBackMode(GL_INTERLEAVED_ATTRIBS);
-        // ²»Í¬µÄÊä³ö±äÁ¿¶ÀÁ¢´æ´¢£¬ÐèÒª°ó¶¨¶à¸ö»º³åÇø
+        // ä¸åŒçš„è¾“å‡ºå˜é‡ç‹¬ç«‹å­˜å‚¨ï¼Œéœ€è¦ç»‘å®šå¤šä¸ªç¼“å†²åŒº
         prog->setTransformFeedBackMode(GL_SEPARATE_ATTRIBS);
         prog->addTransformFeedBackVarying("out_vert");
         prog->addTransformFeedBackVarying("out_norm");
@@ -308,7 +308,7 @@ osg::MatrixTransform* OctomapLoader::loadFile(const std::string& file) {
         auto vertices_feedback = osg::ref_ptr(new osg::Vec3Array());
         auto norms_feedback    = osg::ref_ptr(new osg::Vec3Array());
 
-        // Ö÷¶¯ÉèÖÃVBO,·ñÔòÍ¬Ò»¸öGeomÄ¬ÈÏ»á¹«ÓÃVBO
+        // ä¸»åŠ¨è®¾ç½®VBO,å¦åˆ™åŒä¸€ä¸ªGeomé»˜è®¤ä¼šå…¬ç”¨VBO
         vertices_feedback->setBufferObject(new osg::VertexBufferObject());
         vertices_feedback->resize(vertices->size() * 36);
         norms_feedback->setBufferObject(new osg::VertexBufferObject());

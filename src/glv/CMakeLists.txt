@@ -1,13 +1,18 @@
 ﻿SET(CURRENT_TARGET_NAME glv)
 
-find_package(OpenSceneGraph REQUIRED COMPONENTS osgDB osgText osgGA osgUtil osgViewer)
-find_package(opencascade REQUIRED)
-find_package(assimp REQUIRED)
+OPTION(GLV_BUILD_WITH_OSGVERSE "Build with osgVerse." OFF)
+
+find_package(OpenSceneGraph CONFIG REQUIRED COMPONENTS osgDB osgText osgGA osgUtil osgViewer)
+find_package(opencascade CONFIG REQUIRED)
+find_package(assimp CONFIG REQUIRED)
 find_package(PCL CONFIG REQUIRED)
-find_package(VTK REQUIRED)
-find_package(octomap REQUIRED)
+find_package(VTK CONFIG REQUIRED)
+find_package(octomap CONFIG REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets OpenGL OpenGLWidgets)
-# find_package(osgVerse REQUIRED)
+
+if(GLV_BUILD_WITH_OSGVERSE)
+    find_package(osgVerse CONFIG REQUIRED)
+endif()
 
 qt_standard_project_setup()
 
@@ -45,7 +50,6 @@ add_executable(
     ${HEADER_FIELS_APP}
     ${SRC_FIELS_UTILS}
     ${HEADER_FIELS_UTILS}
-    
     ${BACKWARD_SRC_FILES}
 )
 
@@ -74,24 +78,30 @@ target_link_libraries(${CURRENT_TARGET_NAME}
         assimp::assimp
         TKernel TKXSBase TKMesh TKBRep TKDESTEP TKDEIGES TKMath TKGeomBase TKGeomAlgo TKG3d
         VTK::CommonCore VTK::IOPLY VTK::FiltersCore VTK::IOGeometry
-        ${OPENSCENEGRAPH_LIBRARIES} 
-        #${osgVerse_LIBRARIES} 
-        ${PCL_LIBRARIES}
         opengl32.lib
         octomap octomath octomap-static octomath-static
         Qt6::Core Qt6::Gui Qt6::Widgets Qt6::OpenGL Qt6::OpenGLWidgets
+        ${OpenSceneGraph_TARGETS}
+        ${osgVerse_LIBRARIES}
+        ${PCL_LIBRARIES}
 )
 
 target_include_directories(${CURRENT_TARGET_NAME} 
-    PRIVATE 
-        #$<BUILD_INTERFACE:${osgVerse_INCLUDE_DIRS}>
-        $<BUILD_INTERFACE:${OPENSCENEGRAPH_INCLUDE_DIRS}>
+    PRIVATE
+        $<BUILD_INTERFACE:${OSG_INCLUDE_DIR}>
 )
 
-# target_link_directories(${CURRENT_TARGET_NAME} 
-#     PRIVATE
-#         $<BUILD_INTERFACE:${osgVerse_LIB_DIRS}>
-# )
+if(GLV_BUILD_WITH_OSGVERSE)
+    target_include_directories(${CURRENT_TARGET_NAME} 
+        PRIVATE 
+            $<BUILD_INTERFACE:${osgVerse_INCLUDE_DIRS}>
+    )
+
+    target_compile_definitions(${CURRENT_TARGET_NAME}
+        PRIVATE 
+            GLV_BUILD_WITH_OSGVERSE
+)
+endif()
 
 # if(NOT DEFINED osgVerse_LIBRARIES)
 #     list(APPEND osgVerse_LIBRARIES osgVerseDependency$<$<CONFIG:Debug>:d>)

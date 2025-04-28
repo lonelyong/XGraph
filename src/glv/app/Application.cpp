@@ -5,6 +5,8 @@
 #include <osg/Notify>
 #include <osgDB/Registry>
 
+#include <osgVerse/pipeline/Pipeline.h>
+
 // #include <osgVerse/pipeline/Global.h>
 // #include <osgVerse/pipeline/Utilities.h>
 
@@ -24,7 +26,7 @@ namespace glv {
 static Application* s_app_inst;
 static bool         s_is_osg_initialized = false;
 
-static void initOpenSceneGraph();
+static void initOpenSceneGraph(int argc, char** argv);
 
 Application::Application(int argc, char** argv) {
     if (s_app_inst) {
@@ -40,7 +42,7 @@ Application::Application(int argc, char** argv) {
         _putenv_s("MESA_LOADER_DRIVER_OVERRIDE", "swrast");
 #endif
     }
-    initOpenSceneGraph();
+    initOpenSceneGraph(argc, argv);
 }
 
 Application::~Application() {
@@ -51,7 +53,7 @@ Application* Application::current() {
     return s_app_inst;
 }
 
-static void initOpenSceneGraph() {
+static void initOpenSceneGraph(int argc, char** argv) {
     if (s_is_osg_initialized) {
         return;
     }
@@ -66,5 +68,9 @@ static void initOpenSceneGraph() {
     auto  new_plugin_dir = xg::getApplicationDir();
     new_plugin_dir += "\\plugins\\osg";
     paths.insert(paths.begin(), new_plugin_dir);
+
+#ifdef GLV_BUILD_WITH_OSGVERSE
+    osgVerse::globalInitialize(argc, argv);
+#endif
 }
 } // namespace glv

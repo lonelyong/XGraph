@@ -1,4 +1,4 @@
-#include "PointCloudLoader.h"
+ï»¿#include "PointCloudLoader.h"
 
 #include <algorithm>
 #include <filesystem>
@@ -114,7 +114,7 @@ static void xxxx(PCPtr pc) {
     pcl::PolygonMesh mesh;
     poisson.reconstruct(mesh);
 
-    // 5. ±£´æÍâ±íÃæ
+    // 5. ä¿å­˜å¤–è¡¨é¢
     pcl::io::savePLYFile("d:/1.ply", mesh);
 }
 
