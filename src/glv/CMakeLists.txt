@@ -1,6 +1,6 @@
-﻿SET(CURRENT_TARGET_NAME glv)
+﻿set(CURRENT_TARGET_NAME glv)
 
-OPTION(GLV_BUILD_WITH_OSGVERSE "Build with osgVerse." OFF)
+option(GLV_BUILD_WITH_OSGVERSE "Build with osgVerse." OFF)
 
 find_package(OpenSceneGraph CONFIG REQUIRED COMPONENTS osgDB osgText osgGA osgUtil osgViewer)
 find_package(opencascade CONFIG REQUIRED)
@@ -19,17 +19,17 @@ qt_standard_project_setup()
 file(GLOB SRC_FILES *.cpp)
 file(GLOB HEADER_FILES *.h)
 
-file(GLOB SRC_FIELS_IO io/*.cpp)
-file(GLOB HEADER_FIELS_IO io/*.h)
+file(GLOB SRC_FILES_IO io/*.cpp)
+file(GLOB HEADER_FILES_IO io/*.h)
 
-file(GLOB SRC_FIELS_MODELING modeling/*.cpp)
-file(GLOB HEADER_FIELS_MODELING modeling/*.h)
+file(GLOB SRC_FILES_MODELING modeling/*.cpp)
+file(GLOB HEADER_FILES_MODELING modeling/*.h)
 
-file(GLOB SRC_FIELS_APP app/*.cpp)
-file(GLOB HEADER_FIELS_APP app/*.h)
+file(GLOB SRC_FILES_APP app/*.cpp)
+file(GLOB HEADER_FILES_APP app/*.h)
 
-file(GLOB SRC_FIELS_UTILS utils/*.cpp)
-file(GLOB HEADER_FIELS_UTILS utils/*.h)
+file(GLOB SRC_FILES_UTILS utils/*.cpp)
+file(GLOB HEADER_FILES_UTILS utils/*.h)
 
 set(RES_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/res/)
 set(RES_OUTPUT_DIR ${CONFIG_XG_RES_OUTPUT_DIR}/${CURRENT_TARGET_NAME}/)
@@ -42,23 +42,23 @@ add_executable(
     ${CURRENT_TARGET_NAME}
     ${SRC_FILES} 
     ${HEADER_FILES} 
-    ${SRC_FIELS_IO} 
-    ${HEADER_FIELS_IO} 
-    ${SRC_FIELS_MODELING} 
-    ${HEADER_FIELS_MODELING}
-    ${SRC_FIELS_APP}
-    ${HEADER_FIELS_APP}
-    ${SRC_FIELS_UTILS}
-    ${HEADER_FIELS_UTILS}
+    ${SRC_FILES_IO} 
+    ${HEADER_FILES_IO} 
+    ${SRC_FILES_MODELING} 
+    ${HEADER_FILES_MODELING}
+    ${SRC_FILES_APP}
+    ${HEADER_FILES_APP}
+    ${SRC_FILES_UTILS}
+    ${HEADER_FILES_UTILS}
     ${BACKWARD_SRC_FILES}
 )
 
 target_sources(${CURRENT_TARGET_NAME} PRIVATE ${RES_SHADER_FILES} ${RES_IMAGE_FILES})
 
-source_group(io FILES ${HEADER_FIELS_IO} ${SRC_FIELS_IO})
-source_group(modeling FILES ${HEADER_FIELS_MODELING} ${SRC_FIELS_MODELING})
-source_group(app FILES ${SRC_FIELS_APP} ${HEADER_FIELS_APP})
-source_group(utils FILES ${SRC_FIELS_UTILS} ${HEADER_FIELS_UTILS})
+source_group(io FILES ${HEADER_FILES_IO} ${SRC_FILES_IO})
+source_group(modeling FILES ${HEADER_FILES_MODELING} ${SRC_FILES_MODELING})
+source_group(app FILES ${SRC_FILES_APP} ${HEADER_FILES_APP})
+source_group(utils FILES ${SRC_FILES_UTILS} ${HEADER_FILES_UTILS})
 source_group(res/images FILES ${RES_IMAGE_FILES})
 source_group(res/shaders FILES ${RES_SHADER_FILES})
 source_group(third/backward FILES ${BACKWARD_SRC_FILES})
