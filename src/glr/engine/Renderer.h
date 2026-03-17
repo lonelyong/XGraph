@@ -15,7 +15,7 @@ class RenderInfo;
 class Event;
 
 class GLR_API Renderer : public EventReceiver {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     enum RenderOrder
@@ -65,7 +65,7 @@ class GLR_API Renderer : public EventReceiver {
     virtual void update(UpdateContext* ctx) override;
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 
 } // namespace glr

@@ -7,7 +7,7 @@
 namespace glr {
 class State;
 class GLR_API Drawable : public Node {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     virtual void draw(State& ctx) = 0;

@@ -7,9 +7,9 @@
 namespace glr {
 using Mode = PrimitiveSet::Mode;
 
-VI_OBJECT_META_IMPL(PrimitiveSet, Object);
-VI_OBJECT_META_IMPL(DrawArrays, PrimitiveSet);
-VI_OBJECT_META_IMPL(DrawElementsUInt, PrimitiveSet);
+V_OBJECT_META_IMPL(PrimitiveSet, Object);
+V_OBJECT_META_IMPL(DrawArrays, PrimitiveSet);
+V_OBJECT_META_IMPL(DrawElementsUInt, PrimitiveSet);
 
 PrimitiveSet::PrimitiveSet() {
 }

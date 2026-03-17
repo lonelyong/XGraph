@@ -1,6 +1,6 @@
 #include <glr/engine/Texture2D.h>
 
-#include <vine/core/Ptr.h>
+#include <vine/Ptr.hpp>
 
 #include <glr/engine/GraphicContext.h>
 #include <glr/engine/Image.h>
@@ -10,7 +10,7 @@
 #include <glr/io/ImageLoader.h>
 
 namespace glr {
-VI_OBJECT_META_IMPL(Texture2D, Texture);
+V_OBJECT_META_IMPL(Texture2D, Texture);
 
 struct Texture2D::Data {
     GLsizei_t           w   = 0;

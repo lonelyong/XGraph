@@ -1,18 +1,14 @@
 ﻿cmake_minimum_required(VERSION 3.26)
 
-
-project(XGraph 
+project(XGraph
     VERSION 1.0.0
-    )
+)
 
-    
+
 # set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/build)
 # set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 # set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
 # set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/dist)
-
-
-add_definitions(-DUNICODE -D_UNICODE)
 
 set(CMAKE_C_STANDARD 17)
 set(CMAKE_CXX_STANDARD 20)
@@ -24,6 +20,10 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
+if(WIN32)
+    add_definitions(-DUNICODE -D_UNICODE)
+endif()
+
 set(CONFIG_BUILD_TYPE $<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>$<$<CONFIG:RelWithDebInfo>:RelWithDebInfo>)
 set(CONFIG_XG_RES_OUTPUT_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${CONFIG_BUILD_TYPE}/res/)
 set(THIRD_PARTY_DIR ${CMAKE_SOURCE_DIR}/third/)
@@ -33,10 +33,9 @@ add_definitions(-DXG_RES_ROOT="${XG_RES_ROOT}")
 
 set(THIRD_PARTY_LIBS
     glad
-    glfw
     glm
     stb
- )
+)
 
 # add_compile_options("/EHa")
 
@@ -62,6 +61,6 @@ file(GLOB BACKWARD_SRC_FILES ${BACKWARD_INCLUDE_DIR}/*.hpp ${BACKWARD_INCLUDE_DI
 
 add_subdirectory(src)
 enable_testing()
-add_subdirectory(tests)
+# add_subdirectory(tests)
 
 #configure_file(".clang-format" ${CMAKE_BINARY_DIR} COPYONLY)

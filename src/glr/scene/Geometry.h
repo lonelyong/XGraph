@@ -7,13 +7,15 @@
 #include <string>
 #include <vector>
 
-#include <vine/ge/Rect2.h>
+#include <vine/math/Rect2.hpp>
 
 #include <glr/engine/ArrayBuffer.h>
 #include <glr/scene/Drawable.h>
 #include <glr/scene/PrimitiveSet.h>
 
-namespace glr {
+namespace glr
+{
+
 class Texture;
 class CubeMap;
 
@@ -21,7 +23,7 @@ class CubeMap;
 
  */
 class GLR_API Geometry : public Drawable {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     Geometry();
@@ -68,7 +70,7 @@ class GLR_API Geometry : public Drawable {
 
     int      getNbTextures() const;
     Texture* getTextureAt(int index) const;
-    GLuint_t   getTextureUnitAt(int index) const;
+    GLuint_t getTextureUnitAt(int index) const;
     void     addTexture(GLuint_t unit, GLuint_t loc, Texture* tex);
     void     addTexture(GLuint_t unit, const std::string& name, Texture* tex);
     void     setTextureAttribLocation(GLuint_t unit, GLuint_t loc);
@@ -94,9 +96,12 @@ class GLR_API Geometry : public Drawable {
 
   public:
     static Geometry* createCube(float size, bool create_tex_coord = false);
-    static Geometry* createTexturedQuad(const vine::ge::Rect2d& rect, const vine::ge::Rect2d& uv_rect);
+    static Geometry* createTexturedQuad(const vine::math::Rect2d& rect, const vine::math::Rect2d& uv_rect);
 
   private:
-    VI_OBJECT_DATA;
+    struct Data;
+    Data* const d;
+    ;
 };
+
 } // namespace glr

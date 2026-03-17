@@ -1,13 +1,14 @@
 ﻿#include <glr/scene/Group.h>
 
 #include <vector>
+#include <algorithm>
 
 #include <glr/scene/Node.h>
 
 #include "Node_p.h"
 
 namespace glr {
-VI_OBJECT_META_IMPL(Group, Node);
+V_OBJECT_META_IMPL(Group, Node);
 
 struct Group::Data {
 

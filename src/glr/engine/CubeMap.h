@@ -13,7 +13,7 @@ class Image;
 class GLfuncs;
 
 class GLR_API CubeMap : public Texture {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     CubeMap();
@@ -33,6 +33,6 @@ class GLR_API CubeMap : public Texture {
     void applyStorage(GLfuncs* funcs);
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 } // namespace glr

@@ -7,7 +7,7 @@
 namespace glr {
 #pragma region BlendFunc
 
-VI_OBJECT_META_IMPL(BlendFunc, StateAttribute);
+V_OBJECT_META_IMPL(BlendFunc, StateAttribute);
 
 struct BlendFunc::Data {
     Func source_rgb   = SRC_ALPHA;
@@ -95,7 +95,7 @@ void BlendFunc::apply(State& state) const {     auto funcs = state.getContext()-
 
 #pragma region BlendFunci
 
-VI_OBJECT_META_IMPL(BlendFunci, BlendFunc);
+V_OBJECT_META_IMPL(BlendFunci, BlendFunc);
 
 struct BlendFunci::Data {
     GLuint_t index = 0;

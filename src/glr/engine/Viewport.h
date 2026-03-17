@@ -10,7 +10,7 @@ namespace glr {
  * @brief glViewport
  */
 class GLR_API Viewport : public StateAttribute {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     Viewport();
@@ -27,14 +27,14 @@ class GLR_API Viewport : public StateAttribute {
     virtual void apply(State& state) const override;
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 
 /**
  * @brief glViewportIndexed
  */
 class GLR_API ViewportIndexed : public StateAttribute {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     ViewportIndexed();
@@ -51,14 +51,14 @@ class GLR_API ViewportIndexed : public StateAttribute {
     virtual void apply(State& state) const override;
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 
 /**
  * @brief glViewportArray
  */
 class GLR_API ViewportArray : public StateAttribute {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     ViewportArray();
@@ -74,6 +74,6 @@ class GLR_API ViewportArray : public StateAttribute {
     virtual void apply(State& state) const override;
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 } // namespace glr

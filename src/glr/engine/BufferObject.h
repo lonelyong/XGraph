@@ -6,7 +6,7 @@
 
 namespace glr {
 class GLR_API BufferObject : public BindableObject {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     enum Target
@@ -49,6 +49,6 @@ class GLR_API BufferObject : public BindableObject {
     virtual bool     onUnbind(State& state) override;
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 } // namespace glr

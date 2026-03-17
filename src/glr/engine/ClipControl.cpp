@@ -6,7 +6,7 @@
 
 namespace glr {
 
-VI_OBJECT_META_IMPL(ClipControl, StateAttribute);
+V_OBJECT_META_IMPL(ClipControl, StateAttribute);
 
 struct ClipControl::Data {
     Origin origin = LOWER_LEFT;

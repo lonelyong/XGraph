@@ -10,7 +10,7 @@ namespace glr {
 
 #pragma region Depth
 
-VI_OBJECT_META_IMPL(Depth, StateAttribute);
+V_OBJECT_META_IMPL(Depth, StateAttribute);
 
 struct Depth::Data {
     GLdouble_t  near = 0.0;
@@ -48,7 +48,7 @@ void Depth::apply(State& state) const {
 #pragma endregion
 
 #pragma region DepthRangeIndexed
-VI_OBJECT_META_IMPL(DepthRangeIndexed, StateAttribute);
+V_OBJECT_META_IMPL(DepthRangeIndexed, StateAttribute);
 
 struct DepthRangeIndexed::Data {
     GLuint_t   index = 0;
@@ -78,7 +78,7 @@ void DepthRangeIndexed::apply(State& state) const {
 #pragma endregion
 
 #pragma region DepthRangeArray
-VI_OBJECT_META_IMPL(DepthRangeArray, StateAttribute);
+V_OBJECT_META_IMPL(DepthRangeArray, StateAttribute);
 
 struct DepthRangeArray::Data {
     GLuint_t                first = 0;

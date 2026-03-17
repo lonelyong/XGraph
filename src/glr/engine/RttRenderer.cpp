@@ -7,14 +7,14 @@
 
 #include <GLFW/glfw3.h>
 
-#include <vine/core/Ptr.h>
+#include <vine/Ptr.hpp>
 
 #include <glr/engine/FrameBufferObject.h>
 #include <glr/engine/RenderInfo.h>
 #include <glr/engine/GraphicContext.h>
 
 namespace glr {
-VI_OBJECT_META_IMPL(RttRenderer, Renderer);
+V_OBJECT_META_IMPL(RttRenderer, Renderer);
 
 struct RttRenderer::Data {
     vine::RefPtr<FrameBufferObject> fbo = nullptr;

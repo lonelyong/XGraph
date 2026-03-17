@@ -5,7 +5,7 @@
 #include <glr/scene/Model.h>
 
 namespace glr {
-VI_OBJECT_META_IMPL(Scene, Group);
+V_OBJECT_META_IMPL(Scene, Group);
 
 struct Scene::Data {};
 

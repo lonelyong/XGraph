@@ -4,7 +4,7 @@
 
 namespace glr {
 class GLR_API ColorMask : public StateAttribute {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     ColorMask();
@@ -33,11 +33,11 @@ class GLR_API ColorMask : public StateAttribute {
     virtual void apply(State& state) const override;
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 
 class GLR_API ColorMaski : public ColorMask {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     ColorMaski();
@@ -54,6 +54,6 @@ class GLR_API ColorMaski : public ColorMask {
     virtual void apply(State& state) const override;
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 } // namespace glr

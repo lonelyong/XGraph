@@ -6,7 +6,7 @@
 
 namespace glr {
 class GLR_API BindableObject : public GLObject {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     BindableObject();
@@ -20,6 +20,6 @@ class GLR_API BindableObject : public GLObject {
     virtual bool onUnbind(State& state) = 0;
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 } // namespace glr

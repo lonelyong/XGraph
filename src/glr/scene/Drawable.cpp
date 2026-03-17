@@ -2,5 +2,5 @@
 
 namespace glr {
 
-VI_OBJECT_META_IMPL(Drawable, Node);
+V_OBJECT_META_IMPL(Drawable, Node);
 }

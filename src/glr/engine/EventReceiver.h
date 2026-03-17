@@ -11,8 +11,7 @@ class UpdateCallback;
 class UpdateContext;
 
 class GLR_API EventReceiver : public Object {
-    VI_OBJECT_META;
-    VI_DISABLE_COPY_MOVE(EventReceiver);
+    V_OBJECT_META_DECL
 
   public:
     EventReceiver();
@@ -28,6 +27,6 @@ class GLR_API EventReceiver : public Object {
     void         removeUpdateCallback(UpdateCallback* callback);
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 } // namespace glr

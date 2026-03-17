@@ -6,8 +6,7 @@
 #include <glr/engine/State.h>
 #include <glr/igl/GLfuncs.h>
 
-VI_OBJECT_META_IMPL(glr::ArrayBuffer, glr::BufferObject);
-VI_TMPL_OBJECT_META_IMPL(template <typename T>, glr::Array<T>, glr::ArrayBuffer);
+V_OBJECT_META_IMPL(glr::ArrayBuffer, glr::BufferObject);
 
 namespace glr {
 

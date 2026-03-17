@@ -2,9 +2,7 @@
 
 #include <glm/ext.hpp>
 
-
-
-#include <vine/ge/Rect2.h>
+#include <vine/math/Rect2.hpp>
 
 #include <glr/app/ResourceManager.h>
 #include <glr/engine/CubeMap.h>
@@ -127,7 +125,7 @@ Model* ExampleModels::createPointCloud(int n) {
 }
 
 Model* ExampleModels::createImage(const char* file) {
-    using namespace vine::ge;
+    using namespace vine::math;
 
     auto shader = ResMgr::instance()->getInternalShader(ResMgr::EXAMPLE_SAHDER_STD_PHONG);
     auto img    = new Model();

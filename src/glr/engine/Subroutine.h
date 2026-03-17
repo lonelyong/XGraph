@@ -7,7 +7,7 @@
 
 namespace glr {
 class GLR_API Subroutine : public UniformBase {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     enum ShaderType
@@ -31,7 +31,7 @@ class GLR_API Subroutine : public UniformBase {
     virtual const std::string& getName() const override;
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 
 } // namespace glr

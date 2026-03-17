@@ -2,7 +2,7 @@
 
 #include <map>
 
-#include <vine/core/Ptr.h>
+#include <vine/Ptr.hpp>
 
 #include <xgcomm/Environment.h>
 #include <xgcomm/Resources.h>

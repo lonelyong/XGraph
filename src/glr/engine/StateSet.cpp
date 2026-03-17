@@ -1,8 +1,9 @@
 ﻿#include <glr/engine/StateSet.h>
 
 #include <vector>
+#include <algorithm>
 
-#include <vine/core/Ptr.h>
+#include <vine/Ptr.hpp>
 
 #include <glr/engine/Program.h>
 #include <glr/engine/StateAttribute.h>
@@ -30,7 +31,7 @@ struct StateAttr {
 };
 } // namespace
 
-VI_OBJECT_META_IMPL(StateSet, Object);
+V_OBJECT_META_IMPL(StateSet, Object);
 
 struct StateSet::Data {
     std::vector<StateAttr> attrs;

@@ -7,7 +7,7 @@
 namespace glr {
 
 #pragma region BlendEquation
-VI_OBJECT_META_IMPL(BlendEquation, StateAttribute);
+V_OBJECT_META_IMPL(BlendEquation, StateAttribute);
 
 struct BlendEquation::Data {
     Equation equation_rdb   = FUNC_ADD;
@@ -67,7 +67,7 @@ void BlendEquation::apply(State& state) const {
 #pragma endregion
 
 #pragma region BlendEquationi
-VI_OBJECT_META_IMPL(BlendEquationi, StateAttribute);
+V_OBJECT_META_IMPL(BlendEquationi, StateAttribute);
 
 struct BlendEquationi::Data {
     GLuint_t index = 0;

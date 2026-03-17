@@ -11,7 +11,7 @@ class Capabilities;
 class GLfuncs;
 
 class GLR_API GraphicContext : public Object {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
     friend class Renderer;
 

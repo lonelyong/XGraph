@@ -9,7 +9,7 @@
 namespace glr {
 class Shader;
 class GLR_API Program : public GLObject {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     Program();
@@ -44,6 +44,6 @@ class GLR_API Program : public GLObject {
     bool   onRelease(State& state) override;
 
   private:
-    VI_OBJECT_DATA
+    struct Data; Data* const d;
 };
 } // namespace glr

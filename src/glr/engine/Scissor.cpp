@@ -9,7 +9,7 @@
 namespace glr {
 
 #pragma region Scissor
-VI_OBJECT_META_IMPL(Scissor, StateAttribute);
+V_OBJECT_META_IMPL(Scissor, StateAttribute);
 
 struct Scissor::Data {
     GLint_t   x = 0, y = 0;
@@ -53,7 +53,7 @@ void Scissor::apply(State& state) const {
 #pragma endregion
 
 #pragma region ScissorIndexed
-VI_OBJECT_META_IMPL(ScissorIndexed, StateAttribute);
+V_OBJECT_META_IMPL(ScissorIndexed, StateAttribute);
 
 struct ScissorIndexed::Data {
     GLuint_t  index = 0;
@@ -101,7 +101,7 @@ void ScissorIndexed::apply(State& state) const {
 
 #pragma region ScissorArray
 
-VI_OBJECT_META_IMPL(ScissorArray, StateAttribute);
+V_OBJECT_META_IMPL(ScissorArray, StateAttribute);
 
 struct ScissorArray::Data {
     GLuint_t             first = 0;

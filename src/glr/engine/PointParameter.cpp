@@ -8,7 +8,7 @@
 #include <glr/engine/types.h>
 #include <glr/igl/GLfuncs.h>
 
-VI_OBJECT_META_IMPL(glr::PointParameter, glr::StateAttribute)
+V_OBJECT_META_IMPL(glr::PointParameter, glr::StateAttribute)
 
 namespace glr {
 struct PointParameter::Data {

@@ -11,7 +11,7 @@ class Texture;
 class PixelData;
 
 class GLR_API FrameBufferObject : public BindableObject {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     enum BufferComponent
@@ -49,6 +49,6 @@ class GLR_API FrameBufferObject : public BindableObject {
     virtual bool     onUnbind(State& state) override;
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 } // namespace glr

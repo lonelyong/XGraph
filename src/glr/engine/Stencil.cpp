@@ -4,7 +4,7 @@
 #include <glr/engine/State.h>
 #include <glr/igl/GLfuncs.h>
 
-VI_OBJECT_META_IMPL(glr::Stencil, glr::StateAttribute)
+V_OBJECT_META_IMPL(glr::Stencil, glr::StateAttribute)
 
 namespace glr {
 struct Stencil::Data {

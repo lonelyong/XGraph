@@ -5,10 +5,11 @@
 #include <glr/engine/BufferObject.h>
 #include <glr/engine/types.h>
 
-namespace glr {
+namespace glr
+{
 
 class GLR_API ArrayBuffer : public BufferObject {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     enum Type
@@ -53,8 +54,9 @@ class GLR_API ArrayBuffer : public BufferObject {
     virtual void*       valueAt(GLsizei_t index) = 0;
 };
 
-template <typename T> class GLR_API Array : public ArrayBuffer {
-    VI_OBJECT_META;
+template <typename T>
+class Array : public ArrayBuffer {
+    V_OBJECT_META_DECL
 
   public:
     using item_type = T;
@@ -94,6 +96,7 @@ template <typename T> class GLR_API Array : public ArrayBuffer {
         Array<T>* arr_;
         GLsizei_t pos_;
     };
+
     class GLR_API const_iterator {
       public:
         const_iterator(const Array<T>* arr, GLsizei_t pos);
@@ -116,30 +119,36 @@ template <typename T> class GLR_API Array : public ArrayBuffer {
     friend class const_iterator;
 
   public:
-    virtual Type                      getType() const override;
-    virtual GLsizei_t                 size() const override;
-    virtual T*                        data();
-    virtual const T*                  data() const;
-    virtual void*                     data_ptr() override;
-    virtual const void*               data_ptr() const override;
-    virtual T&                        at(GLsizei_t index);
-    virtual const T&                  at(GLsizei_t index) const;
-    virtual void*                     valueAt(GLsizei_t index) override;
-    virtual void                      resize(GLsizei_t size) override;
-    virtual void                      reserve(GLsizei_t size) override;
-    virtual void                      clear() override;
-    virtual void                      push_back(const T& val);
-    template <typename... TArgs> void emplace_back(TArgs&&... args) { push_back(T(args...)); }
-    virtual T&                        front();
-    virtual const T&                  front() const;
-    virtual T&                        back();
-    virtual const T&                  back() const;
-    virtual GLsizei_t                 capacity() const override;
-    virtual GLsizei_t                 sizeOfItem() const override;
-    virtual iterator                  begin();
-    virtual const_iterator            cbegin() const;
-    virtual iterator                  end();
-    virtual const_iterator            cend() const;
+    virtual Type        getType() const override;
+    virtual GLsizei_t   size() const override;
+    virtual T*          data();
+    virtual const T*    data() const;
+    virtual void*       data_ptr() override;
+    virtual const void* data_ptr() const override;
+    virtual T&          at(GLsizei_t index);
+    virtual const T&    at(GLsizei_t index) const;
+    virtual void*       valueAt(GLsizei_t index) override;
+    virtual void        resize(GLsizei_t size) override;
+    virtual void        reserve(GLsizei_t size) override;
+    virtual void        clear() override;
+    virtual void        push_back(const T& val);
+
+    template <typename... TArgs>
+    void emplace_back(TArgs&&... args)
+    {
+        push_back(T(args...));
+    }
+
+    virtual T&             front();
+    virtual const T&       front() const;
+    virtual T&             back();
+    virtual const T&       back() const;
+    virtual GLsizei_t      capacity() const override;
+    virtual GLsizei_t      sizeOfItem() const override;
+    virtual iterator       begin();
+    virtual const_iterator cbegin() const;
+    virtual iterator       end();
+    virtual const_iterator cend() const;
 
     virtual Target getTarget() const override;
     virtual Usage  getUsage() const override;
@@ -151,8 +160,12 @@ template <typename T> class GLR_API Array : public ArrayBuffer {
     virtual bool     onUpdate(State& state) override;
 
   private:
-    VI_OBJECT_DATA;
+    struct Data;
+    Data* const d;
+    ;
 };
+
+V_TMPL_OBJECT_META_IMPL(template <typename T>, Array<T>, ArrayBuffer)
 
 using Int8Array   = Array<int8_t>;
 using Int16Array  = Array<int16_t>;

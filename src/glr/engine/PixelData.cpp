@@ -6,7 +6,7 @@
 #include <glr/engine/State.h>
 
 namespace glr {
-VI_OBJECT_META_IMPL(PixelData, BindableObject);
+V_OBJECT_META_IMPL(PixelData, BindableObject);
 
 struct PixelData::Data {
     std::map<int, bool> dirties;

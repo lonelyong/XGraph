@@ -10,7 +10,7 @@ class StateSet;
 class Group;
 class NodePrivate;
 class GLR_API Node : public EventReceiver {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
     friend class Group;
 
   public:

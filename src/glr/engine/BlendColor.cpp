@@ -6,7 +6,7 @@
 
 namespace glr {
 
-VI_OBJECT_META_IMPL(BlendColor, StateAttribute);
+V_OBJECT_META_IMPL(BlendColor, StateAttribute);
 
 struct BlendColor::Data {
     Vec4f color;

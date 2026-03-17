@@ -7,7 +7,7 @@
 namespace glr {
 class Model;
 class GLR_API Scene : public Group {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     Scene();
@@ -21,6 +21,6 @@ class GLR_API Scene : public Group {
     Model* getModelAt(int index) const;
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 } // namespace glr

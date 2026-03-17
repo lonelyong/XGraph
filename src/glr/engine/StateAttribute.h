@@ -10,7 +10,7 @@ namespace glr {
 class StateSet;
 class State;
 class GLR_API StateAttribute : public Object {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
     friend class State;
 

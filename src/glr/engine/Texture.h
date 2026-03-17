@@ -6,7 +6,7 @@
 
 namespace glr {
 class GLR_API Texture : public PixelData {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     enum Type
@@ -118,6 +118,6 @@ class GLR_API Texture : public PixelData {
     bool isMipmapLevelsDirty(State& state) const;
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 } // namespace glr

@@ -4,8 +4,9 @@
 #include <set>
 #include <stack>
 #include <vector>
+#include <cstring>
 
-#include <vine/core/Ptr.h>
+#include <vine/Ptr.hpp>
 
 #include <glr/engine/Camera.h>
 #include <glr/engine/GLObject.h>
@@ -40,7 +41,7 @@ struct StateData {
 };
 } // namespace
 
-VI_OBJECT_META_IMPL(State, Object);
+V_OBJECT_META_IMPL(State, Object);
 
 struct State::Data : public StateData {};
 
@@ -231,7 +232,7 @@ void State::apply() {
     }
 
     struct CStrCmp {
-        bool operator()(const char* a, const char* b) const { return std::strcmp(a, b) < 0; }
+        bool operator()(const char* a, const char* b) const { return strcmp(a, b) < 0; }
     };
 
     std::map<StateAttribute::Type, StateAttribute*> attrs;

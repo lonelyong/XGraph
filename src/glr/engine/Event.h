@@ -30,7 +30,7 @@ enum Key
 };
 
 class GLR_API Event : public Object {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   private:
     Event(GraphicContext* ctx, EventType type);
@@ -53,11 +53,11 @@ class GLR_API Event : public Object {
     static Event* createWindowResizeEvent(GraphicContext* ctx, int w, int h);
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 
 class GLR_API EventHandler : public Object {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     virtual bool handle(Event* e);

@@ -5,7 +5,7 @@
 #include <memory>
 
 #include <GLFW/glfw3.h>
-#include <vine/core/Ptr.h>
+#include <vine/Ptr.hpp>
 
 #include <glr/app/Viewer.h>
 #include <glr/engine/Camera.h>

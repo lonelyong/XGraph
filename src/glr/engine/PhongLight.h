@@ -8,10 +8,13 @@
 #include <glr/engine/UniformBase.h>
 #include <glr/engine/types.h>
 
-namespace glr {
+namespace glr
+{
+
 class GraphicContext;
+
 class GLR_API PhongLight : public Object {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     PhongLight();
@@ -69,7 +72,7 @@ class GLR_API PhongLight : public Object {
 };
 
 class GLR_API PhongLights : public UniformBase {
-    VI_OBJECT_META
+    V_OBJECT_META_DECL
   public:
     PhongLights();
 
@@ -96,4 +99,5 @@ class GLR_API PhongLights : public UniformBase {
     // default name: lights
     std::string name_;
 };
+
 } // namespace glr

@@ -7,7 +7,7 @@ namespace glr {
  * @brief glSampleMask
  */
 class GLR_API SampleMask : public StateAttribute {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     SampleMask();
@@ -27,6 +27,6 @@ class GLR_API SampleMask : public StateAttribute {
     virtual void apply(State& state) const override;
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 } // namespace glr

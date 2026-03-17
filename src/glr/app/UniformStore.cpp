@@ -6,7 +6,7 @@
 
 namespace glr {
 
-VI_OBJECT_META_IMPL(UniformStore, Object);
+V_OBJECT_META_IMPL(UniformStore, Object);
 
 struct UniformStore::Data {
     std::string                                      name;

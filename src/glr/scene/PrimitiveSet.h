@@ -9,7 +9,7 @@
 namespace glr {
 class State;
 class GLR_API PrimitiveSet : public Object {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     enum Mode
@@ -45,7 +45,7 @@ class GLR_API PrimitiveSet : public Object {
 };
 
 class GLR_API DrawArrays : public PrimitiveSet {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     DrawArrays();
@@ -67,7 +67,7 @@ class GLR_API DrawArrays : public PrimitiveSet {
 };
 
 class GLR_API DrawElementsUInt : public PrimitiveSet {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     DrawElementsUInt();

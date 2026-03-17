@@ -6,7 +6,7 @@
 
 namespace glr {
 
-VI_OBJECT_META_IMPL(FrontFace, StateAttribute);
+V_OBJECT_META_IMPL(FrontFace, StateAttribute);
 
 struct FrontFace::Data {
     Mode mode = CCW;

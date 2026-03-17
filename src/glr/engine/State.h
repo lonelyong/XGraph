@@ -13,7 +13,7 @@ class GraphicContext;
 class Renderer;
 class StateSet;
 class GLR_API State : public Object {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
     friend class Renderer;
 
@@ -58,6 +58,6 @@ class GLR_API State : public Object {
     void apply();
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 } // namespace glr

@@ -7,7 +7,7 @@
 #include <glm/ext.hpp>
 
 namespace glr {
-VI_OBJECT_META_IMPL(Camera, Object);
+V_OBJECT_META_IMPL(Camera, Object);
 
 Camera::Camera()
   : clear_depth_(1.0)

@@ -1,6 +1,6 @@
 #include <glr/engine/TextureRectangle.h>
 
-#include <vine/core/Ptr.h>
+#include <vine/Ptr.hpp>
 
 #include <glr/engine/GraphicContext.h>
 #include <glr/engine/Image.h>
@@ -10,7 +10,7 @@
 
 
 namespace glr {
-VI_OBJECT_META_IMPL(TextureRectangle, Texture);
+V_OBJECT_META_IMPL(TextureRectangle, Texture);
 
 struct TextureRectangle::Data {
     GLsizei_t           w   = 0;

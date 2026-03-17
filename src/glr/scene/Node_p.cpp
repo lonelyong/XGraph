@@ -1,5 +1,7 @@
 ﻿#include "Node_p.h"
 
+#include <algorithm>
+
 namespace glr {
 
 void NodePrivate::addParent(Node* node) {

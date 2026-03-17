@@ -6,7 +6,7 @@
 
 namespace glr {
 
-VI_OBJECT_META_IMPL(PolygonOffset, StateAttribute);
+V_OBJECT_META_IMPL(PolygonOffset, StateAttribute);
 
 struct PolygonOffset::Data {
     GLfloat_t factor = 0.f;

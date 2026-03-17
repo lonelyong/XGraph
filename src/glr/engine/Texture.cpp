@@ -7,7 +7,7 @@
 #include <unordered_set>
 
 namespace glr {
-VI_OBJECT_META_IMPL(Texture, PixelData);
+V_OBJECT_META_IMPL(Texture, PixelData);
 
 struct Texture::Data {
     WrapMode wrap_s = CLAMP_TO_EDGE;

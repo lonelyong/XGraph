@@ -1,7 +1,15 @@
 ﻿#pragma once
 
 #ifdef GLR_LIB
-#    define GLR_API __declspec(dllexport)
+#    ifdef _WIN32
+#        define GLR_API __declspec(dllexport)
+#    else
+#        define GLR_API
+#    endif
 #else
-#    define GLR_API __declspec(dllimport)
+#    ifdef _WIN32
+#        define GLR_API __declspec(dllimport)
+#    else
+#        define GLR_API
+#    endif
 #endif

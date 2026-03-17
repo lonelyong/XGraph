@@ -7,8 +7,7 @@
 namespace glr {
 class State;
 class GLR_API Image : public Object {
-    VI_OBJECT_META;
-    VI_DISABLE_COPY_MOVE(Image);
+    V_OBJECT_META_DECL
 
   public:
     enum Format

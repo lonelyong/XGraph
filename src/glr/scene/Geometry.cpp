@@ -2,7 +2,7 @@
 
 
 
-#include <vine/core/Ptr.h>
+#include <vine/Ptr.hpp>
 
 #include <glr/engine/GraphicContext.h>
 #include <glr/engine/Program.h>
@@ -12,7 +12,7 @@
 #include <glr/igl/GLfuncs.h>
 
 namespace glr {
-VI_OBJECT_META_IMPL(Geometry, Drawable);
+V_OBJECT_META_IMPL(Geometry, Drawable);
 
 constexpr int VERTEX_LOC    = 0;
 constexpr int NORMAL_LOC    = 1;
@@ -511,7 +511,7 @@ Geometry* Geometry::createCube(float size, bool create_tex_coord) {
     return cube;
 }
 
-Geometry* Geometry::createTexturedQuad(const vine::ge::Rect2d& rect, const vine::ge::Rect2d& uv_rect) {
+Geometry* Geometry::createTexturedQuad(const vine::math::Rect2d& rect, const vine::math::Rect2d& uv_rect) {
     auto vertices = new Vec3fArray();
     vertices->push_back(Vec3f(rect.x, rect.y, 0));
     vertices->push_back(Vec3f(rect.x + rect.w, rect.y, 0));

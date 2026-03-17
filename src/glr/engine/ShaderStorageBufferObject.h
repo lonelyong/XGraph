@@ -7,7 +7,7 @@
 
 namespace glr {
 class GLR_API ShaderStorageBufferObject : public BufferObject {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 };
 
 } // namespace glr

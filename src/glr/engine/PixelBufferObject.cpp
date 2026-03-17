@@ -7,7 +7,7 @@
 #include <glr/engine/State.h>
 
 namespace glr {
-VI_OBJECT_META_IMPL(PixelBufferObject, BufferObject);
+V_OBJECT_META_IMPL(PixelBufferObject, BufferObject);
 
 struct PixelBufferObject::Data {
     std::map<int, bool> dirties;

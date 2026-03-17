@@ -10,7 +10,7 @@ class Scene;
 class StateSet;
 
 class GLR_API Viewer : public Object {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     Viewer();
@@ -28,6 +28,6 @@ class GLR_API Viewer : public Object {
     void        clearRenderers();
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 } // namespace glr

@@ -1,8 +1,8 @@
 ﻿#include <glr/scene/Model.h>
 
 #include <vector>
-#include <vine/core/Exception.h>
-#include <vine/core/Ptr.h>
+#include <vine/Exception.hpp>
+#include <vine/Ptr.hpp>
 
 #include <glr/engine/Callbacks.h>
 #include <glr/engine/Event.h>
@@ -10,7 +10,7 @@
 #include <glr/scene/Drawable.h>
 
 namespace glr {
-VI_OBJECT_META_IMPL(Model, Group);
+V_OBJECT_META_IMPL(Model, Group);
 
 struct Model::Data {};
 

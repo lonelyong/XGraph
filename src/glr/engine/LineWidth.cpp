@@ -6,7 +6,7 @@
 
 namespace glr {
 
-VI_OBJECT_META_IMPL(LineWidth, StateAttribute);
+V_OBJECT_META_IMPL(LineWidth, StateAttribute);
 
 struct LineWidth::Data {};
 

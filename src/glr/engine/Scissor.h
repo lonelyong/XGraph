@@ -9,7 +9,7 @@ namespace glr {
  * @brief glScissor
  */
 class GLR_API Scissor : public StateAttribute {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     Scissor();
@@ -26,14 +26,14 @@ class GLR_API Scissor : public StateAttribute {
     virtual void apply(State& state) const override;
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 
 /**
  * @brief glScissorIndexed
  */
 class GLR_API ScissorIndexed : public StateAttribute {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     ScissorIndexed();
@@ -50,14 +50,14 @@ class GLR_API ScissorIndexed : public StateAttribute {
     virtual void apply(State& state) const override;
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 
 /**
  * @brief glScissorArray
  */
 class GLR_API ScissorArray : public StateAttribute {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     ScissorArray();
@@ -73,6 +73,6 @@ class GLR_API ScissorArray : public StateAttribute {
     virtual void apply(State& state) const override;
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 } // namespace glr

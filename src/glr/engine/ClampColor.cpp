@@ -6,7 +6,7 @@
 
 namespace glr {
 
-VI_OBJECT_META_IMPL(ClampColor, StateAttribute);
+V_OBJECT_META_IMPL(ClampColor, StateAttribute);
 
 struct ClampColor::Data {};
 

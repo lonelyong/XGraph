@@ -11,8 +11,7 @@ class State;
 class GLR_API GLObject : public Object {
     friend class State;
 
-    VI_OBJECT_META;
-    VI_DISABLE_COPY_MOVE(GLObject);
+    V_OBJECT_META_DECL
 
   public:
     GLObject();
@@ -35,6 +34,6 @@ class GLR_API GLObject : public Object {
     virtual bool     onRelease(State& state) = 0;
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 } // namespace glr

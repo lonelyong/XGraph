@@ -18,7 +18,7 @@ static Application* s_app_inst = nullptr;
 Application::Application(const AppParameters& params)
   : params_(params) {
     if (s_app_inst) {
-        throw std::exception("There should be only one application object.");
+        throw std::runtime_error("There should be only one application object.");
     }
 
     if (params.mesa_always_software) {

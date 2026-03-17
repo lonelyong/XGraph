@@ -9,7 +9,7 @@ namespace glr {
 class StateSet;
 
 class GLR_API Group : public Node {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   protected:
     Group();
@@ -30,6 +30,6 @@ class GLR_API Group : public Node {
     virtual void onComputeBoundingBox(BoundingBox& bb) const override;
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 } // namespace glr

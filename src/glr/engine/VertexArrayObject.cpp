@@ -4,11 +4,11 @@
 #include <glr/engine/State.h>
 #include <glr/igl/GLfuncs.h>
 
-VI_OBJECT_META_IMPL(glr::VertexArrayObject, glr::BindableObject);
-VI_OBJECT_META_IMPL(glr::VertexAttribPointer, glr::Object);
-VI_OBJECT_META_IMPL(glr::VertexAttribFormat, glr::Object);
-VI_OBJECT_META_IMPL(glr::VertexAttribBinding, glr::Object);
-VI_OBJECT_META_IMPL(glr::VertexAttribDivisor, glr::Object);
+V_OBJECT_META_IMPL(glr::VertexArrayObject, glr::BindableObject);
+V_OBJECT_META_IMPL(glr::VertexAttribPointer, glr::Object);
+V_OBJECT_META_IMPL(glr::VertexAttribFormat, glr::Object);
+V_OBJECT_META_IMPL(glr::VertexAttribBinding, glr::Object);
+V_OBJECT_META_IMPL(glr::VertexAttribDivisor, glr::Object);
 
 namespace glr {
 

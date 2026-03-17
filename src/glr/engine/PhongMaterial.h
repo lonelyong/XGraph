@@ -9,7 +9,7 @@
 
 namespace glr {
 class GLR_API PhongMaterial : public UniformBase {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     PhongMaterial();

@@ -11,7 +11,7 @@ namespace glr {
  * @brief glSampler
  */
 class GLR_API Sampler : public StateAttribute {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     Sampler();
@@ -71,7 +71,7 @@ class GLR_API Sampler : public StateAttribute {
     virtual void apply(State& state) const override;
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 
 } // namespace glr

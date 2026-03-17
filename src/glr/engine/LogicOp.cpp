@@ -6,7 +6,7 @@
 
 namespace glr {
 
-VI_OBJECT_META_IMPL(LogicOp, StateAttribute);
+V_OBJECT_META_IMPL(LogicOp, StateAttribute);
 
 struct LogicOp::Data {};
 

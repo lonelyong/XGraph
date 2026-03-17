@@ -7,7 +7,7 @@
 #include <glr/igl/GLfuncs.h>
 
 namespace glr {
-VI_OBJECT_META_IMPL(BufferObject, BindableObject);
+V_OBJECT_META_IMPL(BufferObject, BindableObject);
 
 struct BufferObject::Data {
     std::map<int, bool> dirties;

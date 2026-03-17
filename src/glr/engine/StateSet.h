@@ -9,7 +9,7 @@ namespace glr {
 class StateAttribute;
 class Program;
 class GLR_API StateSet : public Object {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     StateSet();
@@ -29,6 +29,6 @@ class GLR_API StateSet : public Object {
     void setShader(Program* shader);
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 } // namespace glr

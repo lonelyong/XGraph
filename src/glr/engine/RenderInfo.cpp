@@ -3,7 +3,7 @@
 #include <glr/engine/Renderer.h>
 
 namespace glr {
-VI_OBJECT_META_IMPL(RenderInfo, Object);
+V_OBJECT_META_IMPL(RenderInfo, Object);
 
 struct RenderInfo::Data {
     vine::RefPtr<Renderer> master_renderer;

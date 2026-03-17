@@ -15,7 +15,7 @@ class GLR_API UpdateContext {
 };
 
 class GLR_API UpdateCallback : public Object {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     virtual void operator()(Object* obj, UpdateContext* ctx);

@@ -9,7 +9,7 @@
 namespace glr {
 class State;
 class GLR_API Camera : public Object {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     Camera();

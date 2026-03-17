@@ -9,7 +9,7 @@
 namespace glr {
 class Camera;
 class GLR_API CameraManipulator : public Object {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     enum ProjectionType
@@ -52,7 +52,7 @@ class GLR_API CameraManipulator : public Object {
 };
 
 class GLR_API StandardCameraManipulator final : public CameraManipulator {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     StandardCameraManipulator(Camera* cam);
@@ -96,7 +96,7 @@ class GLR_API StandardCameraManipulator final : public CameraManipulator {
     void handleEVENT_WINDOW_RESIZEd(int w, int h);
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 
 } // namespace glr

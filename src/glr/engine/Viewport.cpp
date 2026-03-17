@@ -9,7 +9,7 @@
 namespace glr {
 
 #pragma region Viewport
-VI_OBJECT_META_IMPL(Viewport, StateAttribute);
+V_OBJECT_META_IMPL(Viewport, StateAttribute);
 
 struct Viewport::Data {
     GLint_t   x = 0, y = 0;
@@ -53,7 +53,7 @@ void Viewport::apply(State& state) const {
 #pragma endregion
 
 #pragma region ViewportIndexed
-VI_OBJECT_META_IMPL(ViewportIndexed, StateAttribute);
+V_OBJECT_META_IMPL(ViewportIndexed, StateAttribute);
 
 struct ViewportIndexed::Data {
     GLuint_t  index = 0;
@@ -101,7 +101,7 @@ void ViewportIndexed::apply(State& state) const {
 
 #pragma region ViewportArray
 
-VI_OBJECT_META_IMPL(ViewportArray, StateAttribute);
+V_OBJECT_META_IMPL(ViewportArray, StateAttribute);
 
 struct ViewportArray::Data {
     GLuint_t               first = 0;

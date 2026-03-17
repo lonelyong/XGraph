@@ -9,7 +9,7 @@ namespace glr {
  * @brief glDepthFunc, glDepthRange, glDepthMask
  */
 class GLR_API Depth : public StateAttribute {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     enum Func
@@ -35,14 +35,14 @@ class GLR_API Depth : public StateAttribute {
     virtual void apply(State& state) const override;
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 
 /**
  * @brief glDepthRangeIndexed
  */
 class GLR_API DepthRangeIndexed : public StateAttribute {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     DepthRangeIndexed(GLuint_t index, GLdouble_t near, GLdouble_t far);
@@ -55,14 +55,14 @@ class GLR_API DepthRangeIndexed : public StateAttribute {
     virtual void apply(State& state) const override;
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 
 /**
  * @brief glDepthRangeIndexed
  */
 class GLR_API DepthRangeArray : public StateAttribute {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     DepthRangeArray();
@@ -75,6 +75,6 @@ class GLR_API DepthRangeArray : public StateAttribute {
     virtual void apply(State& state) const override;
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 } // namespace glr

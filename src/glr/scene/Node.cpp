@@ -8,7 +8,7 @@
 
 namespace glr {
 
-VI_OBJECT_META_IMPL(Node, EventReceiver);
+V_OBJECT_META_IMPL(Node, EventReceiver);
 
 Node::Node()
   : d(new NodePrivate()) {

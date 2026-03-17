@@ -6,7 +6,7 @@
 
 namespace glr {
 
-VI_OBJECT_META_IMPL(Enable, StateAttribute);
+V_OBJECT_META_IMPL(Enable, StateAttribute);
 
 struct Enable::Data {};
 

@@ -8,7 +8,7 @@
 #include <glr/engine/types.h>
 #include <glr/igl/GLfuncs.h>
 
-VI_OBJECT_META_IMPL(glr::PatchParameter, glr::StateAttribute)
+V_OBJECT_META_IMPL(glr::PatchParameter, glr::StateAttribute)
 
 namespace glr {
 struct PatchParameter::Data {

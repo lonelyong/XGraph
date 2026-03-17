@@ -25,7 +25,7 @@ class BufferObject;
  * @brief glVertexAttribPointer
  */
 class VertexAttribPointer : public Object {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     /**
@@ -51,14 +51,14 @@ class VertexAttribPointer : public Object {
     void apply(BufferObject* buffer);
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 
 /**
  * @brief glVertexAttribPointer
  */
 class VertexAttribFormat : public Object {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     VertexAttribFormat(GLuint_t    attribindex,
@@ -68,27 +68,27 @@ class VertexAttribFormat : public Object {
                        GLuint_t    relativeoffset);
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 
 class VertexAttribBinding : public Object {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     VertexAttribBinding();
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 
 class VertexAttribDivisor : public Object {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     VertexAttribDivisor();
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 
 /**
@@ -99,7 +99,7 @@ class VertexAttribDivisor : public Object {
  */
 
 class GLR_API VertexArrayObject : public BindableObject {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     VertexArrayObject();
@@ -119,6 +119,6 @@ class GLR_API VertexArrayObject : public BindableObject {
     virtual bool     onRelease(State& state) override;
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 } // namespace glr

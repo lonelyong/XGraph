@@ -12,7 +12,7 @@ class Image;
 class GLfuncs;
 
 class GLR_API TextureRectangle : public Texture {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     TextureRectangle();
@@ -43,6 +43,6 @@ class GLR_API TextureRectangle : public Texture {
     void applyStorage(GLfuncs* funcs);
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 } // namespace glr

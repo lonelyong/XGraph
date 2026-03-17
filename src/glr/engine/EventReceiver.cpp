@@ -1,13 +1,14 @@
 #include <glr/engine/EventReceiver.h>
 
 #include <vector>
+#include <algorithm>
 
 #include <glr/engine/Event.h>
 #include <glr/engine/Callbacks.h>
 
 namespace glr {
 
-VI_OBJECT_META_IMPL(EventReceiver, Object);
+V_OBJECT_META_IMPL(EventReceiver, Object);
 
 struct EventReceiver::Data {
     std::vector<vine::RefPtr<EventHandler>> event_handlers;

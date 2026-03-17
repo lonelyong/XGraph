@@ -7,7 +7,7 @@
 namespace glr {
 class UniformBase;
 class GLR_API DefaultUniformStore : public UniformStore {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   private:
     DefaultUniformStore();

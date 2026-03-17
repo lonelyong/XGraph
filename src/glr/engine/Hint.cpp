@@ -6,7 +6,7 @@
 
 namespace glr {
 
-VI_OBJECT_META_IMPL(Hint, StateAttribute);
+V_OBJECT_META_IMPL(Hint, StateAttribute);
 
 struct Hint::Data {
     HintType  type = HintType(0);

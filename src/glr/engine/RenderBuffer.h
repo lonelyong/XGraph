@@ -10,7 +10,7 @@ class FrameBufferObject;
 
 class GLR_API RenderBuffer : public PixelData {
 
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
     friend class FrameBufferObject;
 
@@ -36,6 +36,6 @@ class GLR_API RenderBuffer : public PixelData {
     virtual bool     onBind(State& state) override;
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 } // namespace glr

@@ -7,7 +7,7 @@
 #include <glr/engine/State.h>
 
 namespace glr {
-VI_OBJECT_META_IMPL(BindableObject, GLObject);
+V_OBJECT_META_IMPL(BindableObject, GLObject);
 
 struct BindableObject::Data {
 

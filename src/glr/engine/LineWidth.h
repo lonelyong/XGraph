@@ -4,7 +4,7 @@
 
 namespace glr {
 class GLR_API LineWidth : public StateAttribute {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     LineWidth();
@@ -17,6 +17,6 @@ class GLR_API LineWidth : public StateAttribute {
     virtual void apply(State& state) const override;
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 } // namespace glr

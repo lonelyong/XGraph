@@ -2,3 +2,5 @@
 /build
 /vsc_build
 /.vscode
+
+.clangd

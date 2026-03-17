@@ -8,7 +8,7 @@ namespace glr {
 
 #pragma region ColorMask
 
-VI_OBJECT_META_IMPL(ColorMask, StateAttribute);
+V_OBJECT_META_IMPL(ColorMask, StateAttribute);
 
 struct ColorMask::Data {
     bool r = true, g = true, b = true, a = true;
@@ -82,7 +82,7 @@ void ColorMask::apply(State& state) const {
 
 #pragma region ColorMaski
 
-VI_OBJECT_META_IMPL(ColorMaski, ColorMask);
+V_OBJECT_META_IMPL(ColorMaski, ColorMask);
 
 struct ColorMaski::Data {
     GLuint_t index = 0;

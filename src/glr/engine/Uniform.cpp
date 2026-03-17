@@ -7,7 +7,7 @@
 #include <glr/engine/State.h>
 
 namespace glr {
-VI_OBJECT_META_IMPL(Uniform, UniformBase);
+V_OBJECT_META_IMPL(Uniform, UniformBase);
 
 struct Uniform::Data {
     std::string name;

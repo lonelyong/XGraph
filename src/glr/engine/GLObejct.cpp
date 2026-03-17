@@ -7,7 +7,7 @@
 #include <glr/engine/State.h>
 
 namespace glr {
-VI_OBJECT_META_IMPL(GLObject, Object);
+V_OBJECT_META_IMPL(GLObject, Object);
 
 struct GLObject::Data {
     std::unordered_map<int, GLuint_t> id_list;

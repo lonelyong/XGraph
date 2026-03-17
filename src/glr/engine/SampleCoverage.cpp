@@ -6,7 +6,7 @@
 
 namespace glr {
 
-VI_OBJECT_META_IMPL(SampleCoverage, StateAttribute);
+V_OBJECT_META_IMPL(SampleCoverage, StateAttribute);
 
 struct SampleCoverage::Data {
     GLfloat_t   value  = 0.f;

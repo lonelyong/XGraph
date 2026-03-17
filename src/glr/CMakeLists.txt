@@ -1,4 +1,4 @@
-﻿SET(CURRENT_TARGET_NAME glr-core)
+﻿set(CURRENT_TARGET_NAME glr-core)
 
 find_package(PCL CONFIG REQUIRED)
 find_package(assimp CONFIG REQUIRED)
@@ -22,7 +22,7 @@ file(GLOB SRC_FIELS_IO io/*.cpp)
 file(GLOB HEADER_FIELS_IO io/*.h)
 
 file(GLOB SRC_FIELS_SCENE scene/*.cpp)
-file(GLOB HEADER_FIELS_SCENE scea   ne/*.h)
+file(GLOB HEADER_FIELS_SCENE scene/*.h)
 
 file(GLOB SRC_FIELS_UTILS utils/*.cpp)
 file(GLOB HEADER_FIELS_UTILS utils/*.h)
@@ -74,13 +74,12 @@ target_include_directories(${CURRENT_TARGET_NAME}
 target_link_libraries(${CURRENT_TARGET_NAME}
     PUBLIC
         glm::glm
-        vi::Core vi::Ge
+        vi::Core vi::Math
     PRIVATE
         xgcomm 
         glfw
         assimp::assimp
         ${PCL_LIBRARIES}
-        opengl32.lib
 )
 
 target_compile_definitions(${CURRENT_TARGET_NAME} 

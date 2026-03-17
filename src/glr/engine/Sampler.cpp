@@ -8,7 +8,7 @@
 namespace glr {
 
 #pragma region Sampler
-VI_OBJECT_META_IMPL(Sampler, StateAttribute);
+V_OBJECT_META_IMPL(Sampler, StateAttribute);
 
 struct Sampler::Data {
     Texture::WrapMode wrap_s = Texture::WRAP_UNSET;

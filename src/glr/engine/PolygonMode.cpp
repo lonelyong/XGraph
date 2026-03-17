@@ -6,7 +6,7 @@
 
 namespace glr {
 
-VI_OBJECT_META_IMPL(PolygonMode, StateAttribute);
+V_OBJECT_META_IMPL(PolygonMode, StateAttribute);
 
 struct PolygonMode::Data {
     Mode mode = FILL;

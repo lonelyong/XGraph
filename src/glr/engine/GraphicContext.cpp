@@ -3,7 +3,7 @@
 #include <iostream>
 #include <queue>
 
-#include <vine/core/Ptr.h>
+#include <vine/Ptr.hpp>
 
 #include <xgcomm/Text.h>
 
@@ -13,7 +13,7 @@
 
 
 namespace glr {
-VI_OBJECT_META_IMPL(GraphicContext, Object);
+V_OBJECT_META_IMPL(GraphicContext, Object);
 
 struct GraphicContext::EventQueue::Data {
     std::queue<vine::RefPtr<Event>> events;

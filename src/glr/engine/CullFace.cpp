@@ -6,7 +6,7 @@
 
 namespace glr {
 
-VI_OBJECT_META_IMPL(CullFace, StateAttribute);
+V_OBJECT_META_IMPL(CullFace, StateAttribute);
 
 struct CullFace::Data {
     Mode mode = BACK;

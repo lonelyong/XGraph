@@ -8,7 +8,7 @@ namespace glr {
  * framebuffer (the ''destination'' color). glBlendEquation sets the blend equation for all draw buffers.
  */
 class GLR_API BlendEquation : public StateAttribute {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     enum Equation
@@ -41,11 +41,11 @@ class GLR_API BlendEquation : public StateAttribute {
     virtual void apply(State& state) const override;
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 
 class GLR_API BlendEquationi : public BlendEquation {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     BlendEquationi();
@@ -62,7 +62,7 @@ class GLR_API BlendEquationi : public BlendEquation {
     virtual void apply(State& state) const override;
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 
 } // namespace glr

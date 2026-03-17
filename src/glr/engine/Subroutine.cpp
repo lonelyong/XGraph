@@ -6,7 +6,7 @@
 #include <glr/igl/GLfuncs.h>
 
 namespace glr {
-VI_OBJECT_META_IMPL(Subroutine, UniformBase);
+V_OBJECT_META_IMPL(Subroutine, UniformBase);
 
 struct Subroutine::Data {
     ShaderType  type = NO_TYPE;

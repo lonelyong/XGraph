@@ -48,12 +48,12 @@ inline void compileShader(GLfuncs* funcs, GLuint_t id, const std::string& source
     if (0 == status) {
         funcs->iglGetShaderInfoLog(id, sizeof(msg), NULL, msg);
         std::cerr << "ERROR: failed to compile the shader" << msg << std::endl;
-        throw std::exception("Compile shader failed.");
+        throw std::runtime_error("Compile shader failed.");
     }
 }
 } // namespace
 
-VI_OBJECT_META_IMPL(Shader, GLObject);
+V_OBJECT_META_IMPL(Shader, GLObject);
 
 struct Shader::Data {
     Type        type = (Type)0;

@@ -9,7 +9,7 @@ class Drawable;
 class Event;
 
 class GLR_API Model : public Group {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     Model();
@@ -23,6 +23,6 @@ class GLR_API Model : public Group {
     Drawable* getDrawableAt(int index) const;
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 } // namespace glr

@@ -9,8 +9,7 @@ namespace glr {
 class Renderer;
 
 class GLR_API RenderInfo : public Object {
-    VI_OBJECT_META;
-    VI_DISABLE_COPY_MOVE(RenderInfo);
+    V_OBJECT_META_DECL
 
   public:
     RenderInfo(Renderer* master_renderer);
@@ -20,6 +19,6 @@ class GLR_API RenderInfo : public Object {
     Renderer* getMasterRenderer() const;
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 } // namespace glr

@@ -8,7 +8,7 @@ namespace glr {
 class Renderer;
 class FrameBufferObject;
 class GLR_API RttRenderer : public Renderer {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     RttRenderer();
@@ -22,6 +22,6 @@ class GLR_API RttRenderer : public Renderer {
     FrameBufferObject* getFbo() const;
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 }; // namespace glr

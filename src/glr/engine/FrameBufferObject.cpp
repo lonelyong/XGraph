@@ -3,8 +3,8 @@
 #include <iostream>
 #include <map>
 
-#include <vine/core/Exception.h>
-#include <vine/core/Ptr.h>
+#include <vine/Exception.hpp>
+#include <vine/Ptr.hpp>
 
 #include <glr/engine/GraphicContext.h>
 #include <glr/engine/RenderBuffer.h>
@@ -13,7 +13,7 @@
 #include <glr/igl/GLfuncs.h>
 
 namespace glr {
-VI_OBJECT_META_IMPL(FrameBufferObject, BindableObject);
+V_OBJECT_META_IMPL(FrameBufferObject, BindableObject);
 
 struct FrameBufferObject::Data {
     std::map<BufferComponent, vine::RefPtr<PixelData>> components;

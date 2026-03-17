@@ -5,8 +5,11 @@
 #elif defined(__linux__) || defined(__unix__) || defined(__APPLE__)
 #    include <unistd.h>
 #endif
-namespace xg {
-std::string getApplicationDir() {
+namespace xg
+{
+
+std::string getApplicationDir()
+{
 #ifdef _WIN32
     HMODULE hModule = GetModuleHandle(NULL);
     char    path[MAX_PATH];
@@ -15,7 +18,8 @@ std::string getApplicationDir() {
     size_t      pos = fullPath.find_last_of("\\");
     return fullPath.substr(0, pos);
 #else
-    char    path[PATH_MAX];
+    // todo: MAX_PATH
+    char    path[256];
     ssize_t len = ::readlink("/proc/self/exe", path, sizeof(path) - 1);
     if (len == -1) {
         return {};
@@ -26,4 +30,5 @@ std::string getApplicationDir() {
     return fullPath.substr(0, pos);
 #endif
 }
+
 } // namespace xg

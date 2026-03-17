@@ -6,7 +6,7 @@
 
 namespace glr {
 
-VI_OBJECT_META_IMPL(Disable, StateAttribute);
+V_OBJECT_META_IMPL(Disable, StateAttribute);
 
 struct Disable::Data {};
 

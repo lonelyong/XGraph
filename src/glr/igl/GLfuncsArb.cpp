@@ -1,4 +1,4 @@
-#include "GlfuncsArb.h"
+#include "GLfuncsArb.h"
 
 namespace glr {
 GLfuncsArb::GLfuncsArb()

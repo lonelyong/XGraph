@@ -7,7 +7,7 @@
 namespace glr {
 class Image;
 class GLR_API PixelBufferObject : public BufferObject {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
     enum Mode
     {
@@ -29,6 +29,6 @@ class GLR_API PixelBufferObject : public BufferObject {
     virtual bool   onUpdate(State& state) override;
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 } // namespace glr

@@ -2,7 +2,7 @@
 
 #include <functional>
 
-#include <vine/core/Ptr.h>
+#include <vine/Ptr.hpp>
 
 #include <glr/engine/Camera.h>
 #include <glr/engine/CameraManipulator.h>
@@ -14,7 +14,7 @@
 #include <glr/scene/Scene.h>
 
 namespace glr {
-VI_OBJECT_META_IMPL(Renderer, Object);
+V_OBJECT_META_IMPL(Renderer, Object);
 
 struct Renderer::Data {
     vine::RefPtr<Camera>            camera;

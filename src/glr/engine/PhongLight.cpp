@@ -1,6 +1,7 @@
 ﻿#include "PhongLight.h"
 
 #include <cmath>
+#include <algorithm>
 
 #include <glr/engine/Camera.h>
 #include <glr/engine/GraphicContext.h>
@@ -9,8 +10,8 @@
 #include <glr/igl/GLfuncs.h>
 
 namespace glr {
-VI_OBJECT_META_IMPL(PhongLight, Object);
-VI_OBJECT_META_IMPL(PhongLights, UniformBase);
+V_OBJECT_META_IMPL(PhongLight, Object);
+V_OBJECT_META_IMPL(PhongLights, UniformBase);
 
 PhongLight::PhongLight()
   : a_(Vec4f(0.1f, 0.1f, 0.1f, 1.0f))

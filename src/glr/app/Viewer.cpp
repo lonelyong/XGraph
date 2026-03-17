@@ -1,17 +1,20 @@
 ﻿#include <glr/app/Viewer.h>
 
+#include <algorithm>
 #include <map>
 #include <vector>
 
-#include <vine/core/Ptr.h>
+#include <vine/Ptr.hpp>
 
 #include <glr/engine/Callbacks.h>
 #include <glr/engine/GraphicContext.h>
 #include <glr/engine/RenderInfo.h>
 #include <glr/engine/Renderer.h>
 
-namespace glr {
-VI_OBJECT_META_IMPL(Viewer, Object);
+namespace glr
+{
+
+V_OBJECT_META_IMPL(Viewer, Object);
 
 struct Viewer::Data {
     std::vector<vine::RefPtr<Renderer>> renderers;
@@ -19,14 +22,16 @@ struct Viewer::Data {
 };
 
 Viewer::Viewer()
-  : d(new Data()) {
-}
+  : d(new Data())
+{}
 
-Viewer::~Viewer() {
+Viewer::~Viewer()
+{
     delete d;
 }
 
-int Viewer::frame() {
+int Viewer::frame()
+{
     std::map<GraphicContext*, std::vector<Renderer*>> ctxs;
     for (auto& renderer : d->renderers) {
         auto  ctx = renderer->getContext();
@@ -48,8 +53,15 @@ int Viewer::frame() {
 
     struct UpdateContextImpl : public UpdateContext {
 
-        virtual Renderer* getCurrentRenderer() const override { return current_renderer_; }
-        virtual Renderer* getMasterRenderer() const override { return master_renderer_; }
+        virtual Renderer* getCurrentRenderer() const override
+        {
+            return current_renderer_;
+        }
+
+        virtual Renderer* getMasterRenderer() const override
+        {
+            return master_renderer_;
+        }
 
         Renderer* current_renderer_ = nullptr;
         Renderer* master_renderer_  = nullptr;
@@ -86,26 +98,31 @@ int Viewer::frame() {
     return 0;
 }
 
-int Viewer::run() {
+int Viewer::run()
+{
     while (true) {
         frame();
     }
     return 0;
 }
 
-void Viewer::setMasterRenderer(Renderer* renderer) {
+void Viewer::setMasterRenderer(Renderer* renderer)
+{
     if (d->master_renderer != renderer) {
         addRenderer(renderer);
         d->master_renderer = renderer;
     }
 }
 
-Renderer* Viewer::getMasterRenderer() const {
+Renderer* Viewer::getMasterRenderer() const
+{
     return d->master_renderer.get();
 }
 
-void Viewer::addRenderer(Renderer* renderer) {
-    if (!renderer) return;
+void Viewer::addRenderer(Renderer* renderer)
+{
+    if (!renderer)
+        return;
 
     if (!d->master_renderer) {
         d->master_renderer = renderer;
@@ -116,22 +133,27 @@ void Viewer::addRenderer(Renderer* renderer) {
     }
 }
 
-int Viewer::getNbRenderers() const {
+int Viewer::getNbRenderers() const
+{
     return d->renderers.size();
 }
 
-Renderer* Viewer::getRendererAt(int idx) const {
+Renderer* Viewer::getRendererAt(int idx) const
+{
     return d->renderers.at(idx).get();
 }
 
-void Viewer::removeRenderer(Renderer* renderer) {
+void Viewer::removeRenderer(Renderer* renderer)
+{
     auto iter = std::find(d->renderers.begin(), d->renderers.end(), renderer);
     if (iter != d->renderers.end()) {
         d->renderers.erase(iter);
     }
 }
 
-void Viewer::clearRenderers() {
+void Viewer::clearRenderers()
+{
     d->renderers.clear();
 }
+
 } // namespace glr

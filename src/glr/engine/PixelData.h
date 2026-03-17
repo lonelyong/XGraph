@@ -6,7 +6,7 @@
 
 namespace glr {
 class GLR_API PixelData : public BindableObject {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
   public:
     enum InternalFormat
@@ -163,6 +163,6 @@ class GLR_API PixelData : public BindableObject {
     static DataType   computeDataType(InternalFormat ifmt);
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 } // namespace glr

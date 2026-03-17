@@ -8,15 +8,15 @@
 #include <glm/gtx/norm.hpp>
 #include <glm/gtx/vector_angle.hpp>
 
-#include <vine/core/Ptr.h>
+#include <vine/Ptr.hpp>
 
 #include <glr/engine/Camera.h>
 #include <glr/engine/Math.h>
 
 
 namespace glr {
-VI_OBJECT_META_IMPL(CameraManipulator, Object);
-VI_OBJECT_META_IMPL(StandardCameraManipulator, CameraManipulator);
+V_OBJECT_META_IMPL(CameraManipulator, Object);
+V_OBJECT_META_IMPL(StandardCameraManipulator, CameraManipulator);
 
 static void fixVerticalAxis(Mat4d& mat);
 static void fixVerticalAxis(Camera* cam);
@@ -202,11 +202,11 @@ void StandardCameraManipulator::handleEVENT_MOUSE_BUTTON_MOVEd(int x, int y) {
         return;
     }
 
-    auto xx      = static_cast<double>(x);
-    auto yy      = static_cast<double>(y);
+    auto xx = static_cast<double>(x);
+    auto yy = static_cast<double>(y);
     auto dx = xx - d->first_cursor_pt.x;
     auto dy = yy - d->first_cursor_pt.y;
-    auto vm      = d->first_view_matrix;
+    auto vm = d->first_view_matrix;
 
     vm = d->camera->getViewMatrix();
 
@@ -276,7 +276,7 @@ void StandardCameraManipulator::handleEVENT_MOUSE_BUTTON_MOVEd(int x, int y) {
         rotate_yaw = glm::rotate(rotate_yaw, glm::radians(-dx / 10), d->is_vertical_axis_fixed ? z : cam_up_world);
 
         auto _dy = glm::radians(-dy / 10);
-        auto i  = 0;
+        auto i   = 0;
 
         do {
             rotate_pitch = glm::rotate(Mat4d(1.), _dy, cam_right_world);
@@ -343,7 +343,7 @@ void StandardCameraManipulator::handleMouseScrolled(int delta) {
 
     Mat4d m(1.0);
 
-#if 0
+#    if 0
 
     m = glm::translate(m, -dir);
 
@@ -351,12 +351,12 @@ void StandardCameraManipulator::handleMouseScrolled(int delta) {
     auto cam_in_world2 = cam_in_world * m;
     vm                 = glm::inverse(cam_in_world2);
 
-#else
+#    else
 
     m  = glm::translate(m, dir);
     vm = m * vm;
 
-#endif
+#    endif
 
 #endif
 

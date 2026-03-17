@@ -2,13 +2,12 @@
 
 #include <glr/glr_global.h>
 
-#include <vine/core/Class.h>
-#include <vine/core/Object.h>
+#include <vine/Class.hpp>
+#include <vine/RefObject.hpp>
 
 namespace glr {
-class GLR_API Object : public vine::Object {
-    VI_OBJECT_META;
-    VI_DISABLE_COPY_MOVE(Object);
+class GLR_API Object : public vine::RefObject {
+    V_OBJECT_META_DECL
 
   protected:
     Object() {};

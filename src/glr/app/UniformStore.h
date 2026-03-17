@@ -9,7 +9,7 @@
 namespace glr {
 class UniformBase;
 class GLR_API UniformStore : public Object {
-    VI_OBJECT_META;
+    V_OBJECT_META_DECL
 
     UniformStore();
     UniformStore(const std::string& name);
@@ -20,6 +20,6 @@ class GLR_API UniformStore : public Object {
     void set(const std::string& name, UniformBase* uniform);
 
   private:
-    VI_OBJECT_DATA;
+    struct Data; Data* const d;;
 };
 } // namespace glr

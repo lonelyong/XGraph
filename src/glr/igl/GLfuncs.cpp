@@ -1,10 +1,10 @@
 #include <glr/igl/GLfuncs.h>
 
+#include <algorithm>
+#include <cstring>
 #include <map>
 #include <memory>
-#include <set>
 #include <stdio.h>
-#include <string>
 #include <vector>
 
 static void* gl_get_proc(const char* namez);
@@ -39,7 +39,8 @@ static PFNWGLGETPROCADDRESSPROC_PRIVATE s_iglGetProcAddressPtr;
 #        endif
 #    endif
 
-static int open_gl(void) {
+static int open_gl(void)
+{
 #    ifndef IS_UWP
     s_libGL = LoadLibraryW(L"opengl32.dll");
     if (s_libGL != NULL) {
@@ -53,7 +54,8 @@ static int open_gl(void) {
     return 0;
 }
 
-static void close_gl(void) {
+static void close_gl(void)
+{
     if (s_libGL != NULL) {
         FreeLibrary((HMODULE)s_libGL);
         s_libGL = NULL;
@@ -68,7 +70,8 @@ typedef void*(APIENTRYP PFNGLXGETPROCADDRESSPROC_PRIVATE)(const char*);
 static PFNGLXGETPROCADDRESSPROC_PRIVATE s_iglGetProcAddressPtr;
 #    endif
 
-static int open_gl(void) {
+static int open_gl(void)
+{
 #    ifdef __APPLE__
     static const char* NAMES[] = { "../Frameworks/OpenGL.framework/OpenGL",
                                    "/Library/Frameworks/OpenGL.framework/OpenGL",
@@ -95,7 +98,8 @@ static int open_gl(void) {
     return 0;
 }
 
-static void close_gl(void) {
+static void close_gl(void)
+{
     if (s_libGL != NULL) {
         dlclose(s_libGL);
         s_libGL = NULL;
@@ -104,9 +108,11 @@ static void close_gl(void) {
 
 #endif
 
-static void* gl_get_proc(const char* namez) {
+static void* gl_get_proc(const char* namez)
+{
     void* result = NULL;
-    if (s_libGL == NULL) return NULL;
+    if (s_libGL == NULL)
+        return NULL;
 
 #if !defined(__APPLE__) && !defined(__HAIKU__)
     if (s_iglGetProcAddressPtr != NULL) {
@@ -124,7 +130,8 @@ static void* gl_get_proc(const char* namez) {
     return result;
 }
 
-namespace glr {
+namespace glr
+{
 
 struct GLfuncs::Data {
     std::vector<const char*> exts;
@@ -133,14 +140,16 @@ struct GLfuncs::Data {
 GLfuncs::GLfuncs()
   : major_version(0)
   , minor_version(0)
-  , d(new Data()) {
-}
+  , d(new Data())
+{}
 
-GLfuncs::~GLfuncs() {
+GLfuncs::~GLfuncs()
+{
     delete d;
 }
 
-bool GLfuncs::hasExtension(Extension ext) const {
+bool GLfuncs::hasExtension(Extension ext) const
+{
     static std::map<Extension, const char*> ext_to_extstr = {
         { GL_ARB_ES2_COMPATIBILITY,        "GL_ARB_ES2_COMPATIBILITY"        },
         { GL_ARB_ES3_COMPATIBILITY,        "GL_ARB_ES3_COMPATIBILITY"        },
@@ -161,20 +170,22 @@ bool GLfuncs::hasExtension(Extension ext) const {
     return hasExtension(ext_to_extstr[ext]);
 }
 
-bool GLfuncs::hasExtension(const char* ext) const {
-    auto iter =
-        std::find_if(d->exts.begin(), d->exts.end(), [ext](const char* item) { return strcmp(item, ext) == 0; });
+bool GLfuncs::hasExtension(const char* ext) const
+{
+    auto iter = std::find_if(d->exts.begin(), d->exts.end(), [ext](const char* item) { return strcmp(item, ext) == 0; });
     return iter != d->exts.end();
 }
 
-GLfuncs* GLfuncs::loadGLLoader(Loader loader) {
+GLfuncs* GLfuncs::loadGLLoader(Loader loader)
+{
     if (!loader) {
         return nullptr;
     }
 
     auto getstr = reinterpret_cast<PFNGLGETSTRINGPROC>(loader("glGetString"));
 
-    if (!getstr) return nullptr;
+    if (!getstr)
+        return nullptr;
 
 
 #pragma region copy from glad
@@ -184,7 +195,8 @@ GLfuncs* GLfuncs::loadGLLoader(Loader loader) {
     const char* prefixes[] = { "OpenGL ES-CM ", "OpenGL ES-CL ", "OpenGL ES ", NULL };
 
     version = (const char*)getstr(IGL_VERSION);
-    if (!version) return nullptr;
+    if (!version)
+        return nullptr;
 
     for (i = 0; prefixes[i]; i++) {
         const size_t length = strlen(prefixes[i]);
@@ -243,7 +255,8 @@ GLfuncs* GLfuncs::loadGLLoader(Loader loader) {
     return funcs.release();
 }
 
-GLfuncs* GLfuncs::load() {
+GLfuncs* GLfuncs::load()
+{
     if (open_gl()) {
         auto funcs = loadGLLoader(&gl_get_proc);
         close_gl();

@@ -6,7 +6,7 @@
 #include <glr/igl/GLfuncs.h>
 
 namespace glr {
-VI_OBJECT_META_IMPL(PhongMaterial, UniformBase);
+V_OBJECT_META_IMPL(PhongMaterial, UniformBase);
 
 PhongMaterial::PhongMaterial()
   : a_(Vec4f(0.1f, 0.1f, 0.1f, 1.0f))

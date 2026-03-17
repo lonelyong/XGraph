@@ -1,32 +1,34 @@
 #include <glr/engine/CubeMap.h>
 
-#include <type_traits>
-
 #include <glr/engine/GraphicContext.h>
 #include <glr/engine/Image.h>
 #include <glr/engine/State.h>
 #include <glr/igl/GLfuncs.h>
 #include <glr/io/ImageLoader.h>
 
-namespace glr {
-VI_OBJECT_META_IMPL(CubeMap, Texture);
+namespace glr
+{
+
+V_OBJECT_META_IMPL(CubeMap, Texture);
 
 struct CubeMap::Data {
     std::vector<vine::RefPtr<Image>> imgs;
 };
 
 CubeMap::CubeMap()
-  : d(new Data()) {
-}
+  : d(new Data())
+{}
 
-CubeMap::~CubeMap() {
-}
+CubeMap::~CubeMap()
+{}
 
-Texture::Type CubeMap::getType() const {
+Texture::Type CubeMap::getType() const
+{
     return Type::TEXTURE_CUBE_MAP;
 }
 
-void CubeMap::setImages(const std::vector<std::string>& imgs) {
+void CubeMap::setImages(const std::vector<std::string>& imgs)
+{
     ImageLoader         il;
     std::vector<Image*> is;
     is.reserve(imgs.size());
@@ -36,7 +38,8 @@ void CubeMap::setImages(const std::vector<std::string>& imgs) {
     setImages(is);
 }
 
-void CubeMap::setImages(const std::vector<Image*>& imgs) {
+void CubeMap::setImages(const std::vector<Image*>& imgs)
+{
 
     std::vector<vine::RefPtr<Image>> is;
     is.reserve(imgs.size());
@@ -45,8 +48,10 @@ void CubeMap::setImages(const std::vector<Image*>& imgs) {
     dirty();
 }
 
-GLuint_t CubeMap::onCreate(State& state) {
-    if (d->imgs.size() != 6) return 0;
+GLuint_t CubeMap::onCreate(State& state)
+{
+    if (d->imgs.size() != 6)
+        return 0;
 
     auto funcs = state.getContext()->getFuncs();
 
@@ -62,7 +67,8 @@ GLuint_t CubeMap::onCreate(State& state) {
     for (int i = 0; i < 6; i++) {
         auto& img = d->imgs[i];
 
-        if (img->isNull()) continue;
+        if (img->isNull())
+            continue;
 
         auto w        = img->getWidth();
         auto h        = img->getHeight();
@@ -95,41 +101,41 @@ GLuint_t CubeMap::onCreate(State& state) {
     // return id;
 }
 
-bool CubeMap::onUpdate(State& state) {
+bool CubeMap::onUpdate(State& state)
+{
     return true;
 }
 
-
-void CubeMap::applyParams(GLfuncs* funcs) {
+void CubeMap::applyParams(GLfuncs* funcs)
+{
     FilterMode min_filter = getFilter(MIN_FILTER), mag_filter = getFilter(MAG_FILTER);
     WrapMode   wrap_s = getWrap(WRAP_S), wrap_t = getWrap(WRAP_T), wrap_r = getWrap(WRAP_R);
 
-    if (min_filter != FILTER_UNSET) funcs->iglTexParameteri(getType(), IGL_TEXTURE_MIN_FILTER, min_filter);
-    if (mag_filter != FILTER_UNSET) funcs->iglTexParameteri(getType(), IGL_TEXTURE_MAG_FILTER, mag_filter);
-    if (wrap_s != WRAP_UNSET) funcs->iglTexParameteri(getType(), IGL_TEXTURE_WRAP_S, wrap_s);
-    if (wrap_t != WRAP_UNSET) funcs->iglTexParameteri(getType(), IGL_TEXTURE_WRAP_T, wrap_t);
-    if (wrap_r != WRAP_UNSET) funcs->iglTexParameteri(getType(), IGL_TEXTURE_WRAP_R, wrap_r);
+    if (min_filter != FILTER_UNSET)
+        funcs->iglTexParameteri(getType(), IGL_TEXTURE_MIN_FILTER, min_filter);
+    if (mag_filter != FILTER_UNSET)
+        funcs->iglTexParameteri(getType(), IGL_TEXTURE_MAG_FILTER, mag_filter);
+    if (wrap_s != WRAP_UNSET)
+        funcs->iglTexParameteri(getType(), IGL_TEXTURE_WRAP_S, wrap_s);
+    if (wrap_t != WRAP_UNSET)
+        funcs->iglTexParameteri(getType(), IGL_TEXTURE_WRAP_T, wrap_t);
+    if (wrap_r != WRAP_UNSET)
+        funcs->iglTexParameteri(getType(), IGL_TEXTURE_WRAP_R, wrap_r);
 }
 
-void CubeMap::applyStorage(GLfuncs* funcs) {
+void CubeMap::applyStorage(GLfuncs* funcs)
+{
     for (int i = 0; i < 6; ++i) {
         auto& img      = d->imgs[i];
         void* img_data = img->data();
 
-        if (img->isNull()) continue;
+        if (img->isNull())
+            continue;
 
         GLsizei_t w = img->getWidth(), h = img->getHeight(), internal_fmt = img->getInternalTextureFormat();
         GLenum_t  src_type = img->getDataType(), src_format = img->getDataFormat();
 
-        funcs->iglTexImage2D(IGL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-                             0,
-                             internal_fmt,
-                             w,
-                             h,
-                             0,
-                             src_format,
-                             src_type,
-                             img_data);
+        funcs->iglTexImage2D(IGL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, internal_fmt, w, h, 0, src_format, src_type, img_data);
     }
 }
 

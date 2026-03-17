@@ -19,7 +19,7 @@
 
 namespace glr {
 
-VI_OBJECT_META_IMPL(Program, GLObject);
+V_OBJECT_META_IMPL(Program, GLObject);
 
 struct Program::Data {
     std::string name;
@@ -191,7 +191,7 @@ GLuint_t Program::onCreate(State& state) {
         char msg[512];
         funcs->iglGetProgramInfoLog(app_id, sizeof(msg), NULL, msg);
         std::cerr << "ERROR: failed to link the shaders" << msg << std::endl;
-        throw std::exception("Link shaders failed.");
+        throw std::runtime_error("Link shaders failed.");
     }
     return app_id;
 }
@@ -232,7 +232,6 @@ template void Program::set<int>(State&, const std::string&, const int&);
 template void Program::set<unsigned int>(State&, const std::string&, const unsigned int&);
 template void Program::set<Vec2i>(State&, const std::string&, const Vec2i&);
 template void Program::set<Vec3i>(State&, const std::string&, const Vec3i&);
-template void Program::set<Vec4i>(State&, const std::string&, const Vec4i&);
 template void Program::set<Vec4i>(State&, const std::string&, const Vec4i&);
 template void Program::set<float>(State&, const std::string&, const float&);
 template void Program::set<Vec2f>(State&, const std::string&, const Vec2f&);

@@ -3,7 +3,7 @@
 #include <glr/engine/GraphicContext.h>
 
 namespace glr {
-VI_OBJECT_META_IMPL(Event, Object);
+V_OBJECT_META_IMPL(Event, Object);
 
 struct Event::Data {
     GraphicContext* ctx;
@@ -85,7 +85,7 @@ Event* Event::createWindowResizeEvent(GraphicContext* ctx, int w, int h) {
     return e;
 }
 
-VI_OBJECT_META_IMPL(EventHandler, Object);
+V_OBJECT_META_IMPL(EventHandler, Object);
 
 bool EventHandler::handle(Event* e) {
     return false;

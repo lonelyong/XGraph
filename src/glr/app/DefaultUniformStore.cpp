@@ -9,7 +9,7 @@ constexpr const char* LightingDisabled = "LightingDisabled";
 constexpr const char* LightingEnabled  = "LightingEnabled";
 } // namespace
 
-VI_OBJECT_META_IMPL(DefaultUniformStore, UniformStore);
+V_OBJECT_META_IMPL(DefaultUniformStore, UniformStore);
 
 DefaultUniformStore::DefaultUniformStore()
   : UniformStore("Default") {

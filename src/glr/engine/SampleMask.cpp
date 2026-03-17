@@ -6,7 +6,7 @@
 
 namespace glr {
 
-VI_OBJECT_META_IMPL(SampleMask, StateAttribute);
+V_OBJECT_META_IMPL(SampleMask, StateAttribute);
 
 struct SampleMask::Data {
     GLuint_t     number = 0;

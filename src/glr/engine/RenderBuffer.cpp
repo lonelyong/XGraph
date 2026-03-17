@@ -1,6 +1,6 @@
 #include <glr/engine/RenderBuffer.h>
 
-#include <vine/core/Ptr.h>
+#include <vine/Ptr.hpp>
 
 #include <glr/engine/FrameBufferObject.h>
 #include <glr/engine/GraphicContext.h>
@@ -22,7 +22,7 @@ void RenderBuffer_set_FrameBuffer(void* data, FrameBufferObject* fbo) {
     d->fbo = fbo;
 }
 
-VI_OBJECT_META_IMPL(RenderBuffer, PixelData);
+V_OBJECT_META_IMPL(RenderBuffer, PixelData);
 
 struct RenderBuffer::Data : public RenderBufferData {};
 
