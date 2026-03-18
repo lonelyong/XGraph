@@ -7,7 +7,6 @@
 
 namespace glutils
 {
-
 class GLR_API WglContextManager {
   public:
     static HGLRC CreateByHwnd(HWND hWnd, int major, int minor, int core);

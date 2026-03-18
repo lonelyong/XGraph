@@ -4,11 +4,7 @@ project(XGraph
     VERSION 1.0.0
 )
 
-
-# set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/build)
-# set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
-# set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
-# set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/dist)
+option(XG_BUILD_TEST "" OFF)
 
 set(CMAKE_C_STANDARD 17)
 set(CMAKE_CXX_STANDARD 20)
@@ -20,47 +16,25 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
+set(XG_RESOURCE_OUTPUT_DIR ${CMAKE_BINARY_DIR}/res/)
+set(XG_RESOURCE_ROOT res/)
+
+add_definitions(-DXG_RESOURCE_ROOT="${XG_RESOURCE_ROOT}")
+
 if(WIN32)
     add_definitions(-DUNICODE -D_UNICODE)
 endif()
 
-set(CONFIG_BUILD_TYPE $<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>$<$<CONFIG:RelWithDebInfo>:RelWithDebInfo>)
-set(CONFIG_XG_RES_OUTPUT_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${CONFIG_BUILD_TYPE}/res/)
-set(THIRD_PARTY_DIR ${CMAKE_SOURCE_DIR}/third/)
-
-set(XG_RES_ROOT res/)
-add_definitions(-DXG_RES_ROOT="${XG_RES_ROOT}")
-
-set(THIRD_PARTY_LIBS
-    glad
-    glm
-    stb
-)
-
 # add_compile_options("/EHa")
 
-foreach(lib_name ${THIRD_PARTY_LIBS})
-    list(APPEND CMAKE_PREFIX_PATH "${THIRD_PARTY_DIR}${lib_name}")
-endforeach()
-
-find_package(glm REQUIRED)
-find_package(glfw3 REQUIRED)
-
-# add_definitions(-DSTB_IMAGE_IMPLEMENTATION)
-
-set(STB_DIR "${THIRD_PARTY_DIR}stb")
-set(STB_INCLUDE_DIR "${STB_DIR}/include")
-set(GLAD_DIR "${THIRD_PARTY_DIR}glad")
-set(GLAD_INCLUDE_DIR "${GLAD_DIR}/include")
-set(BACKWARD_DIR "${THIRD_PARTY_DIR}backward")
-set(BACKWARD_INCLUDE_DIR "${BACKWARD_DIR}")
-
-file(GLOB_RECURSE GLAD_HEADER_FILES ${GLAD_DIR}/*.h)
-file(GLOB_RECURSE GLAD_HEADER_AND_SRC_FILES ${GLAD_DIR}/*.*)
-file(GLOB BACKWARD_SRC_FILES ${BACKWARD_INCLUDE_DIR}/*.hpp ${BACKWARD_INCLUDE_DIR}/*.cpp)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+include(XGraphThirdParty)
 
 add_subdirectory(src)
-enable_testing()
-# add_subdirectory(tests)
+
+if(XG_BUILD_TEST)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
 
 #configure_file(".clang-format" ${CMAKE_BINARY_DIR} COPYONLY)
