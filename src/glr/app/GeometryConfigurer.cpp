@@ -23,7 +23,7 @@ void GeometryConfigurer::configureStdPhong(Geometry* geom, StateSet* ss /*= null
         subroutine = "fetchVertexColor";
     }
 
-    if (geom->getNbTexCoordArrays() > 0) {
+    if (geom->getNumTexCoordArrays() > 0) {
         auto arr      = geom->getTexCoordArrayAt(0);
         auto arr_type = arr->getType();
         if (arr_type == ArrayBuffer::ARRAY_VEC2F) {
@@ -34,7 +34,7 @@ void GeometryConfigurer::configureStdPhong(Geometry* geom, StateSet* ss /*= null
         }
     }
 
-    if (geom->getNbTextures() > 0) {
+    if (geom->getNumTextures() > 0) {
         auto tex         = geom->getTextureAt(0);
         auto tex_unit    = geom->getTextureUnitAt(0);
         auto tex_type    = tex->getType();

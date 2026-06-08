@@ -108,7 +108,7 @@ int Renderer::render(RenderInfo& info) {
     ctx.makeCurrent();
     state.pushCamera(cam);
 
-    auto nb_models = scene->getNbModels();
+    auto nb_models = scene->getNumModels();
     for (size_t i = 0; i < nb_models; ++i) {
         auto model = vine::obj_cast<Model>(scene->getModelAt(i));
 
@@ -121,7 +121,7 @@ int Renderer::render(RenderInfo& info) {
         state.pushStateSet(stateset);
         state.pushModelMatrix(matrix_m);
         state.apply();
-        for (int j = 0; j < model->getNbDrawables(); ++j) {
+        for (int j = 0; j < model->getNumDrawables(); ++j) {
             auto drawable = model->getDrawableAt(j);
             drawable->draw(state);
         }

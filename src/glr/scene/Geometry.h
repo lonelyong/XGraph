@@ -39,7 +39,7 @@ class GLR_API Geometry : public Drawable {
     ArrayBuffer* getColorArray() const;
     void         setColorArray(ArrayBuffer* data);
 
-    int          getNbTexCoordArrays() const;
+    int          getNumTexCoordArrays() const;
     ArrayBuffer* getTexCoordArrayAt(int index) const;
     void         addTexCoordArray(ArrayBuffer* data);
     void         removeTexCoordArray(ArrayBuffer* data);
@@ -57,7 +57,7 @@ class GLR_API Geometry : public Drawable {
     int  getTexCoordAttribLocation(ArrayBuffer* data) const;
     void setTexCoordAttribLocation(ArrayBuffer* data, int loc);
 
-    int          getNbVertexAttribArrays() const;
+    int          getNumVertexAttribArrays() const;
     ArrayBuffer* getVertexAttribArrayAt(int index) const;
     void         addVertexAttribArray(GLuint_t loc, ArrayBuffer* data);
     /**
@@ -68,7 +68,7 @@ class GLR_API Geometry : public Drawable {
     void removeVertexAttribArray(GLuint_t loc);
     void clearVertexAttribArrays();
 
-    int      getNbTextures() const;
+    int      getNumTextures() const;
     Texture* getTextureAt(int index) const;
     GLuint_t getTextureUnitAt(int index) const;
     void     addTexture(GLuint_t unit, GLuint_t loc, Texture* tex);
@@ -83,7 +83,7 @@ class GLR_API Geometry : public Drawable {
     void removetexture(GLuint_t unit);
     void clearTextures();
 
-    int           getNbPrimitiveSets() const;
+    int           getNumPrimitiveSets() const;
     PrimitiveSet* getPrimitiveSet(int index) const;
     void          addPrimitiveSet(PrimitiveSet* prim);
     void          removePrimitiveSet(PrimitiveSet* prim);

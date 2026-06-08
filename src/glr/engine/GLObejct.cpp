@@ -47,7 +47,7 @@ bool GLObject::isDirty(State& state) const {
     return d->dirty_list.contains(ctx_id);
 }
 
-GLsizei_t GLObject::getNbInstances() const {
+GLsizei_t GLObject::getNumInstances() const {
     return d->id_list.size();
 }
 

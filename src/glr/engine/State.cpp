@@ -129,7 +129,7 @@ void State::popStateSet(StateSet* ss) {
 
     d->statesets.pop();
 
-    // auto nb_attrs = ss->getNbAttributes();
+    // auto nb_attrs = ss->getNumAttributes();
 
     // for (size_t i = 0; i < nb_attrs; i++) {
     //     ss->getAttributeAt(i)->restore(*this);
@@ -239,7 +239,7 @@ void State::apply() {
     std::map<const char*, StateAttribute*, CStrCmp> named_attrs;
 
     for (auto iter = sss_.rbegin(); iter != sss_.rend(); ++iter) {
-        for (size_t i = 0; i < (*iter)->getNbAttributes(); i++) {
+        for (size_t i = 0; i < (*iter)->getNumAttributes(); i++) {
             auto        attr      = (*iter)->getAttributeAt(i);
             auto        attr_type = attr->getType();
             const char* name      = nullptr;

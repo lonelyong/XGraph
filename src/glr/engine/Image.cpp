@@ -13,7 +13,7 @@ namespace glr
 namespace
 {
 
-inline int getNbChannelsOfFormat(Image::Format format)
+inline int getNumChannelsOfFormat(Image::Format format)
 {
     switch (format) {
     case Image::R8:
@@ -157,7 +157,7 @@ int Image::getHeight() const
 
 int Image::getChannels() const
 {
-    return getNbChannelsOfFormat(d->format);
+    return getNumChannelsOfFormat(d->format);
 }
 
 unsigned char* Image::data() const

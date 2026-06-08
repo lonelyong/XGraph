@@ -23,7 +23,7 @@ class GLR_API Group : public Node {
     virtual void update(UpdateContext* ctx) override;
 
   protected:
-    int          getNbChildren() const;
+    int          getNumChildren() const;
     Node*        getChildAt(int idx) const;
     virtual void addChild(Node* node);
     virtual void removeChild(Node* node);

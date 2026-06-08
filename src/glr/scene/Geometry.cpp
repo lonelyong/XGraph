@@ -72,7 +72,7 @@ void Geometry::setColorArray(ArrayBuffer* data) {
     d->color_array = data;
 }
 
-int Geometry::getNbTexCoordArrays() const {
+int Geometry::getNumTexCoordArrays() const {
     return d->tex_coords_arrays.size();
 }
 
@@ -138,7 +138,7 @@ void Geometry::setTexCoordAttribLocation(ArrayBuffer* data, int loc) {
     found_at->second = loc;
 }
 
-int Geometry::getNbTextures() const {
+int Geometry::getNumTextures() const {
     return d->textures.size();
 }
 
@@ -210,7 +210,7 @@ void Geometry::clearTextures() {
     d->texture_names.clear();
 }
 
-int Geometry::getNbVertexAttribArrays() const {
+int Geometry::getNumVertexAttribArrays() const {
     return d->vbos.size();
 }
 
@@ -246,7 +246,7 @@ void Geometry::clearVertexAttribArrays() {
     d->vbos.clear();
 }
 
-int Geometry::getNbPrimitiveSets() const {
+int Geometry::getNumPrimitiveSets() const {
     return d->vbos.size();
 }
 

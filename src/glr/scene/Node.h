@@ -24,7 +24,7 @@ class GLR_API Node : public EventReceiver {
     StateSet* getOrCreateStateSet();
     StateSet* getStateSet();
 
-    int   getNbParents() const;
+    int   getNumParents() const;
     Node* getParentAt(int idx) const;
 
     BoundingBox getBoundingBox() const;

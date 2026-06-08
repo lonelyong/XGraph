@@ -17,7 +17,7 @@ class GLR_API Scene : public Group {
     void addModel(Model* drawable);
     void removeModel(Model* drawable);
 
-    int    getNbModels() const;
+    int    getNumModels() const;
     Model* getModelAt(int index) const;
 
   private:

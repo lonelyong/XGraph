@@ -30,8 +30,8 @@ void Model::removeDrawable(Drawable* drawable) {
     removeChild(drawable);
 }
 
-int Model::getNbDrawables() const {
-    return getNbChildren();
+int Model::getNumDrawables() const {
+    return getNumChildren();
 }
 
 Drawable* Model::getDrawableAt(int index) const {

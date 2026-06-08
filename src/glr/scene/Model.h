@@ -19,7 +19,7 @@ class GLR_API Model : public Group {
     void addDrawable(Drawable* drawable);
     void removeDrawable(Drawable* drawable);
 
-    int       getNbDrawables() const;
+    int       getNumDrawables() const;
     Drawable* getDrawableAt(int index) const;
 
   private:

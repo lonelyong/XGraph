@@ -133,7 +133,7 @@ void Viewer::addRenderer(Renderer* renderer)
     }
 }
 
-int Viewer::getNbRenderers() const
+int Viewer::getNumRenderers() const
 {
     return d->renderers.size();
 }

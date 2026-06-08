@@ -49,7 +49,7 @@ void Node::setBoundingBox(const BoundingBox& bb) {
     d->bound_is_dirty = false;
 }
 
-int Node::getNbParents() const {
+int Node::getNumParents() const {
     return d->parent_nodes.size();
 }
 
@@ -59,7 +59,7 @@ Node* Node::getParentAt(int idx) const {
 
 void Node::dirtyBound() {
     d->bound_is_dirty = true;
-    int nparents      = getNbParents();
+    int nparents      = getNumParents();
     for (int i = 0; i < nparents; ++i) {
         getParentAt(i)->dirtyBound();
     }

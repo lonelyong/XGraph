@@ -22,7 +22,7 @@ class GLR_API GLObject : public Object {
     bool      isCreated(State& state) const;
     void      dirty();
     bool      isDirty(State& state) const;
-    GLsizei_t getNbInstances() const;
+    GLsizei_t getNumInstances() const;
 
     bool create(State& state);
     bool update(State& state);

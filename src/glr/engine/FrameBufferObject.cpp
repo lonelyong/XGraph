@@ -28,7 +28,7 @@ FrameBufferObject::~FrameBufferObject() {
 }
 
 void FrameBufferObject::attachRenderBuffer(BufferComponent comp, RenderBuffer* buffer) {
-    if (getNbInstances()) {
+    if (getNumInstances()) {
         throw vine::Exception(vine::Exception::INVALID_OPERATION);
     }
     auto iter = d->components.find(comp);
@@ -39,7 +39,7 @@ void FrameBufferObject::attachRenderBuffer(BufferComponent comp, RenderBuffer* b
 }
 
 void FrameBufferObject::attachTexture(BufferComponent comp, Texture* tex) {
-    if (getNbInstances()) {
+    if (getNumInstances()) {
         throw vine::Exception(vine::Exception::INVALID_OPERATION);
     }
     auto iter = d->components.find(comp);

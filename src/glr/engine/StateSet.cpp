@@ -75,7 +75,7 @@ StateAttribute* StateSet::getAttribute(StateAttribute::Type type) const {
     return nullptr;
 }
 
-size_t StateSet::getNbAttributes() const {
+size_t StateSet::getNumAttributes() const {
     return d->attrs.size();
 }
 StateAttribute* StateSet::getAttributeAt(size_t i) {

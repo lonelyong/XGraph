@@ -24,8 +24,8 @@ void Scene::removeModel(Model* model) {
     removeChild(model);
 }
 
-int Scene::getNbModels() const {
-    return getNbChildren();
+int Scene::getNumModels() const {
+    return getNumChildren();
 }
 Model* Scene::getModelAt(int index) const {
     return vine::obj_cast<Model>(getChildAt(index));

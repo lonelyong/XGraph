@@ -21,7 +21,7 @@ class GLR_API StateSet : public Object {
 
     StateAttribute* getAttribute(StateAttribute::Type type) const;
 
-    size_t          getNbAttributes() const;
+    size_t          getNumAttributes() const;
     StateAttribute* getAttributeAt(size_t i);
 
     Program* getShader() const;

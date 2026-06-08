@@ -23,7 +23,7 @@ Group::~Group() {
     delete d;
 }
 
-int Group::getNbChildren() const {
+int Group::getNumChildren() const {
     return d->child_nodes.size();
 }
 

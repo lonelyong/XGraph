@@ -22,7 +22,7 @@ class GLR_API Viewer : public Object {
     void        setMasterRenderer(Renderer* renderer);
     Renderer*   getMasterRenderer() const;
     void        addRenderer(Renderer* renderer);
-    int         getNbRenderers() const;
+    int         getNumRenderers() const;
     Renderer*   getRendererAt(int idx) const;
     void        removeRenderer(Renderer* renderer);
     void        clearRenderers();

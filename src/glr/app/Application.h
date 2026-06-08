@@ -2,7 +2,9 @@
 
 #include <glr/glr_global.h>
 
-namespace glr {
+namespace glr
+{
+
 struct GLR_API AppParameters {
     int  gl_ver_maj           = 4;
     int  gl_ver_min           = 2;
@@ -20,7 +22,10 @@ class GLR_API Application {
     virtual bool isGlfwInitialized() const;
 
   public:
-    const AppParameters& getParameters() const { return params_; }
+    const AppParameters& getParameters() const
+    {
+        return params_;
+    }
 
   public:
     static Application* current();
@@ -28,4 +33,5 @@ class GLR_API Application {
   private:
     AppParameters params_;
 };
+
 } // namespace glr
