@@ -47,6 +47,7 @@ target_link_libraries(${GLRAPP_TARGET_NAME}
     glfw
     SDL3::SDL3
     Qt6::Core Qt6::Gui Qt6::Widgets Qt6::OpenGL Qt6::OpenGLWidgets
+    opengl32.lib
 )
 
 target_compile_definitions(${GLRAPP_TARGET_NAME}

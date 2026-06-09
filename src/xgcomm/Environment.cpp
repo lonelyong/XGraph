@@ -15,8 +15,17 @@ std::string getApplicationDir()
     char    path[MAX_PATH];
     GetModuleFileNameA(hModule, path, MAX_PATH);
     std::string fullPath(path);
-    size_t      pos = fullPath.find_last_of("\\");
-    return fullPath.substr(0, pos);
+    // 先去掉可执行文件名，得到所在目录
+    size_t pos = fullPath.find_last_of("\\/");
+    if (pos != std::string::npos) {
+        fullPath = fullPath.substr(0, pos);
+    }
+    // 再去掉目录名，得到父级目录
+    pos = fullPath.find_last_of("\\/");
+    if (pos != std::string::npos) {
+        fullPath = fullPath.substr(0, pos);
+    }
+    return fullPath;
 #else
     // todo: MAX_PATH
     char    path[256];
@@ -26,8 +35,17 @@ std::string getApplicationDir()
     }
     path[len] = '\0';
     std::string fullPath(path);
-    size_t      pos = fullPath.find_last_of("/");
-    return fullPath.substr(0, pos);
+    // 先去掉可执行文件名，得到所在目录
+    size_t pos = fullPath.find_last_of("/");
+    if (pos != std::string::npos) {
+        fullPath = fullPath.substr(0, pos);
+    }
+    // 再去掉目录名，得到父级目录
+    pos = fullPath.find_last_of("/");
+    if (pos != std::string::npos) {
+        fullPath = fullPath.substr(0, pos);
+    }
+    return fullPath;
 #endif
 }
 
