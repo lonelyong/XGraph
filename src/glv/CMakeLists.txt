@@ -1,4 +1,4 @@
-﻿set(CURRENT_TARGET_NAME glv)
+﻿set(TARGET_NAME glv)
 
 option(GLV_BUILD_WITH_OSGVERSE "Build with osgVerse." OFF)
 
@@ -32,14 +32,14 @@ file(GLOB SRC_FILES_UTILS utils/*.cpp)
 file(GLOB HEADER_FILES_UTILS utils/*.h)
 
 set(RES_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/res/)
-set(RES_OUTPUT_DIR ${XG_RESOURCE_OUTPUT_DIR}/${CURRENT_TARGET_NAME}/)
+set(RES_OUTPUT_DIR ${XG_RESOURCE_OUTPUT_DIR}/${TARGET_NAME}/)
 set(RES_SHADER_OUTPUT_DIR ${RES_OUTPUT_DIR}shaders/)
 set(RES_IMAGE_OUTPUT_DIR ${RES_OUTPUT_DIR}images/)
 file(GLOB RES_SHADER_FILES ${RES_SRC_DIR}shaders/*.*)
 file(GLOB RES_IMAGE_FILES ${RES_SRC_DIR}images/*.*)
 
 add_executable(
-    ${CURRENT_TARGET_NAME}
+    ${TARGET_NAME}
     ${SRC_FILES} 
     ${HEADER_FILES} 
     ${SRC_FILES_IO} 
@@ -53,7 +53,7 @@ add_executable(
     ${BACKWARD_SRC_FILES}
 )
 
-target_sources(${CURRENT_TARGET_NAME} PRIVATE ${RES_SHADER_FILES} ${RES_IMAGE_FILES})
+target_sources(${TARGET_NAME} PRIVATE ${RES_SHADER_FILES} ${RES_IMAGE_FILES})
 
 source_group(io FILES ${HEADER_FILES_IO} ${SRC_FILES_IO})
 source_group(modeling FILES ${HEADER_FILES_MODELING} ${SRC_FILES_MODELING})
@@ -64,13 +64,13 @@ source_group(res/shaders FILES ${RES_SHADER_FILES})
 source_group(third/backward FILES ${BACKWARD_SRC_FILES})
 
 
-target_include_directories(${CURRENT_TARGET_NAME}
+target_include_directories(${TARGET_NAME}
     PRIVATE 
         ${BACKWARD_INCLUDE_DIR}
         ${GLAD_INCLUDE_DIR}
         
 )
-target_link_libraries(${CURRENT_TARGET_NAME} 
+target_link_libraries(${TARGET_NAME} 
     PRIVATE
         glr-core
         glfw
@@ -86,18 +86,18 @@ target_link_libraries(${CURRENT_TARGET_NAME}
         ${PCL_LIBRARIES}
 )
 
-target_include_directories(${CURRENT_TARGET_NAME} 
+target_include_directories(${TARGET_NAME} 
     PRIVATE
         $<BUILD_INTERFACE:${OSG_INCLUDE_DIR}>
 )
 
 if(GLV_BUILD_WITH_OSGVERSE)
-    target_include_directories(${CURRENT_TARGET_NAME} 
+    target_include_directories(${TARGET_NAME} 
         PRIVATE 
             $<BUILD_INTERFACE:${osgVerse_INCLUDE_DIRS}>
     )
 
-    target_compile_definitions(${CURRENT_TARGET_NAME}
+    target_compile_definitions(${TARGET_NAME}
         PRIVATE 
             GLV_BUILD_WITH_OSGVERSE
 )
@@ -114,20 +114,20 @@ endif()
 #     list(APPEND osgVerse_LIBRARIES osgVerseAI$<$<CONFIG:Debug>:d>)
 # endif()
 
-target_compile_definitions(${CURRENT_TARGET_NAME}
+target_compile_definitions(${TARGET_NAME}
     PRIVATE 
-        XG_MODULE_NAME="${CURRENT_TARGET_NAME}" 
-        XG_RESOURCE_DIR="${XG_RESOURCE_ROOT}${CURRENT_TARGET_NAME}"
+        XG_MODULE_NAME="${TARGET_NAME}" 
+        XG_RESOURCE_DIR="${XG_RESOURCE_ROOT}${TARGET_NAME}"
         GLV_LIB
 )
 
-set_target_properties(${CURRENT_TARGET_NAME} PROPERTIES FOLDER src)
+set_target_properties(${TARGET_NAME} PROPERTIES FOLDER src)
 
-add_custom_command(TARGET ${CURRENT_TARGET_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory ${RES_SHADER_OUTPUT_DIR})
-add_custom_command(TARGET ${CURRENT_TARGET_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory ${RES_IMAGE_OUTPUT_DIR})
+add_custom_command(TARGET ${TARGET_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory ${RES_SHADER_OUTPUT_DIR})
+add_custom_command(TARGET ${TARGET_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory ${RES_IMAGE_OUTPUT_DIR})
 if(RES_SHADER_FILES)
-    add_custom_command(TARGET ${CURRENT_TARGET_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${RES_SHADER_FILES} ${RES_SHADER_OUTPUT_DIR})
+    add_custom_command(TARGET ${TARGET_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${RES_SHADER_FILES} ${RES_SHADER_OUTPUT_DIR})
 endif()
 if(RES_IMAGE_FILES)
-    add_custom_command(TARGET ${CURRENT_TARGET_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${RES_IMAGE_FILES} ${RES_IMAGE_OUTPUT_DIR})
+    add_custom_command(TARGET ${TARGET_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${RES_IMAGE_FILES} ${RES_IMAGE_OUTPUT_DIR})
 endif()

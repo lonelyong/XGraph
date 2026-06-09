@@ -1,11 +1,7 @@
 ﻿#include <iostream>
 
 #include <QApplication>
-
 #include <glm/ext.hpp>
-
-#include <xgcomm/Resources.h>
-#include <xgcomm/Text.h>
 
 #include <glr/app/ExampleModels.h>
 #include <glr/app/GeometryConfigurer.h>
@@ -27,6 +23,8 @@
 #include <glr/io/MeshLoader.h>
 #include <glr/scene/Model.h>
 #include <glr/scene/Scene.h>
+#include <xgcomm/Resources.h>
+#include <xgcomm/Text.h>
 
 #include <glr-app/app/GlfwViewer.h>
 #include <glr-app/app/QtMainWindow.h>
@@ -34,7 +32,8 @@
 #include <glr-app/app/SampleApplication.h>
 #include <glr-app/app/SdlViewer.h>
 
-void CreateSampleScene(glr::Scene* scene) {
+void CreateSampleScene(glr::Scene* scene)
+{
     using namespace glr;
     scene->addModel(ExampleModels::createAxis(20, Vec3d()));
     scene->addModel(ExampleModels::createPointCloud(1000));
@@ -44,7 +43,8 @@ void CreateSampleScene(glr::Scene* scene) {
     scene->addModel(ExampleModels::createImage("F:\\Users\\sa\\Downloads\\1.jpg"));
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char** argv)
+{
     glr::AppParameters params;
     params.mesa_always_software = true;
 
@@ -61,16 +61,12 @@ int main(int argc, char** argv) {
 
 #ifdef GLFW_VIEWER
     glr::GlfwViewer v;
-    if (!v.initialize()) {
-        return -1;
-    }
+    if (!v.initialize()) { return -1; }
     viewer = &v;
 
 #elif defined(SDL_VIEWER)
     glr::SdlViewer v;
-    if (!v.initialize()) {
-        return -1;
-    }
+    if (!v.initialize()) { return -1; }
     viewer = &v;
 #elif defined(RTT_VIEWER)
     glr::Viewer                     v;
@@ -136,11 +132,9 @@ int main(int argc, char** argv) {
         auto file  = xg::local8bitToUtf8(argv[1]);
         auto model = glr::MeshLoader().loadFile(file);
         if (model) {
-            model->getOrCreateStateSet()->setShader(
-                glr::ResourceManager::instance()->getInternalShader(glr::ResourceManager::EXAMPLE_SAHDER_STD_PHONG));
+            model->getOrCreateStateSet()->setShader(glr::ResourceManager::instance()->getInternalShader(glr::ResourceManager::EXAMPLE_SAHDER_STD_PHONG));
             scene->addModel(model);
-            glr::GeometryConfigurer::configureStdPhong((glr::Geometry*)model->getDrawableAt(0),
-                                                       model->getOrCreateStateSet());
+            glr::GeometryConfigurer::configureStdPhong((glr::Geometry*)model->getDrawableAt(0), model->getOrCreateStateSet());
         }
     }
     else {
