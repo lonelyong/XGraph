@@ -5,7 +5,9 @@
 #include <glr/engine/Event.h>
 #include <glr/engine/Object.h>
 
-namespace glr {
+namespace glr
+{
+
 class State;
 class Capabilities;
 class GLfuncs;
@@ -33,6 +35,8 @@ class GLR_API GraphicContext : public Object {
 
   protected:
     GraphicContext();
+
+  public:
     virtual ~GraphicContext();
 
   public:
@@ -51,7 +55,7 @@ class GLR_API GraphicContext : public Object {
 
     GLfuncs* getFuncs() const;
 
-protected:
+  protected:
     virtual GLfuncs* createGLfuncs();
 
   public:
@@ -63,4 +67,5 @@ protected:
   private:
     Data* const d;
 };
+
 } // namespace glr

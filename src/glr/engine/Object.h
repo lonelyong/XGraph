@@ -4,6 +4,7 @@
 
 #include <vine/Class.hpp>
 #include <vine/RefObject.hpp>
+#include <vine/Ptr.hpp>
 
 namespace glr {
 class GLR_API Object : public vine::RefObject {
