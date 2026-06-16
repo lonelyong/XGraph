@@ -18,7 +18,7 @@
 #include <osgViewer/Viewer>
 #include <osgViewer/ViewerEventHandlers>
 
-#ifdef GLV_BUILD_WITH_OSGVERSE
+#ifdef XG_XVIEWER_BUILD_WITH_OSGVERSE
 
 #    include <osgVerse/Pipeline/LightModule.h>
 #    include <osgVerse/Pipeline/Pipeline.h>
@@ -132,7 +132,7 @@ Viewer::Viewer() {
 
     // addSlave(cam_picker_, true, true, true, true);
 
-#ifdef GLV_BUILD_WITH_OSGVERSE
+#ifdef XG_XVIEWER_BUILD_WITH_OSGVERSE
     initPipelineVerse();
 #else
     initPipelineDefault();
@@ -143,7 +143,7 @@ void Viewer::addNode(osg::Node* node) {
     root_node_->addChild(node);
 }
 
-#ifdef GLV_BUILD_WITH_OSGVERSE
+#ifdef XG_XVIEWER_BUILD_WITH_OSGVERSE
 void Viewer::addNodeAsDeferred(osg::Node* node) {
     setAsDeferred(node);
     addNode(node);
@@ -208,7 +208,7 @@ osg::GraphicsContext* Viewer::getGraphicsContext() const {
 void Viewer::initPipelineDefault() {
 }
 
-#ifdef GLV_BUILD_WITH_OSGVERSE
+#ifdef XG_XVIEWER_BUILD_WITH_OSGVERSE
 void Viewer::initPipelineVerse() {
     return;
     // Main light

@@ -1,6 +1,6 @@
-﻿set(TARGET_NAME viewer3d)
+﻿set(TARGET_NAME xviewer)
 
-option(GLV_BUILD_WITH_OSGVERSE "Build with osgVerse." OFF)
+option(XG_XVIEWER_BUILD_WITH_OSGVERSE "Build with osgVerse." OFF)
 
 find_package(OpenSceneGraph CONFIG REQUIRED COMPONENTS osgDB osgText osgGA osgUtil osgViewer)
 find_package(opencascade CONFIG REQUIRED)
@@ -10,7 +10,7 @@ find_package(VTK CONFIG REQUIRED)
 find_package(octomap CONFIG REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets OpenGL OpenGLWidgets)
 
-if(GLV_BUILD_WITH_OSGVERSE)
+if(XG_XVIEWER_BUILD_WITH_OSGVERSE)
     find_package(osgVerse CONFIG REQUIRED)
 endif()
 
@@ -91,7 +91,7 @@ target_include_directories(${TARGET_NAME}
         $<BUILD_INTERFACE:${OSG_INCLUDE_DIR}>
 )
 
-if(GLV_BUILD_WITH_OSGVERSE)
+if(XG_XVIEWER_BUILD_WITH_OSGVERSE)
     target_include_directories(${TARGET_NAME} 
         PRIVATE 
             $<BUILD_INTERFACE:${osgVerse_INCLUDE_DIRS}>
@@ -99,7 +99,7 @@ if(GLV_BUILD_WITH_OSGVERSE)
 
     target_compile_definitions(${TARGET_NAME}
         PRIVATE 
-            GLV_BUILD_WITH_OSGVERSE
+            XG_XVIEWER_BUILD_WITH_OSGVERSE
 )
 endif()
 

@@ -69,7 +69,7 @@ static void initOpenSceneGraph(int argc, char** argv) {
     new_plugin_dir += "\\plugins\\osg";
     paths.insert(paths.begin(), new_plugin_dir);
 
-#ifdef GLV_BUILD_WITH_OSGVERSE
+#ifdef XG_XVIEWER_BUILD_WITH_OSGVERSE
     osgVerse::globalInitialize(argc, argv);
 #endif
 }

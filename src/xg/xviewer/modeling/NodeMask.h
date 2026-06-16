@@ -6,7 +6,7 @@ class Node;
 
 namespace glv {
 
-#ifdef GLV_BUILD_WITH_OSGVERSE
+#ifdef XG_XVIEWER_BUILD_WITH_OSGVERSE
 
 extern const int NODE_MASK_DEFERRED_SCENE;
 extern const int NODE_MASK_FORWARD_SCENE;

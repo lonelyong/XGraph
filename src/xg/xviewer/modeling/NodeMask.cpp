@@ -2,16 +2,16 @@
 
 #include <osg/Node>
 
-#ifdef GLV_BUILD_WITH_OSGVERSE
+#ifdef XG_XVIEWER_BUILD_WITH_OSGVERSE
 
 #    include <osgVerse/pipeline/Pipeline.h>
 
-#endif // GLV_BUILD_WITH_OSGVERSE
+#endif // XG_XVIEWER_BUILD_WITH_OSGVERSE
 
 
 namespace glv {
 
-#ifdef GLV_BUILD_WITH_OSGVERSE
+#ifdef XG_XVIEWER_BUILD_WITH_OSGVERSE
 const int NODE_MASK_DEFERRED_SCENE = DEFERRED_SCENE_MASK;
 const int NODE_MASK_FORWARD_SCENE  = FORWARD_SCENE_MASK;
 const int NODE_MASK_SHADOW_CASTER  = SHADOW_CASTER_MASK;
@@ -52,7 +52,7 @@ void setAsShadowCaster(osg::Node* node, bool val) {
     }
     node->setNodeMask(mask);
 }
-#endif // GLV_BUILD_WITH_OSGVERSE
+#endif // XG_XVIEWER_BUILD_WITH_OSGVERSE
 
 
 

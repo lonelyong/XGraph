@@ -4,11 +4,11 @@
 
 #include "CameraPicker.h"
 
-#ifdef GLV_BUILD_WITH_OSGVERSE
+#ifdef XG_XVIEWER_BUILD_WITH_OSGVERSE
 namespace osgVerse {
 class Pipeline;
 }
-#endif // GLV_BUILD_WITH_OSGVERSE
+#endif // XG_XVIEWER_BUILD_WITH_OSGVERSE
 
 namespace osg {
 class Node;
@@ -25,7 +25,7 @@ class Viewer : public osgViewer::Viewer {
 
   public:
     void addNode(osg::Node* node);
-#ifdef GLV_BUILD_WITH_OSGVERSE
+#ifdef XG_XVIEWER_BUILD_WITH_OSGVERSE
     void addNodeAsDeferred(osg::Node* node);
     void addNodeAsForward(osg::Node* node);
     void addNodeAsCustom(osg::Node* node);
@@ -42,16 +42,16 @@ class Viewer : public osgViewer::Viewer {
 
   private:
     void initPipelineDefault();
-#ifdef GLV_BUILD_WITH_OSGVERSE
+#ifdef XG_XVIEWER_BUILD_WITH_OSGVERSE
     void initPipelineVerse();
-#endif // GLV_BUILD_WITH_OSGVERSE
+#endif // XG_XVIEWER_BUILD_WITH_OSGVERSE
 
   private:
     osg::ref_ptr<osg::GraphicsContext> gc_;
     osg::ref_ptr<osg::Group>           root_node_;
     osg::ref_ptr<CameraPicker>         cam_picker_;
 
-#ifdef GLV_BUILD_WITH_OSGVERSE
+#ifdef XG_XVIEWER_BUILD_WITH_OSGVERSE
     osg::ref_ptr<osgVerse::Pipeline> pipeline_;
 #endif
 };
