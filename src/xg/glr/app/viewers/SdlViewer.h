@@ -4,6 +4,7 @@
 
 #include <xg/glr/app/Viewer.h>
 
+namespace xg {
 namespace glr {
 class Viewer;
 
@@ -22,4 +23,5 @@ class  SdlViewer : public Viewer{
     struct Data;
     Data* const d;
 };
-}; // namespace glr
+} // namespace glr
+} // namespace xg 

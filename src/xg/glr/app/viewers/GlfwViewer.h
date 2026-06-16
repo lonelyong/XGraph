@@ -5,6 +5,7 @@
 #include <xg/glr/app/Viewer.h>
 #include <xg/glr/engine/GraphicContext.h>
 
+namespace xg {
 namespace glr {
 class Viewer;
 
@@ -47,4 +48,5 @@ class  GlfwViewer : public Viewer {
     struct Data;
     Data* const d;
 };
-}; // namespace glr
+} // namespace glr
+} // namespace xg

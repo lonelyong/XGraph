@@ -6,6 +6,7 @@
 
 #include <xg/glr/app/Viewer.h>
 
+namespace xg {
 namespace glr {
 class Viewer;
 class QtViewer : public QOpenGLWidget, public Viewer {
@@ -33,3 +34,4 @@ class QtViewer : public QOpenGLWidget, public Viewer {
     Data* const d;
 };
 } // namespace glr
+} // namespace xg

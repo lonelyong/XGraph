@@ -7,7 +7,11 @@ add_library(${TARGET_NAME} STATIC ${SDK_FILES} ${SRC_FILES})
 add_library(${XG_SHARED_LIBRARY_PREFIX}::${TARGET_NAME} ALIAS ${TARGET_NAME})
 
 set_target_properties(${TARGET_NAME} PROPERTIES FOLDER src)
-target_include_directories(${TARGET_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/sdk> $<INSTALL_INTERFACE:include>)
+target_include_directories(${TARGET_NAME}
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/sdk>
+        $<INSTALL_INTERFACE:include>
+)
 
 # target_sources(${TARGET_NAME} FILE_SET SDK_FILES BASE_DIRS ${CMAKE_CURRENT_LIST_DIR})
 

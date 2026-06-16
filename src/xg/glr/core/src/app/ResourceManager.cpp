@@ -1,4 +1,4 @@
-﻿#include <xg/glr/app/ResourceManager.h>
+﻿#include <xg/glr/app/ResourceManager.hpp>
 
 #include <map>
 

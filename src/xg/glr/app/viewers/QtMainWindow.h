@@ -4,6 +4,7 @@
 
 #include <QMainWindow>
 
+namespace xg {
 namespace glr {
 class QtViewer;
 class  QtMainWindow : public QMainWindow {
@@ -20,3 +21,4 @@ class  QtMainWindow : public QMainWindow {
     Data* const d;
 };
 } // namespace glr
+} // namespace xg

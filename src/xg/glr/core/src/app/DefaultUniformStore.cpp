@@ -1,4 +1,4 @@
-﻿#include <xg/glr/app/DefaultUniformStore.h>
+﻿#include <xg/glr/app/DefaultUniformStore.hpp>
 
 #include <xg/glr/engine/Uniform.h>
 

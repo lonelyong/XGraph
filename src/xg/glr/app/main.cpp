@@ -26,13 +26,13 @@
 #include <xgcomm/Resources.h>
 #include <xgcomm/Text.h>
 
-#include <glr-app/app/GlfwViewer.h>
-#include <glr-app/app/QtMainWindow.h>
-#include <glr-app/app/QtViewer.h>
-#include <glr-app/app/SampleApplication.h>
-#include <glr-app/app/SdlViewer.h>
+#include "viewers/GlfwViewer.h"
+#include "viewers/QtMainWindow.h"
+#include "viewers/QtViewer.h"
+#include "viewers/SampleApplication.h"
+#include "viewers/SdlViewer.h"
 
-namespace xg {
+using namespace xg;
 
 void CreateSampleScene(glr::Scene* scene)
 {
@@ -177,5 +177,3 @@ int main(int argc, char** argv)
 #endif
     return 0;
 }
-
-} // namespace xg

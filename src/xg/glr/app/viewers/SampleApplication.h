@@ -2,7 +2,10 @@
 
 #include <xg/glr/app/Application.h>
 
-namespace glr {
+namespace xg
+{
+namespace glr
+{
 
 class SampleApplication : public glr::Application {
   public:
@@ -13,4 +16,6 @@ class SampleApplication : public glr::Application {
 
     virtual bool isQtInitialized() const;
 };
+
 } // namespace glr
+} // namespace xg

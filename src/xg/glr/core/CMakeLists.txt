@@ -47,6 +47,9 @@ source_group(TREE ${CMAKE_SOURCE_DIR} FILES ${GLAD_HEADER_AND_SRC_FILES})
 # source_group(third/glad FILES ${GLAD_HEADER_AND_SRC_FILES})
 
 target_include_directories(${TARGET_NAME}
+    PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/sdk>
+    $<INSTALL_INTERFACE:include>
     PRIVATE
     ${GLAD_INCLUDE_DIR}
     ${STB_INCLUDE_DIR}
@@ -90,6 +93,7 @@ install(
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} # for executables(including .dll on Windows)
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} # for shared libraries(.so for Linux)
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}) # for static libraries(.a .lib)(including dll import library)
+install(DIRECTORY sdk/ DESTINATION ${CMAKE_INSTALL_PREFIX}/install/)
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/res/ DESTINATION ${CMAKE_INSTALL_PREFIX}/${XG_RES_ROOT}${TARGET_NAME}/)
 
 # get_target_property(WINDEPLOYQT_EXE Qt6::windeployqt IMPORTED_LOCATION)

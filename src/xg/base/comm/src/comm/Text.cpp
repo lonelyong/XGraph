@@ -1,4 +1,4 @@
-﻿#include <xg/comm/Text.h>
+﻿#include <xg/comm/Text.hpp>
 
 #include <codecvt>
 #include <cstring>
