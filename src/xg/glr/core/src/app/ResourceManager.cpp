@@ -4,8 +4,8 @@
 
 #include <vine/Ptr.hpp>
 
-#include <xgcomm/Environment.h>
-#include <xgcomm/Resources.h>
+#include <xg/comm/Environment.hpp>
+#include <xg/comm/Resources.hpp>
 
 #include <xg/glr/engine/CubeMap.hpp>
 #include <xg/glr/engine/Program.hpp>
