@@ -5,15 +5,15 @@
 # Commands may need to know the format version.
 set(CMAKE_IMPORT_FILE_VERSION 1)
 
-# Import target "xg::xgcomm" for configuration "Debug"
-set_property(TARGET xg::xgcomm APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
-set_target_properties(xg::xgcomm PROPERTIES
+# Import target "xg::comm" for configuration "Debug"
+set_property(TARGET xg::comm APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
+set_target_properties(xg::comm PROPERTIES
   IMPORTED_LINK_INTERFACE_LANGUAGES_DEBUG "CXX"
-  IMPORTED_LOCATION_DEBUG "${_IMPORT_PREFIX}/lib/xgcomm.lib"
+  IMPORTED_LOCATION_DEBUG "${_IMPORT_PREFIX}/lib/comm.lib"
   )
 
-list(APPEND _cmake_import_check_targets xg::xgcomm )
-list(APPEND _cmake_import_check_files_for_xg::xgcomm "${_IMPORT_PREFIX}/lib/xgcomm.lib" )
+list(APPEND _cmake_import_check_targets xg::comm )
+list(APPEND _cmake_import_check_files_for_xg::comm "${_IMPORT_PREFIX}/lib/comm.lib" )
 
 # Import target "xg::glr-core" for configuration "Debug"
 set_property(TARGET xg::glr-core APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)

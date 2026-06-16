@@ -5,7 +5,7 @@
 #include <QApplication>
 #include <QSurfaceFormat>
 
-#include <xgcomm/Environment.hpp>
+#include <xg/comm/Environment.hpp>
 
 namespace xg {
 namespace glr {

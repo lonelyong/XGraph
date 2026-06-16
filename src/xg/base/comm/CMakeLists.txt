@@ -25,4 +25,4 @@ install(
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} # for shared libraries(.so for Linux)
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}) # for static libraries(.a .lib)(including dll import library)
 
-install(FILES ${SDK_FILES} DESTINATION ${CMAKE_INSTALL_PREFIX}/include/${TARGET_NAME}/)
+install(DIRECTORY sdk/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include/)

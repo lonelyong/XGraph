@@ -5,7 +5,7 @@
 
 #include <vine/Ptr.hpp>
 
-#include <xgcomm/Text.h>
+#include <xg/comm/Text.hpp>
 
 #include <xg/glr/engine/State.hpp>
 #include <xg/glr/igl/GLfuncs.hpp>

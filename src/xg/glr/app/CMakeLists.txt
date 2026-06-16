@@ -52,7 +52,7 @@ target_include_directories(${TARGET_NAME}
 target_link_libraries(${TARGET_NAME}
     PRIVATE
     xg::glr-core
-    xgcomm
+    xg::comm
     glfw
     SDL3::SDL3
     Qt6::Core Qt6::Gui Qt6::Widgets Qt6::OpenGL Qt6::OpenGLWidgets

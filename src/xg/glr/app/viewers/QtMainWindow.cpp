@@ -1,9 +1,9 @@
-﻿#include "QtMainWindow.h"
+﻿#include "QtMainWindow.hpp"
 
 #include <QMenuBar>
 #include <QStatusBar>
 
-#include "QtViewer.h"
+#include "QtViewer.hpp"
 
 
 namespace xg {

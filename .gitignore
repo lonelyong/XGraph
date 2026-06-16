@@ -2,5 +2,6 @@
 /build
 /vsc_build
 /.vscode
+/install
 
 .clangd

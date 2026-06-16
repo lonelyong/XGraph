@@ -1,4 +1,4 @@
-﻿#include "QtViewer.h"
+﻿#include "QtViewer.hpp"
 
 #include <QApplication>
 #include <QMouseEvent>

@@ -19,7 +19,7 @@ set(CMAKE_IMPORT_FILE_VERSION 1)
 set(_cmake_targets_defined "")
 set(_cmake_targets_not_defined "")
 set(_cmake_expected_targets "")
-foreach(_cmake_expected_target IN ITEMS xg::xgcomm xg::glr-core xg::glr-app)
+foreach(_cmake_expected_target IN ITEMS xg::comm xg::glr-core xg::glr-app)
   list(APPEND _cmake_expected_targets "${_cmake_expected_target}")
   if(TARGET "${_cmake_expected_target}")
     list(APPEND _cmake_targets_defined "${_cmake_expected_target}")
@@ -55,10 +55,10 @@ if(_IMPORT_PREFIX STREQUAL "/")
   set(_IMPORT_PREFIX "")
 endif()
 
-# Create imported target xg::xgcomm
-add_library(xg::xgcomm STATIC IMPORTED)
+# Create imported target xg::comm
+add_library(xg::comm STATIC IMPORTED)
 
-set_target_properties(xg::xgcomm PROPERTIES
+set_target_properties(xg::comm PROPERTIES
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
 )
 
@@ -66,6 +66,7 @@ set_target_properties(xg::xgcomm PROPERTIES
 add_library(xg::glr-core SHARED IMPORTED)
 
 set_target_properties(xg::glr-core PROPERTIES
+  INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
   INTERFACE_LINK_LIBRARIES "glm::glm;vi::Core;vi::Math"
 )
 

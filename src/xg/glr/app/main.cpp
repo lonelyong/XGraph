@@ -23,8 +23,8 @@
 #include <xg/glr/io/MeshLoader.hpp>
 #include <xg/glr/scene/Model.hpp>
 #include <xg/glr/scene/Scene.hpp>
-#include <xgcomm/Resources.hpp>
-#include <xgcomm/Text.hpp>
+#include <xg/comm/Resources.hpp>
+#include <xg/comm/Text.hpp>
 
 #include "viewers/GlfwViewer.hpp"
 #include "viewers/QtMainWindow.hpp"

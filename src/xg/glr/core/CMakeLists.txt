@@ -56,9 +56,10 @@ target_include_directories(${TARGET_NAME}
 )
 
 target_link_libraries(${TARGET_NAME}
-    PRIVATE
+    PUBLIC
     glm::glm
     vi::Core vi::Math
+    PRIVATE
     xg::comm
     glfw
     assimp::assimp
@@ -93,7 +94,7 @@ install(
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} # for executables(including .dll on Windows)
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} # for shared libraries(.so for Linux)
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}) # for static libraries(.a .lib)(including dll import library)
-install(DIRECTORY sdk/ DESTINATION ${CMAKE_INSTALL_PREFIX}/install/)
+install(DIRECTORY sdk/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include/)
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/res/ DESTINATION ${CMAKE_INSTALL_PREFIX}/${XG_RES_ROOT}${TARGET_NAME}/)
 
 # get_target_property(WINDEPLOYQT_EXE Qt6::windeployqt IMPORTED_LOCATION)
