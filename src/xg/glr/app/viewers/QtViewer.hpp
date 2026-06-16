@@ -4,7 +4,7 @@
 
 #include <QOpenGLWidget>
 
-#include <xg/glr/app/Viewer.h>
+#include <xg/glr/app/Viewer.hpp>
 
 namespace xg {
 namespace glr {

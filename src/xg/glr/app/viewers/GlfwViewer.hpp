@@ -2,8 +2,8 @@
 
 #include <xg/glr/glr_global.hpp>
 
-#include <xg/glr/app/Viewer.h>
-#include <xg/glr/engine/GraphicContext.h>
+#include <xg/glr/app/Viewer.hpp>
+#include <xg/glr/engine/GraphicContext.hpp>
 
 namespace xg {
 namespace glr {

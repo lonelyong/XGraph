@@ -4,7 +4,7 @@
 
 #include <vector>
 
-#include <xg/glr/engine/ArrayBuffer.h>
+#include <xg/glr/engine/ArrayBuffer.hpp>
 
 namespace xg {
 namespace glr {

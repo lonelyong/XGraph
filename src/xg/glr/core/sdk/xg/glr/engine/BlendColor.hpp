@@ -1,8 +1,8 @@
 #pragma once
 
-#include <xg/glr/engine/StateAttribute.h>
+#include <xg/glr/engine/StateAttribute.hpp>
 
-#include <xg/glr/engine/types.h>
+#include <xg/glr/engine/types.hpp>
 
 namespace xg {
 namespace glr {

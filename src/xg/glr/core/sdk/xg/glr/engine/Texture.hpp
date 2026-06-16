@@ -2,7 +2,7 @@
 
 #include <xg/glr/glr_global.hpp>
 
-#include <xg/glr/engine/PixelData.h>
+#include <xg/glr/engine/PixelData.hpp>
 
 namespace xg {
 namespace glr {

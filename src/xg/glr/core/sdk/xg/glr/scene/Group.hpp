@@ -3,7 +3,7 @@
 
 #include <xg/glr/glr_global.hpp>
 
-#include <xg/glr/scene/Node.h>
+#include <xg/glr/scene/Node.hpp>
 
 namespace xg {
 namespace glr {

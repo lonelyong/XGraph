@@ -6,13 +6,13 @@
 
 #include <vine/Ptr.hpp>
 
-#include <xg/glr/app/Viewer.h>
-#include <xg/glr/engine/Camera.h>
-#include <xg/glr/engine/CameraManipulator.h>
-#include <xg/glr/engine/Event.h>
-#include <xg/glr/engine/GraphicContext.h>
-#include <xg/glr/engine/Renderer.h>
-#include <xg/glr/igl/GLfuncs.h>
+#include <xg/glr/app/Viewer.hpp>
+#include <xg/glr/engine/Camera.hpp>
+#include <xg/glr/engine/CameraManipulator.hpp>
+#include <xg/glr/engine/Event.hpp>
+#include <xg/glr/engine/GraphicContext.hpp>
+#include <xg/glr/engine/Renderer.hpp>
+#include <xg/glr/igl/GLfuncs.hpp>
 
 namespace xg {
 namespace glr {

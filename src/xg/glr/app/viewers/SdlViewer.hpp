@@ -2,7 +2,7 @@
 
 #include <xg/glr/glr_global.hpp>
 
-#include <xg/glr/app/Viewer.h>
+#include <xg/glr/app/Viewer.hpp>
 
 namespace xg {
 namespace glr {

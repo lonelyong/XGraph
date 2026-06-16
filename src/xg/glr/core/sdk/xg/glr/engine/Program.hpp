@@ -4,7 +4,7 @@
 
 #include <string>
 
-#include <xg/glr/engine/GLObject.h>
+#include <xg/glr/engine/GLObject.hpp>
 
 namespace xg {
 namespace glr {

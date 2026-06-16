@@ -1,9 +1,9 @@
 ﻿#include <xg/glr/app/GeometryConfigurer.hpp>
 
-#include <xg/glr/engine/StateSet.h>
-#include <xg/glr/engine/Subroutine.h>
-#include <xg/glr/engine/Texture.h>
-#include <xg/glr/scene/Geometry.h>
+#include <xg/glr/engine/StateSet.hpp>
+#include <xg/glr/engine/Subroutine.hpp>
+#include <xg/glr/engine/Texture.hpp>
+#include <xg/glr/scene/Geometry.hpp>
 
 namespace xg {
 namespace glr {

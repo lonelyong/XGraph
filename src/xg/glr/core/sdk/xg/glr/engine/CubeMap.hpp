@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include <xg/glr/engine/Texture.h>
+#include <xg/glr/engine/Texture.hpp>
 
 namespace xg {
 namespace glr {

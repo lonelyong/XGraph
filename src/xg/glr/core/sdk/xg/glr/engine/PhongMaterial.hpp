@@ -4,8 +4,8 @@
 
 #include <string>
 
-#include <xg/glr/engine/UniformBase.h>
-#include <xg/glr/engine/types.h>
+#include <xg/glr/engine/UniformBase.hpp>
+#include <xg/glr/engine/types.hpp>
 
 namespace xg {
 namespace glr {

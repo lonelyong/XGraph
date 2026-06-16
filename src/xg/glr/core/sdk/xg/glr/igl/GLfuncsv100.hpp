@@ -2,7 +2,7 @@
 
 #include <xg/glr/glr_global.hpp>
 
-#include <xg/glr/igl/GLdefs.h>
+#include <xg/glr/igl/GLdefs.hpp>
 
 
 #if defined(_WIN32) && !defined(APIENTRY) && !defined(__CYGWIN__) && !defined(__SCITECH_SNAP__)

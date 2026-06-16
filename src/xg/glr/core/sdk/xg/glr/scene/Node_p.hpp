@@ -4,8 +4,8 @@
 
 #include <vector>
 
-#include <xg/glr/engine/StateSet.h>
-#include <xg/glr/scene/BoundingBox.h>
+#include <xg/glr/engine/StateSet.hpp>
+#include <xg/glr/scene/BoundingBox.hpp>
 
 namespace xg {
 namespace glr {

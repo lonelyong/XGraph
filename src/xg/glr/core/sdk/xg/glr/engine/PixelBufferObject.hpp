@@ -2,7 +2,7 @@
 
 #include <xg/glr/glr_global.hpp>
 
-#include <xg/glr/engine/BufferObject.h>
+#include <xg/glr/engine/BufferObject.hpp>
 
 namespace xg {
 namespace glr {

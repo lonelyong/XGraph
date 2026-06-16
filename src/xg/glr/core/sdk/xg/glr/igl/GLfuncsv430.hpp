@@ -1,6 +1,6 @@
 #pragma once
 
-#include <xg/glr/igl/GLfuncsv420.h>
+#include <xg/glr/igl/GLfuncsv420.hpp>
 
 namespace xg {
 namespace glr {

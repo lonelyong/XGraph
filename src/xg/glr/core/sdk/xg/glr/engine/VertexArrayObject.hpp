@@ -2,7 +2,7 @@
 
 #include <xg/glr/glr_global.hpp>
 
-#include <xg/glr/engine/BindableObject.h>
+#include <xg/glr/engine/BindableObject.hpp>
 
 namespace xg {
 namespace glr {

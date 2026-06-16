@@ -2,7 +2,7 @@
 
 #include <xg/glr/glr_global.hpp>
 
-#include <xg/glr/engine/Renderer.h>
+#include <xg/glr/engine/Renderer.hpp>
 
 namespace xg {
 namespace glr {

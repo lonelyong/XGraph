@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include <xg/glr/app/Application.h>
+#include <xg/glr/app/Application.hpp>
 
 namespace xg
 {

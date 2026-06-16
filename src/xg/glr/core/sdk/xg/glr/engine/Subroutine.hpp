@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include <xg/glr/engine/UniformBase.h>
+#include <xg/glr/engine/UniformBase.hpp>
 
 namespace xg {
 namespace glr {

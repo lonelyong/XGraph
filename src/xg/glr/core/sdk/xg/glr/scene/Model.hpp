@@ -2,7 +2,7 @@
 
 #include <xg/glr/glr_global.hpp>
 
-#include <xg/glr/scene/Group.h>
+#include <xg/glr/scene/Group.hpp>
 
 namespace xg {
 namespace glr {

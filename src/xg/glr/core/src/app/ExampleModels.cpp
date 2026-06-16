@@ -4,18 +4,18 @@
 
 #include <vine/math/Rect2.hpp>
 
-#include <xg/glr/app/ResourceManager.h>
-#include <xg/glr/engine/CubeMap.h>
-#include <xg/glr/engine/SkyBox.h>
-#include <xg/glr/engine/StateSet.h>
-#include <xg/glr/engine/Subroutine.h>
-#include <xg/glr/engine/Texture2D.h>
-#include <xg/glr/engine/Uniform.h>
-#include <xg/glr/scene/Geometry.h>
-#include <xg/glr/scene/Model.h>
+#include <xg/glr/app/ResourceManager.hpp>
+#include <xg/glr/engine/CubeMap.hpp>
+#include <xg/glr/engine/SkyBox.hpp>
+#include <xg/glr/engine/StateSet.hpp>
+#include <xg/glr/engine/Subroutine.hpp>
+#include <xg/glr/engine/Texture2D.hpp>
+#include <xg/glr/engine/Uniform.hpp>
+#include <xg/glr/scene/Geometry.hpp>
+#include <xg/glr/scene/Model.hpp>
 
-#include <xg/glr/app/DefaultUniformStore.h>
-#include <xg/glr/app/GeometryConfigurer.h>
+#include <xg/glr/app/DefaultUniformStore.hpp>
+#include <xg/glr/app/GeometryConfigurer.hpp>
 
 namespace xg {
 namespace glr {

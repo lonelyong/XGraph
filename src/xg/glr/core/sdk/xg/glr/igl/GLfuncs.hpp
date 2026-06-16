@@ -2,9 +2,9 @@
 
 #include <xg/glr/glr_global.hpp>
 
-#include <xg/glr/igl/GLdefs.h>
-#include <xg/glr/igl/GLfuncsArb.h>
-#include <xg/glr/igl/GLfuncsv460.h>
+#include <xg/glr/igl/GLdefs.hpp>
+#include <xg/glr/igl/GLfuncsArb.hpp>
+#include <xg/glr/igl/GLfuncsv460.hpp>
 
 namespace xg {
 namespace glr {

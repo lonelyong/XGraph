@@ -9,9 +9,9 @@
 
 #include <vine/math/Rect2.hpp>
 
-#include <xg/glr/engine/ArrayBuffer.h>
-#include <xg/glr/scene/Drawable.h>
-#include <xg/glr/scene/PrimitiveSet.h>
+#include <xg/glr/engine/ArrayBuffer.hpp>
+#include <xg/glr/scene/Drawable.hpp>
+#include <xg/glr/scene/PrimitiveSet.hpp>
 
 namespace xg {
 namespace glr

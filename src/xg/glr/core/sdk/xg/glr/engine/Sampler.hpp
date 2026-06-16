@@ -2,9 +2,9 @@
 
 #include <xg/glr/glr_global.hpp>
 
-#include <xg/glr/engine/StateAttribute.h>
-#include <xg/glr/engine/Texture.h>
-#include <xg/glr/engine/types.h>
+#include <xg/glr/engine/StateAttribute.hpp>
+#include <xg/glr/engine/Texture.hpp>
+#include <xg/glr/engine/types.hpp>
 
 namespace xg {
 namespace glr {

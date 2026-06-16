@@ -2,7 +2,7 @@
 
 #include <xg/glr/glr_global.hpp>
 
-#include <xg/glr/engine/EventReceiver.h>
+#include <xg/glr/engine/EventReceiver.hpp>
 
 namespace xg {
 namespace glr {

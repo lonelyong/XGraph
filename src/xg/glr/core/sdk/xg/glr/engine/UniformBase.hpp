@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include <xg/glr/engine/StateAttribute.h>
+#include <xg/glr/engine/StateAttribute.hpp>
 
 namespace xg {
 namespace glr {

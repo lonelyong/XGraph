@@ -2,8 +2,8 @@
 
 #include <xg/glr/glr_global.hpp>
 
-#include <xg/glr/engine/Object.h>
-#include <xg/glr/engine/types.h>
+#include <xg/glr/engine/Object.hpp>
+#include <xg/glr/engine/types.hpp>
 
 namespace xg {
 namespace glr {

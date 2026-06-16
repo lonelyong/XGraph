@@ -2,8 +2,8 @@
 
 #include <xg/glr/glr_global.hpp>
 
-#include <xg/glr/engine/BindableObject.h>
-#include <xg/glr/engine/State.h>
+#include <xg/glr/engine/BindableObject.hpp>
+#include <xg/glr/engine/State.hpp>
 
 namespace xg {
 namespace glr {
