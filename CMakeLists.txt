@@ -16,10 +16,11 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-set(XG_RESOURCE_OUTPUT_DIR ${CMAKE_BINARY_DIR}/res/)
-set(XG_RESOURCE_ROOT res/)
+set(XG_SHARED_LIBRARY_PREFIX xg)
+set(XG_RES_ROOT res/)
+set(XG_RES_OUTPUT_DIR_BUILD ${CMAKE_BINARY_DIR}/${XG_RES_ROOT})
 
-add_definitions(-DXG_RESOURCE_ROOT="${XG_RESOURCE_ROOT}")
+add_definitions(-DXG_RES_ROOT="${XG_RES_ROOT}")
 
 if(WIN32)
     add_definitions(-DUNICODE -D_UNICODE)
@@ -32,9 +33,25 @@ include(XGraphThirdParty)
 
 add_subdirectory(src)
 
+# tests
 if(XG_BUILD_TEST)
     enable_testing()
     add_subdirectory(tests)
 endif()
 
-#configure_file(".clang-format" ${CMAKE_BINARY_DIR} COPYONLY)
+include(CMakePackageConfigHelpers)
+
+# configure VineConfig.cmake
+configure_package_config_file(${CMAKE_SOURCE_DIR}/cmake/XGraphConfig.cmake.in
+    "${CMAKE_BINARY_DIR}/XGraphConfig.cmake" # The output file
+    INSTALL_DESTINATION lib/cmake/vine # The install location for the generated config file, relative to CMAKE_INSTALL_PREFIX
+)
+install(
+    FILES
+    "${CMAKE_BINARY_DIR}/XGraphConfig.cmake"
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/XGraph
+)
+install(EXPORT XGraphTargets
+    NAMESPACE ${XG_SHARED_LIBRARY_PREFIX}::
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/XGraph
+)

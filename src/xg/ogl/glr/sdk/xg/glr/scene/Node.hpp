@@ -1,0 +1,42 @@
+﻿#pragma once
+
+#include <xg/glr/glr_global.h>
+
+#include <xg/glr/engine/EventReceiver.h>
+#include <xg/glr/scene/BoundingBox.h>
+
+namespace glr {
+class StateSet;
+class Group;
+class NodePrivate;
+class GLR_API Node : public EventReceiver {
+    V_OBJECT_META_DECL
+    friend class Group;
+
+  public:
+    Node();
+    ~Node();
+
+  public:
+    Mat4d getMatrix() const;
+    void  setMatrix(const Mat4d& mat);
+
+    StateSet* getOrCreateStateSet();
+    StateSet* getStateSet();
+
+    int   getNumParents() const;
+    Node* getParentAt(int idx) const;
+
+    BoundingBox getBoundingBox() const;
+
+    void setBoundingBox(const BoundingBox& bb);
+
+    void dirtyBound();
+
+  protected:
+    virtual void onComputeBoundingBox(BoundingBox& bb) const;
+
+  private:
+    NodePrivate* const d;
+};
+} // namespace glr

@@ -1,0 +1,4 @@
+
+include("${CMAKE_CURRENT_LIST_DIR}/XGraphTargets.cmake")
+#include("${CMAKE_CURRENT_LIST_DIR}/XGraphTargets-debug.cmake")
+#include("${CMAKE_CURRENT_LIST_DIR}/XGraphTargets-release.cmake")
