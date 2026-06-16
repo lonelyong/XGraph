@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include <glv/glv_global.h>
+#include <glv/xviewer_global.h>
 
 namespace glv {
 struct AppParameters {

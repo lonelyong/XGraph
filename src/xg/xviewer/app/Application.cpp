@@ -17,8 +17,8 @@
 extern "C" {
 // Hint to Hybrid laptop drivers that our app would really rather use the NVidia/AMD GPU that you've got
 // sitting over there rather than Intel Graphics...
-GLV_API unsigned int NvOptimusEnablement                  = 0x00000001;
-GLV_API int          AmdPowerXpressRequestHighPerformance = 1;
+XVIEWER_API unsigned int NvOptimusEnablement                  = 0x00000001;
+XVIEWER_API int          AmdPowerXpressRequestHighPerformance = 1;
 }
 
 namespace glv {

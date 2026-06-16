@@ -118,7 +118,7 @@ target_compile_definitions(${TARGET_NAME}
     PRIVATE 
         XG_MODULE_NAME="${TARGET_NAME}" 
         XG_RESOURCE_DIR="${XG_RES_ROOT}${TARGET_NAME}"
-        GLV_LIB
+        XVIEWER_LIB
 )
 
 set_target_properties(${TARGET_NAME} PROPERTIES FOLDER src)
