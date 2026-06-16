@@ -1,7 +1,7 @@
 ﻿#pragma once
 #ifdef _WIN32
 
-#    include <glr/glr_global.h>
+#    include <glr/glr_global.hpp>
 
 #    include <Windows.h>
 

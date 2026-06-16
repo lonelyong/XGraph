@@ -1,8 +1,8 @@
 ﻿#pragma once
 
-#include <xg/glr/glr_global.h>
+#include <xg/glr/glr_global.hpp>
 
-#include <xg/glr/engine/types.h>
+#include <xg/glr/engine/types.hpp>
 
 namespace xg {
 namespace glr {

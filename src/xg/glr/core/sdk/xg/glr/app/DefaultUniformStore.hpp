@@ -1,8 +1,8 @@
 ﻿#pragma once
 
-#include <xg/glr/glr_global.h>
+#include <xg/glr/glr_global.hpp>
 
-#include <xg/glr/app/UniformStore.h>
+#include <xg/glr/app/UniformStore.hpp>
 
 namespace xg {
 namespace glr {

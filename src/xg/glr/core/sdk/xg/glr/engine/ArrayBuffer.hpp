@@ -2,8 +2,8 @@
 
 #include <iterator>
 
-#include <xg/glr/engine/BufferObject.h>
-#include <xg/glr/engine/types.h>
+#include <xg/glr/engine/BufferObject.hpp>
+#include <xg/glr/engine/types.hpp>
 
 namespace xg {
 namespace glr

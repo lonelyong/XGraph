@@ -1,10 +1,10 @@
 ﻿#pragma once
 
-#include <xg/glr/glr_global.h>
+#include <xg/glr/glr_global.hpp>
 
 #include <string>
 
-#include <xg/glr/engine/Object.h>
+#include <xg/glr/engine/Object.hpp>
 
 namespace xg {
 namespace glr {
