@@ -1,0 +1,181 @@
+﻿#include <iostream>
+
+#include <QApplication>
+#include <glm/ext.hpp>
+
+#include <xg/glr/app/ExampleModels.h>
+#include <xg/glr/app/GeometryConfigurer.h>
+#include <xg/glr/app/ResourceManager.h>
+#include <xg/glr/app/Viewer.h>
+#include <xg/glr/engine/Camera.h>
+#include <xg/glr/engine/CameraManipulator.h>
+#include <xg/glr/engine/Depth.h>
+#include <xg/glr/engine/FrameBufferObject.h>
+#include <xg/glr/engine/GraphicContext.h>
+#include <xg/glr/engine/PhongLight.h>
+#include <xg/glr/engine/PhongMaterial.h>
+#include <xg/glr/engine/Renderer.h>
+#include <xg/glr/engine/RttRenderer.h>
+#include <xg/glr/engine/State.h>
+#include <xg/glr/engine/StateSet.h>
+#include <xg/glr/engine/Texture2D.h>
+#include <xg/glr/engine/Uniform.h>
+#include <xg/glr/io/MeshLoader.h>
+#include <xg/glr/scene/Model.h>
+#include <xg/glr/scene/Scene.h>
+#include <xgcomm/Resources.h>
+#include <xgcomm/Text.h>
+
+#include <glr-app/app/GlfwViewer.h>
+#include <glr-app/app/QtMainWindow.h>
+#include <glr-app/app/QtViewer.h>
+#include <glr-app/app/SampleApplication.h>
+#include <glr-app/app/SdlViewer.h>
+
+namespace xg {
+
+void CreateSampleScene(glr::Scene* scene)
+{
+    using namespace glr;
+    scene->addModel(ExampleModels::createAxis(20, Vec3d()));
+    scene->addModel(ExampleModels::createPointCloud(1000));
+    scene->addModel(ExampleModels::createCube(2, Vec3d(), true));
+    scene->addModel(ExampleModels::createCube(3, Vec3d(5, 0, 0), false));
+    scene->addModel(ExampleModels::createSkyBox());
+    scene->addModel(ExampleModels::createImage("F:\\Users\\sa\\Downloads\\1.jpg"));
+}
+
+int main(int argc, char** argv)
+{
+    glr::AppParameters params;
+    params.mesa_always_software = true;
+
+    glr::SampleApplication app(params);
+    app.initGlfw();
+    app.initQt();
+
+    auto         scene  = new glr::Scene();
+    glr::Viewer* viewer = nullptr;
+
+#define RTT_VIEWER1
+#define GLFW_VIEWER1
+#define SDL_VIEWER1
+
+#ifdef GLFW_VIEWER
+    glr::GlfwViewer v;
+    if (!v.initialize()) { return -1; }
+    viewer = &v;
+
+#elif defined(SDL_VIEWER)
+    glr::SdlViewer v;
+    if (!v.initialize()) { return -1; }
+    viewer = &v;
+#elif defined(RTT_VIEWER)
+    glr::Viewer                     v;
+    glr::GraphicContextGlfw::Traits traits;
+    traits.width   = 1;
+    traits.height  = 1;
+    traits.visible = false;
+
+    auto ctx = glr::GraphicContextGlfw::create(traits);
+    ctx->realize();
+    ctx->makeCurrent();
+
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_PROGRAM_POINT_SIZE);
+    // glEnable(GL_CULL_FACE);
+    glDisable(GL_CULL_FACE);
+    // glCullFace(GL_BACK);
+    glFrontFace(GL_CCW);
+    glDepthFunc(GL_LESS);
+
+    auto renderer = new glr::RttRenderer();
+    renderer->setContext(ctx);
+
+    auto cam = renderer->getCamera();
+    cam->setViewport(0., 0., 800, 600);
+    cam->setClearDepth(1.0);
+    cam->setClearStencil(1);
+    cam->setClearColor(glr::Vec4f(0., 0., 0., 1.));
+    cam->setClearMask(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+    cam->setViewMatrixAsLookAt(glr::Vec3f(5, 5, 5), glr::Vec3f(), glr::Vec3f(-1, 0, 1));
+    auto cm  = new glr::StandardCameraManipulator(cam);
+    auto fbo = new glr::FrameBufferObject();
+
+    auto comp_color = new glr::Texture2D();
+    auto comp_depth = new glr::Texture2D();
+
+    comp_color->setInternalFormat(glr::PixelData::IF_RGBA8);
+    comp_color->setWidth(800);
+    comp_color->setHeight(600);
+    comp_depth->setWidth(800);
+    comp_depth->setHeight(600);
+    comp_depth->setInternalFormat(glr::PixelData::IF_DEPTH_COMPONENT24);
+
+    fbo->attachTexture(glr::FrameBufferObject::COLOR_ATTACHMENT0, comp_color);
+    fbo->attachTexture(glr::FrameBufferObject::DEPTH_ATTACHMENT, comp_depth);
+
+    renderer->setFbo(fbo);
+    renderer->setCameraManipulator(cm);
+
+    v.addRenderer(renderer);
+    viewer = &v;
+
+#else
+    // QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QApplication      qapp(argc, argv);
+    glr::QtMainWindow wnd;
+    viewer = wnd.getViewer();
+#endif
+
+    if (argc > 1) {
+        auto file  = xg::local8bitToUtf8(argv[1]);
+        auto model = glr::MeshLoader().loadFile(file);
+        if (model) {
+            model->getOrCreateStateSet()->setShader(glr::ResourceManager::instance()->getInternalShader(glr::ResourceManager::EXAMPLE_SAHDER_STD_PHONG));
+            scene->addModel(model);
+            glr::GeometryConfigurer::configureStdPhong((glr::Geometry*)model->getDrawableAt(0), model->getOrCreateStateSet());
+        }
+    }
+    else {
+        CreateSampleScene(scene);
+    }
+
+    auto light = new glr::PhongLight();
+    light->setLightMode(glr::PhongLight::HEAD_LIGHT);
+    light->setSpotCutoff(180);
+    light->setSpotExponent(32);
+    auto lights = new glr::PhongLights();
+    lights->addLight(light);
+
+    auto renderer = viewer->getMasterRenderer();
+
+    renderer->getContext()->getState()->getDefaultStateSet()->setAttribute(lights);
+    renderer->getContext()->getState()->getDefaultStateSet()->setAttribute(new glr::PhongMaterial());
+    renderer->getContext()->getState()->getDefaultStateSet()->setAttribute(new glr::Depth(0, 1, glr::Depth::LEQUAL));
+    renderer->getCameraManipulator()->setVerticalAxisFixed(true);
+
+
+#if defined(GLFW_VIEWER) or defined(SDL_VIEWER)
+    renderer->setScene(scene);
+    v.run();
+#elif defined(RTT_VIEWER)
+    renderer->setScene(scene);
+    while (true) {
+        viewer->frame();
+        fbo->bind(*ctx->getState());
+        glReadBuffer(GL_COLOR_ATTACHMENT0);
+        auto img = glr::Image::readPixels(0, 0, 800, 600, GL_RGBA, GL_UNSIGNED_BYTE);
+        glr::ImageLoader().saveAsBmp(img, "d:/1.bmp");
+    }
+#else
+    renderer->setScene(scene);
+    wnd.show();
+    qapp.exec();
+#endif
+    return 0;
+}
+
+} // namespace xg
