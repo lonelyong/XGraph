@@ -1,8 +1,8 @@
-#include <xg/glr/engine/VertexArrayObject.h>
+#include <xg/glr/engine/VertexArrayObject.hpp>
 
-#include <xg/glr/engine/GraphicContext.h>
-#include <xg/glr/engine/State.h>
-#include <xg/glr/igl/GLfuncs.h>
+#include <xg/glr/engine/GraphicContext.hpp>
+#include <xg/glr/engine/State.hpp>
+#include <xg/glr/igl/GLfuncs.hpp>
 
 V_OBJECT_META_IMPL(glr::VertexArrayObject, glr::BindableObject);
 V_OBJECT_META_IMPL(glr::VertexAttribPointer, glr::Object);

@@ -1,4 +1,4 @@
-﻿#include <xg/glr/scene/Node_p.h>
+﻿#include <xg/glr/scene/Node_p.hpp>
 
 #include <algorithm>
 

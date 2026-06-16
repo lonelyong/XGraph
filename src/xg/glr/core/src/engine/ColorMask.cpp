@@ -1,8 +1,8 @@
-#include <xg/glr/engine/ColorMask.h>
+#include <xg/glr/engine/ColorMask.hpp>
 
-#include <xg/glr/engine/GraphicContext.h>
-#include <xg/glr/engine/State.h>
-#include <xg/glr/igl/GLfuncs.h>
+#include <xg/glr/engine/GraphicContext.hpp>
+#include <xg/glr/engine/State.hpp>
+#include <xg/glr/igl/GLfuncs.hpp>
 
 namespace xg {
 namespace glr {

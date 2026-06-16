@@ -1,17 +1,17 @@
-﻿#include <xg/glr/engine/SkyBox.h>
+﻿#include <xg/glr/engine/SkyBox.hpp>
 
 #include <glm/ext.hpp>
 
-#include <xg/glr/engine/Callbacks.h>
-#include <xg/glr/engine/Camera.h>
-#include <xg/glr/engine/CubeMap.h>
-#include <xg/glr/engine/Depth.h>
-#include <xg/glr/engine/Program.h>
-#include <xg/glr/engine/Renderer.h>
-#include <xg/glr/engine/StateSet.h>
-#include <xg/glr/engine/Uniform.h>
-#include <xg/glr/scene/Geometry.h>
-#include <xg/glr/scene/Model.h>
+#include <xg/glr/engine/Callbacks.hpp>
+#include <xg/glr/engine/Camera.hpp>
+#include <xg/glr/engine/CubeMap.hpp>
+#include <xg/glr/engine/Depth.hpp>
+#include <xg/glr/engine/Program.hpp>
+#include <xg/glr/engine/Renderer.hpp>
+#include <xg/glr/engine/StateSet.hpp>
+#include <xg/glr/engine/Uniform.hpp>
+#include <xg/glr/scene/Geometry.hpp>
+#include <xg/glr/scene/Model.hpp>
 
 namespace xg {
 namespace glr {

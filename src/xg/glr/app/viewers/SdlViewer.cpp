@@ -1,4 +1,4 @@
-﻿#include "SdlViewer.h"
+﻿#include "SdlViewer.hpp"
 
 #include <functional>
 #include <iostream>

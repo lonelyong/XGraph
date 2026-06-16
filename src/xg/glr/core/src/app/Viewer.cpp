@@ -1,4 +1,4 @@
-﻿#include <xg/glr/app/Viewer.h>
+﻿#include <xg/glr/app/Viewer.hpp>
 
 #include <algorithm>
 #include <map>
@@ -6,10 +6,10 @@
 
 #include <vine/Ptr.hpp>
 
-#include <xg/glr/engine/Callbacks.h>
-#include <xg/glr/engine/GraphicContext.h>
-#include <xg/glr/engine/RenderInfo.h>
-#include <xg/glr/engine/Renderer.h>
+#include <xg/glr/engine/Callbacks.hpp>
+#include <xg/glr/engine/GraphicContext.hpp>
+#include <xg/glr/engine/RenderInfo.hpp>
+#include <xg/glr/engine/Renderer.hpp>
 
 namespace xg {
 namespace glr

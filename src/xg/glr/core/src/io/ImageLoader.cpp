@@ -1,4 +1,4 @@
-﻿#include <xg/glr/io/ImageLoader.h>
+﻿#include <xg/glr/io/ImageLoader.hpp>
 
 #include <filesystem>
 #include <iostream>
@@ -9,7 +9,7 @@
 #include <stb_image.h>
 #include <stb_image_write.h>
 
-#include <xg/glr/engine/Image.h>
+#include <xg/glr/engine/Image.hpp>
 
 namespace xg {
 namespace glr {

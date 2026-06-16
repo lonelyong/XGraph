@@ -1,6 +1,6 @@
-#include <xg/glr/engine/Event.h>
+#include <xg/glr/engine/Event.hpp>
 
-#include <xg/glr/engine/GraphicContext.h>
+#include <xg/glr/engine/GraphicContext.hpp>
 
 namespace xg {
 namespace glr {

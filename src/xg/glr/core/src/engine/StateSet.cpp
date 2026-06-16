@@ -1,13 +1,13 @@
-﻿#include <xg/glr/engine/StateSet.h>
+﻿#include <xg/glr/engine/StateSet.hpp>
 
 #include <vector>
 #include <algorithm>
 
 #include <vine/Ptr.hpp>
 
-#include <xg/glr/engine/Program.h>
-#include <xg/glr/engine/StateAttribute.h>
-#include <xg/glr/engine/UniformBase.h>
+#include <xg/glr/engine/Program.hpp>
+#include <xg/glr/engine/StateAttribute.hpp>
+#include <xg/glr/engine/UniformBase.hpp>
 
 namespace xg {
 namespace glr {

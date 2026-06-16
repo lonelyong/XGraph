@@ -1,4 +1,4 @@
-#include <xg/glr/engine/FrameBufferObject.h>
+#include <xg/glr/engine/FrameBufferObject.hpp>
 
 #include <iostream>
 #include <map>
@@ -6,11 +6,11 @@
 #include <vine/Exception.hpp>
 #include <vine/Ptr.hpp>
 
-#include <xg/glr/engine/GraphicContext.h>
-#include <xg/glr/engine/RenderBuffer.h>
-#include <xg/glr/engine/State.h>
-#include <xg/glr/engine/Texture2D.h>
-#include <xg/glr/igl/GLfuncs.h>
+#include <xg/glr/engine/GraphicContext.hpp>
+#include <xg/glr/engine/RenderBuffer.hpp>
+#include <xg/glr/engine/State.hpp>
+#include <xg/glr/engine/Texture2D.hpp>
+#include <xg/glr/igl/GLfuncs.hpp>
 
 namespace xg {
 namespace glr {

@@ -1,6 +1,6 @@
-#include <xg/glr/engine/RenderInfo.h>
+#include <xg/glr/engine/RenderInfo.hpp>
 
-#include <xg/glr/engine/Renderer.h>
+#include <xg/glr/engine/Renderer.hpp>
 
 namespace xg {
 namespace glr {

@@ -1,4 +1,4 @@
-#include <xg/glr/scene/BoundingBox.h>
+#include <xg/glr/scene/BoundingBox.hpp>
 
 #include <cmath>
 #include <utility>

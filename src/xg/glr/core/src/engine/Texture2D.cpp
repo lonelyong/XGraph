@@ -1,13 +1,13 @@
-#include <xg/glr/engine/Texture2D.h>
+#include <xg/glr/engine/Texture2D.hpp>
 
 #include <vine/Ptr.hpp>
 
-#include <xg/glr/engine/GraphicContext.h>
-#include <xg/glr/engine/Image.h>
-#include <xg/glr/engine/State.h>
-#include <xg/glr/igl/GLfuncs.h>
+#include <xg/glr/engine/GraphicContext.hpp>
+#include <xg/glr/engine/Image.hpp>
+#include <xg/glr/engine/State.hpp>
+#include <xg/glr/igl/GLfuncs.hpp>
 
-#include <xg/glr/io/ImageLoader.h>
+#include <xg/glr/io/ImageLoader.hpp>
 
 namespace xg {
 namespace glr {

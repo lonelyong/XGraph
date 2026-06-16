@@ -1,4 +1,4 @@
-#include <xg/glr/igl/GLfuncsv430.h>
+#include <xg/glr/igl/GLfuncsv430.hpp>
 
 namespace xg {
 namespace glr {

@@ -1,10 +1,10 @@
 
-#include <xg/glr/engine/BindableObject.h>
+#include <xg/glr/engine/BindableObject.hpp>
 
 #include <unordered_set>
 
-#include <xg/glr/engine/GraphicContext.h>
-#include <xg/glr/engine/State.h>
+#include <xg/glr/engine/GraphicContext.hpp>
+#include <xg/glr/engine/State.hpp>
 
 namespace xg {
 namespace glr {

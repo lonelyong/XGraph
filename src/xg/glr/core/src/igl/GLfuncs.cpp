@@ -1,4 +1,4 @@
-#include <xg/glr/igl/GLfuncs.h>
+#include <xg/glr/igl/GLfuncs.hpp>
 
 #include <algorithm>
 #include <cstring>

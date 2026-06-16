@@ -1,4 +1,4 @@
-﻿#include <xg/glr/engine/CameraManipulator.h>
+﻿#include <xg/glr/engine/CameraManipulator.hpp>
 
 #include <functional>
 
@@ -10,8 +10,8 @@
 
 #include <vine/Ptr.hpp>
 
-#include <xg/glr/engine/Camera.h>
-#include <xg/glr/engine/Math.h>
+#include <xg/glr/engine/Camera.hpp>
+#include <xg/glr/engine/Math.hpp>
 
 
 namespace xg {

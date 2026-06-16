@@ -1,13 +1,13 @@
-﻿#include <xg/glr/engine/PhongLight.h>
+﻿#include <xg/glr/engine/PhongLight.hpp>
 
 #include <cmath>
 #include <algorithm>
 
-#include <xg/glr/engine/Camera.h>
-#include <xg/glr/engine/GraphicContext.h>
-#include <xg/glr/engine/Program.h>
-#include <xg/glr/engine/State.h>
-#include <xg/glr/igl/GLfuncs.h>
+#include <xg/glr/engine/Camera.hpp>
+#include <xg/glr/engine/GraphicContext.hpp>
+#include <xg/glr/engine/Program.hpp>
+#include <xg/glr/engine/State.hpp>
+#include <xg/glr/igl/GLfuncs.hpp>
 
 namespace xg {
 namespace glr {

@@ -1,4 +1,4 @@
-﻿#include <xg/glr/engine/GraphicContext.h>
+﻿#include <xg/glr/engine/GraphicContext.hpp>
 
 #include <iostream>
 #include <queue>
@@ -7,8 +7,8 @@
 
 #include <xgcomm/Text.h>
 
-#include <xg/glr/engine/State.h>
-#include <xg/glr/igl/GLfuncs.h>
+#include <xg/glr/engine/State.hpp>
+#include <xg/glr/igl/GLfuncs.hpp>
 
 
 

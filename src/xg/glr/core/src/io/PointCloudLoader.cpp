@@ -1,4 +1,4 @@
-﻿#include <xg/glr/io/PointCloudLoader.h>
+﻿#include <xg/glr/io/PointCloudLoader.hpp>
 
 #include <algorithm>
 #include <filesystem>
@@ -16,11 +16,11 @@
 #include <pcl/sample_consensus/model_types.h>
 #include <pcl/segmentation/sac_segmentation.h>
 
-#include <xg/glr/engine/StateSet.h>
-#include <xg/glr/scene/Geometry.h>
-#include <xg/glr/scene/Model.h>
+#include <xg/glr/engine/StateSet.hpp>
+#include <xg/glr/scene/Geometry.hpp>
+#include <xg/glr/scene/Model.hpp>
 
-//#include <xg/glr/app/ResourceManager.h>
+//#include <xg/glr/app/ResourceManager.hpp>
 
 namespace xg {
 namespace glr {

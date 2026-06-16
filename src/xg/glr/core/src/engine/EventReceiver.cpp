@@ -1,10 +1,10 @@
-#include <xg/glr/engine/EventReceiver.h>
+#include <xg/glr/engine/EventReceiver.hpp>
 
 #include <vector>
 #include <algorithm>
 
-#include <xg/glr/engine/Event.h>
-#include <xg/glr/engine/Callbacks.h>
+#include <xg/glr/engine/Event.hpp>
+#include <xg/glr/engine/Callbacks.hpp>
 
 namespace xg {
 namespace glr {

@@ -1,13 +1,13 @@
-﻿#include <xg/glr/scene/Model.h>
+﻿#include <xg/glr/scene/Model.hpp>
 
 #include <vector>
 #include <vine/Exception.hpp>
 #include <vine/Ptr.hpp>
 
-#include <xg/glr/engine/Callbacks.h>
-#include <xg/glr/engine/Event.h>
-#include <xg/glr/engine/StateSet.h>
-#include <xg/glr/scene/Drawable.h>
+#include <xg/glr/engine/Callbacks.hpp>
+#include <xg/glr/engine/Event.hpp>
+#include <xg/glr/engine/StateSet.hpp>
+#include <xg/glr/scene/Drawable.hpp>
 
 namespace xg {
 namespace glr {

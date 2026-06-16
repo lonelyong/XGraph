@@ -1,8 +1,8 @@
-﻿#include <xg/glr/scene/Scene.h>
+﻿#include <xg/glr/scene/Scene.hpp>
 
 #include <vector>
 
-#include <xg/glr/scene/Model.h>
+#include <xg/glr/scene/Model.hpp>
 
 namespace xg {
 namespace glr {

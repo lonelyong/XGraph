@@ -1,4 +1,4 @@
-﻿#include <xg/glr/io/MeshLoader.h>
+﻿#include <xg/glr/io/MeshLoader.hpp>
 
 #include <filesystem>
 
@@ -6,9 +6,9 @@
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
 
-#include <xg/glr/engine/ArrayBuffer.h>
-#include <xg/glr/scene/Geometry.h>
-#include <xg/glr/scene/Model.h>
+#include <xg/glr/engine/ArrayBuffer.hpp>
+#include <xg/glr/scene/Geometry.hpp>
+#include <xg/glr/scene/Model.hpp>
 
 namespace xg {
 namespace glr {

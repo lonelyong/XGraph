@@ -1,4 +1,4 @@
-#include <xg/glr/engine/ShaderStorageBufferObject.h>
+#include <xg/glr/engine/ShaderStorageBufferObject.hpp>
 
 namespace xg {
 namespace glr {

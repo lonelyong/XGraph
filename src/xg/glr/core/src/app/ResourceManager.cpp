@@ -7,8 +7,8 @@
 #include <xgcomm/Environment.h>
 #include <xgcomm/Resources.h>
 
-#include <xg/glr/engine/CubeMap.h>
-#include <xg/glr/engine/Program.h>
+#include <xg/glr/engine/CubeMap.hpp>
+#include <xg/glr/engine/Program.hpp>
 
 namespace xg {
 namespace glr {

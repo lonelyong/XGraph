@@ -1,12 +1,12 @@
-#include <xg/glr/engine/PointParameter.h>
+#include <xg/glr/engine/PointParameter.hpp>
 
 
 #include <glm/gtc/type_ptr.hpp>
 
-#include <xg/glr/engine/GraphicContext.h>
-#include <xg/glr/engine/State.h>
-#include <xg/glr/engine/types.h>
-#include <xg/glr/igl/GLfuncs.h>
+#include <xg/glr/engine/GraphicContext.hpp>
+#include <xg/glr/engine/State.hpp>
+#include <xg/glr/engine/types.hpp>
+#include <xg/glr/igl/GLfuncs.hpp>
 
 V_OBJECT_META_IMPL(glr::PointParameter, glr::StateAttribute)
 

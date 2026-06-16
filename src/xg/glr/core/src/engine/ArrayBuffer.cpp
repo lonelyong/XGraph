@@ -1,10 +1,10 @@
-#include <xg/glr/engine/ArrayBuffer.h>
+#include <xg/glr/engine/ArrayBuffer.hpp>
 
 #include <vector>
 
-#include <xg/glr/engine/GraphicContext.h>
-#include <xg/glr/engine/State.h>
-#include <xg/glr/igl/GLfuncs.h>
+#include <xg/glr/engine/GraphicContext.hpp>
+#include <xg/glr/engine/State.hpp>
+#include <xg/glr/igl/GLfuncs.hpp>
 
 V_OBJECT_META_IMPL(glr::ArrayBuffer, glr::BufferObject);
 

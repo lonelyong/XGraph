@@ -1,4 +1,4 @@
-﻿#include <xg/glr/engine/State.h>
+﻿#include <xg/glr/engine/State.hpp>
 
 #include <map>
 #include <set>
@@ -8,14 +8,14 @@
 
 #include <vine/Ptr.hpp>
 
-#include <xg/glr/engine/Camera.h>
-#include <xg/glr/engine/GLObject.h>
-#include <xg/glr/engine/GraphicContext.h>
-#include <xg/glr/engine/Program.h>
-#include <xg/glr/engine/Renderer.h>
-#include <xg/glr/engine/StateAttribute.h>
-#include <xg/glr/engine/StateSet.h>
-#include <xg/glr/engine/Uniform.h>
+#include <xg/glr/engine/Camera.hpp>
+#include <xg/glr/engine/GLObject.hpp>
+#include <xg/glr/engine/GraphicContext.hpp>
+#include <xg/glr/engine/Program.hpp>
+#include <xg/glr/engine/Renderer.hpp>
+#include <xg/glr/engine/StateAttribute.hpp>
+#include <xg/glr/engine/StateSet.hpp>
+#include <xg/glr/engine/Uniform.hpp>
 
 namespace xg {
 namespace glr {

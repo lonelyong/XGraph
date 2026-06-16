@@ -1,11 +1,11 @@
-﻿#include <xg/glr/scene/Group.h>
+﻿#include <xg/glr/scene/Group.hpp>
 
 #include <vector>
 #include <algorithm>
 
-#include <xg/glr/scene/Node.h>
+#include <xg/glr/scene/Node.hpp>
 
-#include <xg/glr/scene/Node_p.h>
+#include <xg/glr/scene/Node_p.hpp>
 
 namespace xg {
 namespace glr {

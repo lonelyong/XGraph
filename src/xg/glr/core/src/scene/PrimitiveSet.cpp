@@ -1,8 +1,8 @@
-#include <xg/glr/scene/PrimitiveSet.h>
+#include <xg/glr/scene/PrimitiveSet.hpp>
 
-#include <xg/glr/engine/GraphicContext.h>
-#include <xg/glr/engine/State.h>
-#include <xg/glr/igl/GLfuncs.h>
+#include <xg/glr/engine/GraphicContext.hpp>
+#include <xg/glr/engine/State.hpp>
+#include <xg/glr/igl/GLfuncs.hpp>
 
 namespace xg {
 namespace glr {

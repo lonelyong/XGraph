@@ -4,7 +4,7 @@
 
 #include <GLFW/glfw3.h>
 
-#include <xgcomm/Environment.h>
+#include <xgcomm/Environment.hpp>
 
 namespace xg {
 namespace glr {

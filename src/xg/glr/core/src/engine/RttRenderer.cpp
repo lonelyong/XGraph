@@ -1,4 +1,4 @@
-﻿#include <xg/glr/engine/RttRenderer.h>
+﻿#include <xg/glr/engine/RttRenderer.hpp>
 
 #include <exception>
 #include <iostream>
@@ -9,9 +9,9 @@
 
 #include <vine/Ptr.hpp>
 
-#include <xg/glr/engine/FrameBufferObject.h>
-#include <xg/glr/engine/RenderInfo.h>
-#include <xg/glr/engine/GraphicContext.h>
+#include <xg/glr/engine/FrameBufferObject.hpp>
+#include <xg/glr/engine/RenderInfo.hpp>
+#include <xg/glr/engine/GraphicContext.hpp>
 
 namespace xg {
 namespace glr {

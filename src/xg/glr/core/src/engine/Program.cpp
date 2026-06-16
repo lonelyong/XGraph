@@ -1,4 +1,4 @@
-#include <xg/glr/engine/Program.h>
+#include <xg/glr/engine/Program.hpp>
 
 #include <cerrno>
 #include <cstdlib>
@@ -11,11 +11,11 @@
 
 #include <glm/gtc/type_ptr.hpp>
 
-#include <xg/glr/engine/GraphicContext.h>
-#include <xg/glr/engine/Shader.h>
-#include <xg/glr/engine/State.h>
-#include <xg/glr/engine/types.h>
-#include <xg/glr/igl/GLfuncs.h>
+#include <xg/glr/engine/GraphicContext.hpp>
+#include <xg/glr/engine/Shader.hpp>
+#include <xg/glr/engine/State.hpp>
+#include <xg/glr/engine/types.hpp>
+#include <xg/glr/igl/GLfuncs.hpp>
 
 namespace xg {
 namespace glr {

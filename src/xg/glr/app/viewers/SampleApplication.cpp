@@ -1,11 +1,11 @@
-﻿#include "SampleApplication.h"
+﻿#include "SampleApplication.hpp"
 
 #include <iostream>
 
 #include <QApplication>
 #include <QSurfaceFormat>
 
-#include <xgcomm/Environment.h>
+#include <xgcomm/Environment.hpp>
 
 namespace xg {
 namespace glr {

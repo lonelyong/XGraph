@@ -1,4 +1,4 @@
-#include <xg/glr/engine/UniformBufferObject.h>
+#include <xg/glr/engine/UniformBufferObject.hpp>
 
 namespace xg {
 namespace glr {

@@ -1,17 +1,17 @@
-﻿#include <xg/glr/engine/Renderer.h>
+﻿#include <xg/glr/engine/Renderer.hpp>
 
 #include <functional>
 
 #include <vine/Ptr.hpp>
 
-#include <xg/glr/engine/Camera.h>
-#include <xg/glr/engine/CameraManipulator.h>
-#include <xg/glr/engine/GraphicContext.h>
-#include <xg/glr/engine/RenderInfo.h>
-#include <xg/glr/engine/State.h>
-#include <xg/glr/scene/Drawable.h>
-#include <xg/glr/scene/Model.h>
-#include <xg/glr/scene/Scene.h>
+#include <xg/glr/engine/Camera.hpp>
+#include <xg/glr/engine/CameraManipulator.hpp>
+#include <xg/glr/engine/GraphicContext.hpp>
+#include <xg/glr/engine/RenderInfo.hpp>
+#include <xg/glr/engine/State.hpp>
+#include <xg/glr/scene/Drawable.hpp>
+#include <xg/glr/scene/Model.hpp>
+#include <xg/glr/scene/Scene.hpp>
 
 namespace xg {
 namespace glr {

@@ -1,10 +1,10 @@
-﻿#include <xg/glr/scene/Node.h>
+﻿#include <xg/glr/scene/Node.hpp>
 
 #include <vector>
 
-#include <xg/glr/engine/StateSet.h>
+#include <xg/glr/engine/StateSet.hpp>
 
-#include <xg/glr/scene/Node_p.h>
+#include <xg/glr/scene/Node_p.hpp>
 
 namespace xg {
 namespace glr {

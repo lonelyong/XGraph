@@ -1,6 +1,6 @@
 ﻿#include <xg/glr/app/DefaultUniformStore.hpp>
 
-#include <xg/glr/engine/Uniform.h>
+#include <xg/glr/engine/Uniform.hpp>
 
 namespace xg {
 namespace glr {

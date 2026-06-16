@@ -1,4 +1,4 @@
-#include <xg/glr/engine/Object.h>
+#include <xg/glr/engine/Object.hpp>
 
 #include <iostream>
 

@@ -1,4 +1,4 @@
-#include <xg/glr/engine/Shader.h>
+#include <xg/glr/engine/Shader.hpp>
 
 #include <cerrno>
 #include <cstdlib>
@@ -8,9 +8,9 @@
 #include <iostream>
 #include <sstream>
 
-#include <xg/glr/engine/GraphicContext.h>
-#include <xg/glr/engine/State.h>
-#include <xg/glr/igl/GLfuncs.h>
+#include <xg/glr/engine/GraphicContext.hpp>
+#include <xg/glr/engine/State.hpp>
+#include <xg/glr/igl/GLfuncs.hpp>
 
 
 #include <glm/gtc/type_ptr.hpp>

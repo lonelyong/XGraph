@@ -1,10 +1,10 @@
-﻿#include <xg/glr/engine/Uniform.h>
+﻿#include <xg/glr/engine/Uniform.hpp>
 
 #include <any>
 #include <string>
 
-#include <xg/glr/engine/Program.h>
-#include <xg/glr/engine/State.h>
+#include <xg/glr/engine/Program.hpp>
+#include <xg/glr/engine/State.hpp>
 
 namespace xg {
 namespace glr {

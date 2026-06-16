@@ -3,34 +3,34 @@
 #include <QApplication>
 #include <glm/ext.hpp>
 
-#include <xg/glr/app/ExampleModels.h>
-#include <xg/glr/app/GeometryConfigurer.h>
-#include <xg/glr/app/ResourceManager.h>
-#include <xg/glr/app/Viewer.h>
-#include <xg/glr/engine/Camera.h>
-#include <xg/glr/engine/CameraManipulator.h>
-#include <xg/glr/engine/Depth.h>
-#include <xg/glr/engine/FrameBufferObject.h>
-#include <xg/glr/engine/GraphicContext.h>
-#include <xg/glr/engine/PhongLight.h>
-#include <xg/glr/engine/PhongMaterial.h>
-#include <xg/glr/engine/Renderer.h>
-#include <xg/glr/engine/RttRenderer.h>
-#include <xg/glr/engine/State.h>
-#include <xg/glr/engine/StateSet.h>
-#include <xg/glr/engine/Texture2D.h>
-#include <xg/glr/engine/Uniform.h>
-#include <xg/glr/io/MeshLoader.h>
-#include <xg/glr/scene/Model.h>
-#include <xg/glr/scene/Scene.h>
-#include <xgcomm/Resources.h>
-#include <xgcomm/Text.h>
+#include <xg/glr/app/ExampleModels.hpp>
+#include <xg/glr/app/GeometryConfigurer.hpp>
+#include <xg/glr/app/ResourceManager.hpp>
+#include <xg/glr/app/Viewer.hpp>
+#include <xg/glr/engine/Camera.hpp>
+#include <xg/glr/engine/CameraManipulator.hpp>
+#include <xg/glr/engine/Depth.hpp>
+#include <xg/glr/engine/FrameBufferObject.hpp>
+#include <xg/glr/engine/GraphicContext.hpp>
+#include <xg/glr/engine/PhongLight.hpp>
+#include <xg/glr/engine/PhongMaterial.hpp>
+#include <xg/glr/engine/Renderer.hpp>
+#include <xg/glr/engine/RttRenderer.hpp>
+#include <xg/glr/engine/State.hpp>
+#include <xg/glr/engine/StateSet.hpp>
+#include <xg/glr/engine/Texture2D.hpp>
+#include <xg/glr/engine/Uniform.hpp>
+#include <xg/glr/io/MeshLoader.hpp>
+#include <xg/glr/scene/Model.hpp>
+#include <xg/glr/scene/Scene.hpp>
+#include <xgcomm/Resources.hpp>
+#include <xgcomm/Text.hpp>
 
-#include "viewers/GlfwViewer.h"
-#include "viewers/QtMainWindow.h"
-#include "viewers/QtViewer.h"
-#include "viewers/SampleApplication.h"
-#include "viewers/SdlViewer.h"
+#include "viewers/GlfwViewer.hpp"
+#include "viewers/QtMainWindow.hpp"
+#include "viewers/QtViewer.hpp"
+#include "viewers/SampleApplication.hpp"
+#include "viewers/SdlViewer.hpp"
 
 using namespace xg;
 
