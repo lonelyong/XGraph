@@ -4,7 +4,7 @@ namespace xg {
 namespace glr {
 
 
-glr::GLfuncsv320::GLfuncsv320()
+xg::glr::GLfuncsv320::GLfuncsv320()
   : iglClientWaitSync(nullptr)
   , iglDeleteSync(nullptr)
   , iglDrawElementsBaseVertex(nullptr)
@@ -26,7 +26,7 @@ glr::GLfuncsv320::GLfuncsv320()
   , iglWaitSync(nullptr) {
 }
 
-void glr::GLfuncsv320::loadFuncs(Loader loader) {
+void xg::glr::GLfuncsv320::loadFuncs(Loader loader) {
     GLfuncsv310::loadFuncs(loader);
     iglClientWaitSync         = reinterpret_cast<PFNGLCLIENTWAITSYNCPROC>(loader("glClientWaitSync"));
     iglDeleteSync             = reinterpret_cast<PFNGLDELETESYNCPROC>(loader("glDeleteSync"));

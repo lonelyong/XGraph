@@ -16,8 +16,8 @@ bool s_is_qt_initialized = false;
 
 } // namespace
 
-SampleApplication::SampleApplication(const glr::AppParameters& params)
-  : glr::Application(params) {
+SampleApplication::SampleApplication(const xg::glr::AppParameters& params)
+  : xg::glr::Application(params) {
 }
 
 bool SampleApplication::initQt() {

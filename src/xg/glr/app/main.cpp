@@ -34,7 +34,7 @@
 
 using namespace xg;
 
-void CreateSampleScene(glr::Scene* scene)
+void CreateSampleScene(xg::glr::Scene* scene)
 {
     using namespace glr;
     scene->addModel(ExampleModels::createAxis(20, Vec3d()));
@@ -47,37 +47,37 @@ void CreateSampleScene(glr::Scene* scene)
 
 int main(int argc, char** argv)
 {
-    glr::AppParameters params;
+    xg::glr::AppParameters params;
     params.mesa_always_software = true;
 
-    glr::SampleApplication app(params);
+    xg::glr::SampleApplication app(params);
     app.initGlfw();
     app.initQt();
 
-    auto         scene  = new glr::Scene();
-    glr::Viewer* viewer = nullptr;
+    auto         scene  = new xg::glr::Scene();
+    xg::glr::Viewer* viewer = nullptr;
 
 #define RTT_VIEWER1
 #define GLFW_VIEWER1
 #define SDL_VIEWER1
 
 #ifdef GLFW_VIEWER
-    glr::GlfwViewer v;
+    xg::glr::GlfwViewer v;
     if (!v.initialize()) { return -1; }
     viewer = &v;
 
 #elif defined(SDL_VIEWER)
-    glr::SdlViewer v;
+    xg::glr::SdlViewer v;
     if (!v.initialize()) { return -1; }
     viewer = &v;
 #elif defined(RTT_VIEWER)
-    glr::Viewer                     v;
-    glr::GraphicContextGlfw::Traits traits;
+    xg::glr::Viewer                     v;
+    xg::glr::GraphicContextGlfw::Traits traits;
     traits.width   = 1;
     traits.height  = 1;
     traits.visible = false;
 
-    auto ctx = glr::GraphicContextGlfw::create(traits);
+    auto ctx = xg::glr::GraphicContextGlfw::create(traits);
     ctx->realize();
     ctx->makeCurrent();
 
@@ -91,31 +91,31 @@ int main(int argc, char** argv)
     glFrontFace(GL_CCW);
     glDepthFunc(GL_LESS);
 
-    auto renderer = new glr::RttRenderer();
+    auto renderer = new xg::glr::RttRenderer();
     renderer->setContext(ctx);
 
     auto cam = renderer->getCamera();
     cam->setViewport(0., 0., 800, 600);
     cam->setClearDepth(1.0);
     cam->setClearStencil(1);
-    cam->setClearColor(glr::Vec4f(0., 0., 0., 1.));
+    cam->setClearColor(xg::glr::Vec4f(0., 0., 0., 1.));
     cam->setClearMask(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-    cam->setViewMatrixAsLookAt(glr::Vec3f(5, 5, 5), glr::Vec3f(), glr::Vec3f(-1, 0, 1));
-    auto cm  = new glr::StandardCameraManipulator(cam);
-    auto fbo = new glr::FrameBufferObject();
+    cam->setViewMatrixAsLookAt(xg::glr::Vec3f(5, 5, 5), xg::glr::Vec3f(), xg::glr::Vec3f(-1, 0, 1));
+    auto cm  = new xg::glr::StandardCameraManipulator(cam);
+    auto fbo = new xg::glr::FrameBufferObject();
 
-    auto comp_color = new glr::Texture2D();
-    auto comp_depth = new glr::Texture2D();
+    auto comp_color = new xg::glr::Texture2D();
+    auto comp_depth = new xg::glr::Texture2D();
 
-    comp_color->setInternalFormat(glr::PixelData::IF_RGBA8);
+    comp_color->setInternalFormat(xg::glr::PixelData::IF_RGBA8);
     comp_color->setWidth(800);
     comp_color->setHeight(600);
     comp_depth->setWidth(800);
     comp_depth->setHeight(600);
-    comp_depth->setInternalFormat(glr::PixelData::IF_DEPTH_COMPONENT24);
+    comp_depth->setInternalFormat(xg::glr::PixelData::IF_DEPTH_COMPONENT24);
 
-    fbo->attachTexture(glr::FrameBufferObject::COLOR_ATTACHMENT0, comp_color);
-    fbo->attachTexture(glr::FrameBufferObject::DEPTH_ATTACHMENT, comp_depth);
+    fbo->attachTexture(xg::glr::FrameBufferObject::COLOR_ATTACHMENT0, comp_color);
+    fbo->attachTexture(xg::glr::FrameBufferObject::DEPTH_ATTACHMENT, comp_depth);
 
     renderer->setFbo(fbo);
     renderer->setCameraManipulator(cm);
@@ -126,35 +126,35 @@ int main(int argc, char** argv)
 #else
     // QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication      qapp(argc, argv);
-    glr::QtMainWindow wnd;
+    xg::glr::QtMainWindow wnd;
     viewer = wnd.getViewer();
 #endif
 
     if (argc > 1) {
         auto file  = xg::local8bitToUtf8(argv[1]);
-        auto model = glr::MeshLoader().loadFile(file);
+        auto model = xg::glr::MeshLoader().loadFile(file);
         if (model) {
-            model->getOrCreateStateSet()->setShader(glr::ResourceManager::instance()->getInternalShader(glr::ResourceManager::EXAMPLE_SAHDER_STD_PHONG));
+            model->getOrCreateStateSet()->setShader(xg::glr::ResourceManager::instance()->getInternalShader(xg::glr::ResourceManager::EXAMPLE_SAHDER_STD_PHONG));
             scene->addModel(model);
-            glr::GeometryConfigurer::configureStdPhong((glr::Geometry*)model->getDrawableAt(0), model->getOrCreateStateSet());
+            xg::glr::GeometryConfigurer::configureStdPhong((xg::glr::Geometry*)model->getDrawableAt(0), model->getOrCreateStateSet());
         }
     }
     else {
         CreateSampleScene(scene);
     }
 
-    auto light = new glr::PhongLight();
-    light->setLightMode(glr::PhongLight::HEAD_LIGHT);
+    auto light = new xg::glr::PhongLight();
+    light->setLightMode(xg::glr::PhongLight::HEAD_LIGHT);
     light->setSpotCutoff(180);
     light->setSpotExponent(32);
-    auto lights = new glr::PhongLights();
+    auto lights = new xg::glr::PhongLights();
     lights->addLight(light);
 
     auto renderer = viewer->getMasterRenderer();
 
     renderer->getContext()->getState()->getDefaultStateSet()->setAttribute(lights);
-    renderer->getContext()->getState()->getDefaultStateSet()->setAttribute(new glr::PhongMaterial());
-    renderer->getContext()->getState()->getDefaultStateSet()->setAttribute(new glr::Depth(0, 1, glr::Depth::LEQUAL));
+    renderer->getContext()->getState()->getDefaultStateSet()->setAttribute(new xg::glr::PhongMaterial());
+    renderer->getContext()->getState()->getDefaultStateSet()->setAttribute(new xg::glr::Depth(0, 1, xg::glr::Depth::LEQUAL));
     renderer->getCameraManipulator()->setVerticalAxisFixed(true);
 
 
@@ -167,8 +167,8 @@ int main(int argc, char** argv)
         viewer->frame();
         fbo->bind(*ctx->getState());
         glReadBuffer(GL_COLOR_ATTACHMENT0);
-        auto img = glr::Image::readPixels(0, 0, 800, 600, GL_RGBA, GL_UNSIGNED_BYTE);
-        glr::ImageLoader().saveAsBmp(img, "d:/1.bmp");
+        auto img = xg::glr::Image::readPixels(0, 0, 800, 600, GL_RGBA, GL_UNSIGNED_BYTE);
+        xg::glr::ImageLoader().saveAsBmp(img, "d:/1.bmp");
     }
 #else
     renderer->setScene(scene);

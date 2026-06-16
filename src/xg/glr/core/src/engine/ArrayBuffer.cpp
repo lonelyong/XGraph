@@ -6,7 +6,7 @@
 #include <xg/glr/engine/State.hpp>
 #include <xg/glr/igl/GLfuncs.hpp>
 
-V_OBJECT_META_IMPL(glr::ArrayBuffer, glr::BufferObject);
+V_OBJECT_META_IMPL(xg::glr::ArrayBuffer, xg::glr::BufferObject);
 
 namespace xg {
 namespace glr {

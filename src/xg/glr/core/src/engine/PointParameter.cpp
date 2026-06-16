@@ -8,7 +8,7 @@
 #include <xg/glr/engine/types.hpp>
 #include <xg/glr/igl/GLfuncs.hpp>
 
-V_OBJECT_META_IMPL(glr::PointParameter, glr::StateAttribute)
+V_OBJECT_META_IMPL(xg::glr::PointParameter, xg::glr::StateAttribute)
 
 namespace xg {
 namespace glr {

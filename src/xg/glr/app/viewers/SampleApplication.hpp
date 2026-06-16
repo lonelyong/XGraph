@@ -7,9 +7,9 @@ namespace xg
 namespace glr
 {
 
-class SampleApplication : public glr::Application {
+class SampleApplication : public xg::glr::Application {
   public:
-    SampleApplication(const glr::AppParameters& params);
+    SampleApplication(const xg::glr::AppParameters& params);
 
   public:
     virtual bool initQt();

@@ -4,7 +4,7 @@
 #include <xg/glr/engine/State.hpp>
 #include <xg/glr/igl/GLfuncs.hpp>
 
-V_OBJECT_META_IMPL(glr::Stencil, glr::StateAttribute)
+V_OBJECT_META_IMPL(xg::glr::Stencil, xg::glr::StateAttribute)
 
 namespace xg {
 namespace glr {

@@ -4,7 +4,7 @@ namespace xg {
 namespace glr {
 
 
-glr::GLfuncsv330::GLfuncsv330()
+xg::glr::GLfuncsv330::GLfuncsv330()
   : iglBindFragDataLocationIndexed(nullptr)
   , iglBindSampler(nullptr)
   , iglColorP3uiv(nullptr)
@@ -65,7 +65,7 @@ glr::GLfuncsv330::GLfuncsv330()
   , iglVertexP4ui(nullptr) {
 }
 
-void glr::GLfuncsv330::loadFuncs(Loader loader) {
+void xg::glr::GLfuncsv330::loadFuncs(Loader loader) {
     GLfuncsv320::loadFuncs(loader);
     iglBindFragDataLocationIndexed =
         reinterpret_cast<PFNGLBINDFRAGDATALOCATIONINDEXEDPROC>(loader("glBindFragDataLocationIndexed"));

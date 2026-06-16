@@ -98,7 +98,7 @@ Model* ExampleModels::createCube(float len, const Vec3d& posi, bool with_tex) {
 }
 
 Model* ExampleModels::createSkyBox() {
-    auto skybox = glr::createSkyBox(ResMgr::instance()->getInternalCubeMap(ResMgr::EXAMPLE_CUBE_MAP2));
+    auto skybox = xg::glr::createSkyBox(ResMgr::instance()->getInternalCubeMap(ResMgr::EXAMPLE_CUBE_MAP2));
     return skybox;
 }
 
