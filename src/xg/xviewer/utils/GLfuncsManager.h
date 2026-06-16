@@ -8,7 +8,7 @@ namespace glr {
 class GLfuncs;
 }
 
-namespace glv {
+namespace xviewer {
 class GLfuncsManager {
   private:
     GLfuncsManager() = default;
@@ -23,4 +23,4 @@ class GLfuncsManager {
 
     glr::GLfuncs* getOrRegisterByContext(osg::GraphicsContext* ctx);
 };
-} // namespace  glv
+} // namespace  xviewer

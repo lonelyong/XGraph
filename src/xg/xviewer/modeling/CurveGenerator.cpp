@@ -18,7 +18,7 @@
 
 #include "DottedCurve.h"
 
-namespace glv {
+namespace xviewer {
 
 static opencascade::handle<Geom_BSplineCurve> createCurve(const std::vector<osg::Vec3>& ctrl_points,
                                                           const std::vector<double>&    params,
@@ -140,4 +140,4 @@ DottedCurve* createDottedCurve(const std::vector<osg::Vec3>& ctrl_points,
     dc->setInputPoints(std::move(pts));
     return dc;
 }
-} // namespace glv
+} // namespace xviewer

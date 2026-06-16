@@ -6,7 +6,7 @@ namespace osg {
 class MatrixTransform;
 }
 
-namespace glv {
+namespace xviewer {
 
 class OctomapLoader {
   public:
@@ -32,4 +32,4 @@ class OctomapLoader {
   private:
     RenderOption render_option_;
 };
-} // namespace glv
+} // namespace xviewer

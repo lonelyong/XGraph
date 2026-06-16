@@ -1,8 +1,8 @@
 ﻿#pragma once
 
-#include <glv/xviewer_global.h>
+#include <xviewer/xviewer_global.h>
 
-namespace glv {
+namespace xviewer {
 struct AppParameters {
     int    argc = 0;
     char** argv = nullptr;
@@ -27,4 +27,4 @@ class Application {
   private:
     AppParameters params_;
 };
-} // namespace glv
+} // namespace xviewer

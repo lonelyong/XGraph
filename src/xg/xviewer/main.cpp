@@ -4,33 +4,33 @@
 
 #include <QApplication>
 
-#include <glv/app/RealizeOperation.h>
+#include <xviewer/app/RealizeOperation.h>
 
 #include <osg/Material>
 #include <osg/MatrixTransform>
 #include <osg/ShapeDrawable>
 
-#include <xgcomm/Environment.h>
-#include <xgcomm/Text.h>
+#include <xg/comm/Environment.h>
+#include <xg/comm/Text.h>
 
-#include <glv/app/Application.h>
-#include <glv/io/BrepLoader.h>
-#include <glv/io/MeshLoader.h>
-#include <glv/io/OctomapLoader.h>
-#include <glv/io/PointCloudLoader.h>
-#include <glv/modeling/CoordGenerator.h>
-#include <glv/modeling/CurveGenerator.h>
-#include <glv/modeling/DottedCurve.h>
-#include <glv/modeling/MeshCutterVTK.h>
+#include <xviewer/app/Application.h>
+#include <xviewer/io/BrepLoader.h>
+#include <xviewer/io/MeshLoader.h>
+#include <xviewer/io/OctomapLoader.h>
+#include <xviewer/io/PointCloudLoader.h>
+#include <xviewer/modeling/CoordGenerator.h>
+#include <xviewer/modeling/CurveGenerator.h>
+#include <xviewer/modeling/DottedCurve.h>
+#include <xviewer/modeling/MeshCutterVTK.h>
 
-#include <glv/app/MainWindow.h>
-#include <glv/app/ViewWidget.h>
-#include <glv/app/Viewer.h>
+#include <xviewer/app/MainWindow.h>
+#include <xviewer/app/ViewWidget.h>
+#include <xviewer/app/Viewer.h>
 
 osg::Group* CreateExampleModels() {
     auto root = osg::ref_ptr(new osg::Group());
 
-    glv::MeshCutterVTK mesh_cutter;
+    xviewer::MeshCutterVTK mesh_cutter;
     mesh_cutter.setMesh("R:\\models\\0731-43#-right.stl");
     mesh_cutter.setPlane(osg::Vec3(0, 0, 30), osg::Vec3(0, 0, 1));
     mesh_cutter.update();
@@ -50,7 +50,7 @@ osg::Group* CreateExampleModels() {
 
     // auto dc = createDottedCurve(pnts2, {}, {});
 
-    auto dc = new glv::DottedCurve();
+    auto dc = new xviewer::DottedCurve();
     dc->setInputPoints(pnts2);
     // dc->setIsClosed(true);
     dc->downsample(30, 120, 6);
@@ -58,7 +58,7 @@ osg::Group* CreateExampleModels() {
 
     auto pnts3 = dc->getPoints();
 
-    auto dc2       = glv::createDottedCurve(pnts3, {}, {});
+    auto dc2       = xviewer::createDottedCurve(pnts3, {}, {});
     auto dc2_model = dc2->createGeometry();
     // dc2_model->setMatrix(osg::Matrix::translate(0,0,-50));
     root->addChild(dc->createGeometry());
@@ -72,7 +72,7 @@ osg::Group* CreateExampleModels() {
 }
 
 int main(int argc, char** argv) {
-    using namespace glv;
+    using namespace xviewer;
 
     namespace fs = std::filesystem;
     fs::current_path(xg::getApplicationDir());

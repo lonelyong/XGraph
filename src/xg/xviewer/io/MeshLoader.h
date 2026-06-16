@@ -6,7 +6,7 @@ namespace osg {
 class MatrixTransform;
 }
 
-namespace glv {
+namespace xviewer {
 
 class MeshLoader {
   public:
@@ -14,4 +14,4 @@ class MeshLoader {
 
     static bool isSupported(const std::string& file);
 };
-} // namespace glv
+} // namespace xviewer

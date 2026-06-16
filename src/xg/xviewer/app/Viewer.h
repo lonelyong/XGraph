@@ -16,7 +16,7 @@ class Camera;
 class GraphicsContext;
 } // namespace osg
 
-namespace glv {
+namespace xviewer {
 
 
 class Viewer : public osgViewer::Viewer {
@@ -55,4 +55,4 @@ class Viewer : public osgViewer::Viewer {
     osg::ref_ptr<osgVerse::Pipeline> pipeline_;
 #endif
 };
-} // namespace glv
+} // namespace xviewer

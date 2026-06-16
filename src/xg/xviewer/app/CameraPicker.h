@@ -6,7 +6,7 @@ namespace osg {
 class Texture2D;
 }
 
-namespace glv {
+namespace xviewer {
 
 class CameraPicker : public osg::Camera {
   public:
@@ -18,4 +18,4 @@ class CameraPicker : public osg::Camera {
     osg::ref_ptr<osg::Texture2D> color_buf0;
     osg::ref_ptr<osg::Texture2D> depth_buf;
 };
-} // namespace glv
+} // namespace xviewer

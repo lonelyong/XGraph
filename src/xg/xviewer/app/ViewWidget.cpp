@@ -4,7 +4,7 @@
 
 #include "Viewer.h"
 
-namespace glv {
+namespace xviewer {
 
 #define __RETURN_IF_INVALID__                                                                                          \
     if (!isValid()) return;
@@ -287,4 +287,4 @@ bool ViewWidget::isValid() const {
     return viewer_.valid();
 }
 
-} // namespace glv
+} // namespace xviewer

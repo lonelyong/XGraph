@@ -2,7 +2,7 @@
 
 #include <QMainWindow>
 
-namespace glv {
+namespace xviewer {
 
 class Viewer;
 class ViewWidget;
@@ -18,4 +18,4 @@ class MainWindow : public QMainWindow {
   private:
     ViewWidget* vw_ = nullptr;
 };
-} // namespace glv
+} // namespace xviewer

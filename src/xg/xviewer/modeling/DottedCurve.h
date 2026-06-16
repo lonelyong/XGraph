@@ -8,7 +8,7 @@ namespace osg {
 class MatrixTransform;
 }
 
-namespace glv {
+namespace xviewer {
 class DottedCurve {
   public:
     DottedCurve();
@@ -35,4 +35,4 @@ class DottedCurve {
     struct Data;
     Data* const d;
 };
-} // namespace glv
+} // namespace xviewer

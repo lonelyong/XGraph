@@ -4,11 +4,11 @@
 namespace osg {
 class MatrixTransform;
 }
-namespace glv {
+namespace xviewer {
 class PointCloudLoader {
   public:
     osg::MatrixTransform* loadFile(const std::string& file);
 
     static bool isSupported(const std::string& file);
 };
-} // namespace glv
+} // namespace xviewer

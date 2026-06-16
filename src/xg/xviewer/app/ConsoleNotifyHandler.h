@@ -2,7 +2,7 @@
 
 #include <osg/Notify>
 
-namespace glv {
+namespace xviewer {
 
 class ConsoleNotifyHandler : public osg::NotifyHandler {
 
@@ -18,4 +18,4 @@ class ConsoleNotifyHandler : public osg::NotifyHandler {
 
     void*       _handle;
 };
-} // namespace glv
+} // namespace xviewer

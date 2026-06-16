@@ -21,7 +21,7 @@ XVIEWER_API unsigned int NvOptimusEnablement                  = 0x00000001;
 XVIEWER_API int          AmdPowerXpressRequestHighPerformance = 1;
 }
 
-namespace glv {
+namespace xviewer {
 
 static Application* s_app_inst;
 static bool         s_is_osg_initialized = false;
@@ -73,4 +73,4 @@ static void initOpenSceneGraph(int argc, char** argv) {
     osgVerse::globalInitialize(argc, argv);
 #endif
 }
-} // namespace glv
+} // namespace xviewer

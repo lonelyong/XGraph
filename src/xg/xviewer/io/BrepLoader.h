@@ -5,7 +5,7 @@ namespace osg {
 class MatrixTransform;
 }
 
-namespace glv {
+namespace xviewer {
 
 class BrepLoader {
   public:
@@ -13,4 +13,4 @@ class BrepLoader {
 
     static bool isSupported(const std::string& path);
 };
-} // namespace glv
+} // namespace xviewer

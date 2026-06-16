@@ -9,7 +9,7 @@
 #include <osg/Point>
 #include <osg/Vec4>
 
-namespace glv {
+namespace xviewer {
 struct DottedCurve::Data {
     std::vector<osg::Vec3> pts;
     bool                   is_closed  = false;
@@ -164,7 +164,7 @@ void DottedCurve::downsample(float max_dist, float max_angle, int max_iterations
             pt.w()        = calcAngle(prev_pt, pt, next_pt);
         }
 
-        glv::downsample(pts, d->is_closed, min_cos, max_dist_squared, output);
+        xviewer::downsample(pts, d->is_closed, min_cos, max_dist_squared, output);
         pts = output;
         --max_iterations;
     }
@@ -212,4 +212,4 @@ osg::MatrixTransform* DottedCurve::createGeometry(bool             points_visibl
 
     return mt;
 }
-} // namespace glv
+} // namespace xviewer

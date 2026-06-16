@@ -29,7 +29,7 @@
 
 #include <xgcomm/Text.h>
 
-namespace glv {
+namespace xviewer {
 namespace {
 bool isStpFile(const std::string& ext) {
     return ext == ".stp" || ext == ".step";
@@ -286,4 +286,4 @@ osg::MatrixTransform* BrepLoader::loadFile(const std::string& file) {
 
     return root;
 }
-} // namespace glv
+} // namespace xviewer

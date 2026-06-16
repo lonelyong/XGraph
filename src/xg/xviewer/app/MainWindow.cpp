@@ -3,7 +3,7 @@
 #include "ViewWidget.h"
 #include "Viewer.h"
 
-namespace glv {
+namespace xviewer {
 MainWindow::MainWindow() {
 
     vw_ = new ViewWidget();
@@ -16,4 +16,4 @@ MainWindow::~MainWindow() {
 ViewWidget* MainWindow::getViewWidget() const {
     return vw_;
 }
-} // namespace glv
+} // namespace xviewer

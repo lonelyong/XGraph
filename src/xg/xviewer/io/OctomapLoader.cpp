@@ -18,9 +18,9 @@
 
 #include <xg/glr/igl/GLfuncs.h>
 
-#include <glv/utils/GLfuncsManager.h>
+#include <xviewer/utils/GLfuncsManager.h>
 
-namespace glv {
+namespace xviewer {
 
 namespace {
 osg::Vec4 s_default_face_color = osg::Vec4(0.88, 0.88, 0.88, 1.0);
@@ -359,4 +359,4 @@ osg::MatrixTransform* OctomapLoader::loadFile(const std::string& file) {
     // osg::PolygonMode::LINE));
     return root.release();
 }
-} // namespace glv
+} // namespace xviewer

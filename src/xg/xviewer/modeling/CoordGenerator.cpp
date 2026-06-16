@@ -9,7 +9,7 @@
 #include <osg/Shape>
 #include <osg/ShapeDrawable>
 
-namespace glv {
+namespace xviewer {
 namespace {
 osg::ref_ptr<osg::Material> s_mat_red   = new osg::Material();
 osg::ref_ptr<osg::Material> s_mat_green = new osg::Material();
@@ -101,4 +101,4 @@ osg::Camera* createHudCoord(osg::Camera* master, double cyli_len, double cyli_r,
     cam->addUpdateCallback(new UpdateCallback(master));
     return cam;
 }
-} // namespace glv
+} // namespace xviewer

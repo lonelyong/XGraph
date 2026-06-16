@@ -8,9 +8,9 @@
 #include <xg/glr/igl/GLfuncs.h>
 #include <osg/ValueObject>
 
-#include <glv/utils/GLfuncsManager.h>
+#include <xviewer/utils/GLfuncsManager.h>
 
-namespace glv {
+namespace xviewer {
 
 static void debugMessageCallback(GLenum        source,
                                  GLenum        type,
@@ -139,4 +139,4 @@ void RealizeOperation::operator()(osg::GraphicsContext* gc) {
                                      "GL Debug Enabled");
     }
 }
-} // namespace glv
+} // namespace xviewer

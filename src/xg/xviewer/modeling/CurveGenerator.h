@@ -8,7 +8,7 @@
 namespace osg {
 class MatrixTransform;
 }
-namespace glv {
+namespace xviewer {
 
 class DottedCurve;
 
@@ -20,4 +20,4 @@ osg::MatrixTransform* createBSpline(const std::vector<osg::Vec3>& ctrl_points,
 DottedCurve* createDottedCurve(const std::vector<osg::Vec3>& ctrl_points,
                               const std::vector<double>&     params,
                               const std::vector<osg::Vec3>& tangents);
-} // namespace glv
+} // namespace xviewer

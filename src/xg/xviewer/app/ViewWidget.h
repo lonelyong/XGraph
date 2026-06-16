@@ -4,7 +4,7 @@
 
 #include <osg/ref_ptr>
 
-namespace glv {
+namespace xviewer {
 
 class Viewer;
 
@@ -42,4 +42,4 @@ class ViewWidget : public QOpenGLWidget {
     bool                 first_frame_ = true;
 };
 
-} // namespace glv
+} // namespace xviewer

@@ -17,7 +17,7 @@
 #endif // _WIN32
 
 
-namespace glv {
+namespace xviewer {
 namespace {
 
 static std::mutex g_syncout_mutex;
@@ -123,4 +123,4 @@ void ConsoleNotifyHandler::notify(osg::NotifySeverity severity, const char* mess
     }
 }
 
-} // namespace glv
+} // namespace xviewer

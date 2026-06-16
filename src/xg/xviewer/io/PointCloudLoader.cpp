@@ -25,7 +25,7 @@
 #include <osg/MatrixTransform>
 #include <osg/PointSprite>
 
-namespace glv {
+namespace xviewer {
 
 using Pt     = pcl::PointXYZRGB;
 using PtNorm = pcl::PointXYZRGBNormal;
@@ -300,4 +300,4 @@ bool PointCloudLoader::isSupported(const std::string& file) {
     FileType type;
     return isSupportedType(file, type);
 }
-} // namespace glv
+} // namespace xviewer

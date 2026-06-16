@@ -9,7 +9,7 @@
 #endif // XG_XVIEWER_BUILD_WITH_OSGVERSE
 
 
-namespace glv {
+namespace xviewer {
 
 #ifdef XG_XVIEWER_BUILD_WITH_OSGVERSE
 const int NODE_MASK_DEFERRED_SCENE = DEFERRED_SCENE_MASK;
@@ -56,4 +56,4 @@ void setAsShadowCaster(osg::Node* node, bool val) {
 
 
 
-} // namespace glv
+} // namespace xviewer

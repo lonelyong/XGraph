@@ -14,9 +14,9 @@
 
 #include <xg/glr/igl/GLfuncs.h>
 
-#include <glv/utils/GLfuncsManager.h>
+#include <xviewer/utils/GLfuncsManager.h>
 
-namespace glv {
+namespace xviewer {
 namespace {
 
 struct PostDrawCallback : public osg::Camera::DrawCallback {
@@ -96,4 +96,4 @@ void PostDrawCallback::operator()(osg::RenderInfo& renderInfo) const {
         osgDB::writeImageFile(*img, "d:/1.bmp");
     }
 }
-} // namespace glv
+} // namespace xviewer

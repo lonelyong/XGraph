@@ -6,7 +6,7 @@ namespace osg {
 class GraphicsContext;
 }
 
-namespace glv {
+namespace xviewer {
 
 class RealizeOperation : public osg::GraphicsOperation {
   public:
@@ -15,4 +15,4 @@ class RealizeOperation : public osg::GraphicsOperation {
   public:
     virtual void operator()(osg::GraphicsContext* gc) override;
 };
-} // namespace glv
+} // namespace xviewer

@@ -11,7 +11,7 @@
 #include <osg/MatrixTransform>
 #include <osgUtil/SmoothingVisitor>
 
-namespace glv {
+namespace xviewer {
 
 namespace ai = Assimp;
 namespace {
@@ -119,4 +119,4 @@ osg::MatrixTransform* MeshLoader::loadFile(const std::string& file) {
     }
     return root;
 }
-} // namespace glv
+} // namespace xviewer

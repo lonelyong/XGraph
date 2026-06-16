@@ -4,7 +4,7 @@ namespace osg {
 class Node;
 };
 
-namespace glv {
+namespace xviewer {
 
 #ifdef XG_XVIEWER_BUILD_WITH_OSGVERSE
 
@@ -19,4 +19,4 @@ void setAsCustom(osg::Node* node);
 void setAsShadowCaster(osg::Node* node, bool val);
 
 #endif
-} // namespace glv
+} // namespace xviewer

@@ -31,12 +31,12 @@
 
 #include <xg/glr/igl/GLdefs.h>
 
-#include <glv/app/Application.h>
-#include <glv/app/CameraPicker.h>
-#include <glv/app/RealizeOperation.h>
-#include <glv/modeling/NodeMask.h>
+#include <xviewer/app/Application.h>
+#include <xviewer/app/CameraPicker.h>
+#include <xviewer/app/RealizeOperation.h>
+#include <xviewer/modeling/NodeMask.h>
 
-namespace glv {
+namespace xviewer {
 namespace {} // namespace
 
 Viewer::Viewer() {
@@ -281,4 +281,4 @@ void Viewer::fitToScreen() {
     cm->home(0);
 }
 
-} // namespace glv
+} // namespace xviewer

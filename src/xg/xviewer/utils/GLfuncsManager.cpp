@@ -7,7 +7,7 @@
 
 #include <xg/glr/igl/GLfuncs.h>
 
-namespace glv {
+namespace xviewer {
 
 static std::unordered_map<osg::GraphicsContext*, std::shared_ptr<glr::GLfuncs>> s_funcs_map;
 
@@ -52,4 +52,4 @@ glr::GLfuncs* GLfuncsManager::getByContext(osg::GraphicsContext* ctx) const {
     }
     return nullptr;
 }
-} // namespace glv
+} // namespace xviewer

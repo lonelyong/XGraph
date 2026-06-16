@@ -18,7 +18,7 @@
 #include <osg/MatrixTransform>
 #include <osg/Point>
 
-namespace glv {
+namespace xviewer {
 
 struct MeshCutterVTK::Data {
     osg::Vec3                    plane_origin;
@@ -318,4 +318,4 @@ osg::MatrixTransform* MeshCutterVTK::createGeometry(bool             points_visi
     // mt->getOrCreateStateSet()->setAttributeAndModes(new osg::Depth(osg::Depth::ALWAYS));
     return mt;
 }
-} // namespace glv
+} // namespace xviewer
