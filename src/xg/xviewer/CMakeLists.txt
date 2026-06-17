@@ -6,13 +6,8 @@ find_package(OpenSceneGraph CONFIG REQUIRED COMPONENTS osgDB osgText osgGA osgUt
 find_package(opencascade CONFIG REQUIRED)
 find_package(assimp CONFIG REQUIRED)
 find_package(PCL CONFIG REQUIRED)
-find_package(VTK CONFIG REQUIRED)
 find_package(octomap CONFIG REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets OpenGL OpenGLWidgets)
-
-if(XG_XVIEWER_BUILD_WITH_OSGVERSE)
-    find_package(osgVerse CONFIG REQUIRED)
-endif()
 
 qt_standard_project_setup()
 
@@ -67,16 +62,16 @@ target_link_libraries(${TARGET_NAME}
     glfw
     assimp::assimp
     TKernel TKXSBase TKMesh TKBRep TKDESTEP TKDEIGES TKMath TKGeomBase TKGeomAlgo TKG3d
-    VTK::CommonCore VTK::IOPLY VTK::FiltersCore VTK::IOGeometry
-    opengl32.lib
     octomap octomath octomap-static octomath-static
     Qt6::Core Qt6::Gui Qt6::Widgets Qt6::OpenGL Qt6::OpenGLWidgets
     ${OpenSceneGraph_TARGETS}
     ${osgVerse_LIBRARIES}
     ${PCL_LIBRARIES}
+    opengl32.lib
 )
 
 if(XG_XVIEWER_BUILD_WITH_OSGVERSE)
+    find_package(osgVerse CONFIG REQUIRED)
     target_include_directories(${TARGET_NAME}
         PRIVATE
         $<BUILD_INTERFACE:${osgVerse_INCLUDE_DIRS}>
@@ -84,6 +79,19 @@ if(XG_XVIEWER_BUILD_WITH_OSGVERSE)
     target_link_libraries(${TARGET_NAME}
         PRIVATE
         ${osgVerse_LIBRARIES}
+    )
+
+    target_compile_definitions(${TARGET_NAME}
+        PRIVATE
+        XG_XVIEWER_BUILD_WITH_OSGVERSE
+    )
+endif()
+
+if(XG_XVIEWER_BUILD_WITH_VTK)
+    find_package(VTK CONFIG REQUIRED)
+    target_link_libraries(${TARGET_NAME}
+        PRIVATE
+        VTK::CommonCore VTK::IOPLY VTK::FiltersCore VTK::IOGeometry
     )
 
     target_compile_definitions(${TARGET_NAME}

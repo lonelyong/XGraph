@@ -1,25 +1,27 @@
 #include <xg/xviewer/modeling/MeshCutterVTK.hpp>
 
-#include <set>
+#ifdef XG_XVIEWER_BUILD_WITH_OSGVERSE
 
-#include <vtkActor.h>
-#include <vtkCutter.h>
-#include <vtkPlane.h>
-#include <vtkPolyData.h>
-#include <vtkPolyDataConnectivityFilter.h>
-#include <vtkPolyDataMapper.h>
-#include <vtkSTLReader.h>
-#include <vtkSmartPointer.h>
-#include <vtkStripper.h>
+#    include <vtkActor.h>
+#    include <vtkCutter.h>
+#    include <vtkPlane.h>
+#    include <vtkPolyData.h>
+#    include <vtkPolyDataConnectivityFilter.h>
+#    include <vtkPolyDataMapper.h>
+#    include <vtkSTLReader.h>
+#    include <vtkSmartPointer.h>
+#    include <vtkStripper.h>
 
-#include <osg/Depth>
-#include <osg/Geode>
-#include <osg/Geometry>
-#include <osg/MatrixTransform>
-#include <osg/Point>
+#    include <osg/Depth>
+#    include <osg/Geode>
+#    include <osg/Geometry>
+#    include <osg/MatrixTransform>
+#    include <osg/Point>
 
-namespace xg {
-namespace xviewer {
+namespace xg
+{
+namespace xviewer
+{
 
 struct MeshCutterVTK::Data {
     osg::Vec3                    plane_origin;
@@ -30,32 +32,38 @@ struct MeshCutterVTK::Data {
     vtkSmartPointer<vtkPolyData> output_poly_data;
 };
 
-static inline bool isSamePoint(const osg::Vec3& p0, const osg::Vec3& p1) {
+static inline bool isSamePoint(const osg::Vec3& p0, const osg::Vec3& p1)
+{
     return abs(p0.x() - p1.x()) < 1e-4 && abs(p0.y() - p1.y()) < 1e-4 && abs(p0.z() - p1.z() < 1e-4);
 }
 
 MeshCutterVTK::MeshCutterVTK()
-  : d(new Data()) {
-}
+  : d(new Data())
+{}
 
-MeshCutterVTK::~MeshCutterVTK() {
+MeshCutterVTK::~MeshCutterVTK()
+{
     delete d;
 }
 
-void MeshCutterVTK::setPlane(const osg::Vec3& origin, const osg::Vec3& norm) {
+void MeshCutterVTK::setPlane(const osg::Vec3& origin, const osg::Vec3& norm)
+{
     d->plane_origin = origin;
     d->plane_norm   = norm;
 }
 
-void MeshCutterVTK::setMesh(const std::string& file) {
+void MeshCutterVTK::setMesh(const std::string& file)
+{
     d->mesh_file = file;
 }
 
-void MeshCutterVTK::setMesh(osg::Vec3Array* vertices) {
+void MeshCutterVTK::setMesh(osg::Vec3Array* vertices)
+{
     d->mesh_data = vertices;
 }
 
-void MeshCutterVTK::update() {
+void MeshCutterVTK::update()
+{
     d->output_poly_data = nullptr;
     vtkSmartPointer<vtkPolyData> polyData;
     if (d->mesh_data) {
@@ -68,7 +76,8 @@ void MeshCutterVTK::update() {
         polyData = stlReader->GetOutput();
     }
 
-    if (!polyData) return;
+    if (!polyData)
+        return;
 
     vtkSmartPointer<vtkPlane> plane = vtkSmartPointer<vtkPlane>::New();
     plane->SetOrigin(d->plane_origin.x(), d->plane_origin.y(), d->plane_origin.z());
@@ -86,7 +95,8 @@ void MeshCutterVTK::update() {
     d->output_poly_data = cutter->GetOutput();
 }
 
-void MeshCutterVTK::getPoints(osg::Vec3Array& pnts) const {
+void MeshCutterVTK::getPoints(osg::Vec3Array& pnts) const
+{
     pnts.clear();
     if (d->output_poly_data->GetNumberOfPoints() > 0) {
         double pt[3];
@@ -97,7 +107,8 @@ void MeshCutterVTK::getPoints(osg::Vec3Array& pnts) const {
     }
 }
 
-void MeshCutterVTK::getPoints(std::vector<osg::Vec3>& pnts) const {
+void MeshCutterVTK::getPoints(std::vector<osg::Vec3>& pnts) const
+{
     pnts.clear();
     if (d->output_poly_data->GetNumberOfPoints() > 0) {
         double pt[3];
@@ -108,27 +119,31 @@ void MeshCutterVTK::getPoints(std::vector<osg::Vec3>& pnts) const {
     }
 }
 
-void MeshCutterVTK::getOrderedPoints(osg::Vec3Array& pnts, std::vector<int>& parts) const {
+void MeshCutterVTK::getOrderedPoints(osg::Vec3Array& pnts, std::vector<int>& parts) const
+{
     pnts.clear();
     parts.clear();
 
     struct Line {
         Line(const osg::Vec3& pt0, const osg::Vec3& pt1)
           : p0(pt0)
-          , p1(pt1) {}
+          , p1(pt1)
+        {}
 
         osg::Vec3 p0;
         osg::Vec3 p1;
         Line*     prev = nullptr;
         Line*     next = nullptr;
 
-        void reverse() {
+        void reverse()
+        {
             std::swap(p0.x(), p1.x());
             std::swap(p0.y(), p1.y());
             std::swap(p0.z(), p1.z());
         }
 
-        bool setIfConnected(Line& other) {
+        bool setIfConnected(Line& other)
+        {
             if (isSamePoint(p0, other.p0)) {
 
                 if (!prev && !other.next) {
@@ -270,15 +285,14 @@ void MeshCutterVTK::getOrderedPoints(osg::Vec3Array& pnts, std::vector<int>& par
     // }
 }
 
-void MeshCutterVTK::getOrderedPoints(std::vector<osg::Vec3>& pnts, std::vector<int>& parts) const {
+void MeshCutterVTK::getOrderedPoints(std::vector<osg::Vec3>& pnts, std::vector<int>& parts) const
+{
     pnts.clear();
     parts.clear();
 }
 
-osg::MatrixTransform* MeshCutterVTK::createGeometry(bool             points_visible,
-                                                    bool             lines_visible,
-                                                    const osg::Vec4& points_color,
-                                                    const osg::Vec4& lines_color) {
+osg::MatrixTransform* MeshCutterVTK::createGeometry(bool points_visible, bool lines_visible, const osg::Vec4& points_color, const osg::Vec4& lines_color)
+{
     auto vertices = new osg::Vec3Array();
     auto colors   = new osg::Vec4Array();
     auto geom     = new osg::Geometry();
@@ -319,5 +333,8 @@ osg::MatrixTransform* MeshCutterVTK::createGeometry(bool             points_visi
     // mt->getOrCreateStateSet()->setAttributeAndModes(new osg::Depth(osg::Depth::ALWAYS));
     return mt;
 }
+
 } // namespace xviewer
 } // namespace xg
+
+#endif

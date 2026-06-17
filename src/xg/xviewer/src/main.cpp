@@ -30,7 +30,7 @@
 osg::Group* CreateExampleModels()
 {
     auto root = osg::ref_ptr(new osg::Group());
-
+#ifdef XG_XVIEWER_BUILD_WITH_OSGVERSE
     xg::xviewer::MeshCutterVTK mesh_cutter;
     mesh_cutter.setMesh("R:\\models\\0731-43#-right.stl");
     mesh_cutter.setPlane(osg::Vec3(0, 0, 30), osg::Vec3(0, 0, 1));
@@ -44,7 +44,9 @@ osg::Group* CreateExampleModels()
     std::vector<osg::Vec3> pnts2;
     pnts2.reserve(pnts->size());
 
-    for (int i = 0; i < nparts.front(); i++) { pnts2.push_back(pnts->at(i)); }
+    for (int i = 0; i < nparts.front(); i++) {
+        pnts2.push_back(pnts->at(i));
+    }
 
     // auto dc = createDottedCurve(pnts2, {}, {});
 
@@ -65,33 +67,36 @@ osg::Group* CreateExampleModels()
     mesh->setMatrix(osg::Matrix::translate(300, 0, 0));
 
     root->addChild(mesh);
+#endif
 
     return root.release();
 }
 
 int main(int argc, char** argv)
-{
-    using namespace xg::xviewer;
-
+{ 
     namespace fs = std::filesystem;
     fs::current_path(xg::getApplicationDir());
 
-    Application app(argc, argv);
+    xg::xviewer::Application app(argc, argv);
 
     osg::ref_ptr<osg::Group> model;
-    if (argc == 1) { model = CreateExampleModels(); }
+    if (argc == 1) {
+        model = CreateExampleModels();
+    }
     else {
         std::string file = argv[1];
-        if (MeshLoader::isSupported(file)) { model = MeshLoader().loadFile(file); }
-        else if (BrepLoader::isSupported(file)) {
-            model = BrepLoader().loadFile(file);
+        if (xg::xviewer::MeshLoader::isSupported(file)) {
+            model = xg::xviewer::MeshLoader().loadFile(file);
         }
-        else if (PointCloudLoader::isSupported(file)) {
-            model = PointCloudLoader().loadFile(file);
+        else if (xg::xviewer::BrepLoader::isSupported(file)) {
+            model = xg::xviewer::BrepLoader().loadFile(file);
         }
-        else if (OctomapLoader::isSupported(file)) {
-            OctomapLoader loader;
-            loader.setRenderOption(OctomapLoader::RENDER_AS_BOX_USE_GEOMETRY_SHADER);
+        else if (xg::xviewer::PointCloudLoader::isSupported(file)) {
+            model = xg::xviewer::PointCloudLoader().loadFile(file);
+        }
+        else if (xg::xviewer::OctomapLoader::isSupported(file)) {
+            xg::xviewer::OctomapLoader loader;
+            loader.setRenderOption(xg::xviewer::OctomapLoader::RENDER_AS_BOX_USE_GEOMETRY_SHADER);
             model = loader.loadFile(file);
         }
         else {
@@ -105,10 +110,10 @@ int main(int argc, char** argv)
         }
     }
 
-    auto v = new Viewer();
+    auto v = new xg::xviewer::Viewer();
 
-    auto coord     = createCoord(100, 2, 20, 4, true);
-    auto hud_coord = createHudCoord(v->getCamera(), 60, 2, 12, 4);
+    auto coord     = xg::xviewer::createCoord(100, 2, 20, 4, true);
+    auto hud_coord = xg::xviewer::createHudCoord(v->getCamera(), 60, 2, 12, 4);
 #if XG_XVIEWER_BUILD_WITH_OSGVERSE
     v->addNodeAsDeferred(model);
     v->addNodeAsCustom(coord);
@@ -117,7 +122,7 @@ int main(int argc, char** argv)
     v->fitToScreen();
 
     QApplication qapp(argc, argv);
-    MainWindow   mwnd;
+    xg::xviewer::MainWindow   mwnd;
     mwnd.getViewWidget()->setViewer(v);
     mwnd.show();
 
