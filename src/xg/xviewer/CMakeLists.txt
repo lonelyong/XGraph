@@ -1,6 +1,7 @@
 ﻿set(TARGET_NAME xviewer)
 
 option(XG_XVIEWER_BUILD_WITH_OSGVERSE "Build with osgVerse." OFF)
+option(XG_XVIEWER_BUILD_WITH_VTK "Build with vtk." OFF)
 
 find_package(OpenSceneGraph CONFIG REQUIRED COMPONENTS osgDB osgText osgGA osgUtil osgViewer)
 find_package(opencascade CONFIG REQUIRED)
@@ -62,12 +63,12 @@ target_link_libraries(${TARGET_NAME}
     glfw
     assimp::assimp
     TKernel TKXSBase TKMesh TKBRep TKDESTEP TKDEIGES TKMath TKGeomBase TKGeomAlgo TKG3d
+    opengl32.lib
     octomap octomath octomap-static octomath-static
     Qt6::Core Qt6::Gui Qt6::Widgets Qt6::OpenGL Qt6::OpenGLWidgets
     ${OpenSceneGraph_TARGETS}
     ${osgVerse_LIBRARIES}
     ${PCL_LIBRARIES}
-    opengl32.lib
 )
 
 if(XG_XVIEWER_BUILD_WITH_OSGVERSE)
@@ -96,7 +97,7 @@ if(XG_XVIEWER_BUILD_WITH_VTK)
 
     target_compile_definitions(${TARGET_NAME}
         PRIVATE
-        XG_XVIEWER_BUILD_WITH_OSGVERSE
+        XG_XVIEWER_BUILD_WITH_VTK
     )
 endif()
 

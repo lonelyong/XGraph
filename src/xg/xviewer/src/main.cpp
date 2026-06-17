@@ -30,7 +30,7 @@
 osg::Group* CreateExampleModels()
 {
     auto root = osg::ref_ptr(new osg::Group());
-#ifdef XG_XVIEWER_BUILD_WITH_OSGVERSE
+#ifdef XG_XVIEWER_BUILD_WITH_VTK
     xg::xviewer::MeshCutterVTK mesh_cutter;
     mesh_cutter.setMesh("R:\\models\\0731-43#-right.stl");
     mesh_cutter.setPlane(osg::Vec3(0, 0, 30), osg::Vec3(0, 0, 1));
