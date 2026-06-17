@@ -42,6 +42,7 @@ bool PixelBufferObject::setImage(Image* img) {
     if (d->m == MODE_PACK) return false;
     if (d->img == img) return true;
     d->img = img;
+    return true;
 }
 
 bool PixelBufferObject::onUpdate(State& state) {

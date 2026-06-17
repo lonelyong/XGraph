@@ -44,9 +44,7 @@ osg::Group* CreateExampleModels()
     std::vector<osg::Vec3> pnts2;
     pnts2.reserve(pnts->size());
 
-    for (int i = 0; i < nparts.front(); i++) {
-        pnts2.push_back(pnts->at(i));
-    }
+    for (int i = 0; i < nparts.front(); i++) { pnts2.push_back(pnts->at(i)); }
 
     // auto dc = createDottedCurve(pnts2, {}, {});
 
@@ -73,21 +71,17 @@ osg::Group* CreateExampleModels()
 }
 
 int main(int argc, char** argv)
-{ 
+{
     namespace fs = std::filesystem;
     fs::current_path(xg::getApplicationDir());
 
     xg::xviewer::Application app(argc, argv);
 
     osg::ref_ptr<osg::Group> model;
-    if (argc == 1) {
-        model = CreateExampleModels();
-    }
+    if (argc == 1) { model = CreateExampleModels(); }
     else {
         std::string file = argv[1];
-        if (xg::xviewer::MeshLoader::isSupported(file)) {
-            model = xg::xviewer::MeshLoader().loadFile(file);
-        }
+        if (xg::xviewer::MeshLoader::isSupported(file)) { model = xg::xviewer::MeshLoader().loadFile(file); }
         else if (xg::xviewer::BrepLoader::isSupported(file)) {
             model = xg::xviewer::BrepLoader().loadFile(file);
         }
@@ -117,12 +111,15 @@ int main(int argc, char** argv)
 #if XG_XVIEWER_BUILD_WITH_OSGVERSE
     v->addNodeAsDeferred(model);
     v->addNodeAsCustom(coord);
+#else
+    v->addNode(model);
+    v->addNode(coord);
 #endif
     v->addSlave(hud_coord, false, false);
     v->fitToScreen();
 
-    QApplication qapp(argc, argv);
-    xg::xviewer::MainWindow   mwnd;
+    QApplication            qapp(argc, argv);
+    xg::xviewer::MainWindow mwnd;
     mwnd.getViewWidget()->setViewer(v);
     mwnd.show();
 

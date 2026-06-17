@@ -11,6 +11,8 @@
 #include <osg/MatrixTransform>
 #include <osgUtil/SmoothingVisitor>
 
+#include <xg/comm/Text.hpp>
+
 namespace xg {
 namespace xviewer {
 
@@ -109,9 +111,12 @@ bool MeshLoader::isSupported(const std::string& file) {
 }
 
 osg::MatrixTransform* MeshLoader::loadFile(const std::string& file) {
+
+    auto file_u8 = xg::local8bitToUtf8(file);
+
     osg::MatrixTransform* root = nullptr;
     ai::Importer          im;
-    auto scene = im.ReadFile(file, aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_GenSmoothNormals);
+    auto scene = im.ReadFile(file_u8, aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_GenSmoothNormals);
     if (scene) {
         aiProcessNode(&root, scene, scene->mRootNode);
         if (root) {
