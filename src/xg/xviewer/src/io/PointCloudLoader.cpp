@@ -25,6 +25,8 @@
 #include <osg/MatrixTransform>
 #include <osg/PointSprite>
 
+#include <xg/comm/Text.hpp>
+
 namespace xg {
 namespace xviewer {
 
@@ -128,7 +130,8 @@ bool isPcdFile(const std::string& ext) {
 
 bool isSupportedType(const std::string& file, FileType& type) {
     namespace fs = std::filesystem;
-    fs::path path(file);
+    auto u8file = xg::local8bitToUtf8(file);
+    fs::path path(u8file);
     if (!path.has_extension()) return false;
 
     auto file_ext = path.extension().string();

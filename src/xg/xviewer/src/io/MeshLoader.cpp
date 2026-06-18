@@ -102,7 +102,9 @@ void aiProcessNode(osg::MatrixTransform** model, const aiScene* scene, aiNode* n
 
 bool MeshLoader::isSupported(const std::string& file) {
     namespace fs = std::filesystem;
-    fs::path path(file);
+    auto u8file = xg::local8bitToUtf8(file);
+    std::u8string& x = reinterpret_cast<std::u8string&>(u8file);
+    fs::path path(u8file);
     if (!path.has_extension()) return false;
     auto                         file_ext = path.extension().string();
     static std::set<std::string> exts     = { ".stl", ".obj", ".gltf", ".3mf", ".3ds", ".dxf",
@@ -112,11 +114,11 @@ bool MeshLoader::isSupported(const std::string& file) {
 
 osg::MatrixTransform* MeshLoader::loadFile(const std::string& file) {
 
-    auto file_u8 = xg::local8bitToUtf8(file);
+    auto u8file = xg::local8bitToUtf8(file);
 
     osg::MatrixTransform* root = nullptr;
     ai::Importer          im;
-    auto scene = im.ReadFile(file_u8, aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_GenSmoothNormals);
+    auto scene = im.ReadFile(u8file, aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_GenSmoothNormals);
     if (scene) {
         aiProcessNode(&root, scene, scene->mRootNode);
         if (root) {

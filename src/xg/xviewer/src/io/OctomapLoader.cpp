@@ -15,10 +15,11 @@
 
 #include <xg/comm/Environment.hpp>
 #include <xg/comm/Resources.hpp>
+#include <xg/comm/Text.hpp>
 #include <xg/glr/igl/GLfuncs.hpp>
 
-#include <xg/xviewer/utils/GLfuncsManager.hpp>
 
+#include <xg/xviewer/utils/GLfuncsManager.hpp>
 namespace xg {
 namespace xviewer {
 
@@ -105,7 +106,8 @@ struct DrawCallback_Transform : osg::Drawable::DrawCallback {
 
 bool OctomapLoader::isSupported(const std::string& file) {
     namespace fs = std::filesystem;
-    fs::path path(file);
+    auto u8file = xg::local8bitToUtf8(file);
+    fs::path path(u8file);
     if (!path.has_extension()) return false;
     auto                         file_ext = path.extension().string();
     static std::set<std::string> exts     = { ".bt" };
@@ -120,7 +122,7 @@ void OctomapLoader::setRenderOption(RenderOption option) {
     render_option_ = option;
 }
 
-OctomapLoader::RenderOption OctomapLoader::getRenderOption() {
+OctomapLoader::RenderOption OctomapLoader::getRenderOption() const {
     return render_option_;
 }
 

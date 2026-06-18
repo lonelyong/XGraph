@@ -29,12 +29,10 @@ add_library(${XG_SHARED_LIBRARY_PREFIX}::${TARGET_NAME} ALIAS ${TARGET_NAME})
 
 source_group(
     TREE ${CMAKE_CURRENT_LIST_DIR}
-    PREFIX include
     FILES ${HEADER_FILES}
 )
 source_group(
     TREE ${CMAKE_CURRENT_LIST_DIR}
-    PREFIX src
     FILES
     ${SRC_FILES}
 )

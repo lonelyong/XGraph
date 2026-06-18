@@ -53,7 +53,8 @@ enum FileType
 bool isSupportedType(const std::string& file, FileType& type)
 {
     namespace fs = std::filesystem;
-    fs::path path(file);
+    auto u8file = xg::local8bitToUtf8(file);
+    fs::path path(u8file);
     if (!path.has_extension())
         return false;
 
@@ -126,17 +127,20 @@ bool BrepLoader::isSupported(const std::string& file)
 
 osg::MatrixTransform* BrepLoader::loadFile(const std::string& file)
 {
-    XSControl_Reader* reader = nullptr;
-    FileType          type;
+    FileType type;
     if (!isSupportedType(file, type))
         return nullptr;
-    if (type == TYPE_STEP) { reader = new STEPControl_Reader(); }
-    else if (type == TYPE_IGES) {
+
+    XSControl_Reader* reader = nullptr;
+    if (type == TYPE_STEP)
+        reader = new STEPControl_Reader();
+    else if (type == TYPE_IGES)
         reader = new IGESControl_Reader();
-    }
+
     if (!reader)
         return nullptr;
-    auto u8path = xg::gbkToUtf8(file);
+
+    auto u8path = xg::local8bitToUtf8(file);
     auto status = reader->ReadFile(u8path.data());
     if (status != IFSelect_RetDone)
         return nullptr;
@@ -256,7 +260,6 @@ osg::MatrixTransform* BrepLoader::loadFile(const std::string& file)
             }
             edge_geom->addPrimitiveSet(new osg::DrawArrays(GL_LINE_STRIP, 0, vertices->size()));
 #else
-            // ������
             indices = new osg::DrawElementsUInt(GL_LINE_STRIP);
             for (auto i : nodes) { indices->push_back(i); }
             edge_geom->addPrimitiveSet(indices);

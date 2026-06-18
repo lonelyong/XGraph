@@ -1,4 +1,4 @@
-#include <xg/xviewer/app/ViewWidget.hpp>
+ï»¿#include <xg/xviewer/app/ViewWidget.hpp>
 
 #include <QResizeEvent>
 
@@ -7,9 +7,6 @@
 
 namespace xg {
 namespace xviewer {
-
-#define __RETURN_IF_INVALID__                                                                                          \
-    if (!isValid()) return;
 
 static int mapToOsgMouseButton(Qt::MouseButton btn) {
     if (btn & Qt::LeftButton) {
@@ -157,7 +154,7 @@ void ViewWidget::resizeEvent(QResizeEvent* event) {
         auto  ratio = this->screen()->devicePixelRatio();
         auto& size  = event->size();
         auto  gc    = viewer_->getGraphicsContext();
-        // »á¸üÐÂgcÏÂËùÓÐÏà»úµÄViewportÓëÍ¶Ó°¾ØÕó
+        // ä¼šæ›´æ–°gcä¸‹æ‰€æœ‰ç›¸æœºçš„Viewportä¸ŽæŠ•å½±çŸ©é˜µ
         gc->resized(0, 0, size.width() * ratio, size.height() * ratio);
 
         auto gw = dynamic_cast<osgViewer::GraphicsWindow*>(gc);

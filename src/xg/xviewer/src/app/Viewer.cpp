@@ -35,11 +35,15 @@
 #include <xg/xviewer/app/RealizeOperation.hpp>
 #include <xg/xviewer/modeling/NodeMask.hpp>
 
-namespace xg {
-namespace xviewer {
-namespace {} // namespace
+namespace xg
+{
+namespace xviewer
+{
+namespace
+{} // namespace
 
-Viewer::Viewer() {
+Viewer::Viewer()
+{
     auto root   = osg::ref_ptr(new osg::Group());
     auto traits = osg::ref_ptr(new osg::GraphicsContext::Traits());
 
@@ -139,56 +143,51 @@ Viewer::Viewer() {
 #endif
 }
 
-void Viewer::addNode(osg::Node* node) {
-    root_node_->addChild(node);
-}
+void Viewer::addNode(osg::Node* node)
+{ root_node_->addChild(node); }
 
 #ifdef XG_XVIEWER_BUILD_WITH_OSGVERSE
-void Viewer::addNodeAsDeferred(osg::Node* node) {
+void Viewer::addNodeAsDeferred(osg::Node* node)
+{
     setAsDeferred(node);
     addNode(node);
 }
-void Viewer::addNodeAsForward(osg::Node* node) {
+
+void Viewer::addNodeAsForward(osg::Node* node)
+{
     setAsForward(node);
     addNode(node);
 }
-void Viewer::addNodeAsCustom(osg::Node* node) {
+
+void Viewer::addNodeAsCustom(osg::Node* node)
+{
     setAsCustom(node);
     addNode(node);
 }
 #endif
 
-void Viewer::addSlave(osg::Camera* cam,
-                      bool         useMasterSceneData,
-                      bool         useMasterViewMatrix,
-                      bool         useMasterProjMatrix,
-                      bool         useMasterViewport) {
+void Viewer::addSlave(osg::Camera* cam, bool useMasterSceneData, bool useMasterViewMatrix, bool useMasterProjMatrix, bool useMasterViewport)
+{
     osgViewer::Viewer::addSlave(cam, useMasterSceneData);
 
     if (useMasterViewMatrix || useMasterProjMatrix || useMasterViewport) {
         struct UpdateCallback : osg::NodeCallback {
-            UpdateCallback(osg::Camera* master,
-                           osg::Camera* slave,
-                           bool         useMasterViewMatrix,
-                           bool         useMasterProjMatrix,
-                           bool         useMasterViewport)
+            UpdateCallback(osg::Camera* master, osg::Camera* slave, bool useMasterViewMatrix, bool useMasterProjMatrix, bool useMasterViewport)
               : master_(master)
               , slave_(slave)
               , use_mas_view_(useMasterViewMatrix)
               , use_mas_proj_(useMasterProjMatrix)
-              , use_mas_vp_(useMasterViewport) {}
+              , use_mas_vp_(useMasterViewport)
+            {}
 
             osg::Camera *master_, *slave_;
             bool         use_mas_view_, use_mas_proj_, use_mas_vp_;
 
-            virtual void operator()(osg::Node* node, osg::NodeVisitor* nv) override {
+            virtual void operator()(osg::Node* node, osg::NodeVisitor* nv) override
+            {
                 auto cam = node->asCamera();
-                if (use_mas_view_) {
-                    cam->setViewMatrix(master_->getViewMatrix());
-                }
-                if (use_mas_proj_) {
-                    cam->setViewMatrix(master_->getProjectionMatrix());
-                }
+                if (use_mas_view_) { cam->setViewMatrix(master_->getViewMatrix()); }
+                if (use_mas_proj_) { cam->setViewMatrix(master_->getProjectionMatrix()); }
                 if (use_mas_vp_) {
                     auto vp = master_->getViewport();
                     cam->setViewport(vp->x(), vp->y(), vp->width(), vp->height());
@@ -196,24 +195,23 @@ void Viewer::addSlave(osg::Camera* cam,
             }
         };
 
-        cam->addUpdateCallback(
-            new UpdateCallback(getCamera(), cam, useMasterViewMatrix, useMasterProjMatrix, useMasterViewport));
+        cam->addUpdateCallback(new UpdateCallback(getCamera(), cam, useMasterViewMatrix, useMasterProjMatrix, useMasterViewport));
     }
 }
 
-osg::GraphicsContext* Viewer::getGraphicsContext() const {
-    return gc_.get();
-}
+osg::GraphicsContext* Viewer::getGraphicsContext() const
+{ return gc_.get(); }
 
-void Viewer::initPipelineDefault() {
-}
+void Viewer::initPipelineDefault()
+{}
 
 #ifdef XG_XVIEWER_BUILD_WITH_OSGVERSE
-void Viewer::initPipelineVerse() {
+void Viewer::initPipelineVerse()
+{
     return;
     // Main light
     auto light0 = new osgVerse::LightDrawable;
-    light0->setColor(osg::Vec3(1.0f, 1.0f, 1.0f));
+    light0->setColor(osg::Vec3(1.5f, 1.5f, 1.2f));
     light0->setDirection(osg::Vec3(0.02f, 0.1f, -1.0f));
     light0->setDirectional(true);
     light0->setEyeSpace(false);
@@ -232,12 +230,11 @@ void Viewer::initPipelineVerse() {
     class ViewerEventCallback : public osgGA::GUIEventHandler {
       public:
         ViewerEventCallback(osgVerse::LightDrawable* light0)
-          : light0_(light0) {}
+          : light0_(light0)
+        {}
 
-        virtual bool handle(const osgGA::GUIEventAdapter& ea,
-                            osgGA::GUIActionAdapter&      aa,
-                            osg::Object*,
-                            osg::NodeVisitor*) override {
+        virtual bool handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa, osg::Object*, osg::NodeVisitor*) override
+        {
             if (ea.getEventType() == osgGA::GUIEventAdapter::FRAME) {
                 osg::Vec3 eye, center, up, dir;
                 aa.asView()->getCamera()->getViewMatrixAsLookAt(eye, center, up);
@@ -257,8 +254,8 @@ void Viewer::initPipelineVerse() {
     addEventHandler(new ViewerEventCallback(light0));
 
     osgVerse::StandardPipelineParameters params(SHADER_DIR, SKYBOX_DIR + "barcelona.hdr");
-    params.enablePostEffects = false;
-    params.enableAO          = false;
+    params.enablePostEffects = true;
+    params.enableAO          = true;
 
     pipeline_ = new osgVerse::Pipeline;
     osgVerse::setupStandardPipeline(pipeline_, this, params);
@@ -266,16 +263,17 @@ void Viewer::initPipelineVerse() {
     // Post pipeline settings
     auto shadow = static_cast<osgVerse::ShadowModule*>(pipeline_->getModule("Shadow"));
     if (shadow && shadow->getFrustumGeode()) {
-        // setPipelineMask(shadow->getFrustumGeode(), FORWARD_SCENE_MASK);
-        // addNode(shadow->getFrustumGeode());
+        osgVerse::Pipeline::setPipelineMask(*shadow->getFrustumGeode(), FORWARD_SCENE_MASK);
+        addNode(shadow->getFrustumGeode());
     }
 
     auto light = static_cast<osgVerse::LightModule*>(pipeline_->getModule("Light"));
-    if (light) light->setMainLight(light0, "Shadow");
+    if (light) { light->setMainLight(light0, "Shadow"); }
 }
 #endif
 
-void Viewer::fitToScreen() {
+void Viewer::fitToScreen()
+{
     auto cm = getCameraManipulator();
     cm->computeHomePosition(getCamera());
     cm->home(0);

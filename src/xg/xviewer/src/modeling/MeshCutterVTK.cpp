@@ -1,7 +1,6 @@
 #include <xg/xviewer/modeling/MeshCutterVTK.hpp>
 
-#ifdef XG_XVIEWER_BUILD_WITH_OSGVERSE
-
+#ifdef XG_XVIEWER_BUILD_WITH_VTK
 #    include <vtkActor.h>
 #    include <vtkCutter.h>
 #    include <vtkPlane.h>

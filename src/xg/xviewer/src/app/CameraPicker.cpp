@@ -1,4 +1,4 @@
-#include <xg/xviewer/app/CameraPicker.hpp>
+ï»¿#include <xg/xviewer/app/CameraPicker.hpp>
 
 #include <fstream>
 #include <iosfwd>
@@ -87,7 +87,7 @@ void PostDrawCallback::operator()(osg::RenderInfo& renderInfo) const {
 
         GLint fbo_id;
         funcs->iglGetIntegerv(IGL_FRAMEBUFFER_BINDING, &fbo_id);
-        // Ïà»úµÄdrawcallbackµ÷ÓÃÖ®ºó£¬»áreset FBO to default
+        // ç›¸æœºçš„drawcallbackè°ƒç”¨ä¹‹åŽï¼Œä¼šreset FBO to default
         funcs->iglBindFramebuffer(IGL_FRAMEBUFFER, 1);
         glReadBuffer(IGL_COLOR_ATTACHMENT0);
         img->readPixels(0, 0, vp->width(), vp->height(), GL_RGBA, GL_UNSIGNED_BYTE);
