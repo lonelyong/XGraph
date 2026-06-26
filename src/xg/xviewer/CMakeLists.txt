@@ -4,24 +4,24 @@ option(XG_XVIEWER_BUILD_WITH_OSGVERSE "Build with osgVerse." OFF)
 option(XG_XVIEWER_BUILD_WITH_VTK "Build with vtk." OFF)
 
 # Try vcpkg's unofficial-osg first (provides modern CMake targets)
-find_package(unofficial-osg CONFIG QUIET)
-if(unofficial-osg_FOUND)
-    set(XG_OSG_LIBRARIES
-        unofficial::osg::osgDB
-        unofficial::osg::osgText
-        unofficial::osg::osgGA
-        unofficial::osg::osgUtil
-        unofficial::osg::osgViewer
-    )
-    # unofficial-osg targets don't set INTERFACE_INCLUDE_DIRECTORIES
-    # get_filename_component(_vcpkg_prefix "${unofficial-osg_DIR}/../.." ABSOLUTE)
-    # set(XG_OSG_INCLUDE_DIRS "${_vcpkg_prefix}/include")
-else()
-    # Fall back to CMake's built-in FindOpenSceneGraph module
-    find_package(OpenSceneGraph REQUIRED COMPONENTS osgDB osgText osgGA osgUtil osgViewer)
-    set(XG_OSG_LIBRARIES ${OPENSCENEGRAPH_LIBRARIES})
-    set(XG_OSG_INCLUDE_DIRS ${OPENSCENEGRAPH_INCLUDE_DIRS})
-endif()
+# find_package(unofficial-osg CONFIG QUIET)
+# if(unofficial-osg_FOUND)
+#     set(XG_OSG_LIBRARIES
+#         unofficial::osg::osgDB
+#         unofficial::osg::osgText
+#         unofficial::osg::osgGA
+#         unofficial::osg::osgUtil
+#         unofficial::osg::osgViewer
+#     )
+#     # unofficial-osg targets don't set INTERFACE_INCLUDE_DIRECTORIES
+#     # get_filename_component(_vcpkg_prefix "${unofficial-osg_DIR}/../.." ABSOLUTE)
+#     # set(XG_OSG_INCLUDE_DIRS "${_vcpkg_prefix}/include")
+# else()
+# Fall back to CMake's built-in FindOpenSceneGraph module
+find_package(OpenSceneGraph CONFIG REQUIRED COMPONENTS osgDB osgText osgGA osgUtil osgViewer)
+# set(XG_OSG_LIBRARIES ${OPENSCENEGRAPH_LIBRARIES})
+# set(XG_OSG_INCLUDE_DIRS ${OPENSCENEGRAPH_INCLUDE_DIRS})
+# endif()
 
 find_package(OpenCASCADE CONFIG REQUIRED)
 find_package(assimp CONFIG REQUIRED)
@@ -72,7 +72,7 @@ target_include_directories(${TARGET_NAME}
     PRIVATE
     ${BACKWARD_INCLUDE_DIR}
     ${GLAD_INCLUDE_DIR}
-    ${XG_OSG_INCLUDE_DIRS}
+    ${OpenSceneGraph_INCLUDE_DIRS}
 
 )
 target_link_libraries(${TARGET_NAME}
@@ -82,9 +82,9 @@ target_link_libraries(${TARGET_NAME}
     glfw
     assimp::assimp
     TKernel TKXSBase TKMesh TKBRep TKDESTEP TKDEIGES TKMath TKGeomBase TKGeomAlgo TKG3d
-    octomap octomath octomap-static octomath-static
+    octomap-static octomath-static
     Qt6::Core Qt6::Gui Qt6::Widgets Qt6::OpenGL Qt6::OpenGLWidgets
-    ${XG_OSG_LIBRARIES}
+    ${OpenSceneGraph_TARGETS}
     ${osgVerse_LIBRARIES}
     ${PCL_LIBRARIES}
 )
@@ -96,10 +96,11 @@ if(WIN32)
 endif()
 
 # OpenMP required by PCL and glr-core
-if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    target_link_options(${TARGET_NAME} PRIVATE -fopenmp=libgomp)
-else()
-    target_link_options(${TARGET_NAME} PRIVATE -fopenmp)
+if(LINUX)
+    find_package(OpenMP QUIET)
+    if(OpenMP_CXX_FOUND)
+        target_link_libraries(${TARGET_NAME} PRIVATE OpenMP::OpenMP_CXX)
+    endif()
 endif()
 
 if(XG_XVIEWER_BUILD_WITH_OSGVERSE)

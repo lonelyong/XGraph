@@ -51,7 +51,8 @@ void Sampler::setBorderColor(const Vec4d& color) {
 }
 
 const Vec4d& Sampler::getBorderColor() const {
-    return {};
+    static Vec4d c;
+    return c;
 }
 
 void Sampler::setMaxAnisotropy(float anis) {
