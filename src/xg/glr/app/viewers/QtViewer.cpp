@@ -25,9 +25,9 @@ class GraphicContextQt : public GraphicContext {
     virtual ~GraphicContextQt() {}
 
   public:
-    virtual int getWidth() const { return widget_->width(); }
+    virtual int getWidth() const override { return widget_->width(); }
 
-    virtual int getHeight() const { return widget_->height(); }
+    virtual int getHeight() const override { return widget_->height(); }
 
   protected:
     virtual GLfuncs* createGLfuncs() override {
@@ -149,7 +149,7 @@ void QtViewer::mousePressEvent(QMouseEvent* event) {
         btn = BUTTON_RIGHT;
     }
     auto ratio = this->screen()->devicePixelRatio();
-    d->ctx->notify(Event::createMouseButtonPressEvent(d->ctx.get(), btn, event->x() * ratio, event->y() * ratio));
+    d->ctx->notify(Event::createMouseButtonPressEvent(d->ctx.get(), btn, event->position().x() * ratio, event->position().y() * ratio));
     QOpenGLWidget::mousePressEvent(event);
     this->update();
 };
@@ -166,7 +166,7 @@ void QtViewer::mouseReleaseEvent(QMouseEvent* event) {
         btn = BUTTON_RIGHT;
     }
     auto ratio = this->screen()->devicePixelRatio();
-    d->ctx->notify(Event::createMouseButtonReleaseEvent(d->ctx.get(), btn, event->x() * ratio, event->y() * ratio));
+    d->ctx->notify(Event::createMouseButtonReleaseEvent(d->ctx.get(), btn, event->position().x() * ratio, event->position().y() * ratio));
     QOpenGLWidget::mouseReleaseEvent(event);
 };
 
@@ -177,7 +177,7 @@ void QtViewer::mouseDoubleClickEvent(QMouseEvent* event) {
 
 void QtViewer::mouseMoveEvent(QMouseEvent* event) {
     auto ratio = this->screen()->devicePixelRatio();
-    d->ctx->notify(Event::createMouseMoveEvent(d->ctx.get(), event->x() * ratio, event->y() * ratio));
+    d->ctx->notify(Event::createMouseMoveEvent(d->ctx.get(), event->position().x() * ratio, event->position().y() * ratio));
     QOpenGLWidget::mouseMoveEvent(event);
     this->update();
 };

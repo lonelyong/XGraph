@@ -43,7 +43,7 @@ class GLR_API ViewportIndexed : public StateAttribute {
     virtual ~ViewportIndexed();
 
   public:
-    Type getType() const;
+    Type getType() const override;
 
     void set(GLuint_t index, GLfloat_t x, GLfloat_t y, GLfloat_t w, GLfloat_t h);
     void get(GLuint_t& o_index, GLfloat_t& o_x, GLfloat_t& o_y, GLfloat_t& o_w, GLfloat_t& o_h);
@@ -66,7 +66,7 @@ class GLR_API ViewportArray : public StateAttribute {
     virtual ~ViewportArray();
 
   public:
-    Type getType() const;
+    Type getType() const override;
 
     void     setFirst(GLuint_t first);
     GLuint_t getFirst() const;

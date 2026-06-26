@@ -78,7 +78,7 @@ void Program::setName(const std::string& name) {
 void Program::attachShader(Shader* shader) {
     if (shader) {
         if (d->shaders.contains(shader->getType())) {
-            d->shaders[shader->getType()] == shader;
+            d->shaders[shader->getType()] = shader;
         }
         else {
             d->shaders.insert({ shader->getType(), shader });

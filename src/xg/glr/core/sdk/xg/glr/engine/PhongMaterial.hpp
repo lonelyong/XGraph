@@ -31,7 +31,7 @@ class GLR_API PhongMaterial : public UniformBase {
     float getShininess() const;
     void  setShininess(float shininess);
 
-    Type getType() const;
+    Type getType() const override;
 
     void                       setName(const std::string& name);
     virtual const std::string& getName() const override;

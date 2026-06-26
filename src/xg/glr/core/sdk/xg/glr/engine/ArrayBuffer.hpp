@@ -154,7 +154,7 @@ class Array : public ArrayBuffer {
     virtual Target getTarget() const override;
     virtual Usage  getUsage() const override;
 
-    bool empty() const;
+    bool empty() const override;
 
   protected:
     virtual GLuint_t onCreate(State& state) override;

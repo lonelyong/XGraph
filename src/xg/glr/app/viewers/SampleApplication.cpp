@@ -4,6 +4,7 @@
 
 #include <QApplication>
 #include <QSurfaceFormat>
+#include <QColorSpace>
 
 #include <xg/comm/Environment.hpp>
 
@@ -33,7 +34,7 @@ bool SampleApplication::initQt() {
     format.setVersion(params.gl_ver_maj, params.gl_ver_min);
     format.setDepthBufferSize(24);
     format.setStencilBufferSize(8);
-    format.setColorSpace(QSurfaceFormat::ColorSpace::DefaultColorSpace);
+    format.setColorSpace(QColorSpace::SRgb);
     format.setRenderableType(QSurfaceFormat::RenderableType::OpenGL);
 
     QSurfaceFormat::setDefaultFormat(format);

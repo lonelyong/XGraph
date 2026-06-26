@@ -74,7 +74,7 @@ class GLR_API Uniform : public UniformBase {
 
     ValueType getValueType() const;
 
-    const std::string& getName() const;
+    const std::string& getName() const override;
 
     void setValue(bool val);
     void setValue(const Vec2b& val);

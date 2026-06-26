@@ -42,7 +42,7 @@ class GLR_API ScissorIndexed : public StateAttribute {
     virtual ~ScissorIndexed();
 
   public:
-    Type getType() const;
+    Type getType() const override;
 
     void set(GLuint_t index, GLint_t x, GLint_t y, GLsizei_t w, GLsizei_t h);
     void get(GLuint_t& o_index, GLint_t& o_x, GLint_t& o_y, GLsizei_t& o_w, GLsizei_t& o_h);
@@ -65,7 +65,7 @@ class GLR_API ScissorArray : public StateAttribute {
     virtual ~ScissorArray();
 
   public:
-    Type getType() const;
+    Type getType() const override;
 
     void setFirst(GLuint_t first);
     GLuint_t getFirst() const;
