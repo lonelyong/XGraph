@@ -3,8 +3,27 @@
 option(XG_XVIEWER_BUILD_WITH_OSGVERSE "Build with osgVerse." OFF)
 option(XG_XVIEWER_BUILD_WITH_VTK "Build with vtk." OFF)
 
-find_package(OpenSceneGraph CONFIG REQUIRED COMPONENTS osgDB osgText osgGA osgUtil osgViewer)
-find_package(opencascade CONFIG REQUIRED)
+# Try vcpkg's unofficial-osg first (provides modern CMake targets)
+find_package(unofficial-osg CONFIG QUIET)
+if(unofficial-osg_FOUND)
+    set(XG_OSG_LIBRARIES
+        unofficial::osg::osgDB
+        unofficial::osg::osgText
+        unofficial::osg::osgGA
+        unofficial::osg::osgUtil
+        unofficial::osg::osgViewer
+    )
+    # unofficial-osg targets don't set INTERFACE_INCLUDE_DIRECTORIES
+    # get_filename_component(_vcpkg_prefix "${unofficial-osg_DIR}/../.." ABSOLUTE)
+    # set(XG_OSG_INCLUDE_DIRS "${_vcpkg_prefix}/include")
+else()
+    # Fall back to CMake's built-in FindOpenSceneGraph module
+    find_package(OpenSceneGraph REQUIRED COMPONENTS osgDB osgText osgGA osgUtil osgViewer)
+    set(XG_OSG_LIBRARIES ${OPENSCENEGRAPH_LIBRARIES})
+    set(XG_OSG_INCLUDE_DIRS ${OPENSCENEGRAPH_INCLUDE_DIRS})
+endif()
+
+find_package(OpenCASCADE CONFIG REQUIRED)
 find_package(assimp CONFIG REQUIRED)
 find_package(PCL CONFIG REQUIRED)
 find_package(octomap CONFIG REQUIRED)
@@ -53,7 +72,7 @@ target_include_directories(${TARGET_NAME}
     PRIVATE
     ${BACKWARD_INCLUDE_DIR}
     ${GLAD_INCLUDE_DIR}
-    $<BUILD_INTERFACE:${OSG_INCLUDE_DIR}>
+    ${XG_OSG_INCLUDE_DIRS}
 
 )
 target_link_libraries(${TARGET_NAME}
@@ -63,13 +82,25 @@ target_link_libraries(${TARGET_NAME}
     glfw
     assimp::assimp
     TKernel TKXSBase TKMesh TKBRep TKDESTEP TKDEIGES TKMath TKGeomBase TKGeomAlgo TKG3d
-    opengl32.lib
     octomap octomath octomap-static octomath-static
     Qt6::Core Qt6::Gui Qt6::Widgets Qt6::OpenGL Qt6::OpenGLWidgets
-    ${OpenSceneGraph_TARGETS}
+    ${XG_OSG_LIBRARIES}
     ${osgVerse_LIBRARIES}
     ${PCL_LIBRARIES}
 )
+
+if(WIN32)
+    target_link_libraries(${TARGET_NAME}
+        PRIVATE
+        opengl32.lib)
+endif()
+
+# OpenMP required by PCL and glr-core
+if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    target_link_options(${TARGET_NAME} PRIVATE -fopenmp=libgomp)
+else()
+    target_link_options(${TARGET_NAME} PRIVATE -fopenmp)
+endif()
 
 if(XG_XVIEWER_BUILD_WITH_OSGVERSE)
     find_package(osgVerse CONFIG REQUIRED)

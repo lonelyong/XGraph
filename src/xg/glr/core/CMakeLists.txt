@@ -64,6 +64,15 @@ target_link_libraries(${TARGET_NAME}
     ${PCL_LIBRARIES}
 )
 
+# OpenMP: clang on this system needs -fopenmp=libgomp (no libomp.so symlink)
+if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    target_compile_options(${TARGET_NAME} PRIVATE -fopenmp=libgomp)
+    target_link_options(${TARGET_NAME} PRIVATE -fopenmp=libgomp)
+else()
+    target_compile_options(${TARGET_NAME} PRIVATE -fopenmp)
+    target_link_options(${TARGET_NAME} PRIVATE -fopenmp)
+endif()
+
 if(WIN32)
     target_link_libraries(${TARGET_NAME} PRIVATE opengl32)
 endif()

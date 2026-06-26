@@ -4,7 +4,7 @@
 
 #include <osg/Array>
 #include <osg/Vec3>
-#include <osg/vec4>
+#include <osg/Vec4>
 
 namespace osg {
 class MatrixTransform;

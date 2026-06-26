@@ -15,12 +15,14 @@
 #include <xg/xviewer/app/ConsoleNotifyHandler.hpp>
 
 
+#ifdef _WIN32
 extern "C" {
 // Hint to Hybrid laptop drivers that our app would really rather use the NVidia/AMD GPU that you've got
 // sitting over there rather than Intel Graphics...
 XVIEWER_API unsigned int NvOptimusEnablement                  = 0x00000001;
 XVIEWER_API int          AmdPowerXpressRequestHighPerformance = 1;
 }
+#endif
 
 namespace xg {
 namespace xviewer {
@@ -32,7 +34,7 @@ static void initOpenSceneGraph(int argc, char** argv);
 
 Application::Application(int argc, char** argv) {
     if (s_app_inst) {
-        throw std::exception("There should be only one application object.");
+        throw std::runtime_error("There should be only one application object.");
     }
 
     params_.argc = argc;
