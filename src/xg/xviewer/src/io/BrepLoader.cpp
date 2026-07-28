@@ -52,8 +52,8 @@ enum FileType
 
 bool isSupportedType(const std::string& file, FileType& type)
 {
-    namespace fs = std::filesystem;
-    auto u8file = xg::local8bitToUtf8(file);
+    namespace fs    = std::filesystem;
+    auto     u8file = xg::local8bitToUtf8(file);
     fs::path path(u8file);
     if (!path.has_extension())
         return false;
@@ -70,7 +70,7 @@ bool isSupportedType(const std::string& file, FileType& type)
     return type != TYPE_UNKNOW;
 }
 
-void getFaceNormals(const TopoDS_Face& theFace, const occ::handle<Poly_Triangulation>& aPolyTri, TColgp_Array1OfDir& theNormals)
+void computeTriangulationNormals(const TopoDS_Face& theFace, const occ::handle<Poly_Triangulation>& aPolyTri, TColgp_Array1OfDir& theNormals)
 {
     Standard_Integer numNodes = aPolyTri->NbNodes();
 
@@ -176,9 +176,17 @@ osg::MatrixTransform* BrepLoader::loadFile(const std::string& file)
     face_colors->push_back(osg::Vec4(220.f / 255, 223.f / 255, 0.f / 255, 1.f));
     edge_colors->push_back(osg::Vec4(0.2f, 0.2f, 0.2f, 1.f));
 
+    // see https://dev.opencascade.org/doc/occt-7.9.0/overview/html/occt_user_guides__mesh.html
     IMeshTools_Parameters params;
+    // Maximum angular deviation (in radians) between the generated mesh segment and the tangent direction of the original geometric curve at the segment endpoints.
     params.Angle                    = 0.2;
+    // Maximum linear deviation between the original geometric edge and the generated polygonal approximation.
     params.Deflection               = 1;
+    // angle(N1, N2) <= Angle
+    // angle(N2, N3) <= Angle
+    params.AngleInterior = 0.2;
+    // Linear deflection defines the maximum allowed distance deviation between the original geometric surface and the generated triangulation.
+    params.DeflectionInterior = 1;
     params.MinSize                  = 1e-4;
     params.InParallel               = true;
     params.Relative                 = true;
@@ -195,7 +203,10 @@ osg::MatrixTransform* BrepLoader::loadFile(const std::string& file)
     for (int i = 1; i <= face_map.Extent(); i++) {
         auto&           face = TopoDS::Face(face_map(i));
         TopLoc_Location loc;
-        auto&           mesh = BRep_Tool::Triangulation(face, loc);
+
+        // 返回局部坐标下的三角网格，通过输出参数 loc 单独给出位置变换。
+        // OpenCASCADE 文档明确规定网格节点坐标不含 location。
+        auto& mesh = BRep_Tool::Triangulation(face, loc);
         if (mesh.IsNull())
             continue;
 
@@ -221,7 +232,7 @@ osg::MatrixTransform* BrepLoader::loadFile(const std::string& file)
             indices->push_back(v3 - 1);
         }
         TColgp_Array1OfDir occ_norms(1, mesh->NbNodes());
-        getFaceNormals(face, mesh, occ_norms);
+        computeTriangulationNormals(face, mesh, occ_norms);
         for (auto& n : occ_norms) {
             n.Transform(loc.Transformation());
             norms->push_back(osg::Vec3(n.X(), n.Y(), n.Z()));
