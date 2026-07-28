@@ -168,7 +168,7 @@ void PhongLights::apply(State& state) const {
             prog->set(state, prefix + ".quadraticAttenuation", l->getQuadraticAttenuation());
             prog->set(state, prefix + ".spotExponent", l->getSpotExponent());
             prog->set(state, prefix + ".spotCutoff", l->getSpotCutoff());
-            prog->set(state, prefix + ".spotCosCutoff", cos(l->getSpotCutoff() * 3.1415926f / 180.f));
+            prog->set(state, prefix + ".spotCosCutoff", cosf(l->getSpotCutoff() * 3.1415926f / 180.f));
 
             auto dir = l->getSpotDirection();
             auto pos = l->getPosition();

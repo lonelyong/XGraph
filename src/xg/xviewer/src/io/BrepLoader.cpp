@@ -178,23 +178,108 @@ osg::MatrixTransform* BrepLoader::loadFile(const std::string& file)
 
     // see https://dev.opencascade.org/doc/occt-7.9.0/overview/html/occt_user_guides__mesh.html
     IMeshTools_Parameters params;
-    // Maximum angular deviation (in radians) between the generated mesh segment and the tangent direction of the original geometric curve at the segment endpoints.
+    // Maximum angular deviation (in radians) between the generated mesh segment and the tangent direction of the original geometric curve at the segment
+    // endpoints.
+    /*
+     * Angle (double, default = 0.5 radians ≈28.6°). Angular deflection for boundary edges. This controls how sharply a curved edge can be approximated. Smaller
+     * Angle → more subdivided edges. In OCCT, this sets the maximum allowed angle between consecutive segments in the polyline approximation of each edge.
+     * Roughly, if two segments meet at an angle larger than Angle, the edge is subdivided further. In practice, reducing Angle yields a finer mesh on curved
+     * edges, while increasing it produces a coarser, more faceted approximation. For example, a common default is ~15°–30°. */
     params.Angle                    = 0.2;
     // Maximum linear deviation between the original geometric edge and the generated polygonal approximation.
+    /*
+     * Deflection (double, default = 0.001). Linear deflection for boundary edges. This is the maximum distance allowed between the true curve and its polygonal
+     * approximation. A smaller Deflection forces more edge subdivisions (finer mesh), while a larger value allows coarser edges. The mesher attempts to keep
+     * the distance from the original edge to the mesh edge below this value. Note: if Deflection is set smaller than the surface’s tolerance, the algorithm by
+     * default will actually use the (larger) shape tolerance instead. To override this and force the given Deflection, enable ForceFaceDeflection (see
+     * below).*/
     params.Deflection               = 1;
     // angle(N1, N2) <= Angle
     // angle(N2, N3) <= Angle
-    params.AngleInterior = 0.2;
+    /*
+     * AngleInterior (double, default = –1.0, meaning “use default”). Angular deflection for face interior. This applies to the triangulation within a face (not
+     * along its edges), particularly for NURBS/B-spline faces. It limits the angle between the normals of adjacent triangles inside the face. A smaller
+     * AngleInterior will produce smoother curvature inside faces at the cost of more triangles. The default value of –1.0 tells the mesher to use a fallback
+     * strategy (often it will use the same value as Angle or a project-specific default). Because interior angles often have less visual impact, this parameter
+     * is sometimes left at default unless one needs extra accuracy on smooth surfaces.
+     */
+    params.AngleInterior            = 0.2;
     // Linear deflection defines the maximum allowed distance deviation between the original geometric surface and the generated triangulation.
-    params.DeflectionInterior = 1;
+    /*
+     * DeflectionInterior (double, default = –1.0). Linear deflection for face interior. This controls the maximum distance of interior triangles from the true
+     * surface. Like Deflection for edges, smaller values produce more triangles on the face interior. The default –1.0 again triggers an automatic choice
+     * (often it uses the same value as Deflection). Use a positive value to enforce a stricter interior tolerance; otherwise interior triangles may be coarser.
+     * The Wiki notes that DeflectionInterior “limits the distance between triangles and the face interior,” and it works together with AngleInterior to control
+     * mesh density inside the face.
+     */
+    params.DeflectionInterior       = 1;
+    /*
+     * MinSize (double, default = –1.0). A lower bound on mesh element size (edge length) to prevent runaway refinement. This “handbrake” stops triangles from
+     * becoming too small even if angle/deflection criteria demand further subdivision. By default (MinSize<0), OCCT computes a min size as a fraction of
+     * Deflection: specifically, MinSize = RelMinSize() * Deflection, where RelMinSize() is a static function returning 0.1. (Thus default min edge length ≈
+     * 0.1×Deflection.) You can override it by setting a positive MinSize: then no triangle edge will be smaller than that absolute value. This is useful to
+     * avoid extremely dense meshes in pathological cases.
+     */
     params.MinSize                  = 1e-4;
+    /*
+     * InParallel (bool, default = Standard_False). Enable multi-threaded meshing. If true, the mesher will try to distribute work over multiple CPU threads
+     * (for example, processing multiple faces in parallel). This can greatly speed up meshing large compounds of shapes on multi-core machines. If false, all
+     * meshing runs in a single thread. Use InParallel = true for faster performance when thread safety is desired (and thread resources are available).
+     */
     params.InParallel               = true;
+    /*
+     * Relative (bool, default = Standard_False). Use relative deflection scaling. When false, the Deflection and DeflectionInterior are treated as absolute
+     * distances. When true, the linear deflection for each edge is multiplied by that edge’s length, and for faces the deflection is taken as the maximum of
+     * its edges’ deflections. In other words, defl_edge = Deflection * (edge length). This mode is akin to a level-of-detail (LOD) scaling: larger shapes get
+     * proportionally larger mesh tolerances. The overview guide notes that using a relative deflection lets imported models of varying size be meshed without
+     * manual parameter tuning. In summary, set Relative = true to have the mesh adapt to part dimensions; set false for an absolute metric tolerance.
+     */
     params.Relative                 = true;
+    /*
+     * InternalVerticesMode (bool, default = Standard_True). Include or skip “interior” face vertices. When true, any vertices lying inside a face (e.g.
+     * intersection points, or existing interior nodes) are retained in the triangulation, yielding a more faithful mesh. When false, the mesher will ignore
+     * those interior vertices and produce a “clean” triangulation of each face, which can be faster but may lose detail. In effect, InternalVerticesMode = true
+     * (the OCCT default) ensures that complex faces with internal seams or cracks preserve those vertices in the mesh, improving fidelity on curved faces.
+     * Setting it to false can speed up meshing at the expense of missing subtle interior features. (One source puts it succinctly as “Add interior vertices for
+     * better curved face fidelity (slower, set false for speed)”.)
+     */
     params.InternalVerticesMode     = true;
+    /*
+     * ControlSurfaceDeflection (bool, default = Standard_True). Enables an extra pass to enforce deflection on triangles that deviate from the underlying
+     * surface. After initial tessellation, the mesher can check all triangles against the actual surface and refine any that “bulge” beyond the specified
+     * tolerances. If ControlSurfaceDeflection = true (the default), the algorithm does this extra refinement step to improve accuracy; if false, it skips that
+     * check (speeding up meshing but risking coarser results). In other words, true means “post-refine any triangle exceeding the deflection,” whereas false
+     * may leave some triangles slightly outside the ideal tolerance. Bitbybit’s OCCT docs describe this as “extra post-pass refining [of] triangles that bulge
+     * beyond the deflection (slower, set false for speed)”.
+     */
     params.ControlSurfaceDeflection = true;
+    /*
+     * ForceFaceDeflection (bool, default = Standard_False). If false (the default), OCCT will respect shape tolerances when deciding face deflections (meaning
+     * it may effectively use the larger of DeflectionInterior and the face’s built-in tolerance). If true, the given DeflectionInterior is enforced even if it
+     * is smaller than the tolerance. In other words, when enabled, force the user’s deflection regardless of any surface tolerance. This can yield denser
+     * meshes than usual on very precise geometry. The brief doc says it “enables/disables usage of shape tolerances for computing face deflection”. Use
+     * ForceFaceDeflection = true if you want the mesher to ignore built-in tolerances and apply your DeflectionInterior strictly; otherwise leave it false to
+     * allow OCCT to use natural tolerances.
+     */
     params.ForceFaceDeflection      = false;
     params.CleanModel               = true;
+    /*
+     * AllowQualityDecrease (bool, default = Standard_False). Controls whether the mesher is allowed to coarsen an existing mesh on the shape. By default
+     * (false), if a shape already has triangulation, the mesher will only refine/improve the mesh (make it finer) to meet the new parameters, but will never
+     * replace it with a worse (lower-quality) mesh. If you set AllowQualityDecrease = true, then the mesher can drop mesh quality compared to any pre-existing
+     * mesh (for example, if you deliberately increase deflection for a quick pass). In effect, this flag forbids or permits “downgrading” a mesh. It is rarely
+     * needed; the default policy is to preserve or improve existing triangulation. Use this only if you explicitly want the mesher to override a fine mesh with
+     * a coarser one.
+     */
     params.AllowQualityDecrease     = false;
+    /*
+     * AdjustMinSize (bool, default = Standard_False). When enabled, the algorithm will locally adjust the MinSize limit for each edge based on that edge’s
+     * length. In other words, the minimum allowed triangle edge size is scaled per-edge rather than global. If false (default), the same MinSize applies
+     * uniformly. Setting AdjustMinSize = true can help prevent over-refinement on very short edges: long edges may have a larger effective minimum than short
+     * edges. This is an advanced option. It is documented as “local adjustment of min size depending on edge size.” The exact internal rule is: if
+     * AdjustMinSize is on, the code reduces the “handbrake” MinSize for shorter edges so that small edges don’t force a uniformly small min-size everywhere. If
+     * you encounter oddly coarse mesh on tiny features, disabling this may give more uniform behavior.
+     */
     params.AdjustMinSize            = true;
 
     BRepMesh_IncrementalMesh im(shape, params);

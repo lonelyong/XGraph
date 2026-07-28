@@ -11,8 +11,11 @@
 #include <xg/glr/engine/VertexArrayObject.hpp>
 #include <xg/glr/igl/GLfuncs.hpp>
 
-namespace xg {
-namespace glr {
+namespace xg
+{
+namespace glr
+{
+
 V_OBJECT_META_IMPL(Geometry, Drawable);
 
 constexpr int VERTEX_LOC    = 0;
@@ -40,118 +43,91 @@ struct Geometry::Data {
     int color_attrib_loc  = -1;
 };
 
-
 Geometry::Geometry()
-  : d(new Data()) {
+  : d(new Data())
+{}
+
+Geometry::~Geometry()
+{ delete d; }
+
+ArrayBuffer* Geometry::getVertexArray() const
+{ return d->vertex_array.get(); }
+
+void Geometry::setVertexArray(ArrayBuffer* data)
+{ d->vertex_array = data; }
+
+ArrayBuffer* Geometry::getNormalArray() const
+{ return d->normal_array.get(); }
+
+void Geometry::setNormalArray(ArrayBuffer* data)
+{ d->normal_array = data; }
+
+ArrayBuffer* Geometry::getColorArray() const
+{ return d->color_array.get(); }
+
+void Geometry::setColorArray(ArrayBuffer* data)
+{ d->color_array = data; }
+
+int Geometry::getNumTexCoordArrays() const
+{ return d->tex_coords_arrays.size(); }
+
+ArrayBuffer* Geometry::getTexCoordArrayAt(int index) const
+{ return d->tex_coords_arrays[index].first.get(); }
+
+void Geometry::addTexCoordArray(ArrayBuffer* data)
+{ d->tex_coords_arrays.push_back({ data, -1 }); }
+
+void Geometry::removeTexCoordArray(ArrayBuffer* data)
+{
+    auto found_at = std::find_if(d->tex_coords_arrays.begin(), d->tex_coords_arrays.end(), [data](auto& kv) { return kv.first.get() == data; });
+    if (found_at != d->tex_coords_arrays.end()) { d->tex_coords_arrays.erase(found_at); }
 }
 
-Geometry::~Geometry() {
-    delete d;
-}
+void Geometry::clearTexCoordArrays()
+{ d->tex_coords_arrays.clear(); }
 
-ArrayBuffer* Geometry::getVertexArray() const {
-    return d->vertex_array.get();
-}
+int Geometry::getVertexAttribLocation() const
+{ return d->vertex_attrib_loc; }
 
-void Geometry::setVertexArray(ArrayBuffer* data) {
-    d->vertex_array = data;
-}
+void Geometry::setVertexAttribLocation(int loc)
+{ d->vertex_attrib_loc = loc; }
 
-ArrayBuffer* Geometry::getNormalArray() const {
-    return d->normal_array.get();
-}
+int Geometry::getNormalAttribLocation() const
+{ return d->normal_attrib_loc; }
 
-void Geometry::setNormalArray(ArrayBuffer* data) {
-    d->normal_array = data;
-}
+void Geometry::setNormalAttribLocation(int loc)
+{ d->normal_attrib_loc = loc; }
 
-ArrayBuffer* Geometry::getColorArray() const {
-    return d->color_array.get();
-}
+int Geometry::getColorAttribLocation() const
+{ return d->color_attrib_loc; }
 
-void Geometry::setColorArray(ArrayBuffer* data) {
-    d->color_array = data;
-}
+void Geometry::setColorAttribLocation(int loc)
+{ d->color_attrib_loc = loc; }
 
-int Geometry::getNumTexCoordArrays() const {
-    return d->tex_coords_arrays.size();
-}
-
-ArrayBuffer* Geometry::getTexCoordArrayAt(int index) const {
-    return d->tex_coords_arrays[index].first.get();
-}
-
-void Geometry::addTexCoordArray(ArrayBuffer* data) {
-    d->tex_coords_arrays.push_back({ data, -1 });
-}
-
-void Geometry::removeTexCoordArray(ArrayBuffer* data) {
-    auto found_at = std::find_if(d->tex_coords_arrays.begin(), d->tex_coords_arrays.end(), [data](auto& kv) {
-        return kv.first.get() == data;
-    });
-    if (found_at != d->tex_coords_arrays.end()) {
-        d->tex_coords_arrays.erase(found_at);
-    }
-}
-
-void Geometry::clearTexCoordArrays() {
-    d->tex_coords_arrays.clear();
-}
-
-int Geometry::getVertexAttribLocation() const {
-    return d->vertex_attrib_loc;
-}
-
-void Geometry::setVertexAttribLocation(int loc) {
-    d->vertex_attrib_loc = loc;
-}
-
-int Geometry::getNormalAttribLocation() const {
-    return d->normal_attrib_loc;
-}
-
-void Geometry::setNormalAttribLocation(int loc) {
-    d->normal_attrib_loc = loc;
-}
-
-int Geometry::getColorAttribLocation() const {
-    return d->color_attrib_loc;
-}
-
-void Geometry::setColorAttribLocation(int loc) {
-    d->color_attrib_loc = loc;
-}
-
-int Geometry::getTexCoordAttribLocation(ArrayBuffer* data) const {
-    auto found_at = std::find_if(d->tex_coords_arrays.begin(), d->tex_coords_arrays.end(), [data](auto& kv) {
-        return kv.first.get() == data;
-    });
-    if (found_at != d->tex_coords_arrays.end()) {
-        return found_at->second;
-    }
+int Geometry::getTexCoordAttribLocation(ArrayBuffer* data) const
+{
+    auto found_at = std::find_if(d->tex_coords_arrays.begin(), d->tex_coords_arrays.end(), [data](auto& kv) { return kv.first.get() == data; });
+    if (found_at != d->tex_coords_arrays.end()) { return found_at->second; }
     return -1;
 }
 
-void Geometry::setTexCoordAttribLocation(ArrayBuffer* data, int loc) {
-    auto found_at    = std::find_if(d->tex_coords_arrays.begin(), d->tex_coords_arrays.end(), [data](auto& kv) {
-        return kv.first.get() == data;
-    });
+void Geometry::setTexCoordAttribLocation(ArrayBuffer* data, int loc)
+{
+    auto found_at    = std::find_if(d->tex_coords_arrays.begin(), d->tex_coords_arrays.end(), [data](auto& kv) { return kv.first.get() == data; });
     found_at->second = loc;
 }
 
-int Geometry::getNumTextures() const {
-    return d->textures.size();
-}
+int Geometry::getNumTextures() const
+{ return d->textures.size(); }
 
-Texture* Geometry::getTextureAt(int index) const {
-    return d->textures.at(index).second.get();
-}
+Texture* Geometry::getTextureAt(int index) const
+{ return d->textures.at(index).second.get(); }
 
-GLuint_t Geometry::getTextureUnitAt(int index) const {
-    return d->textures.at(index).first;
-}
+GLuint_t Geometry::getTextureUnitAt(int index) const
+{ return d->textures.at(index).first; }
 
-void Geometry::addTexture(GLuint_t unit, GLuint_t loc, Texture* tex) {
+void Geometry::addTexture(GLuint_t unit, GLuint_t loc, Texture* tex)
+{
     auto found_at = std::find_if(d->textures.begin(), d->textures.end(), [unit](auto& kv) { return kv.first == unit; });
     if (found_at == d->textures.end()) {
         d->textures.push_back({ unit, tex });
@@ -163,7 +139,8 @@ void Geometry::addTexture(GLuint_t unit, GLuint_t loc, Texture* tex) {
     }
 }
 
-void Geometry::addTexture(GLuint_t unit, const std::string& name, Texture* tex) {
+void Geometry::addTexture(GLuint_t unit, const std::string& name, Texture* tex)
+{
     auto found_at = std::find_if(d->textures.begin(), d->textures.end(), [unit](auto& kv) { return kv.first == unit; });
     if (found_at == d->textures.end()) {
         d->textures.push_back({ unit, tex });
@@ -175,22 +152,24 @@ void Geometry::addTexture(GLuint_t unit, const std::string& name, Texture* tex) 
     }
 }
 
-void Geometry::setTextureAttribLocation(GLuint_t unit, GLuint_t loc) {
+void Geometry::setTextureAttribLocation(GLuint_t unit, GLuint_t loc)
+{
     d->texture_locs[unit] = loc;
     d->texture_names.erase(unit);
 }
 
-void Geometry::setTextureAttribLocation(GLuint_t unit, const std::string& loc) {
+void Geometry::setTextureAttribLocation(GLuint_t unit, const std::string& loc)
+{
     d->texture_names[unit] = loc;
     d->texture_locs.erase(unit);
 }
 
-void Geometry::removeTexture(Texture* tex) {
+void Geometry::removeTexture(Texture* tex)
+{
     auto textures = d->textures;
     for (auto& kv : textures) {
         if (kv.second == tex) {
-            d->textures.erase(
-                std::find_if(d->textures.begin(), d->textures.end(), [tex](auto& kv) { return kv.second == tex; }));
+            d->textures.erase(std::find_if(d->textures.begin(), d->textures.end(), [tex](auto& kv) { return kv.second == tex; }));
             d->texture_locs.erase(kv.first);
             d->texture_names.erase(kv.first);
             return;
@@ -198,38 +177,40 @@ void Geometry::removeTexture(Texture* tex) {
     }
 }
 
-void Geometry::removetexture(GLuint_t unit) {
-    d->textures.erase(
-        std::find_if(d->textures.begin(), d->textures.end(), [unit](auto& kv) { return kv.first == unit; }));
+void Geometry::removetexture(GLuint_t unit)
+{
+    d->textures.erase(std::find_if(d->textures.begin(), d->textures.end(), [unit](auto& kv) { return kv.first == unit; }));
     d->texture_locs.erase(unit);
     d->texture_names.erase(unit);
 }
 
-void Geometry::clearTextures() {
+void Geometry::clearTextures()
+{
     d->textures.clear();
     d->texture_locs.clear();
     d->texture_names.clear();
 }
 
-int Geometry::getNumVertexAttribArrays() const {
-    return d->vbos.size();
-}
+int Geometry::getNumVertexAttribArrays() const
+{ return d->vbos.size(); }
 
-ArrayBuffer* Geometry::getVertexAttribArrayAt(int index) const {
-    return d->vbos[index].get();
-}
+ArrayBuffer* Geometry::getVertexAttribArrayAt(int index) const
+{ return d->vbos[index].get(); }
 
-void Geometry::addVertexAttribArray(GLuint_t loc, ArrayBuffer* arr) {
+void Geometry::addVertexAttribArray(GLuint_t loc, ArrayBuffer* arr)
+{
     assert(arr);
     auto found_at = d->vbos.find(loc);
     if (found_at != d->vbos.end()) {
         auto vbo = found_at->second;
-        if (vbo == arr) return;
+        if (vbo == arr)
+            return;
     }
     d->vbos[loc] = arr;
 }
 
-void Geometry::removeVertexAttribArray(ArrayBuffer* data) {
+void Geometry::removeVertexAttribArray(ArrayBuffer* data)
+{
     auto vbos = d->vbos;
     for (auto& kv : vbos) {
         if (kv.second == data) {
@@ -239,40 +220,35 @@ void Geometry::removeVertexAttribArray(ArrayBuffer* data) {
     }
 }
 
-void Geometry::removeVertexAttribArray(GLuint_t loc) {
-    d->vbos.erase(loc);
-}
+void Geometry::removeVertexAttribArray(GLuint_t loc)
+{ d->vbos.erase(loc); }
 
-void Geometry::clearVertexAttribArrays() {
-    d->vbos.clear();
-}
+void Geometry::clearVertexAttribArrays()
+{ d->vbos.clear(); }
 
-int Geometry::getNumPrimitiveSets() const {
-    return d->vbos.size();
-}
+int Geometry::getNumPrimitiveSets() const
+{ return d->vbos.size(); }
 
-PrimitiveSet* Geometry::getPrimitiveSet(int index) const {
-    return d->primitives[index].get();
-}
+PrimitiveSet* Geometry::getPrimitiveSet(int index) const
+{ return d->primitives[index].get(); }
 
-void Geometry::addPrimitiveSet(PrimitiveSet* prim) {
-    d->primitives.push_back(prim);
-}
+void Geometry::addPrimitiveSet(PrimitiveSet* prim)
+{ d->primitives.push_back(prim); }
 
-void Geometry::removePrimitiveSet(PrimitiveSet* prim) {
+void Geometry::removePrimitiveSet(PrimitiveSet* prim)
+{
     auto found_at = std::find(d->primitives.begin(), d->primitives.end(), prim);
-    if (found_at != d->primitives.end()) {
-        d->primitives.erase(found_at);
-    }
+    if (found_at != d->primitives.end()) { d->primitives.erase(found_at); }
 }
 
-void Geometry::clearPrimitiveSets() {
-    d->primitives.clear();
-}
+void Geometry::clearPrimitiveSets()
+{ d->primitives.clear(); }
 
-void Geometry::draw(State& state) {
+void Geometry::draw(State& state)
+{
     // if (d->vbos.empty()) return;
-    if (d->primitives.empty()) return;
+    if (d->primitives.empty())
+        return;
 
     auto shader = state.getCurrentProgram();
     auto funcs  = state.getContext()->getFuncs();
@@ -297,9 +273,7 @@ void Geometry::draw(State& state) {
             }
         }
 
-        if (vbos.empty()) {
-            return;
-        }
+        if (vbos.empty()) { return; }
 
         d->vao = new VertexArrayObject();
         d->vao->bind(state);
@@ -311,12 +285,7 @@ void Geometry::draw(State& state) {
             if (arr->size() > 1) {
                 arr->bind(state);
                 auto size_of_item = arr->sizeOfItem();
-                funcs->iglVertexAttribPointer(loc,
-                                              size_of_item / sizeof(GLfloat_t),
-                                              IGL_FLOAT,
-                                              IGL_FALSE,
-                                              size_of_item,
-                                              0);
+                funcs->iglVertexAttribPointer(loc, size_of_item / sizeof(GLfloat_t), IGL_FLOAT, IGL_FALSE, size_of_item, 0);
                 funcs->iglEnableVertexAttribArray(loc);
                 arr->unbind(state);
             }
@@ -348,31 +317,29 @@ void Geometry::draw(State& state) {
         auto& tex  = kv.second;
         funcs->iglActiveTexture(unit);
         tex->bind(state);
-        if (d->texture_locs.contains(unit)) {
-            shader->set(state, d->texture_locs[unit], (GLint_t)unit - IGL_TEXTURE0);
-        }
+        if (d->texture_locs.contains(unit)) { shader->set(state, d->texture_locs[unit], (GLint_t)unit - IGL_TEXTURE0); }
         else {
             shader->set(state, d->texture_names[unit], (GLint_t)unit - IGL_TEXTURE0);
         }
     }
 
-    for (auto priv : d->primitives) {
-        priv->draw(state);
-    }
+    for (auto priv : d->primitives) { priv->draw(state); }
     d->vao->unbind(state);
     for (auto& kv : d->textures) {
         auto  unit = kv.first;
         auto& tex  = kv.second;
-        if (!tex) continue;
+        if (!tex)
+            continue;
         funcs->iglActiveTexture(unit);
         tex->unbind(state);
     }
 }
 
-void Geometry::onComputeBoundingBox(BoundingBox& bb) const {
-}
+void Geometry::onComputeBoundingBox(BoundingBox& bb) const
+{}
 
-Geometry* Geometry::createCube(float size, bool create_tex_coord) {
+Geometry* Geometry::createCube(float size, bool create_tex_coord)
+{
     auto n    = size / 2;
     auto cube = new Geometry();
 
@@ -512,21 +479,22 @@ Geometry* Geometry::createCube(float size, bool create_tex_coord) {
     return cube;
 }
 
-Geometry* Geometry::createTexturedQuad(const vine::math::Rect2d& rect, const vine::math::Rect2d& uv_rect) {
+Geometry* Geometry::createTexturedQuad(const vine::math::Rect2d& rect, const vine::math::Rect2d& uv_rect)
+{
     auto vertices = new Vec3fArray();
-    vertices->push_back(Vec3f(rect.x, rect.y, 0));
-    vertices->push_back(Vec3f(rect.x + rect.w, rect.y, 0));
-    vertices->push_back(Vec3f(rect.x + rect.w, rect.y + rect.h, 0));
-    vertices->push_back(Vec3f(rect.x, rect.y + rect.h, 0));
+    vertices->push_back(Vec3f(rect.xmin, rect.ymin, 0));
+    vertices->push_back(Vec3f(rect.xmax, rect.ymin, 0));
+    vertices->push_back(Vec3f(rect.xmax, rect.ymax, 0));
+    vertices->push_back(Vec3f(rect.xmin, rect.ymax, 0));
 
     auto norms = new Vec3fArray();
     norms->push_back(Vec3f(0, 0, 1));
 
     auto texcoords = new Vec2fArray();
-    texcoords->push_back(Vec2f(uv_rect.x, uv_rect.y));
-    texcoords->push_back(Vec2f(uv_rect.x + uv_rect.w, uv_rect.y));
-    texcoords->push_back(Vec2f(uv_rect.x + uv_rect.w, uv_rect.y + uv_rect.h));
-    texcoords->push_back(Vec2f(uv_rect.x, uv_rect.y + uv_rect.h));
+    texcoords->push_back(Vec2f(uv_rect.xmin, uv_rect.ymin));
+    texcoords->push_back(Vec2f(uv_rect.xmax, uv_rect.ymin));
+    texcoords->push_back(Vec2f(uv_rect.xmax, uv_rect.ymax));
+    texcoords->push_back(Vec2f(uv_rect.xmin, uv_rect.ymax));
 
     auto geom = new Geometry();
     geom->setVertexArray(vertices);
@@ -535,5 +503,6 @@ Geometry* Geometry::createTexturedQuad(const vine::math::Rect2d& rect, const vin
     geom->addPrimitiveSet(new DrawArrays(PrimitiveSet::MODE_TRIANGLE_FAN, 0, vertices->size()));
     return geom;
 }
+
 } // namespace glr
 } // namespace xg

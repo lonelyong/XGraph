@@ -81,6 +81,12 @@ target_compile_definitions(${TARGET_NAME}
     GLR_LIB
 )
 
+target_compile_options(
+    ${TARGET_NAME}
+    PRIVATE
+    -fopenmp
+)
+
 set_target_properties(${TARGET_NAME} PROPERTIES FOLDER src)
 
 if(RES_SHADER_FILES)
