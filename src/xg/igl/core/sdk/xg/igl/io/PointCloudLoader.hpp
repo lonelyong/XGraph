@@ -1,0 +1,22 @@
+﻿#pragma once
+
+#include <xg/igl/glr_global.hpp>
+
+#include <string>
+
+namespace xg
+{
+namespace glr
+{
+
+class Model;
+
+class IGL_CORE_API PointCloudLoader {
+  public:
+    Model* load(const std::string& file);
+
+    static bool isSupported(const std::string& file);
+};
+
+} // namespace glr
+} // namespace xg

@@ -6,20 +6,17 @@
 #include <osg/Notify>
 #include <osg/ValueObject>
 
-#include <xg/glr/igl/GLfuncs.hpp>
+#include <xg/igl/ogl/GLfuncs.hpp>
 
 #include <xg/xviewer/utils/GLfuncsManager.hpp>
 
-namespace xg {
-namespace xviewer {
+namespace xg
+{
+namespace xviewer
+{
 
-static void debugMessageCallback(GLenum        source,
-                                 GLenum        type,
-                                 GLuint        id,
-                                 GLenum        severity,
-                                 GLsizei       length,
-                                 const GLchar* message,
-                                 const void*   userParam) {
+static void debugMessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
+{
     std::string src_desc, type_desc, id_desc;
     switch (source) {
     case IGL_DEBUG_SOURCE_API: src_desc = "API"; break;
@@ -70,14 +67,15 @@ static void debugMessageCallback(GLenum        source,
 
 RealizeOperation::RealizeOperation()
   : osg::Referenced(true)
-  , osg::GraphicsOperation("RealizeOperation", false) {
-}
+  , osg::GraphicsOperation("RealizeOperation", false)
+{}
 
-void RealizeOperation::operator()(osg::GraphicsContext* gc) {
+void RealizeOperation::operator()(osg::GraphicsContext* gc)
+{
     GLint ver_maj, ver_min;
 
     auto funcs = GLfuncsManager::instance().getOrRegisterByContext(gc);
-     
+
     auto gl_ver = glGetString(IGL_VERSION);
     auto vendor = glGetString(IGL_VENDOR);
 
@@ -87,21 +85,17 @@ void RealizeOperation::operator()(osg::GraphicsContext* gc) {
     if ((ver_maj == 3 && ver_min >= 2) || ver_maj > 3) {
         GLint profile_mask;
         glGetIntegerv(IGL_CONTEXT_PROFILE_MASK, &profile_mask);
-        if (profile_mask) {
-            is_gl2_available = profile_mask == IGL_CONTEXT_COMPATIBILITY_PROFILE_BIT;
-        }
+        if (profile_mask) { is_gl2_available = profile_mask == IGL_CONTEXT_COMPATIBILITY_PROFILE_BIT; }
         if (!profile_mask) {
             GLint flags;
             glGetIntegerv(IGL_CONTEXT_FLAGS, &flags);
-            if (flags & IGL_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT) {
-                is_gl2_available = true;
-            }
+            if (flags & IGL_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT) { is_gl2_available = true; }
 
             if (!flags) {
                 GLint nb_exts;
                 glGetIntegerv(IGL_NUM_EXTENSIONS, &nb_exts);
                 for (GLint i = 0; i < nb_exts; ++i) {
-                    auto ext = (const char*)funcs->iglGetStringi(IGL_EXTENSIONS, i);
+                    auto ext = (const char*)funcs->oglGetStringi(IGL_EXTENSIONS, i);
                     if (strcmp(ext, "GL_ARB_compatibility") == 0) {
                         is_gl2_available = true;
                         break;
@@ -111,15 +105,15 @@ void RealizeOperation::operator()(osg::GraphicsContext* gc) {
         }
     }
 
-    funcs->iglDisable(IGL_SCISSOR_TEST);
-    funcs->iglDisable(IGL_MULTISAMPLE);
+    funcs->oglDisable(IGL_SCISSOR_TEST);
+    funcs->oglDisable(IGL_MULTISAMPLE);
 
     GLint sampleBuffers = 0, samples = 0, max_vertex_attrib = 0, max_tex_units, max_tex_img_units;
-    funcs->iglGetIntegerv(IGL_SAMPLE_BUFFERS, &sampleBuffers);
-    funcs->iglGetIntegerv(IGL_SAMPLES, &samples);
-    funcs->iglGetIntegerv(IGL_MAX_VERTEX_ATTRIBS, &max_vertex_attrib);
-    funcs->iglGetIntegerv(IGL_MAX_TEXTURE_UNITS, &max_tex_units);
-    funcs->iglGetIntegerv(IGL_MAX_TEXTURE_IMAGE_UNITS, &max_tex_img_units);
+    funcs->oglGetIntegerv(IGL_SAMPLE_BUFFERS, &sampleBuffers);
+    funcs->oglGetIntegerv(IGL_SAMPLES, &samples);
+    funcs->oglGetIntegerv(IGL_MAX_VERTEX_ATTRIBS, &max_vertex_attrib);
+    funcs->oglGetIntegerv(IGL_MAX_TEXTURE_UNITS, &max_tex_units);
+    funcs->oglGetIntegerv(IGL_MAX_TEXTURE_IMAGE_UNITS, &max_tex_img_units);
 
     OSG_INFO << "\nGraphics context realized.";
     OSG_INFO << "\nGL Version: " << gl_ver;
@@ -129,16 +123,12 @@ void RealizeOperation::operator()(osg::GraphicsContext* gc) {
 
     if (true || ver_maj == 4 && ver_min >= 3) {
 
-        funcs->iglEnable(IGL_DEBUG_OUTPUT);
-        funcs->iglDebugMessageCallback(debugMessageCallback, nullptr);
-        funcs->iglDebugMessageControl(IGL_DONT_CARE, IGL_DONT_CARE, IGL_DONT_CARE, 0, 0, IGL_TRUE);
-        funcs->iglDebugMessageInsert(IGL_DEBUG_SOURCE_APPLICATION,
-                                     IGL_DEBUG_TYPE_OTHER,
-                                     1,
-                                     IGL_DEBUG_SEVERITY_NOTIFICATION,
-                                     -1,
-                                     "GL Debug Enabled");
+        funcs->oglEnable(IGL_DEBUG_OUTPUT);
+        funcs->oglDebugMessageCallback(debugMessageCallback, nullptr);
+        funcs->oglDebugMessageControl(IGL_DONT_CARE, IGL_DONT_CARE, IGL_DONT_CARE, 0, 0, IGL_TRUE);
+        funcs->oglDebugMessageInsert(IGL_DEBUG_SOURCE_APPLICATION, IGL_DEBUG_TYPE_OTHER, 1, IGL_DEBUG_SEVERITY_NOTIFICATION, -1, "GL Debug Enabled");
     }
 }
+
 } // namespace xviewer
 } // namespace xg

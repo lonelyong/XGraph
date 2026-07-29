@@ -1,11 +1,16 @@
 #pragma once
 
-namespace osg {
+namespace osg
+{
+
 class Node;
+
 };
 
-namespace xg {
-namespace xviewer {
+namespace xg
+{
+namespace xviewer
+{
 
 #ifdef XG_XVIEWER_BUILD_WITH_OSGVERSE
 
@@ -20,5 +25,6 @@ void setAsCustom(osg::Node* node);
 void setAsShadowCaster(osg::Node* node, bool val);
 
 #endif
+
 } // namespace xviewer
 } // namespace xg

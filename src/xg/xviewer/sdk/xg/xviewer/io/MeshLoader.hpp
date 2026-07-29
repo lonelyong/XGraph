@@ -2,12 +2,17 @@
 
 #include <string>
 
-namespace osg {
+namespace osg
+{
+
 class MatrixTransform;
+
 }
 
-namespace xg {
-namespace xviewer {
+namespace xg
+{
+namespace xviewer
+{
 
 class MeshLoader {
   public:
@@ -43,5 +48,6 @@ class MeshLoader {
      */
     static bool isSupported(const std::string& file);
 };
+
 } // namespace xviewer
 } // namespace xg

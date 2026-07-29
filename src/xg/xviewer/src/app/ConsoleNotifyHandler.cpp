@@ -1,12 +1,12 @@
 #include <xg/xviewer/app/ConsoleNotifyHandler.hpp>
 
+#include <chrono>
 #include <cstdint>
 #include <cstdio>
 #include <ctime>
 #include <iostream>
 #include <mutex>
 #include <string>
-#include <chrono>
 
 // before Windows.h, NOMINMAX
 #include <backward.hpp>
@@ -17,27 +17,38 @@
 #endif // _WIN32
 
 
-namespace xg {
-namespace xviewer {
-namespace {
+namespace xg
+{
+namespace xviewer
+{
+namespace
+{
 
 static std::mutex g_syncout_mutex;
 
 struct SyncConsoleOut {
     std::unique_lock<std::mutex> _lock;
+
     SyncConsoleOut()
-      : _lock(std::unique_lock<std::mutex>(g_syncout_mutex)) {}
-    template <typename T> SyncConsoleOut& operator<<(const T& _t) {
+      : _lock(std::unique_lock<std::mutex>(g_syncout_mutex))
+    {}
+
+    template <typename T>
+    SyncConsoleOut& operator<<(const T& _t)
+    {
         std::cout << _t;
         return *this;
     }
-    SyncConsoleOut& operator<<(std::ostream& (*fp)(std::ostream&)) {
+
+    SyncConsoleOut& operator<<(std::ostream& (*fp)(std::ostream&))
+    {
         std::cout << fp;
         return *this;
     }
 };
 
-std::string getDateTimeTick() {
+std::string getDateTimeTick()
+{
     auto tick        = std::chrono::system_clock::now();
     auto posix       = std::chrono::system_clock::to_time_t(tick);
     auto millseconds = std::chrono::duration_cast<std::chrono::milliseconds>(tick.time_since_epoch()).count() -
@@ -53,7 +64,8 @@ std::string getDateTimeTick() {
 } // namespace
 
 ConsoleNotifyHandler::ConsoleNotifyHandler()
-  : _handle(nullptr) {
+  : _handle(nullptr)
+{
 #ifdef _WIN32
     // https://learn.microsoft.com/en-us/windows/console/console-screen-buffers
     _handle = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -62,7 +74,8 @@ ConsoleNotifyHandler::ConsoleNotifyHandler()
 #endif
 }
 
-void ConsoleNotifyHandler::notifyLevel0(osg::NotifySeverity severity, const std::string& message) {
+void ConsoleNotifyHandler::notifyLevel0(osg::NotifySeverity severity, const std::string& message)
+{
     std::string header = message.length() < 5 ? "" : "[FATAL   " + getDateTimeTick() + "] ";
 #ifdef _WIN32
     SetConsoleTextAttribute(_handle, FOREGROUND_RED);
@@ -75,7 +88,8 @@ void ConsoleNotifyHandler::notifyLevel0(osg::NotifySeverity severity, const std:
 #endif
 }
 
-void ConsoleNotifyHandler::notifyLevel1(osg::NotifySeverity severity, const std::string& message) {
+void ConsoleNotifyHandler::notifyLevel1(osg::NotifySeverity severity, const std::string& message)
+{
     std::string header = message.length() < 5 ? "" : "[WARNING " + getDateTimeTick() + "] ";
 #ifdef _WIN32
     SetConsoleTextAttribute(_handle, FOREGROUND_RED | FOREGROUND_GREEN);
@@ -88,7 +102,8 @@ void ConsoleNotifyHandler::notifyLevel1(osg::NotifySeverity severity, const std:
 #endif
 }
 
-void ConsoleNotifyHandler::notifyLevel2(osg::NotifySeverity severity, const std::string& message) {
+void ConsoleNotifyHandler::notifyLevel2(osg::NotifySeverity severity, const std::string& message)
+{
     std::string header = message.length() < 5 ? "" : "[NOTICE  " + getDateTimeTick() + "] ";
 #ifdef _WIN32
     SyncConsoleOut() << header << message;
@@ -99,7 +114,8 @@ void ConsoleNotifyHandler::notifyLevel2(osg::NotifySeverity severity, const std:
 #endif
 }
 
-void ConsoleNotifyHandler::notify(osg::NotifySeverity severity, const char* message) {
+void ConsoleNotifyHandler::notify(osg::NotifySeverity severity, const char* message)
+{
     std::string msg(message);
     if (severity <= osg::NotifySeverity::WARN) {
         backward::Printer    printer;

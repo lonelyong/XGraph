@@ -6,12 +6,18 @@
 #include <osg/Vec3>
 #include <osg/Vec4>
 
-namespace osg {
+namespace osg
+{
+
 class MatrixTransform;
+
 }
 
-namespace xg {
-namespace xviewer {
+namespace xg
+{
+namespace xviewer
+{
+
 class MeshCutterVTK {
   public:
     MeshCutterVTK(/* args */);
@@ -36,5 +42,6 @@ class MeshCutterVTK {
     struct Data;
     Data* const d;
 };
+
 } // namespace xviewer
 } // namespace xg

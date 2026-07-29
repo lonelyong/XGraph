@@ -2,12 +2,17 @@
 
 #include <osg/Camera>
 
-namespace osg {
+namespace osg
+{
+
 class Texture2D;
+
 }
 
-namespace xg {
-namespace xviewer {
+namespace xg
+{
+namespace xviewer
+{
 
 class CameraPicker : public osg::Camera {
   public:
@@ -19,5 +24,6 @@ class CameraPicker : public osg::Camera {
     osg::ref_ptr<osg::Texture2D> color_buf0;
     osg::ref_ptr<osg::Texture2D> depth_buf;
 };
+
 } // namespace xviewer
 } // namespace xg

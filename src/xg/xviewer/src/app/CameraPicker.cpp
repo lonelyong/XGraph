@@ -11,20 +11,25 @@
 #include <osgUtil/RenderStage>
 
 #include <xg/comm/Resources.hpp>
-#include <xg/glr/igl/GLfuncs.hpp>
+#include <xg/igl/ogl/GLfuncs.hpp>
 
 #include <xg/xviewer/utils/GLfuncsManager.hpp>
 
-namespace xg {
-namespace xviewer {
-namespace {
+namespace xg
+{
+namespace xviewer
+{
+namespace
+{
 
 struct PostDrawCallback : public osg::Camera::DrawCallback {
     virtual void operator()(osg::RenderInfo& renderInfo) const;
 };
+
 } // namespace
 
-CameraPicker::CameraPicker() {
+CameraPicker::CameraPicker()
+{
     setViewport(0, 0, 1280, 720);
     setRenderOrder(osg::Camera::POST_RENDER);
     setClearColor(osg::Vec4(1, 1, 1, 1));
@@ -66,13 +71,14 @@ CameraPicker::CameraPicker() {
     depth_buf  = depth_buf;
 }
 
-CameraPicker::~CameraPicker() {
-}
+CameraPicker::~CameraPicker()
+{}
 
-void PostDrawCallback::operator()(osg::RenderInfo& renderInfo) const {
+void PostDrawCallback::operator()(osg::RenderInfo& renderInfo) const
+{
     static bool is_first_frame = true;
-    
-    auto bin =renderInfo.getRenderBinStack().back();
+
+    auto bin = renderInfo.getRenderBinStack().back();
     bin->getStage()->getFrameBufferObject();
 
     auto cam = renderInfo.getCurrentCamera();
@@ -83,12 +89,13 @@ void PostDrawCallback::operator()(osg::RenderInfo& renderInfo) const {
         auto img = osg::ref_ptr(new osg::Image());
 
         auto funcs = GLfuncsManager::instance().getOrRegisterByContext(renderInfo.getState()->getGraphicsContext());
-        if (!funcs) return;
+        if (!funcs)
+            return;
 
         GLint fbo_id;
-        funcs->iglGetIntegerv(IGL_FRAMEBUFFER_BINDING, &fbo_id);
+        funcs->oglGetIntegerv(IGL_FRAMEBUFFER_BINDING, &fbo_id);
         // 相机的drawcallback调用之后，会reset FBO to default
-        funcs->iglBindFramebuffer(IGL_FRAMEBUFFER, 1);
+        funcs->oglBindFramebuffer(IGL_FRAMEBUFFER, 1);
         glReadBuffer(IGL_COLOR_ATTACHMENT0);
         img->readPixels(0, 0, vp->width(), vp->height(), GL_RGBA, GL_UNSIGNED_BYTE);
 
@@ -96,5 +103,6 @@ void PostDrawCallback::operator()(osg::RenderInfo& renderInfo) const {
         osgDB::writeImageFile(*img, "d:/1.bmp");
     }
 }
+
 } // namespace xviewer
 } // namespace xg

@@ -32,18 +32,14 @@ struct MeshCutterVTK::Data {
 };
 
 static inline bool isSamePoint(const osg::Vec3& p0, const osg::Vec3& p1)
-{
-    return abs(p0.x() - p1.x()) < 1e-4 && abs(p0.y() - p1.y()) < 1e-4 && abs(p0.z() - p1.z() < 1e-4);
-}
+{ return abs(p0.x() - p1.x()) < 1e-4 && abs(p0.y() - p1.y()) < 1e-4 && abs(p0.z() - p1.z() < 1e-4); }
 
 MeshCutterVTK::MeshCutterVTK()
   : d(new Data())
 {}
 
 MeshCutterVTK::~MeshCutterVTK()
-{
-    delete d;
-}
+{ delete d; }
 
 void MeshCutterVTK::setPlane(const osg::Vec3& origin, const osg::Vec3& norm)
 {
@@ -52,21 +48,16 @@ void MeshCutterVTK::setPlane(const osg::Vec3& origin, const osg::Vec3& norm)
 }
 
 void MeshCutterVTK::setMesh(const std::string& file)
-{
-    d->mesh_file = file;
-}
+{ d->mesh_file = file; }
 
 void MeshCutterVTK::setMesh(osg::Vec3Array* vertices)
-{
-    d->mesh_data = vertices;
-}
+{ d->mesh_data = vertices; }
 
 void MeshCutterVTK::update()
 {
     d->output_poly_data = nullptr;
     vtkSmartPointer<vtkPolyData> polyData;
-    if (d->mesh_data) {
-    }
+    if (d->mesh_data) {}
     else if (!d->mesh_file.empty()) {
         vtkSmartPointer<vtkSTLReader> stlReader = vtkSmartPointer<vtkSTLReader>::New();
         stlReader->SetFileName(d->mesh_file.data());
@@ -244,18 +235,14 @@ void MeshCutterVTK::getOrderedPoints(osg::Vec3Array& pnts, std::vector<int>& par
             line = line->prev;
 
             // 闭合
-            if (line == line0) {
-                break;
-            }
+            if (line == line0) { break; }
         }
 
         auto npnts = 1;
         pnts.push_back(line->p0);
         while (line) {
             auto iter = std::find(linelist.begin(), linelist.end(), line);
-            if (iter == linelist.end()) {
-                break;
-            }
+            if (iter == linelist.end()) { break; }
             else {
                 linelist.erase(iter);
             }

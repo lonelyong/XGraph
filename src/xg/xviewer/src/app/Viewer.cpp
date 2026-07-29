@@ -28,7 +28,7 @@
 
 #include <xg/comm/Resources.hpp>
 
-#include <xg/glr/igl/GLdefs.hpp>
+#include <xg/igl/ogl/GLdefs.hpp>
 
 #include <xg/xviewer/app/Application.hpp>
 #include <xg/xviewer/app/CameraPicker.hpp>

@@ -1,16 +1,25 @@
 #pragma once
 
-namespace osg {
+namespace osg
+{
+
 class GraphicsContext;
+
 }
 
-namespace xg {
+namespace xg
+{
 
-namespace glr {
+namespace glr
+{
+
 class GLfuncs;
+
 }
 
-namespace xviewer {
+namespace xviewer
+{
+
 class GLfuncsManager {
   private:
     GLfuncsManager() = default;
@@ -25,5 +34,6 @@ class GLfuncsManager {
 
     glr::GLfuncs* getOrRegisterByContext(osg::GraphicsContext* ctx);
 };
+
 } // namespace xviewer
 } // namespace xg

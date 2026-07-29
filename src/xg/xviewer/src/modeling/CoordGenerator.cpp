@@ -9,15 +9,20 @@
 #include <osg/Shape>
 #include <osg/ShapeDrawable>
 
-namespace xg {
-namespace xviewer {
-namespace {
+namespace xg
+{
+namespace xviewer
+{
+namespace
+{
+
 osg::ref_ptr<osg::Material> s_mat_red   = new osg::Material();
 osg::ref_ptr<osg::Material> s_mat_green = new osg::Material();
 osg::ref_ptr<osg::Material> s_mat_blue  = new osg::Material();
 
 struct Initializer {
-    Initializer() {
+    Initializer()
+    {
         s_mat_red->setAmbient(osg::Material::FRONT_AND_BACK, osg::Vec4(1, 0, 0, 1));
         s_mat_red->setDiffuse(osg::Material::FRONT_AND_BACK, osg::Vec4(1, 0, 0, 1));
         s_mat_green->setAmbient(osg::Material::FRONT_AND_BACK, osg::Vec4(0, 1, 0, 1));
@@ -26,10 +31,11 @@ struct Initializer {
         s_mat_blue->setDiffuse(osg::Material::FRONT_AND_BACK, osg::Vec4(0, 0, 1, 1));
     }
 } initializer;
+
 } // namespace
 
-osg::MatrixTransform*
-createCoord(double cyli_len, double cyli_r, double cone_len, double cone_r, bool auto_rotate_to_screen) {
+osg::MatrixTransform* createCoord(double cyli_len, double cyli_r, double cone_len, double cone_r, bool auto_rotate_to_screen)
+{
     auto colors = new osg::Vec4Array();
     colors->push_back(osg::Vec4(1.f, 1.f, 1.f, 1.f));
 
@@ -70,11 +76,15 @@ createCoord(double cyli_len, double cyli_r, double cone_len, double cone_r, bool
     return root;
 }
 
-osg::Camera* createHudCoord(osg::Camera* master, double cyli_len, double cyli_r, double cone_len, double cone_r) {
+osg::Camera* createHudCoord(osg::Camera* master, double cyli_len, double cyli_r, double cone_len, double cone_r)
+{
     struct UpdateCallback : public osg::NodeCallback {
         UpdateCallback(osg::Camera* master)
-          : master_(master) {}
-        virtual void operator()(osg::Node* node, osg::NodeVisitor* nv) {
+          : master_(master)
+        {}
+
+        virtual void operator()(osg::Node* node, osg::NodeVisitor* nv)
+        {
             auto      cam = node->asCamera();
             osg::Vec3 eye, target, up, dir;
             master_->getViewMatrixAsLookAt(eye, target, up);
@@ -88,6 +98,7 @@ osg::Camera* createHudCoord(osg::Camera* master, double cyli_len, double cyli_r,
             cam->setViewport(vp_w - 200, 0, 200, 200);
             node->traverse(*nv);
         }
+
         osg::Camera* master_;
     };
 
@@ -102,5 +113,6 @@ osg::Camera* createHudCoord(osg::Camera* master, double cyli_len, double cyli_r,
     cam->addUpdateCallback(new UpdateCallback(master));
     return cam;
 }
+
 } // namespace xviewer
 } // namespace xg

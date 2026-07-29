@@ -78,7 +78,7 @@ target_include_directories(${TARGET_NAME}
 target_link_libraries(${TARGET_NAME}
     PRIVATE
     xg::comm
-    xg::glr-core
+    xg::igl-core
     glfw
     assimp::assimp
     TKernel TKXSBase TKMesh TKBRep TKDESTEP TKDEIGES TKMath TKGeomBase TKGeomAlgo TKG3d

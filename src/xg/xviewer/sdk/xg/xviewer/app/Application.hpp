@@ -2,8 +2,11 @@
 
 #include <xg/xviewer/xviewer_global.hpp>
 
-namespace xg {
-namespace xviewer {
+namespace xg
+{
+namespace xviewer
+{
+
 struct AppParameters {
     int    argc = 0;
     char** argv = nullptr;
@@ -20,7 +23,8 @@ class Application {
     virtual ~Application();
 
   public:
-    const AppParameters& getParameters() const { return params_; }
+    const AppParameters& getParameters() const
+    { return params_; }
 
   public:
     static Application* current();
@@ -28,5 +32,6 @@ class Application {
   private:
     AppParameters params_;
 };
+
 } // namespace xviewer
 } // namespace xg

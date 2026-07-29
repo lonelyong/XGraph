@@ -2,8 +2,10 @@
 
 #include <QMainWindow>
 
-namespace xg {
-namespace xviewer {
+namespace xg
+{
+namespace xviewer
+{
 
 class Viewer;
 class ViewWidget;
@@ -19,5 +21,6 @@ class MainWindow : public QMainWindow {
   private:
     ViewWidget* vw_ = nullptr;
 };
+
 } // namespace xviewer
 } // namespace xg

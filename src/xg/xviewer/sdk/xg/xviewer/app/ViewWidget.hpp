@@ -4,8 +4,10 @@
 
 #include <osg/ref_ptr>
 
-namespace xg {
-namespace xviewer {
+namespace xg
+{
+namespace xviewer
+{
 
 class Viewer;
 

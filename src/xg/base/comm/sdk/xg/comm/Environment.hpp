@@ -2,6 +2,9 @@
 
 #include <string>
 
-namespace xg{
-    std::string getApplicationDir();
+namespace xg
+{
+
+std::string getApplicationDir();
+
 }

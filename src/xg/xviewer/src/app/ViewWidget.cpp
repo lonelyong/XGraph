@@ -4,14 +4,14 @@
 
 #include <xg/xviewer/app/Viewer.hpp>
 
+namespace xg
+{
+namespace xviewer
+{
 
-namespace xg {
-namespace xviewer {
-
-static int mapToOsgMouseButton(Qt::MouseButton btn) {
-    if (btn & Qt::LeftButton) {
-        return osgGA::GUIEventAdapter::LEFT_MOUSE_BUTTON;
-    }
+static int mapToOsgMouseButton(Qt::MouseButton btn)
+{
+    if (btn & Qt::LeftButton) { return osgGA::GUIEventAdapter::LEFT_MOUSE_BUTTON; }
     else if (btn & Qt::MiddleButton) {
         return osgGA::GUIEventAdapter::MIDDLE_MOUSE_BUTTON;
     }
@@ -21,7 +21,8 @@ static int mapToOsgMouseButton(Qt::MouseButton btn) {
     return 0;
 }
 
-static int mapToOsgKey(int key) {
+static int mapToOsgKey(int key)
+{
     switch (key) {
     case Qt::Key_Escape: return osgGA::GUIEventAdapter::KEY_Escape;
     case Qt::Key_Tab: return osgGA::GUIEventAdapter::KEY_Tab;
@@ -91,7 +92,8 @@ static int mapToOsgKey(int key) {
     return (osgGA::GUIEventAdapter::KeySymbol)key;
 }
 
-static int mapToOsgModifiers(Qt::KeyboardModifiers modifier) {
+static int mapToOsgModifiers(Qt::KeyboardModifiers modifier)
+{
     switch (modifier) {
     case Qt::NoModifier: return 0;
     case Qt::ShiftModifier: return osgGA ::GUIEventAdapter::MODKEY_SHIFT;
@@ -106,8 +108,8 @@ static int mapToOsgModifiers(Qt::KeyboardModifiers modifier) {
     return 0;
 }
 
-
-ViewWidget::ViewWidget(QObject* parent /*= nullptr*/) {
+ViewWidget::ViewWidget(QObject* parent /*= nullptr*/)
+{
     QSurfaceFormat format;
     format.setRenderableType(QSurfaceFormat::OpenGL);
     format.setProfile(QSurfaceFormat::CompatibilityProfile);
@@ -119,25 +121,22 @@ ViewWidget::ViewWidget(QObject* parent /*= nullptr*/) {
     this->setMouseTracking(true);
 }
 
-void ViewWidget::setViewer(Viewer* viewer) {
-    viewer_ = viewer;
-}
+void ViewWidget::setViewer(Viewer* viewer)
+{ viewer_ = viewer; }
 
-Viewer* ViewWidget::getViewer() const {
-    return viewer_.get();
-}
+Viewer* ViewWidget::getViewer() const
+{ return viewer_.get(); }
 
-void ViewWidget::initializeGL() {
-    QOpenGLWidget::initializeGL();
-}
+void ViewWidget::initializeGL()
+{ QOpenGLWidget::initializeGL(); }
 
-void ViewWidget::resizeGL(int w, int h) {
-    QOpenGLWidget::resizeGL(w, h);
-}
+void ViewWidget::resizeGL(int w, int h)
+{ QOpenGLWidget::resizeGL(w, h); }
 
-void ViewWidget::paintGL() {
+void ViewWidget::paintGL()
+{
     if (isValid()) {
-        auto gc  = viewer_->getGraphicsContext();
+        auto gc = viewer_->getGraphicsContext();
 
         if (first_frame_) {
             auto def_fbo = defaultFramebufferObject();
@@ -149,7 +148,8 @@ void ViewWidget::paintGL() {
     }
 }
 
-void ViewWidget::resizeEvent(QResizeEvent* event) {
+void ViewWidget::resizeEvent(QResizeEvent* event)
+{
     if (isValid()) {
         auto  ratio = this->screen()->devicePixelRatio();
         auto& size  = event->size();
@@ -158,105 +158,91 @@ void ViewWidget::resizeEvent(QResizeEvent* event) {
         gc->resized(0, 0, size.width() * ratio, size.height() * ratio);
 
         auto gw = dynamic_cast<osgViewer::GraphicsWindow*>(gc);
-        if (gw) {
-            gw->getEventQueue()->windowResize(0, 0, size.width() * ratio, size.height() * ratio);
-        }
+        if (gw) { gw->getEventQueue()->windowResize(0, 0, size.width() * ratio, size.height() * ratio); }
     }
     QOpenGLWidget::resizeEvent(event);
 }
 
-void ViewWidget::closeEvent(QCloseEvent* event) {
-    if (isValid()) {
-        viewer_->setDone(true);
-    }
+void ViewWidget::closeEvent(QCloseEvent* event)
+{
+    if (isValid()) { viewer_->setDone(true); }
     QOpenGLWidget::closeEvent(event);
 }
 
-void ViewWidget::keyPressEvent(QKeyEvent* event) {
+void ViewWidget::keyPressEvent(QKeyEvent* event)
+{
     if (isValid()) {
         auto gc = viewer_->getGraphicsContext();
         auto gw = dynamic_cast<osgViewer::GraphicsWindow*>(gc);
-        if (gw) {
-            gw->getEventQueue()->keyPress(mapToOsgKey(event->key()), mapToOsgModifiers(event->modifiers()));
-        }
+        if (gw) { gw->getEventQueue()->keyPress(mapToOsgKey(event->key()), mapToOsgModifiers(event->modifiers())); }
     }
 
     QOpenGLWidget::keyPressEvent(event);
 }
 
-void ViewWidget::keyReleaseEvent(QKeyEvent* event) {
+void ViewWidget::keyReleaseEvent(QKeyEvent* event)
+{
     if (isValid()) {
         auto gc = viewer_->getGraphicsContext();
         auto gw = dynamic_cast<osgViewer::GraphicsWindow*>(gc);
-        if (gw) {
-            gw->getEventQueue()->keyRelease(mapToOsgKey(event->key()), mapToOsgModifiers(event->modifiers()));
-        }
+        if (gw) { gw->getEventQueue()->keyRelease(mapToOsgKey(event->key()), mapToOsgModifiers(event->modifiers())); }
     }
     QOpenGLWidget::keyReleaseEvent(event);
 }
 
-void ViewWidget::mousePressEvent(QMouseEvent* event) {
+void ViewWidget::mousePressEvent(QMouseEvent* event)
+{
     if (isValid()) {
         auto ratio = this->screen()->devicePixelRatio();
         auto gc    = viewer_->getGraphicsContext();
         auto gw    = dynamic_cast<osgViewer::GraphicsWindow*>(gc);
-        if (gw) {
-            gw->getEventQueue()->mouseButtonPress(event->pos().x() * ratio,
-                                                  event->pos().y() * ratio,
-                                                  mapToOsgMouseButton(event->button()));
-        }
+        if (gw) { gw->getEventQueue()->mouseButtonPress(event->pos().x() * ratio, event->pos().y() * ratio, mapToOsgMouseButton(event->button())); }
     }
 
     QOpenGLWidget::mousePressEvent(event);
 }
 
-void ViewWidget::mouseReleaseEvent(QMouseEvent* event) {
+void ViewWidget::mouseReleaseEvent(QMouseEvent* event)
+{
     if (isValid()) {
         auto ratio = this->screen()->devicePixelRatio();
         auto gc    = viewer_->getGraphicsContext();
         auto gw    = dynamic_cast<osgViewer::GraphicsWindow*>(gc);
-        if (gw) {
-            gw->getEventQueue()->mouseButtonRelease(event->pos().x() * ratio,
-                                                    event->pos().y() * ratio,
-                                                    mapToOsgMouseButton(event->button()));
-        }
+        if (gw) { gw->getEventQueue()->mouseButtonRelease(event->pos().x() * ratio, event->pos().y() * ratio, mapToOsgMouseButton(event->button())); }
     }
 
     QOpenGLWidget::mouseReleaseEvent(event);
 }
 
-void ViewWidget::mouseDoubleClickEvent(QMouseEvent* event) {
+void ViewWidget::mouseDoubleClickEvent(QMouseEvent* event)
+{
     if (isValid()) {
         auto ratio = this->screen()->devicePixelRatio();
         auto gc    = viewer_->getGraphicsContext();
         auto gw    = dynamic_cast<osgViewer::GraphicsWindow*>(gc);
-        if (gw) {
-            gw->getEventQueue()->mouseDoubleButtonPress(event->pos().x() * ratio,
-                                                        event->pos().y() * ratio,
-                                                        mapToOsgMouseButton(event->button()));
-        }
+        if (gw) { gw->getEventQueue()->mouseDoubleButtonPress(event->pos().x() * ratio, event->pos().y() * ratio, mapToOsgMouseButton(event->button())); }
     }
 
     QOpenGLWidget::mouseDoubleClickEvent(event);
 }
 
-void ViewWidget::mouseMoveEvent(QMouseEvent* event) {
+void ViewWidget::mouseMoveEvent(QMouseEvent* event)
+{
     if (isValid()) {
         auto ratio = this->screen()->devicePixelRatio();
         auto gc    = viewer_->getGraphicsContext();
         auto gw    = dynamic_cast<osgViewer::GraphicsWindow*>(gc);
-        if (gw) {
-            gw->getEventQueue()->mouseMotion(event->pos().x() * ratio, event->pos().y() * ratio);
-        }
+        if (gw) { gw->getEventQueue()->mouseMotion(event->pos().x() * ratio, event->pos().y() * ratio); }
     }
 
     QOpenGLWidget::mouseMoveEvent(event);
 }
 
-void ViewWidget::wheelEvent(QWheelEvent* event) {
+void ViewWidget::wheelEvent(QWheelEvent* event)
+{
     if (isValid()) {
-        auto gc  = viewer_->getGraphicsContext();
-        auto gw  = dynamic_cast<osgViewer::GraphicsWindow*>(gc);
+        auto gc = viewer_->getGraphicsContext();
+        auto gw = dynamic_cast<osgViewer::GraphicsWindow*>(gc);
         if (gw) {
             auto delta  = event->angleDelta().y();
             auto motion = (delta > 0) ? osgGA::GUIEventAdapter::SCROLL_UP : osgGA::GUIEventAdapter::SCROLL_DOWN;
@@ -267,7 +253,8 @@ void ViewWidget::wheelEvent(QWheelEvent* event) {
     QOpenGLWidget::wheelEvent(event);
 }
 
-bool ViewWidget::event(QEvent* event) {
+bool ViewWidget::event(QEvent* event)
+{
     auto handled = QOpenGLWidget::event(event);
     switch (event->type()) {
     case QEvent::KeyPress:
@@ -282,9 +269,8 @@ bool ViewWidget::event(QEvent* event) {
     return handled;
 }
 
-bool ViewWidget::isValid() const {
-    return viewer_.valid();
-}
+bool ViewWidget::isValid() const
+{ return viewer_.valid(); }
 
 } // namespace xviewer
 } // namespace xg

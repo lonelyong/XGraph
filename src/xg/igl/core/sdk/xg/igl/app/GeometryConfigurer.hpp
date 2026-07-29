@@ -1,0 +1,24 @@
+﻿#pragma once
+
+#include <xg/igl/glr_global.hpp>
+
+namespace xg
+{
+namespace glr
+{
+
+class Geometry;
+class StateSet;
+
+class IGL_CORE_API GeometryConfigurer {
+  public:
+    /**
+     * @brief 匹配geom的顶点数据与StdPhong着色器的location
+     * @param geom
+     * @param ss 如果ss为空，则会使用geom的StateSet
+     */
+    static void configureStdPhong(Geometry* geom, StateSet* ss = nullptr);
+};
+
+} // namespace glr
+} // namespace xg

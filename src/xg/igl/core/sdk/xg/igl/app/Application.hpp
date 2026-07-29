@@ -1,0 +1,38 @@
+﻿#pragma once
+
+#include <xg/igl/glr_global.hpp>
+
+namespace xg
+{
+namespace glr
+{
+
+struct IGL_CORE_API AppParameters {
+    int  gl_ver_maj           = 4;
+    int  gl_ver_min           = 2;
+    bool gl_use_core_profile  = true;
+    bool mesa_always_software = true;
+};
+
+class IGL_CORE_API Application {
+  public:
+    Application(const AppParameters& params);
+
+  public:
+    virtual bool initGlfw();
+
+    virtual bool isGlfwInitialized() const;
+
+  public:
+    const AppParameters& getParameters() const
+    { return params_; }
+
+  public:
+    static Application* current();
+
+  private:
+    AppParameters params_;
+};
+
+} // namespace glr
+} // namespace xg

@@ -2,12 +2,17 @@
 
 #include <string>
 
-namespace osg {
+namespace osg
+{
+
 class MatrixTransform;
+
 }
 
-namespace xg {
-namespace xviewer {
+namespace xg
+{
+namespace xviewer
+{
 
 class OctomapLoader {
   public:
@@ -16,9 +21,9 @@ class OctomapLoader {
      */
     enum RenderOption
     {
-        RENDER_AS_POINT,                      ///< Render each occupied node as a point.
-        RENDER_AS_BOX,                        ///< Render each occupied node as a cube.
-        RENDER_AS_BOX_USE_GEOMETRY_SHADER     ///< Render cubes using geometry shader for better performance.
+        RENDER_AS_POINT,                  ///< Render each occupied node as a point.
+        RENDER_AS_BOX,                    ///< Render each occupied node as a cube.
+        RENDER_AS_BOX_USE_GEOMETRY_SHADER ///< Render cubes using geometry shader for better performance.
     };
 
   public:
@@ -74,7 +79,8 @@ class OctomapLoader {
     static bool isSupported(const std::string& file);
 
   private:
-    RenderOption render_option_;  ///< Current rendering option for octree visualization.
+    RenderOption render_option_; ///< Current rendering option for octree visualization.
 };
+
 } // namespace xviewer
 } // namespace xg

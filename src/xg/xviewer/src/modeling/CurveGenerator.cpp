@@ -18,15 +18,14 @@
 
 #include <xg/xviewer/modeling/DottedCurve.hpp>
 
+namespace xg
+{
+namespace xviewer
+{
 
-
-
-namespace xg {
-namespace xviewer {
-
-static opencascade::handle<Geom_BSplineCurve> createCurve(const std::vector<osg::Vec3>& ctrl_points,
-                                                          const std::vector<double>&    params,
-                                                          const std::vector<osg::Vec3>& tangents) {
+static opencascade::handle<Geom_BSplineCurve>
+createCurve(const std::vector<osg::Vec3>& ctrl_points, const std::vector<double>& params, const std::vector<osg::Vec3>& tangents)
+{
     Handle(TColgp_HArray1OfPnt) pnts           = new TColgp_HArray1OfPnt(1, ctrl_points.size());
     Handle(TColStd_HArray1OfReal) pnt_params   = new TColStd_HArray1OfReal(1, params.size());
     Handle(TColgp_HArray1OfVec) tans           = new TColgp_HArray1OfVec(1, tangents.size());
@@ -36,9 +35,7 @@ static opencascade::handle<Geom_BSplineCurve> createCurve(const std::vector<osg:
         auto& pt = ctrl_points[i - 1];
         (*pnts).SetValue(i, gp_Pnt(pt.x(), pt.y(), pt.z()));
     }
-    for (int i = 1; i <= params.size(); i++) {
-        (*pnt_params).SetValue(i, params[i - 1]);
-    }
+    for (int i = 1; i <= params.size(); i++) { (*pnt_params).SetValue(i, params[i - 1]); }
 
     for (int i = 1; i <= tangents.size(); i++) {
         auto& tan = tangents[i - 1];
@@ -46,16 +43,12 @@ static opencascade::handle<Geom_BSplineCurve> createCurve(const std::vector<osg:
         (*tan_flags).SetValue(i, true);
     }
     std::shared_ptr<GeomAPI_Interpolate> interpolate;
-    if (pnt_params->IsEmpty()) {
-        interpolate = std::shared_ptr<GeomAPI_Interpolate>(new GeomAPI_Interpolate(pnts, false, 0.01));
-    }
+    if (pnt_params->IsEmpty()) { interpolate = std::shared_ptr<GeomAPI_Interpolate>(new GeomAPI_Interpolate(pnts, false, 0.01)); }
     else {
         interpolate = std::shared_ptr<GeomAPI_Interpolate>(new GeomAPI_Interpolate(pnts, pnt_params, false, 0.01));
     }
     GeomAPI_Interpolate(pnts, pnt_params, false, 0.01);
-    if (ctrl_points.size() == tangents.size()) {
-        interpolate->Load(*tans, tan_flags, false);
-    }
+    if (ctrl_points.size() == tangents.size()) { interpolate->Load(*tans, tan_flags, false); }
     else if (tangents.size() == 2) {
         interpolate->Load(tans->First(), tans->Last(), false);
     }
@@ -67,7 +60,8 @@ static opencascade::handle<Geom_BSplineCurve> createCurve(const std::vector<osg:
     return nullptr;
 }
 
-static osg::Geometry* createCurveGeometry(Geom_BSplineCurve* curve, const osg::Vec4& color) {
+static osg::Geometry* createCurveGeometry(Geom_BSplineCurve* curve, const osg::Vec4& color)
+{
     GeomAdaptor_Curve      adaptor(curve, curve->FirstParameter(), curve->LastParameter());
     GCPnts_UniformAbscissa spliter(adaptor, 1.);
 
@@ -82,7 +76,9 @@ static osg::Geometry* createCurveGeometry(Geom_BSplineCurve* curve, const osg::V
         vertices->push_back(osg::Vec3(posi.X(), posi.Y(), posi.Z()));
     }
     auto colors = new osg::Vec4Array();
-    { colors->push_back(color); }
+    {
+        colors->push_back(color);
+    }
     auto geom = new osg::Geometry();
     geom->setVertexArray(vertices);
     geom->setColorArray(colors, osg::Array::BIND_OVERALL);
@@ -90,13 +86,14 @@ static osg::Geometry* createCurveGeometry(Geom_BSplineCurve* curve, const osg::V
     return geom;
 }
 
-static osg::Geometry* createPointsGeometry(const std::vector<osg::Vec3>& points) {
+static osg::Geometry* createPointsGeometry(const std::vector<osg::Vec3>& points)
+{
     auto vertices = new osg::Vec3Array();
-    for (auto& pt : points) {
-        vertices->push_back(pt);
-    }
+    for (auto& pt : points) { vertices->push_back(pt); }
     auto colors = new osg::Vec4Array();
-    { colors->push_back(osg::Vec4(1, 1, 0, 1)); }
+    {
+        colors->push_back(osg::Vec4(1, 1, 0, 1));
+    }
     auto geom = new osg::Geometry();
     geom->setVertexArray(vertices);
     geom->setColorArray(colors, osg::Array::BIND_OVERALL);
@@ -105,15 +102,12 @@ static osg::Geometry* createPointsGeometry(const std::vector<osg::Vec3>& points)
     return geom;
 }
 
-osg::MatrixTransform* createBSpline(const std::vector<osg::Vec3>& ctrl_points,
-                                    const std::vector<double>&    params,
-                                    const std::vector<osg::Vec3>& tangents,
-                                    const osg::Vec4&              color) {
+osg::MatrixTransform*
+createBSpline(const std::vector<osg::Vec3>& ctrl_points, const std::vector<double>& params, const std::vector<osg::Vec3>& tangents, const osg::Vec4& color)
+{
     auto curve = createCurve(ctrl_points, params, tangents);
     auto geod  = new osg::Geode();
-    if (curve) {
-        geod->addDrawable(createCurveGeometry(curve.get(), color));
-    }
+    if (curve) { geod->addDrawable(createCurveGeometry(curve.get(), color)); }
 
     geod->addDrawable(createPointsGeometry(ctrl_points));
 
@@ -123,9 +117,8 @@ osg::MatrixTransform* createBSpline(const std::vector<osg::Vec3>& ctrl_points,
     return model;
 }
 
-DottedCurve* createDottedCurve(const std::vector<osg::Vec3>& ctrl_points,
-                               const std::vector<double>&    params,
-                               const std::vector<osg::Vec3>& tangents) {
+DottedCurve* createDottedCurve(const std::vector<osg::Vec3>& ctrl_points, const std::vector<double>& params, const std::vector<osg::Vec3>& tangents)
+{
     auto                   curve = createCurve(ctrl_points, params, tangents);
     GeomAdaptor_Curve      adaptor(curve, curve->FirstParameter(), curve->LastParameter());
     GCPnts_UniformAbscissa spliter(adaptor, 1.);
@@ -144,5 +137,6 @@ DottedCurve* createDottedCurve(const std::vector<osg::Vec3>& ctrl_points,
     dc->setInputPoints(std::move(pts));
     return dc;
 }
+
 } // namespace xviewer
 } // namespace xg

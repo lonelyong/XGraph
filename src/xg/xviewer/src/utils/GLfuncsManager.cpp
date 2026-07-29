@@ -5,20 +5,25 @@
 
 #include <osg/GLExtensions>
 
-#include <xg/glr/igl/GLfuncs.hpp>
+#include <xg/igl/ogl/GLfuncs.hpp>
 
-namespace xg {
-namespace xviewer {
+namespace xg
+{
+namespace xviewer
+{
 
 static std::unordered_map<osg::GraphicsContext*, std::shared_ptr<glr::GLfuncs>> s_funcs_map;
 
-GLfuncsManager& GLfuncsManager::instance() {
+GLfuncsManager& GLfuncsManager::instance()
+{
     static GLfuncsManager mgr;
     return mgr;
 }
 
-bool GLfuncsManager::registerByContext(osg::GraphicsContext* ctx) {
-    if (s_funcs_map.contains(ctx)) return true;
+bool GLfuncsManager::registerByContext(osg::GraphicsContext* ctx)
+{
+    if (s_funcs_map.contains(ctx))
+        return true;
 
     auto funcs = glr::GLfuncs::loadGLLoader([](const char* name) { return osg::getGLExtensionFuncPtr(name); });
 
@@ -30,14 +35,14 @@ bool GLfuncsManager::registerByContext(osg::GraphicsContext* ctx) {
     return false;
 }
 
-glr::GLfuncs* GLfuncsManager::getOrRegisterByContext(osg::GraphicsContext* ctx) {
-    if (s_funcs_map.contains(ctx)) return s_funcs_map[ctx].get();
+glr::GLfuncs* GLfuncsManager::getOrRegisterByContext(osg::GraphicsContext* ctx)
+{
+    if (s_funcs_map.contains(ctx))
+        return s_funcs_map[ctx].get();
 
     auto funcs = glr::GLfuncs::loadGLLoader([](const char* name) { return osg::getGLExtensionFuncPtr(name); });
 
-    if (!funcs) {
-        funcs = glr::GLfuncs::load();
-    }
+    if (!funcs) { funcs = glr::GLfuncs::load(); }
 
     if (funcs) {
         s_funcs_map.insert({ ctx, std::shared_ptr<glr::GLfuncs>(funcs) });
@@ -47,11 +52,11 @@ glr::GLfuncs* GLfuncsManager::getOrRegisterByContext(osg::GraphicsContext* ctx) 
     return nullptr;
 }
 
-glr::GLfuncs* GLfuncsManager::getByContext(osg::GraphicsContext* ctx) const {
-    if (s_funcs_map.contains(ctx)) {
-        return s_funcs_map[ctx].get();
-    }
+glr::GLfuncs* GLfuncsManager::getByContext(osg::GraphicsContext* ctx) const
+{
+    if (s_funcs_map.contains(ctx)) { return s_funcs_map[ctx].get(); }
     return nullptr;
 }
+
 } // namespace xviewer
 } // namespace xg

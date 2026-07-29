@@ -1,0 +1,93 @@
+﻿#include <xg/igl/engine/SkyBox.hpp>
+
+#include <glm/ext.hpp>
+
+#include <xg/igl/engine/Callbacks.hpp>
+#include <xg/igl/engine/Camera.hpp>
+#include <xg/igl/engine/CubeMap.hpp>
+#include <xg/igl/engine/Depth.hpp>
+#include <xg/igl/engine/Program.hpp>
+#include <xg/igl/engine/Renderer.hpp>
+#include <xg/igl/engine/StateSet.hpp>
+#include <xg/igl/engine/Uniform.hpp>
+#include <xg/igl/scene/Geometry.hpp>
+#include <xg/igl/scene/Model.hpp>
+
+namespace xg
+{
+namespace glr
+{
+namespace
+{
+
+const char* sky_box_vs = R"(
+#version 330 core
+layout(location=0) in vec3 position;
+// the pos of camera is (0,0,0)
+uniform mat4 matrix_mvp_;
+out vec3 frag_tex_coord;
+void main(){
+    vec4 posi = matrix_mvp_ * vec4(position, 1.0);
+    posi.z = posi.w;
+    gl_Position = posi;
+    frag_tex_coord = position;
+}
+)";
+const char* sky_box_fs = R"(
+#version 330 core
+#extension GL_ARB_shader_image_load_store : enable
+layout(early_fragment_tests) in;
+uniform samplerCube tex_cube;
+in vec3 frag_tex_coord;
+out vec4 FragColor;
+void main(){
+    vec4 color = texture(tex_cube, frag_tex_coord);
+    FragColor = color;
+}
+)";
+
+struct SkyBoxUpdateCallback : public UpdateCallback {
+    SkyBoxUpdateCallback(Uniform* uniform)
+    { uniform_ = uniform; }
+
+    virtual void operator()(Object* obj, UpdateContext* ctx) override
+    {
+        auto model    = vine::obj_cast<Model>(obj);
+        auto stateset = model->getOrCreateStateSet();
+        auto shader   = stateset->getShader();
+        auto cam      = ctx->getCurrentRenderer()->getCamera();
+
+        auto mat_v = cam->getViewMatrix();
+        mat_v[3]   = Vec4d(0.f, 0.f, 0.f, 1.f);
+        Mat4d m1(1.);
+        m1         = glm::rotate(m1, glm::radians(90.), Vec3d(1., 0., 0.));
+        auto mat_p = cam->getProjectionMatrix();
+
+        uniform_->setValue(mat_p * mat_v * m1);
+    }
+
+    Uniform* uniform_ = nullptr;
+};
+
+} // namespace
+
+// 平行投影会导致天空盒的显示不正确，因为天空盒的大小为1，而平行投影使得渲染天空盒的大小不变
+Model* createSkyBox(CubeMap* tex)
+{
+    auto shader  = new Program(sky_box_vs, {}, sky_box_fs);
+    auto uniform = new Uniform("matrix_mvp_", Mat4d());
+    auto cube    = Geometry::createCube(1, false);
+    cube->addTexture(IGL_TEXTURE0, "tex_cube", tex);
+    cube->setVertexAttribLocation(0);
+
+    auto model = new Model();
+    model->addDrawable(cube);
+    model->addUpdateCallback(new SkyBoxUpdateCallback(uniform));
+    model->getOrCreateStateSet()->setShader(shader);
+    model->getOrCreateStateSet()->setAttribute(uniform);
+    model->getOrCreateStateSet()->setAttribute(new Depth(1, 1, Depth::LEQUAL, true));
+    return model;
+}
+
+} // namespace glr
+} // namespace xg

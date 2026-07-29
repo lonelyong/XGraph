@@ -27,8 +27,10 @@
 
 #include <xg/comm/Text.hpp>
 
-namespace xg {
-namespace xviewer {
+namespace xg
+{
+namespace xviewer
+{
 
 using Pt     = pcl::PointXYZRGB;
 using PtNorm = pcl::PointXYZRGBNormal;
@@ -41,13 +43,16 @@ enum RenderMode
     MODE_DEPTH,
     MODE_ORIGINAL
 };
+
 enum FileType
 {
     TYPE_UNKNOW,
     TYPE_PLY,
     TYPE_PCD
 };
-namespace {
+
+namespace
+{
 
 constexpr RenderMode S_RENDER_MODE = MODE_ORIGINAL;
 
@@ -88,8 +93,8 @@ void main(){
 }
 )";
 
-
-static void xxxx(PCPtr pc) {
+static void xxxx(PCPtr pc)
+{
     pcl::PointCloud<pcl::Normal>::Ptr      normals(new pcl::PointCloud<pcl::Normal>);
     pcl::search::KdTree<Pt>::Ptr           kdtree(new pcl::search::KdTree<Pt>());
     pcl::NormalEstimation<Pt, pcl::Normal> ne;
@@ -120,19 +125,19 @@ static void xxxx(PCPtr pc) {
     pcl::io::savePLYFile("d:/1.ply", mesh);
 }
 
-bool isPlyFile(const std::string& ext) {
-    return ext == ".ply";
-}
+bool isPlyFile(const std::string& ext)
+{ return ext == ".ply"; }
 
-bool isPcdFile(const std::string& ext) {
-    return ext == ".pcd";
-}
+bool isPcdFile(const std::string& ext)
+{ return ext == ".pcd"; }
 
-bool isSupportedType(const std::string& file, FileType& type) {
-    namespace fs = std::filesystem;
-    auto u8file = xg::local8bitToUtf8(file);
+bool isSupportedType(const std::string& file, FileType& type)
+{
+    namespace fs    = std::filesystem;
+    auto     u8file = xg::local8bitToUtf8(file);
     fs::path path(u8file);
-    if (!path.has_extension()) return false;
+    if (!path.has_extension())
+        return false;
 
     auto file_ext = path.extension().string();
     std::transform(file_ext.begin(), file_ext.end(), file_ext.begin(), ::tolower);
@@ -146,7 +151,8 @@ bool isSupportedType(const std::string& file, FileType& type) {
     return type != TYPE_UNKNOW;
 }
 
-osg::MatrixTransform* parse(const PCPtr cloud) {
+osg::MatrixTransform* parse(const PCPtr cloud)
+{
     auto z_lower = 0.f;
     auto z_upper = 1000.f;
     auto z_range = z_upper - z_lower;
@@ -199,7 +205,8 @@ osg::MatrixTransform* parse(const PCPtr cloud) {
             pcl::ModelCoefficients::Ptr coefficients(new pcl::ModelCoefficients);
             pcl::PointIndices::Ptr      inliers(new pcl::PointIndices);
             seg.segment(*inliers, *coefficients);
-            if (!inliers->indices.size()) break;
+            if (!inliers->indices.size())
+                break;
             vec_plane_coefficients.push_back(coefficients);
             vec_plane_indices.push_back(inliers);
             pcl::ExtractIndices<Pt> extract1;
@@ -235,12 +242,11 @@ osg::MatrixTransform* parse(const PCPtr cloud) {
     else if constexpr (S_RENDER_MODE == MODE_DEPTH) {
         auto depth = 0.f;
         for (auto&& pt : *cloud) {
-            if (!std::isnormal(pt.x) || !std::isnormal(pt.y) || !std::isnormal(pt.z)) continue;
+            if (!std::isnormal(pt.x) || !std::isnormal(pt.y) || !std::isnormal(pt.z))
+                continue;
             vertices->push_back(osg::Vec3(pt.x, pt.y, pt.z));
             depth = (pt.z - z_lower) / z_range * 2.f;
-            if (depth <= 1.f) {
-                colors->push_back(osg::Vec4(1.f - depth, depth, 0.f, 1.0f));
-            }
+            if (depth <= 1.f) { colors->push_back(osg::Vec4(1.f - depth, depth, 0.f, 1.0f)); }
             else if (depth <= 2.f) {
                 colors->push_back(osg::Vec4(0.f, 2.f - depth, depth - 1.f, 1.0f));
             }
@@ -248,7 +254,8 @@ osg::MatrixTransform* parse(const PCPtr cloud) {
     }
     else if constexpr (S_RENDER_MODE == MODE_ORIGINAL) {
         for (auto&& pt : *cloud) {
-            if (!std::isnormal(pt.x) || !std::isnormal(pt.y) || !std::isnormal(pt.z)) continue;
+            if (!std::isnormal(pt.x) || !std::isnormal(pt.y) || !std::isnormal(pt.z))
+                continue;
             vertices->push_back((osg::Vec3(pt.x, pt.y, pt.z)));
             colors->push_back(osg::Vec4(pt.r / 255., pt.g / 255., pt.b / 255., 1.0f));
         }
@@ -283,9 +290,11 @@ osg::MatrixTransform* parse(const PCPtr cloud) {
 
 }; // namespace
 
-osg::MatrixTransform* PointCloudLoader::loadFile(const std::string& file) {
+osg::MatrixTransform* PointCloudLoader::loadFile(const std::string& file)
+{
     FileType type;
-    if (!isSupportedType(file, type)) return nullptr;
+    if (!isSupportedType(file, type))
+        return nullptr;
     if (type == TYPE_PLY) {
         auto pc = pcl::make_shared<pcl::PointCloud<Pt>>();
         pcl::io::loadPLYFile<Pt>(file, *pc);
@@ -299,9 +308,11 @@ osg::MatrixTransform* PointCloudLoader::loadFile(const std::string& file) {
     return nullptr;
 }
 
-bool PointCloudLoader::isSupported(const std::string& file) {
+bool PointCloudLoader::isSupported(const std::string& file)
+{
     FileType type;
     return isSupportedType(file, type);
 }
+
 } // namespace xviewer
 } // namespace xg

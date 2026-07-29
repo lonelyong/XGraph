@@ -2,12 +2,17 @@
 
 #include <osg/GraphicsThread>
 
-namespace osg {
+namespace osg
+{
+
 class GraphicsContext;
+
 }
 
-namespace xg {
-namespace xviewer {
+namespace xg
+{
+namespace xviewer
+{
 
 /**
  * @brief Graphics operation executed during the realize phase of an OSG
@@ -44,5 +49,6 @@ class RealizeOperation : public osg::GraphicsOperation {
      */
     virtual void operator()(osg::GraphicsContext* gc) override;
 };
+
 } // namespace xviewer
 } // namespace xg

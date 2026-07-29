@@ -5,19 +5,27 @@
 #include <xg/xviewer/app/CameraPicker.hpp>
 
 #ifdef XG_XVIEWER_BUILD_WITH_OSGVERSE
-namespace osgVerse {
+namespace osgVerse
+{
+
 class Pipeline;
+
 }
 #endif // XG_XVIEWER_BUILD_WITH_OSGVERSE
 
-namespace osg {
+namespace osg
+{
+
 class Node;
 class Camera;
 class GraphicsContext;
+
 } // namespace osg
 
-namespace xg {
-namespace xviewer {
+namespace xg
+{
+namespace xviewer
+{
 
 
 class Viewer : public osgViewer::Viewer {
@@ -56,5 +64,6 @@ class Viewer : public osgViewer::Viewer {
     osg::ref_ptr<osgVerse::Pipeline> pipeline_;
 #endif
 };
+
 } // namespace xviewer
 } // namespace xg

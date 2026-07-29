@@ -4,12 +4,18 @@
 #include <osg/Vec3>
 #include <osg/Vec4>
 
-namespace osg {
+namespace osg
+{
+
 class MatrixTransform;
+
 }
 
-namespace xg {
-namespace xviewer {
+namespace xg
+{
+namespace xviewer
+{
+
 class DottedCurve {
   public:
     DottedCurve();
@@ -36,5 +42,6 @@ class DottedCurve {
     struct Data;
     Data* const d;
 };
+
 } // namespace xviewer
 } // namespace xg

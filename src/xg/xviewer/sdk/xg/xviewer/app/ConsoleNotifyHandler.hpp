@@ -2,8 +2,10 @@
 
 #include <osg/Notify>
 
-namespace xg {
-namespace xviewer {
+namespace xg
+{
+namespace xviewer
+{
 
 class ConsoleNotifyHandler : public osg::NotifyHandler {
 
@@ -15,9 +17,12 @@ class ConsoleNotifyHandler : public osg::NotifyHandler {
     virtual void notifyLevel0(osg::NotifySeverity severity, const std::string& message);
     virtual void notifyLevel1(osg::NotifySeverity severity, const std::string& message);
     virtual void notifyLevel2(osg::NotifySeverity severity, const std::string& message);
-    virtual void notifyLevel3(osg::NotifySeverity severity, const std::string& message) {}
 
-    void*       _handle;
+    virtual void notifyLevel3(osg::NotifySeverity severity, const std::string& message)
+    {}
+
+    void* _handle;
 };
+
 } // namespace xviewer
 } // namespace xg
