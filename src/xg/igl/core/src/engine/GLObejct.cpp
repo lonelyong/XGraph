@@ -46,7 +46,9 @@ bool GLObject::create(State& state)
 {
     if (isCreated(state))
         return true;
-    auto id     = onCreate(state);
+    auto id = onCreate(state);
+    if (0 == id)
+        return false;
     auto ctx_id = state.getContext()->getId();
     id_list_.insert({ ctx_id, id });
     state.attachGLObject(this);

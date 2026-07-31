@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#ifdef GLR_LIB
+#ifdef IGL_LIB
 #    ifdef _WIN32
 #        define IGL_CORE_API __declspec(dllexport)
 #    else

@@ -74,7 +74,7 @@ Model* ExampleModels::createCube(float len, const Vec3d& posi, bool with_tex)
     else {
         auto colors = new Vec4fArray();
         colors->push_back({ 0.8f, 0.8f, 0.0f, 1.0f });
-        geom->addVertexAttribArray(2, colors);
+        geom->setColorArray(colors);
 
         // auto tex_coords2 = new Vec2fArray();
         // tex_coords2->push_back(Vec2f());

@@ -195,6 +195,11 @@ Program* Program::createFromFile(const std::string& vs_path, const std::string& 
     if (gs_shader) { prog->attachShader(gs_shader); }
     auto fs_shader = Shader::createFromFile(Shader::FRAGMENT, fs_path);
     if (fs_shader) { prog->attachShader(fs_shader); }
+
+    if (!vs_shader && !gs_shader && !fs_shader) {
+        delete prog;
+        return nullptr;
+    }
     return prog;
 }
 

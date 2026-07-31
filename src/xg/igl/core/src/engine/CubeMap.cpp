@@ -22,7 +22,10 @@ void CubeMap::setImages(const std::vector<std::string>& imgs)
     ImageLoader         il;
     std::vector<Image*> is;
     is.reserve(imgs.size());
-    for (auto img : imgs) { is.push_back(il.loadFile(img)); }
+    for (auto img : imgs) {
+        auto image = il.loadFile(img);
+        if (image) { is.push_back(image); }
+    }
     setImages(is);
 }
 
@@ -30,7 +33,9 @@ void CubeMap::setImages(const std::vector<Image*>& imgs)
 {
     std::vector<vine::RefPtr<Image>> is;
     is.reserve(imgs.size());
-    for (auto img : imgs) is.push_back(img);
+    for (auto img : imgs) {
+        if (img) { is.push_back(img); }
+    }
     imgs_ = std::move(is);
     dirty();
 }
@@ -39,6 +44,12 @@ GLuint_t CubeMap::onCreate(State& state)
 {
     if (imgs_.size() != 6)
         return 0;
+
+    // Verify all six faces have valid image data before creating the texture.
+    for (int i = 0; i < 6; i++) {
+        if (!imgs_[i].get() || imgs_[i]->isNull())
+            return 0;
+    }
 
     auto funcs = state.getContext()->getFuncs();
 
@@ -54,14 +65,11 @@ GLuint_t CubeMap::onCreate(State& state)
     for (int i = 0; i < 6; i++) {
         auto& img = imgs_[i];
 
-        if (img->isNull())
-            continue;
-
         auto w        = img->getWidth();
         auto h        = img->getHeight();
         auto fmt      = img->getInternalTextureFormat();
-        auto src_fmt  = imgs_[i]->getDataFormat();
-        auto src_type = imgs_[i]->getDataType();
+        auto src_fmt  = img->getDataFormat();
+        auto src_type = img->getDataType();
         auto img_data = img->data();
 
         funcs->oglTexImage2D(IGL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, fmt, w, h, 0, src_fmt, src_type, img_data);

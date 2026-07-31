@@ -78,7 +78,7 @@ target_compile_definitions(${TARGET_NAME}
     PRIVATE
     XG_MODULE_NAME="${TARGET_NAME}"
     XG_RESOURCE_DIR="${XG_RES_ROOT}${TARGET_NAME}"
-    GLR_LIB
+    IGL_LIB
 )
 
 target_compile_options(

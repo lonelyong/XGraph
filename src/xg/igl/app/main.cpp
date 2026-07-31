@@ -37,12 +37,12 @@ using namespace xg;
 void CreateSampleScene(xg::glr::Scene* scene)
 {
     using namespace glr;
-    scene->addModel(ExampleModels::createAxis(20, Vec3d()));
-    scene->addModel(ExampleModels::createPointCloud(1000));
-    scene->addModel(ExampleModels::createCube(2, Vec3d(), true));
+    // scene->addModel(ExampleModels::createAxis(20, Vec3d()));
+    // scene->addModel(ExampleModels::createPointCloud(1000));
+    // scene->addModel(ExampleModels::createCube(2, Vec3d(), true));
     scene->addModel(ExampleModels::createCube(3, Vec3d(5, 0, 0), false));
-    scene->addModel(ExampleModels::createSkyBox());
-    scene->addModel(ExampleModels::createImage("F:\\Users\\sa\\Downloads\\1.jpg"));
+    // scene->addModel(ExampleModels::createSkyBox());
+    // scene->addModel(ExampleModels::createImage("F:\\Users\\sa\\Downloads\\1.jpg"));
 }
 
 int main(int argc, char** argv)

@@ -38,11 +38,6 @@ struct PhongLight {
     float quadraticAttenuation; // K2
 };
 
-// 如果sampler不赋值的话，不去使用是没问题的（NV\AMD\INTEL）
-// 在subroutine中引用了，实际没有执行该subroutine的话(NV警告)(MESA无法渲染)
-uniform sampler2D     tex_2d;
-uniform samplerCube   tex_cube;
-uniform sampler3D     tex_3d;
 
 uniform PhongMaterial mate = PhongMaterial(vec4(0.0), vec4(0.2), vec4(0.8), vec4(0.0), 32.0);
 uniform PhongLight    lights[MAX_LIGHT];
@@ -50,6 +45,18 @@ uniform int           lights_count = 0;
 uniform vec3          xg_view_dir;
 uniform bool          xg_is_lighting_enabled;
 
+#define TEX_MODE_VERTEX        0
+#define TEX_MODE_MATERIAL      1
+#define TEX_MODE_TEXTURE_2D    2
+#define TEX_MODE_TEXTURE_CUBE  3
+#define TEX_MODE_TEXTURE_3D    4
+
+// 如果sampler不赋值的话，不去使用是没问题的（NV\AMD\INTEL）
+// 在subroutine中引用了，实际没有执行该subroutine的话(NV警告)(MESA无法渲染)
+uniform sampler2D     tex_2d;
+uniform samplerCube   tex_cube;
+uniform sampler3D     tex_3d;
+uniform int tex_mode = TEX_MODE_MATERIAL;
 
 /*
  Deprecated:
@@ -79,14 +86,6 @@ subroutine(FetchColor) vec4 fetchMaterialColor() {
     return mate.diffuse;
 }
 */
-
-#define TEX_MODE_VERTEX        0
-#define TEX_MODE_MATERIAL      1
-#define TEX_MODE_TEXTURE_2D    2
-#define TEX_MODE_TEXTURE_CUBE  3
-#define TEX_MODE_TEXTURE_3D    4
-
-uniform int tex_mode = TEX_MODE_MATERIAL;
 
 /**
  * @brief Resolves the fragment color source based on tex_mode.

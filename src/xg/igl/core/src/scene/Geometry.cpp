@@ -315,8 +315,11 @@ void Geometry::draw(State& state)
     for (auto& kv : d->textures) {
         auto  unit = kv.first;
         auto& tex  = kv.second;
+        if (!tex)
+            continue;
         funcs->oglActiveTexture(unit);
-        tex->bind(state);
+        if (!tex->bind(state))
+            continue;
         if (d->texture_locs.contains(unit)) { shader->set(state, d->texture_locs[unit], (GLint_t)unit - IGL_TEXTURE0); }
         else {
             shader->set(state, d->texture_names[unit], (GLint_t)unit - IGL_TEXTURE0);
