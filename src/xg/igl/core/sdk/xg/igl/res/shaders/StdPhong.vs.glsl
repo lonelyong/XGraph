@@ -24,5 +24,5 @@ void main(){
     frag_tex_coord3 = tex_coord3;
 
     frag_world_posi = mat3(xg_matrix_m) * position;
-    frag_world_norm = mat3(xg_matrix_m) * normal;
+    frag_world_norm = normalize(mat3(xg_matrix_m) * normal);
 }

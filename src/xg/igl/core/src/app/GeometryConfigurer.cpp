@@ -1,8 +1,8 @@
 ﻿#include <xg/igl/app/GeometryConfigurer.hpp>
 
 #include <xg/igl/engine/StateSet.hpp>
-#include <xg/igl/engine/Subroutine.hpp>
 #include <xg/igl/engine/Texture.hpp>
+#include <xg/igl/engine/Uniform.hpp>
 #include <xg/igl/scene/Geometry.hpp>
 
 namespace xg
@@ -10,18 +10,33 @@ namespace xg
 namespace glr
 {
 
+namespace
+{
+
+/** @brief tex_mode values — must match the #defines in StdPhong.fs.glsl. */
+enum TexMode : int
+{
+    TEX_MODE_VERTEX       = 0,
+    TEX_MODE_MATERIAL     = 1,
+    TEX_MODE_TEXTURE_2D   = 2,
+    TEX_MODE_TEXTURE_CUBE = 3,
+    TEX_MODE_TEXTURE_3D   = 4,
+};
+
+} // namespace
+
 void GeometryConfigurer::configureStdPhong(Geometry* geom, StateSet* ss /*= nullptr*/)
 {
     if (!geom)
         return;
 
-    auto subroutine = "fetchMaterialColor";
+    int tex_mode = TEX_MODE_MATERIAL;
 
     if (geom->getVertexArray()) { geom->setVertexAttribLocation(0); }
     if (geom->getNormalArray()) { geom->setNormalAttribLocation(1); }
     if (geom->getColorArray()) {
         geom->setColorAttribLocation(2);
-        subroutine = "fetchVertexColor";
+        tex_mode = TEX_MODE_VERTEX;
     }
 
     if (geom->getNumTexCoordArrays() > 0) {
@@ -40,22 +55,22 @@ void GeometryConfigurer::configureStdPhong(Geometry* geom, StateSet* ss /*= null
         auto tex_uniform = "";
 
         if (tex_type == Texture::TEXTURE_2D) {
-            subroutine  = "fetchTexture2D";
+            tex_mode    = TEX_MODE_TEXTURE_2D;
             tex_uniform = "tex_2d";
         }
         else if (tex_type == Texture::TEXTURE_3D) {
-            subroutine  = "fetchTexture3D";
+            tex_mode    = TEX_MODE_TEXTURE_3D;
             tex_uniform = "tex_3d";
         }
         else if (tex_type == Texture::TEXTURE_CUBE_MAP) {
-            subroutine  = "fetchTextureCube";
+            tex_mode    = TEX_MODE_TEXTURE_CUBE;
             tex_uniform = "tex_cube";
         }
 
         geom->setTextureAttribLocation(tex_unit, tex_uniform);
     }
     if (ss == nullptr) { ss = geom->getOrCreateStateSet(); }
-    ss->setAttribute(new Subroutine(Subroutine::FRAGMENT_SHADER, subroutine));
+    ss->setAttribute(new Uniform("tex_mode", tex_mode));
 }
 
 } // namespace glr
