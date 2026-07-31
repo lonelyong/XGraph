@@ -4,6 +4,8 @@
 
 #include <string>
 
+#include <vine/Ptr.hpp>
+
 #include <xg/igl/engine/Texture.hpp>
 
 namespace xg
@@ -22,15 +24,13 @@ class IGL_CORE_API TextureRectangle : public Texture {
     virtual ~TextureRectangle();
 
   public:
-    virtual Type getType() const override;
+    virtual Type getType() const override { return Type::TEXTURE_RECTANGLE; }
 
     void setWidth(GLsizei_t w);
-
     void setHeight(GLsizei_t h);
 
-    GLsizei_t getWidth() const;
-
-    GLsizei_t getHeight() const;
+    GLsizei_t getWidth() const { return w_; }
+    GLsizei_t getHeight() const { return h_; }
 
     void setImage(const std::string& img);
 
@@ -46,9 +46,9 @@ class IGL_CORE_API TextureRectangle : public Texture {
     void applyStorage(GLfuncs* funcs);
 
   private:
-    struct Data;
-    Data* const d;
-    ;
+    GLsizei_t           w_   = 0;
+    GLsizei_t           h_   = 0;
+    vine::RefPtr<Image> img_;
 };
 
 } // namespace glr

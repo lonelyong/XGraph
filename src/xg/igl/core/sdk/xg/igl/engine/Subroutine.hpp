@@ -27,17 +27,16 @@ class IGL_CORE_API Subroutine : public UniformBase {
     virtual ~Subroutine();
 
   public:
-    virtual Type getType() const override;
+    virtual Type getType() const override { return SUBROUTINE; }
 
 
     virtual void apply(State& state) const override;
 
-    virtual const std::string& getName() const override;
+    virtual const std::string& getName() const override { return name_; }
 
   private:
-    struct Data;
-    Data* const d;
-    ;
+    ShaderType  type_ = NO_TYPE;
+    std::string name_;
 };
 
 } // namespace glr

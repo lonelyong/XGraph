@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <xg/igl/glr_global.hpp>
 
+#include <any>
 #include <string>
 
 #include <xg/igl/engine/UniformBase.hpp>
@@ -73,42 +74,42 @@ class IGL_CORE_API Uniform : public UniformBase {
     virtual ~Uniform();
 
   public:
-    virtual Type getType() const override;
+    virtual Type getType() const override { return Type::UNIFORM; }
 
-    ValueType getValueType() const;
+    ValueType getValueType() const { return type_; }
 
-    const std::string& getName() const override;
+    const std::string& getName() const override { return name_; }
 
-    void setValue(bool val);
-    void setValue(const Vec2b& val);
-    void setValue(const Vec3b& val);
-    void setValue(const Vec4b& val);
+    void setValue(bool val) { if (type_ == BOOL) { val_ = val; } }
+    void setValue(const Vec2b& val) { if (type_ == BVEC2) { val_ = val; } }
+    void setValue(const Vec3b& val) { if (type_ == BVEC3) { val_ = val; } }
+    void setValue(const Vec4b& val) { if (type_ == BVEC4) { val_ = val; } }
 
-    void setValue(int val);
-    void setValue(const Vec2i& val);
-    void setValue(const Vec3i& val);
-    void setValue(const Vec4i& val);
+    void setValue(int val) { if (type_ == INT) { val_ = val; } }
+    void setValue(const Vec2i& val) { if (type_ == IVEC2) { val_ = val; } }
+    void setValue(const Vec3i& val) { if (type_ == IVEC3) { val_ = val; } }
+    void setValue(const Vec4i& val) { if (type_ == IVEC4) { val_ = val; } }
 
-    void setValue(float val);
-    void setValue(const Vec2f& val);
-    void setValue(const Vec3f& val);
-    void setValue(const Vec4f& val);
-    void setValue(const Mat3f& val);
-    void setValue(const Mat4f& val);
+    void setValue(float val) { if (type_ == FLOAT) { val_ = val; } }
+    void setValue(const Vec2f& val) { if (type_ == FVEC2) { val_ = val; } }
+    void setValue(const Vec3f& val) { if (type_ == FVEC3) { val_ = val; } }
+    void setValue(const Vec4f& val) { if (type_ == FVEC4) { val_ = val; } }
+    void setValue(const Mat3f& val) { if (type_ == FMAT3X3) { val_ = val; } }
+    void setValue(const Mat4f& val) { if (type_ == FMAT4X4) { val_ = val; } }
 
-    void setValue(double val);
-    void setValue(const Vec2d& val);
-    void setValue(const Vec3d& val);
-    void setValue(const Vec4d& val);
-    void setValue(const Mat3d& val);
-    void setValue(const Mat4d& val);
+    void setValue(double val) { if (type_ == DOUBLE) { val_ = val; } }
+    void setValue(const Vec2d& val) { if (type_ == DVEC2) { val_ = val; } }
+    void setValue(const Vec3d& val) { if (type_ == DVEC3) { val_ = val; } }
+    void setValue(const Vec4d& val) { if (type_ == DVEC4) { val_ = val; } }
+    void setValue(const Mat3d& val) { if (type_ == DMAT3X3) { val_ = val; } }
+    void setValue(const Mat4d& val) { if (type_ == DMAT4X4) { val_ = val; } }
 
     virtual void apply(State& state) const override;
 
   private:
-    struct Data;
-    Data* const d;
-    ;
+    std::string name_;
+    std::any    val_;
+    ValueType   type_ = NO_TYPE;
 };
 
 } // namespace glr

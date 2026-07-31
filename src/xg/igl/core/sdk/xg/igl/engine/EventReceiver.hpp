@@ -33,7 +33,6 @@ class IGL_CORE_API EventReceiver : public Object {
   private:
     struct Data;
     Data* const d;
-    ;
 };
 
 } // namespace glr

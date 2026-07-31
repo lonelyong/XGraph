@@ -31,38 +31,38 @@ class IGL_CORE_API PhongLight : public Object {
     };
 
   public:
-    Vec4f getAmbient() const;
-    void  setAmbient(const Vec4f& color);
+    Vec4f getAmbient() const { return a_; }
+    void  setAmbient(const Vec4f& color) { a_ = color; }
 
-    Vec4f getDiffuse() const;
-    void  setDiffuse(const Vec4f& color);
+    Vec4f getDiffuse() const { return d_; }
+    void  setDiffuse(const Vec4f& color) { d_ = color; }
 
-    Vec4f getSpecular() const;
-    void  setSpecular(const Vec4f& color);
+    Vec4f getSpecular() const { return s_; }
+    void  setSpecular(const Vec4f& color) { s_ = color; }
 
-    Vec3f getSpotDirection() const;
+    Vec3f getSpotDirection() const { return dir_; }
     void  setSpotDirection(const Vec3f& dir);
 
-    Vec4f getPosition() const;
-    void  setPosition(const Vec4f& pos);
+    Vec4f getPosition() const { return pos_; }
+    void  setPosition(const Vec4f& pos) { pos_ = pos; }
 
-    float getConstantAttenuation() const;
-    void  setConstantAttenuation(float val);
+    float getConstantAttenuation() const { return k_c_; }
+    void  setConstantAttenuation(float val) { k_c_ = val; }
 
-    float getLinearAttenuation() const;
-    void  setLinearAttenuation(float val);
+    float getLinearAttenuation() const { return k_l_; }
+    void  setLinearAttenuation(float val) { k_l_ = val; }
 
-    float getQuadraticAttenuation() const;
-    void  settQuadraticAttenuation(float val);
+    float getQuadraticAttenuation() const { return k_q_; }
+    void  settQuadraticAttenuation(float val) { k_q_ = val; }
 
-    float getSpotCutoff() const;
-    void  setSpotCutoff(float val);
+    float getSpotCutoff() const { return co_; }
+    void  setSpotCutoff(float val) { co_ = val; }
 
-    float getSpotExponent() const;
-    void  setSpotExponent(float val);
+    float getSpotExponent() const { return expo_; }
+    void  setSpotExponent(float val) { expo_ = val; }
 
-    void setLightMode(Mode mode);
-    Mode getLightMode() const;
+    void setLightMode(Mode mode) { mode_ = mode; }
+    Mode getLightMode() const { return mode_; }
 
   private:
     Vec4f a_, d_, s_;
@@ -83,12 +83,12 @@ class IGL_CORE_API PhongLights : public UniformBase {
 
     void removeLight(PhongLight* l);
 
-    std::vector<PhongLight*> getLights() const;
+    std::vector<PhongLight*> getLights() const { return lights_; }
 
-    virtual Type getType() const override;
+    virtual Type getType() const override { return PHONG_LIGHTS; }
 
-    void                       setName(const std::string& name);
-    virtual const std::string& getName() const override;
+    void                       setName(const std::string& name) { name_ = name; }
+    virtual const std::string& getName() const override { return name_; }
 
   protected:
     virtual void apply(State& state) const override;

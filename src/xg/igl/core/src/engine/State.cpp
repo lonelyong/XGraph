@@ -21,84 +21,52 @@ namespace xg
 {
 namespace glr
 {
-namespace
-{
-
-struct StateData {
-    vine::RefPtr<GraphicContext>       ctx;
-    vine::RefPtr<StateSet>             default_stateset;
-    std::stack<vine::RefPtr<Program>>  progs;
-    std::stack<vine::RefPtr<StateSet>> statesets;
-    std::stack<vine::RefPtr<Camera>>   cameras;
-    std::stack<Mat4d>                  model_matrices;
-    std::set<vine::RefPtr<GLObject>>   gl_objs;
-
-    bool use_mvp_uniforms   = true;
-    bool use_state_uniforms = true;
-
-    vine::RefPtr<Uniform> xg_is_lighting_enabled;
-    vine::RefPtr<Uniform> xg_matrix_m;
-    vine::RefPtr<Uniform> xg_matrix_v;
-    vine::RefPtr<Uniform> xg_matrix_v_inv;
-    vine::RefPtr<Uniform> xg_matrix_mv;
-    vine::RefPtr<Uniform> xg_matrix_mvp;
-    vine::RefPtr<Uniform> xg_view_dir;
-};
-
-} // namespace
 
 V_OBJECT_META_IMPL(State, Object);
 
-struct State::Data : public StateData {};
-
 State::State(GraphicContext* ctx)
-  : d(new Data())
 {
-    d->ctx              = ctx;
-    d->default_stateset = new StateSet();
-    d->statesets.push(d->default_stateset);
+    ctx_              = ctx;
+    default_stateset_ = new StateSet();
+    statesets_.push(default_stateset_);
 
-    d->xg_is_lighting_enabled = new Uniform("xg_is_lighting_enabled", true);
-    d->xg_matrix_m            = new Uniform("xg_matrix_m", Mat4d());
-    d->xg_matrix_v            = new Uniform("xg_matrix_v", Mat4d());
-    d->xg_matrix_v_inv        = new Uniform("xg_matrix_v_inv", Mat4d());
-    d->xg_matrix_mv           = new Uniform("xg_matrix_mv", Mat4d());
-    d->xg_matrix_mvp          = new Uniform("xg_matrix_mvp", Mat4d());
-    d->xg_view_dir            = new Uniform("xg_view_dir", Vec3f());
+    xg_is_lighting_enabled_ = new Uniform("xg_is_lighting_enabled", true);
+    xg_matrix_m_            = new Uniform("xg_matrix_m", Mat4d());
+    xg_matrix_v_            = new Uniform("xg_matrix_v", Mat4d());
+    xg_matrix_v_inv_        = new Uniform("xg_matrix_v_inv", Mat4d());
+    xg_matrix_mv_           = new Uniform("xg_matrix_mv", Mat4d());
+    xg_matrix_mvp_          = new Uniform("xg_matrix_mvp", Mat4d());
+    xg_view_dir_            = new Uniform("xg_view_dir", Vec3f());
 
-    d->default_stateset->setAttribute(d->xg_is_lighting_enabled.get());
-    d->default_stateset->setAttribute(d->xg_matrix_m.get());
-    d->default_stateset->setAttribute(d->xg_matrix_v.get());
-    d->default_stateset->setAttribute(d->xg_matrix_v_inv.get());
-    d->default_stateset->setAttribute(d->xg_matrix_mv.get());
-    d->default_stateset->setAttribute(d->xg_matrix_mvp.get());
-    d->default_stateset->setAttribute(d->xg_view_dir.get());
+    default_stateset_->setAttribute(xg_is_lighting_enabled_.get());
+    default_stateset_->setAttribute(xg_matrix_m_.get());
+    default_stateset_->setAttribute(xg_matrix_v_.get());
+    default_stateset_->setAttribute(xg_matrix_v_inv_.get());
+    default_stateset_->setAttribute(xg_matrix_mv_.get());
+    default_stateset_->setAttribute(xg_matrix_mvp_.get());
+    default_stateset_->setAttribute(xg_view_dir_.get());
 }
 
-State::~State()
-{ delete d; }
-
-GraphicContext* State::getContext() const
-{ return d->ctx.get(); }
+State::~State() = default;
 
 Program* State::getCurrentProgram() const
 {
-    if (d->progs.empty())
+    if (progs_.empty())
         return nullptr;
-    return d->progs.top().get();
+    return progs_.top().get();
 }
 
 Camera* State::getCurrentCamera() const
 {
-    if (d->cameras.empty())
+    if (cameras_.empty())
         return nullptr;
-    return d->cameras.top().get();
+    return cameras_.top().get();
 }
 
 void State::pushCamera(Camera* cam)
 {
     if (cam) {
-        d->cameras.push(cam);
+        cameras_.push(cam);
         cam->apply(*this);
         updateMvpUniforms();
     }
@@ -106,27 +74,27 @@ void State::pushCamera(Camera* cam)
 
 void State::popCamera(Camera* cam)
 {
-    if (!d->cameras.empty() && d->cameras.top() == cam)
-        d->cameras.pop();
+    if (!cameras_.empty() && cameras_.top() == cam)
+        cameras_.pop();
 }
 
 void State::pushModelMatrix(const Mat4d& m)
 {
-    d->model_matrices.push(m);
+    model_matrices_.push(m);
     updateMvpUniforms();
 }
 
 void State::popModelMatrix()
-{ d->model_matrices.pop(); }
+{ model_matrices_.pop(); }
 
 void State::pushStateSet(StateSet* ss)
 {
     if (ss) {
-        d->statesets.push(ss);
+        statesets_.push(ss);
         auto shader = ss->getShader();
         if (shader) {
             shader->use(*this);
-            d->progs.push(shader);
+            progs_.push(shader);
         }
     }
 }
@@ -135,13 +103,13 @@ void State::popStateSet(StateSet* ss)
 {
     if (!ss)
         return;
-    if (d->statesets.empty() || d->statesets.top() != ss)
+    if (statesets_.empty() || statesets_.top() != ss)
         return;
 
     auto shader = ss->getShader();
-    if (shader) { d->progs.pop(); }
+    if (shader) { progs_.pop(); }
 
-    d->statesets.pop();
+    statesets_.pop();
 
     // auto nb_attrs = ss->getNumAttributes();
 
@@ -152,60 +120,51 @@ void State::popStateSet(StateSet* ss)
 
 void State::attachGLObject(GLObject* obj)
 {
-    if (!d->gl_objs.contains(obj)) { d->gl_objs.insert(obj); }
+    if (!gl_objs_.contains(obj)) { gl_objs_.insert(obj); }
 }
 
 void State::detachGLObject(GLObject* obj)
-{ d->gl_objs.erase(obj); }
+{ gl_objs_.erase(obj); }
 
 void State::releaseGLObjects()
 {
-    d->ctx->makeCurrent();
-    while (!d->gl_objs.empty()) { d->gl_objs.begin()->get()->release(*this); }
+    ctx_->makeCurrent();
+    while (!gl_objs_.empty()) { gl_objs_.begin()->get()->release(*this); }
 }
 
 void State::setUseMvpUniforms(bool val)
 {
-    if (val == d->use_mvp_uniforms)
+    if (val == use_mvp_uniforms_)
         return;
-    d->use_mvp_uniforms = val;
+    use_mvp_uniforms_ = val;
     if (val) {
-        d->default_stateset->setAttribute(d->xg_matrix_m.get());
-        d->default_stateset->setAttribute(d->xg_matrix_v.get());
-        d->default_stateset->setAttribute(d->xg_matrix_v_inv.get());
-        d->default_stateset->setAttribute(d->xg_matrix_mv.get());
-        d->default_stateset->setAttribute(d->xg_matrix_mvp.get());
-        d->default_stateset->setAttribute(d->xg_view_dir.get());
+        default_stateset_->setAttribute(xg_matrix_m_.get());
+        default_stateset_->setAttribute(xg_matrix_v_.get());
+        default_stateset_->setAttribute(xg_matrix_v_inv_.get());
+        default_stateset_->setAttribute(xg_matrix_mv_.get());
+        default_stateset_->setAttribute(xg_matrix_mvp_.get());
+        default_stateset_->setAttribute(xg_view_dir_.get());
     }
     else {
-        d->default_stateset->removeAttribute(d->xg_matrix_m.get());
-        d->default_stateset->removeAttribute(d->xg_matrix_v.get());
-        d->default_stateset->removeAttribute(d->xg_matrix_v_inv.get());
-        d->default_stateset->removeAttribute(d->xg_matrix_mv.get());
-        d->default_stateset->removeAttribute(d->xg_matrix_mvp.get());
-        d->default_stateset->removeAttribute(d->xg_view_dir.get());
+        default_stateset_->removeAttribute(xg_matrix_m_.get());
+        default_stateset_->removeAttribute(xg_matrix_v_.get());
+        default_stateset_->removeAttribute(xg_matrix_v_inv_.get());
+        default_stateset_->removeAttribute(xg_matrix_mv_.get());
+        default_stateset_->removeAttribute(xg_matrix_mvp_.get());
+        default_stateset_->removeAttribute(xg_view_dir_.get());
     }
 }
-
-bool State::getUseMvpUniforms() const
-{ return d->use_mvp_uniforms; }
 
 void State::setUseStateUniforms(bool val)
 {
-    if (val == d->use_state_uniforms)
+    if (val == use_state_uniforms_)
         return;
-    d->use_state_uniforms = val;
+    use_state_uniforms_ = val;
     if (val)
-        d->default_stateset->setAttribute(d->xg_is_lighting_enabled.get());
+        default_stateset_->setAttribute(xg_is_lighting_enabled_.get());
     else
-        d->default_stateset->removeAttribute(d->xg_is_lighting_enabled.get());
+        default_stateset_->removeAttribute(xg_is_lighting_enabled_.get());
 }
-
-bool State::getUseStateUniforms() const
-{ return d->use_state_uniforms; }
-
-StateSet* State::getDefaultStateSet() const
-{ return d->default_stateset.get(); }
 
 void State::updateMvpUniforms()
 {
@@ -218,26 +177,26 @@ void State::updateMvpUniforms()
         auto matrix_vp    = matrix_p * matrix_v;
         auto view_dir     = cur_cam->getViewDir();
 
-        auto model_mats = d->model_matrices;
+        auto model_mats = model_matrices_;
 
         Mat4d matrix_m(1.0);
         while (!model_mats.empty()) {
-            matrix_m = matrix_m * d->model_matrices.top();
+            matrix_m = matrix_m * model_matrices_.top();
             model_mats.pop();
         }
 
-        d->xg_matrix_m->setValue(matrix_m);
-        d->xg_matrix_v->setValue(matrix_v);
-        d->xg_matrix_v_inv->setValue(glm::inverse(matrix_v));
-        d->xg_matrix_mv->setValue(matrix_v * matrix_m);
-        d->xg_matrix_mvp->setValue(matrix_vp * matrix_m);
-        d->xg_view_dir->setValue(Vec3f(view_dir));
+        xg_matrix_m_->setValue(matrix_m);
+        xg_matrix_v_->setValue(matrix_v);
+        xg_matrix_v_inv_->setValue(glm::inverse(matrix_v));
+        xg_matrix_mv_->setValue(matrix_v * matrix_m);
+        xg_matrix_mvp_->setValue(matrix_vp * matrix_m);
+        xg_view_dir_->setValue(Vec3f(view_dir));
     }
 }
 
 void State::apply()
 {
-    auto                   sss = d->statesets;
+    auto                   sss = statesets_;
     std::vector<StateSet*> sss_;
 
     while (!sss.empty()) {

@@ -12,45 +12,14 @@ namespace xg
 namespace glr
 {
 
-namespace
+void RenderBuffer_set_FrameBuffer(RenderBuffer* rb, FrameBufferObject* fbo)
 {
-
-struct RenderBufferData {
-    vine::RefPtr<FrameBufferObject> fbo = nullptr;
-    GLuint_t                        w   = 1920;
-    GLuint_t                        h   = 1080;
-};
-
-} // namespace
-
-void RenderBuffer_set_FrameBuffer(void* data, FrameBufferObject* fbo)
-{
-    auto d = (RenderBufferData*)data;
-    d->fbo = fbo;
+    rb->fbo_ = fbo;
 }
 
 V_OBJECT_META_IMPL(RenderBuffer, PixelData);
 
-struct RenderBuffer::Data : public RenderBufferData {};
-
-RenderBuffer::RenderBuffer()
-  : d(new Data())
-{}
-
-FrameBufferObject* RenderBuffer::getFrameBuffer() const
-{ return d->fbo.get(); }
-
-void RenderBuffer::setWidth(GLsizei_t w)
-{ d->w = w; }
-
-void RenderBuffer::setHeight(GLsizei_t h)
-{ d->h = h; }
-
-GLsizei_t RenderBuffer::getWidth() const
-{ return d->w; }
-
-GLsizei_t RenderBuffer::getHeight() const
-{ return d->h; }
+RenderBuffer::RenderBuffer() = default;
 
 bool RenderBuffer::onUpdate(State& state)
 { return false; }
@@ -77,7 +46,7 @@ GLuint_t RenderBuffer::onCreate(State& state)
     GLuint_t id;
     funcs->oglGenRenderbuffers(1, &id);
     funcs->oglBindRenderbuffer(IGL_RENDERBUFFER, id);
-    funcs->oglRenderbufferStorage(IGL_RENDERBUFFER, IF_RGBA, d->w, d->h);
+    funcs->oglRenderbufferStorage(IGL_RENDERBUFFER, IF_RGBA, w_, h_);
     return id;
 }
 

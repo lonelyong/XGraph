@@ -19,21 +19,20 @@ class IGL_CORE_API SampleMask : public StateAttribute {
     virtual ~SampleMask();
 
   public:
-    virtual Type getType() const override;
+    virtual Type getType() const override { return SAMPLE_MASK; }
 
-    GLuint_t getNumber() const;
-    void     setNumber(GLuint_t val);
+    GLuint_t getNumber() const { return number_; }
+    void     setNumber(GLuint_t val) { number_ = val; }
 
-    GLbitfield_t getMask() const;
-    void         setMask(GLbitfield_t val);
+    GLbitfield_t getMask() const { return mask_; }
+    void         setMask(GLbitfield_t val) { mask_ = val; }
 
   protected:
     virtual void apply(State& state) const override;
 
   private:
-    struct Data;
-    Data* const d;
-    ;
+    GLuint_t     number_ = 0;
+    GLbitfield_t mask_   = 1;
 };
 
 } // namespace glr

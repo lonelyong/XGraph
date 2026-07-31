@@ -13,21 +13,12 @@ namespace glr
 
 V_OBJECT_META_IMPL(PixelBufferObject, BufferObject);
 
-struct PixelBufferObject::Data {
-    std::map<int, bool> dirties;
-    Mode                m = MODE_PACK;
-    vine::RefPtr<Image> img;
-};
-
 PixelBufferObject::PixelBufferObject(Mode m)
-  : d(new Data())
-{ d->m = m; }
+  : mode_(m)
+{}
 
 BufferObject::Target PixelBufferObject::getTarget() const
-{ return d->m == MODE_PACK ? PIXEL_PACK_BUFFER : PIXEL_UNPACK_BUFFER; }
-
-BufferObject::Usage PixelBufferObject::getUsage() const
-{ return STREAM_READ; }
+{ return mode_ == MODE_PACK ? PIXEL_PACK_BUFFER : PIXEL_UNPACK_BUFFER; }
 
 GLuint_t PixelBufferObject::onCreate(State& state)
 {
@@ -40,11 +31,11 @@ GLuint_t PixelBufferObject::onCreate(State& state)
 
 bool PixelBufferObject::setImage(Image* img)
 {
-    if (d->m == MODE_PACK)
+    if (mode_ == MODE_PACK)
         return false;
-    if (d->img == img)
+    if (img_ == img)
         return true;
-    d->img = img;
+    img_ = img;
     return true;
 }
 

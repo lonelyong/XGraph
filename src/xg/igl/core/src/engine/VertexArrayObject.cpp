@@ -15,41 +15,24 @@ namespace xg
 namespace glr
 {
 
-struct VertexAttribPointer::Data {
-    GLuint_t        index;
-    GLint_t         size;
-    GLenum_t        type;
-    GLboolean_t     normalized;
-    GLsizei_t       stride;
-    const GLvoid_t* pointer;
-};
-
 VertexAttribPointer::VertexAttribPointer(GLuint_t index, GLint_t size, GLenum_t type, GLboolean_t normalized, GLsizei_t stride, const GLvoid_t* pointer)
-  : d(new Data({ index, size, type, normalized, stride, pointer }))
+  : index_(index)
+  , size_(size)
+  , type_(type)
+  , normalized_(normalized)
+  , stride_(stride)
+  , pointer_(pointer)
 {}
 
 void VertexAttribPointer::apply(BufferObject* buffer)
 {}
 
-struct VertexAttribFormat::Data {};
-
 VertexAttribFormat::VertexAttribFormat(GLuint_t attribindex, GLint_t size, GLenum_t type, GLboolean_t normalized, GLuint_t relativeoffset)
-  : d(new Data())
 {}
 
-struct VertexAttribBinding::Data {};
+VertexAttribBinding::VertexAttribBinding() = default;
 
-VertexAttribBinding::VertexAttribBinding()
-  : d(new Data())
-{}
-
-struct VertexAttribDivisor::Data {};
-
-VertexAttribDivisor::VertexAttribDivisor()
-  : d(new Data())
-{}
-
-struct VertexArrayObject::Data {};
+VertexAttribDivisor::VertexAttribDivisor() = default;
 
 void VertexArrayObject::attachBufferObject(BufferObject* buffer)
 {}
@@ -63,12 +46,9 @@ void VertexArrayObject::setAttribPointer(BufferObject* buffer, VertexAttribPoint
 VertexAttribPointer* VertexArrayObject::getAttribPointer(BufferObject* buffer)
 { return nullptr; }
 
-VertexArrayObject::VertexArrayObject()
-  : d(new Data())
-{}
+VertexArrayObject::VertexArrayObject() = default;
 
-VertexArrayObject::~VertexArrayObject()
-{ delete d; }
+VertexArrayObject::~VertexArrayObject() = default;
 
 GLuint_t VertexArrayObject::onCreate(State& state)
 {

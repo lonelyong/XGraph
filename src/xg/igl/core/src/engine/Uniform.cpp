@@ -13,316 +13,160 @@ namespace glr
 
 V_OBJECT_META_IMPL(Uniform, UniformBase);
 
-struct Uniform::Data {
-    std::string name;
-    std::any    val;
-    ValueType   type;
-};
-
-Uniform::Uniform()
-  : d(new Data())
-{}
+Uniform::Uniform() = default;
 
 Uniform::Uniform(const std::string& name, bool val)
-  : Uniform()
-{
-    d->name = name;
-    d->val  = val;
-    d->type = BOOL;
-}
+  : name_(name)
+  , val_(val)
+  , type_(BOOL)
+{}
 
 Uniform::Uniform(const std::string& name, const Vec2b& val)
-  : Uniform()
-{
-    d->name = name;
-    d->val  = val;
-    d->type = BVEC2;
-}
+  : name_(name)
+  , val_(val)
+  , type_(BVEC2)
+{}
 
 Uniform::Uniform(const std::string& name, const Vec3b& val)
-  : Uniform()
-{
-    d->name = name;
-    d->val  = val;
-    d->type = BVEC3;
-}
+  : name_(name)
+  , val_(val)
+  , type_(BVEC3)
+{}
 
 Uniform::Uniform(const std::string& name, const Vec4b& val)
-  : Uniform()
-{
-    d->name = name;
-    d->val  = val;
-    d->type = BVEC4;
-}
+  : name_(name)
+  , val_(val)
+  , type_(BVEC4)
+{}
 
 Uniform::Uniform(const std::string& name, int val)
-  : Uniform()
-{
-    d->name = name;
-    d->val  = val;
-    d->type = INT;
-}
+  : name_(name)
+  , val_(val)
+  , type_(INT)
+{}
 
 Uniform::Uniform(const std::string& name, const Vec2i& val)
-  : Uniform()
-{
-    d->name = name;
-    d->val  = val;
-    d->type = IVEC2;
-}
+  : name_(name)
+  , val_(val)
+  , type_(IVEC2)
+{}
 
 Uniform::Uniform(const std::string& name, const Vec3i& val)
-  : Uniform()
-{
-    d->name = name;
-    d->val  = val;
-    d->type = IVEC3;
-}
+  : name_(name)
+  , val_(val)
+  , type_(IVEC3)
+{}
 
 Uniform::Uniform(const std::string& name, const Vec4i& val)
-  : Uniform()
-{
-    d->name = name;
-    d->val  = val;
-    d->type = IVEC4;
-}
+  : name_(name)
+  , val_(val)
+  , type_(IVEC4)
+{}
 
 Uniform::Uniform(const std::string& name, float val)
-  : Uniform()
-{
-    d->name = name;
-    d->val  = val;
-    d->type = FLOAT;
-}
+  : name_(name)
+  , val_(val)
+  , type_(FLOAT)
+{}
 
 Uniform::Uniform(const std::string& name, const Vec2f& val)
-  : Uniform()
-{
-    d->name = name;
-    d->val  = val;
-    d->type = FVEC2;
-}
+  : name_(name)
+  , val_(val)
+  , type_(FVEC2)
+{}
 
 Uniform::Uniform(const std::string& name, const Vec3f& val)
-  : Uniform()
-{
-    d->name = name;
-    d->val  = val;
-    d->type = FVEC3;
-}
+  : name_(name)
+  , val_(val)
+  , type_(FVEC3)
+{}
 
 Uniform::Uniform(const std::string& name, const Vec4f& val)
-  : Uniform()
-{
-    d->name = name;
-    d->val  = val;
-    d->type = FVEC4;
-}
+  : name_(name)
+  , val_(val)
+  , type_(FVEC4)
+{}
 
 Uniform::Uniform(const std::string& name, const Mat3f& val)
-  : Uniform()
-{
-    d->name = name;
-    d->val  = val;
-    d->type = FMAT3X3;
-}
+  : name_(name)
+  , val_(val)
+  , type_(FMAT3X3)
+{}
 
 Uniform::Uniform(const std::string& name, const Mat4f& mat)
-  : Uniform()
-{
-    d->name = name;
-    d->val  = mat;
-    d->type = FMAT4X4;
-}
+  : name_(name)
+  , val_(mat)
+  , type_(FMAT4X4)
+{}
 
 Uniform::Uniform(const std::string& name, double val)
-  : Uniform()
-{
-    d->name = name;
-    d->val  = val;
-    d->type = DOUBLE;
-}
+  : name_(name)
+  , val_(val)
+  , type_(DOUBLE)
+{}
 
 Uniform::Uniform(const std::string& name, const Vec2d& val)
-  : Uniform()
-{
-    d->name = name;
-    d->val  = val;
-    d->type = DVEC2;
-}
+  : name_(name)
+  , val_(val)
+  , type_(DVEC2)
+{}
 
 Uniform::Uniform(const std::string& name, const Vec3d& val)
-  : Uniform()
-{
-    d->name = name;
-    d->val  = val;
-    d->type = DVEC3;
-}
+  : name_(name)
+  , val_(val)
+  , type_(DVEC3)
+{}
 
 Uniform::Uniform(const std::string& name, const Vec4d& val)
-  : Uniform()
-{
-    d->name = name;
-    d->val  = val;
-    d->type = DVEC4;
-}
+  : name_(name)
+  , val_(val)
+  , type_(DVEC4)
+{}
 
 Uniform::Uniform(const std::string& name, const Mat3d& val)
-  : Uniform()
-{
-    d->name = name;
-    d->val  = val;
-    d->type = DMAT3X3;
-}
+  : name_(name)
+  , val_(val)
+  , type_(DMAT3X3)
+{}
 
 Uniform::Uniform(const std::string& name, const Mat4d& mat)
-  : Uniform()
-{
-    d->name = name;
-    d->val  = mat;
-    d->type = DMAT4X4;
-}
+  : name_(name)
+  , val_(mat)
+  , type_(DMAT4X4)
+{}
 
-Uniform::~Uniform()
-{ delete d; }
-
-StateAttribute::Type Uniform::getType() const
-{ return Type::UNIFORM; }
-
-Uniform::ValueType Uniform::getValueType() const
-{ return d->type; }
-
-const std::string& Uniform::getName() const
-{ return d->name; }
-
-void Uniform::setValue(bool val)
-{
-    if (d->type == BOOL) { d->val = val; }
-}
-
-void Uniform::setValue(const Vec2b& val)
-{
-    if (d->type == BVEC2) { d->val = val; }
-}
-
-void Uniform::setValue(const Vec3b& val)
-{
-    if (d->type == BVEC3) { d->val = val; }
-}
-
-void Uniform::setValue(const Vec4b& val)
-{
-    if (d->type == BVEC4) { d->val = val; }
-}
-
-void Uniform::setValue(int val)
-{
-    if (d->type == INT) { d->val = val; }
-}
-
-void Uniform::setValue(const Vec2i& val)
-{
-    if (d->type == IVEC2) { d->val = val; }
-}
-
-void Uniform::setValue(const Vec3i& val)
-{
-    if (d->type == IVEC3) { d->val = val; }
-}
-
-void Uniform::setValue(const Vec4i& val)
-{
-    if (d->type == IVEC4) { d->val = val; }
-}
-
-void Uniform::setValue(float val)
-{
-    if (d->type == FLOAT) { d->val = val; }
-}
-
-void Uniform::setValue(const Vec2f& val)
-{
-    if (d->type == FVEC2) { d->val = val; }
-}
-
-void Uniform::setValue(const Vec3f& val)
-{
-    if (d->type == FVEC3) { d->val = val; }
-}
-
-void Uniform::setValue(const Vec4f& val)
-{
-    if (d->type == FVEC4) { d->val = val; }
-}
-
-void Uniform::setValue(const Mat3f& val)
-{
-    if (d->type == FMAT3X3) { d->val = val; }
-}
-
-void Uniform::setValue(const Mat4f& val)
-{
-    if (d->type == FMAT4X4) { d->val = val; }
-}
-
-void Uniform::setValue(double val)
-{
-    if (d->type == DOUBLE) { d->val = val; }
-}
-
-void Uniform::setValue(const Vec2d& val)
-{
-    if (d->type == DVEC2) { d->val = val; }
-}
-
-void Uniform::setValue(const Vec3d& val)
-{
-    if (d->type == DVEC3) { d->val = val; }
-}
-
-void Uniform::setValue(const Vec4d& val)
-{
-    if (d->type == DVEC4) { d->val = val; }
-}
-
-void Uniform::setValue(const Mat3d& val)
-{
-    if (d->type == DMAT3X3) { d->val = val; }
-}
-
-void Uniform::setValue(const Mat4d& val)
-{
-    if (d->type == DMAT4X4) { d->val = val; }
-}
+Uniform::~Uniform() = default;
 
 void Uniform::apply(State& ctx) const
 {
     auto shader = ctx.getCurrentProgram();
     if (shader) {
-        switch (d->type) {
-        case BOOL: shader->set(ctx, d->name, std::any_cast<bool>(d->val)); break;
-        case BVEC2: shader->set(ctx, d->name, std::any_cast<Vec2b>(d->val)); break;
-        case BVEC3: shader->set(ctx, d->name, std::any_cast<Vec3b>(d->val)); break;
-        case BVEC4: shader->set(ctx, d->name, std::any_cast<Vec4b>(d->val)); break;
+        switch (type_) {
+        case BOOL: shader->set(ctx, name_, std::any_cast<bool>(val_)); break;
+        case BVEC2: shader->set(ctx, name_, std::any_cast<Vec2b>(val_)); break;
+        case BVEC3: shader->set(ctx, name_, std::any_cast<Vec3b>(val_)); break;
+        case BVEC4: shader->set(ctx, name_, std::any_cast<Vec4b>(val_)); break;
 
-        case INT: shader->set(ctx, d->name, std::any_cast<int>(d->val)); break;
-        case IVEC2: shader->set(ctx, d->name, std::any_cast<Vec2i>(d->val)); break;
-        case IVEC3: shader->set(ctx, d->name, std::any_cast<Vec3i>(d->val)); break;
-        case IVEC4: shader->set(ctx, d->name, std::any_cast<Vec4i>(d->val)); break;
+        case INT: shader->set(ctx, name_, std::any_cast<int>(val_)); break;
+        case IVEC2: shader->set(ctx, name_, std::any_cast<Vec2i>(val_)); break;
+        case IVEC3: shader->set(ctx, name_, std::any_cast<Vec3i>(val_)); break;
+        case IVEC4: shader->set(ctx, name_, std::any_cast<Vec4i>(val_)); break;
 
-        case FLOAT: shader->set(ctx, d->name, std::any_cast<float>(d->val)); break;
-        case FVEC2: shader->set(ctx, d->name, std::any_cast<Vec2f>(d->val)); break;
-        case FVEC3: shader->set(ctx, d->name, std::any_cast<Vec3f>(d->val)); break;
-        case FVEC4: shader->set(ctx, d->name, std::any_cast<Vec4f>(d->val)); break;
-        case FMAT3X3: shader->set(ctx, d->name, std::any_cast<Mat3f>(d->val)); break;
-        case FMAT4X4: shader->set(ctx, d->name, std::any_cast<Mat4f>(d->val)); break;
+        case FLOAT: shader->set(ctx, name_, std::any_cast<float>(val_)); break;
+        case FVEC2: shader->set(ctx, name_, std::any_cast<Vec2f>(val_)); break;
+        case FVEC3: shader->set(ctx, name_, std::any_cast<Vec3f>(val_)); break;
+        case FVEC4: shader->set(ctx, name_, std::any_cast<Vec4f>(val_)); break;
+        case FMAT3X3: shader->set(ctx, name_, std::any_cast<Mat3f>(val_)); break;
+        case FMAT4X4: shader->set(ctx, name_, std::any_cast<Mat4f>(val_)); break;
 
-        case DOUBLE: shader->set(ctx, d->name, std::any_cast<double>(d->val)); break;
-        case DVEC2: shader->set(ctx, d->name, std::any_cast<Vec2d>(d->val)); break;
-        case DVEC3: shader->set(ctx, d->name, std::any_cast<Vec3d>(d->val)); break;
-        case DVEC4: shader->set(ctx, d->name, std::any_cast<Vec4d>(d->val)); break;
-        case DMAT3X3: shader->set(ctx, d->name, std::any_cast<Mat3d>(d->val)); break;
-        case DMAT4X4: shader->set(ctx, d->name, std::any_cast<Mat4d>(d->val)); break;
+        case DOUBLE: shader->set(ctx, name_, std::any_cast<double>(val_)); break;
+        case DVEC2: shader->set(ctx, name_, std::any_cast<Vec2d>(val_)); break;
+        case DVEC3: shader->set(ctx, name_, std::any_cast<Vec3d>(val_)); break;
+        case DVEC4: shader->set(ctx, name_, std::any_cast<Vec4d>(val_)); break;
+        case DMAT3X3: shader->set(ctx, name_, std::any_cast<Mat3d>(val_)); break;
+        case DMAT4X4: shader->set(ctx, name_, std::any_cast<Mat4d>(val_)); break;
+        case NO_TYPE:
+        break;
         }
     }
 }

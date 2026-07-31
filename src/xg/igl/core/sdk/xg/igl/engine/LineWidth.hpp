@@ -15,15 +15,10 @@ class IGL_CORE_API LineWidth : public StateAttribute {
     virtual ~LineWidth();
 
   public:
-    virtual Type getType() const override;
+    virtual Type getType() const override { return LINE_WIDTH; }
 
   protected:
     virtual void apply(State& state) const override;
-
-  private:
-    struct Data;
-    Data* const d;
-    ;
 };
 
 } // namespace glr

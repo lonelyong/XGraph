@@ -61,7 +61,7 @@ class IGL_CORE_API Stencil : public StateAttribute {
     virtual ~Stencil();
 
   public:
-    virtual Type getType() const override;
+    virtual Type getType() const override { return STENCIL; }
 
     virtual bool equals(const StateAttribute& other) const override;
 
@@ -79,17 +79,20 @@ class IGL_CORE_API Stencil : public StateAttribute {
      * @brief final_value=(new & mask)∣(old & ∼mask)
      * @param mask 0x00禁用写入，0xFF完全替换现有值
      */
-    inline void setWriteMask(GLuint_t mask);
-
-    inline GLuint_t getWriteMask() const;
+    inline void setWriteMask(GLuint_t mask) { write_mask_ = mask; }
+    inline GLuint_t getWriteMask() const { return write_mask_; }
 
   protected:
     virtual void apply(State& state) const override;
 
   private:
-    struct Data;
-    Data* const d;
-    ;
+    Func     fn_        = ALWAYS;
+    GLint_t  fn_ref_    = 0;
+    GLuint_t fn_mask_   = ~0u;
+    Operation op_sfail_ = KEEP;
+    Operation op_zfail_ = KEEP;
+    Operation op_zpass_ = KEEP;
+    GLuint_t write_mask_ = ~0u;
 };
 
 } // namespace glr

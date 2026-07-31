@@ -64,43 +64,27 @@ inline void compileShader(GLfuncs* funcs, GLuint_t id, const std::string& source
 
 V_OBJECT_META_IMPL(Shader, GLObject);
 
-struct Shader::Data {
-    Type        type = (Type)0;
-    std::string code;
-};
-
-Shader::Shader()
-  : d(new Data())
-{}
+Shader::Shader() = default;
 
 Shader::Shader(Type type, const std::string& code)
-  : d(new Data())
-{
-    d->type = type;
-    d->code = code;
-}
+  : type_(type)
+  , code_(code)
+{}
 
-Shader::~Shader()
-{ delete d; }
-
-Shader::Type Shader::getType() const
-{ return d->type; }
+Shader::~Shader() = default;
 
 void Shader::setType(Type type)
 {
-    if (type != d->type) {
-        d->type = type;
+    if (type != type_) {
+        type_ = type;
         dirty();
     }
 }
 
-std::string Shader::getSource() const
-{ return d->code; }
-
 void Shader::setSource(const std::string& source)
 {
-    if (source != d->code) {
-        d->code = source;
+    if (source != code_) {
+        code_ = source;
         dirty();
     }
 }
@@ -108,9 +92,9 @@ void Shader::setSource(const std::string& source)
 GLuint_t Shader::onCreate(State& state)
 {
     auto funcs = state.getContext()->getFuncs();
-    if (d->type && !d->code.empty()) {
-        auto id = funcs->oglCreateShader(d->type);
-        compileShader(funcs, id, d->code);
+    if (type_ && !code_.empty()) {
+        auto id = funcs->oglCreateShader(type_);
+        compileShader(funcs, id, code_);
         return id;
     }
     return 0;
@@ -119,9 +103,9 @@ GLuint_t Shader::onCreate(State& state)
 bool Shader::onUpdate(State& state)
 {
     auto funcs = state.getContext()->getFuncs();
-    if (d->type && !d->code.empty()) {
+    if (type_ && !code_.empty()) {
         auto id = getId(state);
-        compileShader(funcs, id, d->code);
+        compileShader(funcs, id, code_);
         return true;
     }
     else {

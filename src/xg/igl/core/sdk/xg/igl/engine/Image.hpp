@@ -2,6 +2,8 @@
 
 #include <xg/igl/glr_global.hpp>
 
+#include <xg/igl/ogl/GLdefs.hpp>
+
 #include <xg/igl/engine/Object.hpp>
 
 namespace xg
@@ -37,13 +39,13 @@ class IGL_CORE_API Image : public Object {
 
     int getDataFormat() const;
 
-    int getDataType() const;
+    int getDataType() const { return IGL_UNSIGNED_BYTE; }
 
-    Format getFormat() const;
+    Format getFormat() const { return format_; }
 
-    int getWidth() const;
+    int getWidth() const { return w_; }
 
-    int getHeight() const;
+    int getHeight() const { return h_; }
 
     int getChannels() const;
 
@@ -52,9 +54,9 @@ class IGL_CORE_API Image : public Object {
      * @brief
      * @return
      */
-    unsigned char* data() const;
+    unsigned char* data() const { return data_; }
 
-    bool isNull() const;
+    bool isNull() const { return data_ == nullptr || (w_ == 0 && h_ == 0); }
 
     /**
      * - fmt GL_STENCIL_INDEX, GL_DEPTH_COMPONENT, GL_DEPTH_STENCIL, GL_RED, GL_GREEN, GL_BLUE, GL_RGB, GL_BGR, GL_RGBA, GL_BGRA.
@@ -83,8 +85,10 @@ class IGL_CORE_API Image : public Object {
     static Image* readPixels(State& state, int x, int y, int w, int h, int fmt, int type);
 
   private:
-    struct Data;
-    Data* const d;
+    unsigned char* data_   = nullptr;
+    Format         format_ = Format::Unknown;
+    int            w_      = 0;
+    int            h_      = 0;
 };
 
 } // namespace glr

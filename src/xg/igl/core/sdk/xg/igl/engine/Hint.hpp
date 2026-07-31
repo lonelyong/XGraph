@@ -32,15 +32,14 @@ class IGL_CORE_API Hint : public StateAttribute {
     virtual ~Hint();
 
   public:
-    virtual Type getType() const override;
+    virtual Type getType() const override { return HINT; }
 
   protected:
     virtual void apply(State& state) const override;
 
   private:
-    struct Data;
-    Data* const d;
-    ;
+    HintType  type_ = HintType(0);
+    HintValue val_  = DONT_CARE;
 };
 
 } // namespace glr

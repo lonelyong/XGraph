@@ -16,21 +16,20 @@ class IGL_CORE_API PolygonOffset : public StateAttribute {
     virtual ~PolygonOffset();
 
   public:
-    virtual Type getType() const override;
+    virtual Type getType() const override { return POLYGON_OFFSET; }
 
-    GLfloat_t getFactor() const;
-    void      setFactor(GLfloat_t val);
+    GLfloat_t getFactor() const { return factor_; }
+    void      setFactor(GLfloat_t val) { factor_ = val; }
 
-    GLfloat_t getUnits() const;
-    void      setUnits(GLfloat_t val);
+    GLfloat_t getUnits() const { return units_; }
+    void      setUnits(GLfloat_t val) { units_ = val; }
 
   protected:
     virtual void apply(State& state) const override;
 
   private:
-    struct Data;
-    Data* const d;
-    ;
+    GLfloat_t factor_ = 0.f;
+    GLfloat_t units_  = 0.f;
 };
 
 } // namespace glr

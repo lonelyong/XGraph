@@ -103,7 +103,6 @@ class IGL_CORE_API StandardCameraManipulator final : public CameraManipulator {
   private:
     struct Data;
     Data* const d;
-    ;
 };
 
 } // namespace glr

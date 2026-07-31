@@ -11,27 +11,9 @@ namespace xg
 namespace glr
 {
 
-struct Stencil::Data {
-    Func     fn      = ALWAYS;
-    GLint_t  fn_ref  = 0;
-    GLuint_t fn_mask = ~0u;
+Stencil::Stencil() = default;
 
-    Operation op_sfail = KEEP;
-    Operation op_zfail = KEEP;
-    Operation op_zpass = KEEP;
-
-    GLuint_t write_mask = ~0u;
-};
-
-Stencil::Stencil()
-  : d(new Data())
-{}
-
-Stencil::~Stencil()
-{ delete d; }
-
-StateAttribute::Type Stencil::getType() const
-{ return STENCIL; }
+Stencil::~Stencil() = default;
 
 bool Stencil::equals(const StateAttribute& other) const
 {
@@ -41,30 +23,24 @@ bool Stencil::equals(const StateAttribute& other) const
 
 void Stencil::setFunction(Func fn, GLint_t ref, GLuint_t mask)
 {
-    d->fn      = fn;
-    d->fn_ref  = ref;
-    d->fn_mask = mask;
+    fn_      = fn;
+    fn_ref_  = ref;
+    fn_mask_ = mask;
 }
 
 void Stencil::setOperation(Operation sfail, Operation zfail, Operation zpass)
 {
-    d->op_sfail = sfail;
-    d->op_zfail = zfail;
-    d->op_zpass = zpass;
+    op_sfail_ = sfail;
+    op_zfail_ = zfail;
+    op_zpass_ = zpass;
 }
-
-inline void Stencil::setWriteMask(GLuint_t mask)
-{ d->write_mask = mask; }
-
-inline GLuint_t Stencil::getWriteMask() const
-{ return d->write_mask; }
 
 void Stencil::apply(State& state) const
 {
     auto funcs = state.getContext()->getFuncs();
-    funcs->oglStencilFunc((GLenum_t)d->fn, d->fn_ref, d->fn_mask);
-    funcs->oglStencilOp((GLenum_t)d->op_sfail, (GLenum_t)d->op_zfail, (GLenum_t)d->op_zpass);
-    funcs->oglStencilMask(d->write_mask);
+    funcs->oglStencilFunc((GLenum_t)fn_, fn_ref_, fn_mask_);
+    funcs->oglStencilOp((GLenum_t)op_sfail_, (GLenum_t)op_zfail_, (GLenum_t)op_zpass_);
+    funcs->oglStencilMask(write_mask_);
 }
 
 } // namespace glr

@@ -32,10 +32,10 @@ class IGL_CORE_API Shader : public GLObject {
     virtual ~Shader();
 
   public:
-    Type getType() const;
-    void setType(Type type);
+    Type        getType() const { return type_; }
+    void        setType(Type type);
 
-    std::string getSource() const;
+    std::string getSource() const { return code_; }
     void        setSource(const std::string& source);
 
   public:
@@ -47,8 +47,8 @@ class IGL_CORE_API Shader : public GLObject {
     bool     onRelease(State& state) override;
 
   private:
-    struct Data;
-    Data* const d;
+    Type        type_ = (Type)0;
+    std::string code_;
 };
 
 } // namespace glr

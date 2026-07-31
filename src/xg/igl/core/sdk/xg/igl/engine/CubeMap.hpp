@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+#include <vine/Ptr.hpp>
+
 #include <xg/igl/engine/Texture.hpp>
 
 namespace xg
@@ -23,8 +25,9 @@ class IGL_CORE_API CubeMap : public Texture {
     virtual ~CubeMap();
 
   public:
-    virtual Type getType() const override;
-    void         setImages(const std::vector<std::string>& imgs);
+    virtual Type getType() const override { return Type::TEXTURE_CUBE_MAP; }
+
+    void setImages(const std::vector<std::string>& imgs);
     void         setImages(const std::vector<Image*>& imgs);
 
   protected:
@@ -36,9 +39,7 @@ class IGL_CORE_API CubeMap : public Texture {
     void applyStorage(GLfuncs* funcs);
 
   private:
-    struct Data;
-    Data* const d;
-    ;
+    std::vector<vine::RefPtr<Image>> imgs_;
 };
 
 } // namespace glr

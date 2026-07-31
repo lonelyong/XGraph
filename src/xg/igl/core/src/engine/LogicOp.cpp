@@ -11,17 +11,9 @@ namespace glr
 
 V_OBJECT_META_IMPL(LogicOp, StateAttribute);
 
-struct LogicOp::Data {};
+LogicOp::LogicOp() = default;
 
-LogicOp::LogicOp()
-  : d(new Data())
-{}
-
-LogicOp::~LogicOp()
-{}
-
-LogicOp::Type LogicOp::getType() const
-{ return LOGICOP; }
+LogicOp::~LogicOp() = default;
 
 void LogicOp::apply(State& state) const
 { auto funcs = state.getContext()->getFuncs(); }

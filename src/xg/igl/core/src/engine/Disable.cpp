@@ -11,17 +11,9 @@ namespace glr
 
 V_OBJECT_META_IMPL(Disable, StateAttribute);
 
-struct Disable::Data {};
+Disable::Disable() = default;
 
-Disable::Disable()
-  : d(new Data())
-{}
-
-Disable::~Disable()
-{}
-
-Disable::Type Disable::getType() const
-{ return DISABLE; }
+Disable::~Disable() = default;
 
 void Disable::apply(State& state) const
 { auto funcs = state.getContext()->getFuncs(); }

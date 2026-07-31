@@ -23,18 +23,16 @@ class IGL_CORE_API FrontFace : public StateAttribute {
     virtual ~FrontFace();
 
   public:
-    virtual Type getType() const override;
+    virtual Type getType() const override { return FRONT_FACE; }
 
-    Mode getMode() const;
-    void setMode(Mode mode);
+    Mode getMode() const { return mode_; }
+    void setMode(Mode mode) { mode_ = mode; }
 
   protected:
     virtual void apply(State& state) const override;
 
   private:
-    struct Data;
-    Data* const d;
-    ;
+    Mode mode_ = CCW;
 };
 
 } // namespace glr

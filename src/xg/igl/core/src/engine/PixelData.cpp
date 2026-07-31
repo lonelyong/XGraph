@@ -12,13 +12,7 @@ namespace glr
 
 V_OBJECT_META_IMPL(PixelData, BindableObject);
 
-struct PixelData::Data {
-    std::map<int, bool> dirties;
-};
-
-PixelData::PixelData()
-  : d(new Data())
-{}
+PixelData::PixelData() = default;
 
 PixelData::DataFormat PixelData::computeDataFormat(InternalFormat ifmt)
 {

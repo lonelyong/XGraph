@@ -3,15 +3,17 @@
 #include <xg/igl/glr_global.hpp>
 
 #include <string>
+#include <unordered_map>
+
+#include <vine/Ptr.hpp>
 
 #include <xg/igl/engine/GLObject.hpp>
+#include <xg/igl/engine/Shader.hpp>
 
 namespace xg
 {
 namespace glr
 {
-
-class Shader;
 
 class IGL_CORE_API Program : public GLObject {
     V_OBJECT_META_DECL
@@ -25,8 +27,8 @@ class IGL_CORE_API Program : public GLObject {
     void use(State& state);
     void unuse(State& state);
 
-    std::string getName() const;
-    void        setName(const std::string& name);
+    std::string getName() const { return name_; }
+    void        setName(const std::string& name) { name_ = name; }
 
     template <typename T>
     void set(State& state, const std::string& name, const T& val);
@@ -51,8 +53,8 @@ class IGL_CORE_API Program : public GLObject {
     bool     onRelease(State& state) override;
 
   private:
-    struct Data;
-    Data* const d;
+    std::string                                        name_;
+    std::unordered_map<Shader::Type, vine::RefPtr<Shader>> shaders_;
 };
 
 } // namespace glr

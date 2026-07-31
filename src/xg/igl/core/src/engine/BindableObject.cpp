@@ -13,10 +13,7 @@ namespace glr
 
 V_OBJECT_META_IMPL(BindableObject, GLObject);
 
-struct BindableObject::Data {};
-
 BindableObject::BindableObject()
-  : d(new Data())
 {}
 
 bool BindableObject::bind(State& state)

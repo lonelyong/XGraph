@@ -2,6 +2,9 @@
 
 #include <xg/igl/glr_global.hpp>
 
+#include <unordered_map>
+#include <unordered_set>
+
 #include <xg/igl/ogl/GLdefs.hpp>
 
 #include <xg/igl/engine/Object.hpp>
@@ -27,7 +30,7 @@ class IGL_CORE_API GLObject : public Object {
     bool      isCreated(State& state) const;
     void      dirty();
     bool      isDirty(State& state) const;
-    GLsizei_t getNumInstances() const;
+    GLsizei_t getNumInstances() const { return id_list_.size(); }
 
     bool create(State& state);
     bool update(State& state);
@@ -39,9 +42,8 @@ class IGL_CORE_API GLObject : public Object {
     virtual bool     onRelease(State& state) = 0;
 
   private:
-    struct Data;
-    Data* const d;
-    ;
+    std::unordered_map<int, GLuint_t> id_list_;
+    std::unordered_set<int>           dirty_list_;
 };
 
 } // namespace glr

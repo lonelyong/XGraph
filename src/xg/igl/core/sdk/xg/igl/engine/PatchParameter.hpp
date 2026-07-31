@@ -19,29 +19,26 @@ class IGL_CORE_API PatchParameter : public StateAttribute {
     virtual ~PatchParameter();
 
   public:
-    virtual Type getType() const override;
+    virtual Type getType() const override { return PATCH_PARAMETER; }
 
     virtual bool equals(const StateAttribute& other) const override;
 
-    void setVertices(int vertices);
+    void setVertices(int vertices) { vertices_ = vertices; }
+    int getVertices() const { return vertices_; }
 
-    int getVertices() const;
+    void setPatchDefaultInnerLevel(const Vec2f& level) { patch_def_inner_level_ = level; }
+    const Vec2f& getPatchDefaultInnerLevel() const { return patch_def_inner_level_; }
 
-    void setPatchDefaultInnerLevel(const Vec2f& level);
-
-    const Vec2f& getPatchDefaultInnerLevel() const;
-
-    void setPatchDefaultOuterLevel(const Vec4f& level);
-
-    const Vec4f& getPatchDefaultOuterLevel() const;
+    void setPatchDefaultOuterLevel(const Vec4f& level) { patch_def_outer_level_ = level; }
+    const Vec4f& getPatchDefaultOuterLevel() const { return patch_def_outer_level_; }
 
   protected:
     virtual void apply(State& state) const override;
 
   private:
-    struct Data;
-    Data* const d;
-    ;
+    int   vertices_               = 3;
+    Vec2f patch_def_inner_level_  = { 1.0f, 1.0f };
+    Vec4f patch_def_outer_level_  = { 1.0f, 1.0f, 1.0f, 1.0f };
 };
 
 } // namespace glr

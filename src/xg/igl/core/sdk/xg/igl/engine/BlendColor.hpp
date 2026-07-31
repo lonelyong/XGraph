@@ -17,19 +17,16 @@ class IGL_CORE_API BlendColor : public StateAttribute {
     virtual ~BlendColor();
 
   public:
-    virtual Type getType() const override;
+    virtual Type getType() const override { return BLEND_COLOR; }
 
-    void setColor(const Vec4f& color);
-
-    Vec4f getColor() const;
+    void setColor(const Vec4f& color) { color_ = color; }
+    Vec4f getColor() const { return color_; }
 
   protected:
     virtual void apply(State& state) const override;
 
   private:
-    struct Data;
-    Data* const d;
-    ;
+    Vec4f color_;
 };
 
 } // namespace glr

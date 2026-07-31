@@ -11,17 +11,9 @@ namespace glr
 
 V_OBJECT_META_IMPL(ClampColor, StateAttribute);
 
-struct ClampColor::Data {};
+ClampColor::ClampColor() = default;
 
-ClampColor::ClampColor()
-  : d(new Data())
-{}
-
-ClampColor::~ClampColor()
-{}
-
-ClampColor::Type ClampColor::getType() const
-{ return CLAMP_COLOR; }
+ClampColor::~ClampColor() = default;
 
 void ClampColor::apply(State& state) const
 { auto funcs = state.getContext()->getFuncs(); }

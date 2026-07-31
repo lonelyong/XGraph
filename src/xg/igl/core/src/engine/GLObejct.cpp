@@ -13,45 +13,34 @@ namespace glr
 
 V_OBJECT_META_IMPL(GLObject, Object);
 
-struct GLObject::Data {
-    std::unordered_map<int, GLuint_t> id_list;
-    std::unordered_set<int>           dirty_list;
-};
+GLObject::GLObject() = default;
 
-GLObject::GLObject()
-  : d(new Data())
-{}
-
-GLObject::~GLObject()
-{ delete d; }
+GLObject::~GLObject() = default;
 
 GLuint_t GLObject::getId(State& state) const
 {
     auto ctx_id = state.getContext()->getId();
-    if (d->id_list.contains(ctx_id)) { return d->id_list[ctx_id]; }
+    if (id_list_.contains(ctx_id)) { return id_list_.at(ctx_id); }
     return 0;
 }
 
 bool GLObject::isCreated(State& state) const
 {
     auto ctx_id = state.getContext()->getId();
-    return d->id_list.contains(ctx_id);
+    return id_list_.contains(ctx_id);
 }
 
 void GLObject::dirty()
 {
-    d->dirty_list.clear();
-    for (auto& kv : d->id_list) { d->dirty_list.insert(kv.first); }
+    dirty_list_.clear();
+    for (auto& kv : id_list_) { dirty_list_.insert(kv.first); }
 }
 
 bool GLObject::isDirty(State& state) const
 {
     auto ctx_id = state.getContext()->getId();
-    return d->dirty_list.contains(ctx_id);
+    return dirty_list_.contains(ctx_id);
 }
-
-GLsizei_t GLObject::getNumInstances() const
-{ return d->id_list.size(); }
 
 bool GLObject::create(State& state)
 {
@@ -59,7 +48,7 @@ bool GLObject::create(State& state)
         return true;
     auto id     = onCreate(state);
     auto ctx_id = state.getContext()->getId();
-    d->id_list.insert({ ctx_id, id });
+    id_list_.insert({ ctx_id, id });
     state.attachGLObject(this);
     return true;
 }
@@ -69,7 +58,7 @@ bool GLObject::update(State& state)
     auto ctx_id = state.getContext()->getId();
     if (isDirty(state)) {
         if (onUpdate(state)) {
-            d->dirty_list.erase(ctx_id);
+            dirty_list_.erase(ctx_id);
             return true;
         }
         return false;
@@ -82,8 +71,8 @@ bool GLObject::release(State& state)
     if (isCreated(state)) {
         if (onRelease(state)) {
             auto ctx_id = state.getContext()->getId();
-            d->id_list.erase(ctx_id);
-            d->dirty_list.erase(ctx_id);
+            id_list_.erase(ctx_id);
+            dirty_list_.erase(ctx_id);
             state.detachGLObject(this);
             return true;
         }

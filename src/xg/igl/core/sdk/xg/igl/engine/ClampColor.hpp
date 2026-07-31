@@ -15,15 +15,10 @@ class IGL_CORE_API ClampColor : public StateAttribute {
     virtual ~ClampColor();
 
   public:
-    virtual Type getType() const override;
+    virtual Type getType() const override { return CLAMP_COLOR; }
 
   protected:
     virtual void apply(State& state) const override;
-
-  private:
-    struct Data;
-    Data* const d;
-    ;
 };
 
 } // namespace glr

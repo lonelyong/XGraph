@@ -11,29 +11,19 @@ namespace glr
 
 V_OBJECT_META_IMPL(Hint, StateAttribute);
 
-struct Hint::Data {
-    HintType  type = HintType(0);
-    HintValue val  = DONT_CARE;
-};
-
-Hint::Hint()
-  : d(new Data())
-{}
+Hint::Hint() = default;
 
 Hint::Hint(HintType type, HintValue val)
-  : d(new Data)
+  : type_(type)
+  , val_(val)
 {}
 
-Hint::~Hint()
-{ delete d; }
-
-Hint::Type Hint::getType() const
-{ return HINT; }
+Hint::~Hint() = default;
 
 void Hint::apply(State& state) const
 {
     auto funcs = state.getContext()->getFuncs();
-    if (d->type) { funcs->oglHint(d->type, d->val); }
+    if (type_) { funcs->oglHint(type_, val_); }
 }
 
 } // namespace glr

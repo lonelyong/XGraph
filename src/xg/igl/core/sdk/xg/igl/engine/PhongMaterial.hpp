@@ -19,25 +19,25 @@ class IGL_CORE_API PhongMaterial : public UniformBase {
     PhongMaterial();
 
   public:
-    Vec4f getAmbient() const;
-    void  setAmbient(const Vec4f& color);
+    Vec4f getAmbient() const { return a_; }
+    void  setAmbient(const Vec4f& color) { a_ = color; }
 
-    Vec4f getDiffuse() const;
-    void  setDiffuse(const Vec4f& color);
+    Vec4f getDiffuse() const { return d_; }
+    void  setDiffuse(const Vec4f& color) { d_ = color; }
 
-    Vec4f getSpecular() const;
-    void  setSpecular(const Vec4f& color);
+    Vec4f getSpecular() const { return s_; }
+    void  setSpecular(const Vec4f& color) { s_ = color; }
 
-    Vec4f getEmission() const;
-    void  setEmission(const Vec4f& color);
+    Vec4f getEmission() const { return e_; }
+    void  setEmission(const Vec4f& color) { e_ = color; }
 
-    float getShininess() const;
-    void  setShininess(float shininess);
+    float getShininess() const { return sh_; }
+    void  setShininess(float shininess) { sh_ = shininess; }
 
-    Type getType() const override;
+    Type getType() const override { return PHONG_MATERIAL; }
 
-    void                       setName(const std::string& name);
-    virtual const std::string& getName() const override;
+    void                       setName(const std::string& name) {}
+    virtual const std::string& getName() const override { return name_; }
 
   protected:
     virtual void apply(State& state) const override;

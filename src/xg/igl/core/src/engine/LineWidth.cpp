@@ -11,17 +11,9 @@ namespace glr
 
 V_OBJECT_META_IMPL(LineWidth, StateAttribute);
 
-struct LineWidth::Data {};
+LineWidth::LineWidth() = default;
 
-LineWidth::LineWidth()
-  : d(new Data())
-{}
-
-LineWidth::~LineWidth()
-{}
-
-LineWidth::Type LineWidth::getType() const
-{ return LINE_WIDTH; }
+LineWidth::~LineWidth() = default;
 
 void LineWidth::apply(State& state) const
 { auto funcs = state.getContext()->getFuncs(); }

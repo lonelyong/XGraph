@@ -31,71 +31,8 @@ PhongLight::PhongLight()
   , mode_(STD_LIGHT)
 {}
 
-Vec4f PhongLight::getAmbient() const
-{ return a_; }
-
-void PhongLight::setAmbient(const Vec4f& color)
-{ a_ = color; }
-
-Vec4f PhongLight::getDiffuse() const
-{ return d_; }
-
-void PhongLight::setDiffuse(const Vec4f& color)
-{ d_ = color; }
-
-Vec4f PhongLight::getSpecular() const
-{ return s_; }
-
-void PhongLight::setSpecular(const Vec4f& color)
-{ s_ = color; }
-
-Vec3f PhongLight::getSpotDirection() const
-{ return dir_; }
-
 void PhongLight::setSpotDirection(const Vec3f& dir)
 { dir_ = glm::normalize(dir); }
-
-Vec4f PhongLight::getPosition() const
-{ return pos_; }
-
-void PhongLight::setPosition(const Vec4f& pos)
-{ pos_ = pos; }
-
-float PhongLight::getConstantAttenuation() const
-{ return k_c_; }
-
-void PhongLight::setConstantAttenuation(float val)
-{ k_c_ = val; }
-
-float PhongLight::getLinearAttenuation() const
-{ return k_l_; }
-
-void PhongLight::setLinearAttenuation(float val)
-{ k_l_ = val; }
-
-float PhongLight::getQuadraticAttenuation() const
-{ return k_q_; }
-
-void PhongLight::settQuadraticAttenuation(float val)
-{ k_q_ = val; }
-
-float PhongLight::getSpotCutoff() const
-{ return co_; }
-
-void PhongLight::setSpotCutoff(float val)
-{ co_ = val; }
-
-float PhongLight::getSpotExponent() const
-{ return expo_; }
-
-void PhongLight::setSpotExponent(float val)
-{ expo_ = val; }
-
-void PhongLight::setLightMode(Mode mode)
-{ mode_ = mode; }
-
-PhongLight::Mode PhongLight::getLightMode() const
-{ return mode_; }
 
 PhongLights::PhongLights()
 { name_ = "lights"; }
@@ -122,18 +59,6 @@ void PhongLights::removeLight(PhongLight* l)
 
     if (found_at != lights_.end()) { lights_.erase(found_at); }
 }
-
-std::vector<PhongLight*> PhongLights::getLights() const
-{ return lights_; }
-
-StateAttribute::Type PhongLights::getType() const
-{ return PHONG_LIGHTS; }
-
-void PhongLights::setName(const std::string& name)
-{ name_ = name; }
-
-const std::string& PhongLights::getName() const
-{ return name_; }
 
 void PhongLights::apply(State& state) const
 {

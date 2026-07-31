@@ -2,6 +2,10 @@
 
 #include <xg/igl/glr_global.hpp>
 
+#include <map>
+
+#include <vine/Ptr.hpp>
+
 #include <xg/igl/engine/BufferObject.hpp>
 
 namespace xg
@@ -25,7 +29,7 @@ class IGL_CORE_API PixelBufferObject : public BufferObject {
 
   public:
     virtual Target getTarget() const override;
-    virtual Usage  getUsage() const override;
+    virtual Usage  getUsage() const override { return STREAM_READ; }
 
     bool setImage(Image* img);
 
@@ -34,9 +38,9 @@ class IGL_CORE_API PixelBufferObject : public BufferObject {
     virtual bool     onUpdate(State& state) override;
 
   private:
-    struct Data;
-    Data* const d;
-    ;
+    std::map<int, bool>    dirties_;
+    Mode                   mode_ = MODE_PACK;
+    vine::RefPtr<Image>    img_;
 };
 
 } // namespace glr

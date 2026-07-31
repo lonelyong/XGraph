@@ -24,27 +24,16 @@ namespace glr
 
 V_OBJECT_META_IMPL(Program, GLObject);
 
-struct Program::Data {
-    std::string name;
-
-    std::unordered_map<Shader::Type, vine::RefPtr<Shader>> shaders;
-};
-
-Program::Program()
-  : d(new Data())
-{}
+Program::Program() = default;
 
 Program::Program(const std::string& vs_code, const std::string& gs_code, const std::string& fs_code)
-  : d(new Data())
 {
-
-    if (!vs_code.empty()) { d->shaders.insert({ Shader::VERTEX, new Shader(Shader::VERTEX, vs_code) }); }
-    if (!gs_code.empty()) { d->shaders.insert({ Shader::GEOMETRY, new Shader(Shader::GEOMETRY, gs_code) }); }
-    if (!fs_code.empty()) { d->shaders.insert({ Shader::FRAGMENT, new Shader(Shader::FRAGMENT, fs_code) }); }
+    if (!vs_code.empty()) { shaders_.insert({ Shader::VERTEX, new Shader(Shader::VERTEX, vs_code) }); }
+    if (!gs_code.empty()) { shaders_.insert({ Shader::GEOMETRY, new Shader(Shader::GEOMETRY, gs_code) }); }
+    if (!fs_code.empty()) { shaders_.insert({ Shader::FRAGMENT, new Shader(Shader::FRAGMENT, fs_code) }); }
 }
 
-Program::~Program()
-{ delete d; }
+Program::~Program() = default;
 
 void Program::use(State& state)
 {
@@ -68,18 +57,12 @@ void Program::unuse(State& state)
     }
 }
 
-std::string Program::getName() const
-{ return d->name; }
-
-void Program::setName(const std::string& name)
-{ d->name = name; }
-
 void Program::attachShader(Shader* shader)
 {
     if (shader) {
-        if (d->shaders.contains(shader->getType())) { d->shaders[shader->getType()] = shader; }
+        if (shaders_.contains(shader->getType())) { shaders_[shader->getType()] = shader; }
         else {
-            d->shaders.insert({ shader->getType(), shader });
+            shaders_.insert({ shader->getType(), shader });
         }
     }
 }
@@ -170,11 +153,11 @@ void Program::set(State& state, const std::string& name, const T& val)
 
 GLuint_t Program::onCreate(State& state)
 {
-    if (d->shaders.empty()) { return 0; }
+    if (shaders_.empty()) { return 0; }
     auto funcs  = state.getContext()->getFuncs();
     auto app_id = funcs->oglCreateProgram();
 
-    for (auto& kv : d->shaders) {
+    for (auto& kv : shaders_) {
         if (kv.second->create(state)) { funcs->oglAttachShader(app_id, kv.second->getId(state)); }
     }
 

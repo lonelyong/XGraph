@@ -29,26 +29,26 @@ class IGL_CORE_API PointParameter : public StateAttribute {
     virtual ~PointParameter();
 
   public:
-    virtual Type getType() const override;
+    virtual Type getType() const override { return POINT_PARAMETER; }
 
     virtual bool equals(const StateAttribute& other) const override;
 
-    void      setSize(GLfloat_t size);
-    GLfloat_t getSize() const;
+    void      setSize(GLfloat_t size) { size_ = size; }
+    GLfloat_t getSize() const { return size_; }
 
-    void      setFadeThresholdSize(GLfloat_t size);
-    GLfloat_t getFadeThresholdSize() const;
+    void      setFadeThresholdSize(GLfloat_t size) { fade_threshole_size_ = size; }
+    GLfloat_t getFadeThresholdSize() const { return fade_threshole_size_; }
 
-    void              setSpriteCoordOrigin(SpriteCoordOrigin val);
-    SpriteCoordOrigin getSpriteCoordOrigin() const;
+    void              setSpriteCoordOrigin(SpriteCoordOrigin val) { origin_ = val; }
+    SpriteCoordOrigin getSpriteCoordOrigin() const { return origin_; }
 
   protected:
     virtual void apply(State& state) const override;
 
   private:
-    struct Data;
-    Data* const d;
-    ;
+    GLfloat_t         size_                 = 1.0f;
+    SpriteCoordOrigin origin_               = UPPER_LEFT;
+    GLfloat_t         fade_threshole_size_  = 1.0f;
 };
 
 } // namespace glr

@@ -43,34 +43,25 @@ inline int getPixelSizeOfFormat(Image::Format format)
 
 V_OBJECT_META_IMPL(Image, Object);
 
-struct Image::Data {
-    unsigned char* data   = nullptr;
-    Format         format = Format::Unknown;
-    int            w      = 0;
-    int            h      = 0;
-};
-
-Image::Image()
-  : d(new Data())
-{}
+Image::Image() = default;
 
 void Image::setImage(int w, int h, Format format, const unsigned char* data)
 {
-    auto& id = d->data;
+    auto& id = data_;
     if (id) {
         free(id);
-        id        = nullptr;
-        d->w      = 0;
-        d->h      = 0;
-        d->format = Unknown;
+        id      = nullptr;
+        w_      = 0;
+        h_      = 0;
+        format_ = Unknown;
     }
 
     if (w <= 0 || h <= 0 || format == Unknown)
         return;
 
-    d->w      = w;
-    d->h      = h;
-    d->format = format;
+    w_      = w;
+    h_      = h;
+    format_ = format;
 
     auto size_of_pixel = getPixelSizeOfFormat(format);
     auto size_of_img   = static_cast<size_t>(w) * h * size_of_pixel;
@@ -80,13 +71,13 @@ void Image::setImage(int w, int h, Format format, const unsigned char* data)
 
 void Image::setImage(int w, int h, Format format, const unsigned char* data, int stride, int offset)
 {
-    auto& id = d->data;
+    auto& id = data_;
     if (id) {
         free(id);
-        id        = nullptr;
-        d->w      = 0;
-        d->h      = 0;
-        d->format = Unknown;
+        id      = nullptr;
+        w_      = 0;
+        h_      = 0;
+        format_ = Unknown;
     }
 
     if (w <= 0 || h <= 0 || format == Unknown)
@@ -95,9 +86,9 @@ void Image::setImage(int w, int h, Format format, const unsigned char* data, int
     if ((format == RGB888 && stride < 3) || (format == RGBA8888 && stride < 4) || offset >= stride)
         throw vine::Exception(vine::Exception::INVALID_ARGUMENTS);
 
-    d->w      = w;
-    d->h      = h;
-    d->format = format;
+    w_      = w;
+    h_      = h;
+    format_ = format;
 
     auto size_of_pixel = getPixelSizeOfFormat(format);
     auto size_of_img   = static_cast<size_t>(w) * h * size_of_pixel;
@@ -113,12 +104,9 @@ void Image::setImage(int w, int h, Format format, const unsigned char* data, int
     }
 }
 
-Image::Format Image::getFormat() const
-{ return d->format; }
-
 int Image::getInternalTextureFormat() const
 {
-    switch (d->format) {
+    switch (format_) {
     case R8: return IGL_R8;
     case G8: return IGL_R8;
     case B8: return IGL_R8;
@@ -130,7 +118,7 @@ int Image::getInternalTextureFormat() const
 
 int Image::getDataFormat() const
 {
-    switch (d->format) {
+    switch (format_) {
     case R8: return IGL_RED;
     case G8: return IGL_RED;
     case B8: return IGL_RED;
@@ -140,26 +128,11 @@ int Image::getDataFormat() const
     }
 }
 
-int Image::getDataType() const
-{ return IGL_UNSIGNED_BYTE; }
-
-int Image::getWidth() const
-{ return d->w; }
-
-int Image::getHeight() const
-{ return d->h; }
-
 int Image::getChannels() const
-{ return getNumChannelsOfFormat(d->format); }
-
-unsigned char* Image::data() const
-{ return d->data; }
+{ return getNumChannelsOfFormat(format_); }
 
 int Image::size() const
-{ return d->w * d->h * getPixelSizeOfFormat(d->format); }
-
-bool Image::isNull() const
-{ return d->data == nullptr || (d->w == 0 && d->h == 0); }
+{ return w_ * h_ * getPixelSizeOfFormat(format_); }
 
 Image* Image::readPixels(State& state, int x, int y, int w, int h, int fmt, int type)
 {

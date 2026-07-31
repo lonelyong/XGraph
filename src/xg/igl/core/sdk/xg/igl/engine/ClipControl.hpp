@@ -29,21 +29,20 @@ class IGL_CORE_API ClipControl : public StateAttribute {
     virtual ~ClipControl();
 
   public:
-    virtual Type getType() const override;
+    virtual Type getType() const override { return CLIP_CONTROL; }
 
-    void   setOrigin(Origin origin);
-    Origin getOrigin() const;
+    void   setOrigin(Origin origin) { origin_ = origin; }
+    Origin getOrigin() const { return origin_; }
 
-    void  setDepth(Depth origin);
-    Depth getDepth() const;
+    void  setDepth(Depth depth) { depth_ = depth; }
+    Depth getDepth() const { return depth_; }
 
   protected:
     virtual void apply(State& state) const override;
 
   private:
-    struct Data;
-    Data* const d;
-    ;
+    Origin origin_ = LOWER_LEFT;
+    Depth  depth_  = NEGATIVE_ONE_TO_ONE;
 };
 
 } // namespace glr

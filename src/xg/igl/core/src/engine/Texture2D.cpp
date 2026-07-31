@@ -16,39 +16,21 @@ namespace glr
 
 V_OBJECT_META_IMPL(Texture2D, Texture);
 
-struct Texture2D::Data {
-    GLsizei_t           w   = 0;
-    GLsizei_t           h   = 0;
-    vine::RefPtr<Image> img = nullptr;
-};
+Texture2D::Texture2D() = default;
 
-Texture2D::Texture2D()
-  : d(new Data())
-{}
-
-Texture2D::~Texture2D()
-{ delete d; }
-
-Texture::Type Texture2D::getType() const
-{ return Type::TEXTURE_2D; }
+Texture2D::~Texture2D() = default;
 
 void Texture2D::setWidth(GLsizei_t w)
 {
-    d->w = w;
+    w_ = w;
     dirty();
 }
 
 void Texture2D::setHeight(GLsizei_t h)
 {
-    d->h = h;
+    h_ = h;
     dirty();
 }
-
-GLsizei_t Texture2D::getWidth() const
-{ return d->w; }
-
-GLsizei_t Texture2D::getHeight() const
-{ return d->h; }
 
 void Texture2D::setImage(const std::string& img_file)
 {
@@ -58,17 +40,17 @@ void Texture2D::setImage(const std::string& img_file)
 
 void Texture2D::setImage(Image* image)
 {
-    if (image == d->img)
+    if (image == img_)
         return;
 
-    d->img = image;
+    img_ = image;
     if (image) {
-        d->w = image->getWidth();
-        d->h = image->getHeight();
+        w_ = image->getWidth();
+        h_ = image->getHeight();
     }
     else {
-        d->w = 0;
-        d->h = 0;
+        w_ = 0;
+        h_ = 0;
     }
     dirty();
 }
@@ -123,16 +105,16 @@ void Texture2D::applyParams(GLfuncs* funcs)
 void Texture2D::applyStorage(GLfuncs* funcs)
 {
     void*     img_data = nullptr;
-    GLsizei_t w = d->w, h = d->h, internal_fmt = getInternalFormat();
+    GLsizei_t w = w_, h = h_, internal_fmt = getInternalFormat();
     GLenum_t  src_type = 0, src_format = 0;
 
-    if (d->img.get()) {
-        img_data     = d->img->data();
-        w            = d->img->getWidth();
-        h            = d->img->getHeight();
-        internal_fmt = d->img->getInternalTextureFormat();
-        src_type     = d->img->getDataType();
-        src_format   = d->img->getDataFormat();
+    if (img_.get()) {
+        img_data     = img_->data();
+        w            = img_->getWidth();
+        h            = img_->getHeight();
+        internal_fmt = img_->getInternalTextureFormat();
+        src_type     = img_->getDataType();
+        src_format   = img_->getDataFormat();
     }
     else {
         src_format = computeDataFormat(InternalFormat(internal_fmt));

@@ -11,34 +11,17 @@ namespace glr
 
 V_OBJECT_META_IMPL(PolygonMode, StateAttribute);
 
-struct PolygonMode::Data {
-    Mode mode = FILL;
-};
-
-PolygonMode::PolygonMode()
-  : d(new Data())
-{}
+PolygonMode::PolygonMode() = default;
 
 PolygonMode::PolygonMode(Mode mode)
-  : d(new Data())
 { setMode(mode); }
 
-PolygonMode::~PolygonMode()
-{ delete d; }
-
-PolygonMode::Type PolygonMode::getType() const
-{ return POLYGON_MODE; }
-
-PolygonMode::Mode PolygonMode::getMode() const
-{ return d->mode; }
-
-void PolygonMode::setMode(Mode mode)
-{ d->mode = mode; }
+PolygonMode::~PolygonMode() = default;
 
 void PolygonMode::apply(State& state) const
 {
     auto funcs = state.getContext()->getFuncs();
-    funcs->oglPolygonMode(IGL_FRONT_AND_BACK, d->mode);
+    funcs->oglPolygonMode(IGL_FRONT_AND_BACK, mode_);
 }
 
 } // namespace glr

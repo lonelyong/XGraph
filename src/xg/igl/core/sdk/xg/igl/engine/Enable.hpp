@@ -15,15 +15,10 @@ class IGL_CORE_API Enable : public StateAttribute {
     virtual ~Enable();
 
   public:
-    virtual Type getType() const override;
+    virtual Type getType() const override { return ENABLE; }
 
   protected:
     virtual void apply(State& state) const override;
-
-  private:
-    struct Data;
-    Data* const d;
-    ;
 };
 
 } // namespace glr

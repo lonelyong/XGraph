@@ -162,7 +162,6 @@ class Array : public ArrayBuffer {
   private:
     struct Data;
     Data* const d;
-    ;
 };
 
 V_TMPL_OBJECT_META_IMPL(template <typename T>, Array<T>, ArrayBuffer)

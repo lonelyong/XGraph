@@ -165,11 +165,6 @@ class IGL_CORE_API PixelData : public BindableObject {
 
     static DataFormat computeDataFormat(InternalFormat ifmt);
     static DataType   computeDataType(InternalFormat ifmt);
-
-  private:
-    struct Data;
-    Data* const d;
-    ;
 };
 
 } // namespace glr

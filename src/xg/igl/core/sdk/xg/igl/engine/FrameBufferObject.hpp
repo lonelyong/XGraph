@@ -55,7 +55,6 @@ class IGL_CORE_API FrameBufferObject : public BindableObject {
   private:
     struct Data;
     Data* const d;
-    ;
 };
 
 } // namespace glr

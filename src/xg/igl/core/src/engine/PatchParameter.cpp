@@ -15,25 +15,13 @@ namespace xg
 namespace glr
 {
 
-struct PatchParameter::Data {
-    int   vertices              = 3;
-    Vec2f patch_def_inner_level = { 1.0f, 1.0f };
-    Vec4f patch_def_outer_level = { 1.0f, 1.0f, 1.0f, 1.0f };
-};
-
-PatchParameter::PatchParameter()
-  : d(new Data())
-{}
+PatchParameter::PatchParameter() = default;
 
 PatchParameter::PatchParameter(int vertices)
-  : d(new Data())
+  : vertices_(vertices)
 {}
 
-PatchParameter::~PatchParameter()
-{ delete d; }
-
-StateAttribute::Type PatchParameter::getType() const
-{ return PATCH_PARAMETER; }
+PatchParameter::~PatchParameter() = default;
 
 bool PatchParameter::equals(const StateAttribute& other) const
 {
@@ -41,30 +29,13 @@ bool PatchParameter::equals(const StateAttribute& other) const
     return false;
 }
 
-void PatchParameter::setVertices(int vertices)
-{ d->vertices = vertices; }
-
-int PatchParameter::getVertices() const
-{ return d->vertices; }
-
-void PatchParameter::setPatchDefaultInnerLevel(const Vec2f& level)
-{ d->patch_def_inner_level = level; }
-
-const Vec2f& PatchParameter::getPatchDefaultInnerLevel() const
-{ return d->patch_def_inner_level; }
-
-void PatchParameter::setPatchDefaultOuterLevel(const Vec4f& level)
-{ d->patch_def_outer_level = level; }
-
-const Vec4f& PatchParameter::getPatchDefaultOuterLevel() const
-{ return d->patch_def_outer_level; }
 
 void PatchParameter::apply(State& state) const
 {
     auto funcs = state.getContext()->getFuncs();
-    funcs->oglPatchParameteri(IGL_PATCH_VERTICES, d->vertices);
-    funcs->oglPatchParameterfv(IGL_PATCH_DEFAULT_INNER_LEVEL, glm::value_ptr(d->patch_def_inner_level));
-    funcs->oglPatchParameterfv(IGL_PATCH_DEFAULT_OUTER_LEVEL, glm::value_ptr(d->patch_def_outer_level));
+    funcs->oglPatchParameteri(IGL_PATCH_VERTICES, vertices_);
+    funcs->oglPatchParameterfv(IGL_PATCH_DEFAULT_INNER_LEVEL, glm::value_ptr(patch_def_inner_level_));
+    funcs->oglPatchParameterfv(IGL_PATCH_DEFAULT_OUTER_LEVEL, glm::value_ptr(patch_def_outer_level_));
 }
 
 } // namespace glr

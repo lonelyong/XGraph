@@ -39,33 +39,34 @@ class IGL_CORE_API BlendFunc : public StateAttribute {
     virtual ~BlendFunc();
 
   public:
-    virtual Type getType() const override;
+    virtual Type getType() const override { return BLEND_FUNC; }
 
-    void setSource(Func func) const;
-    Func getSource() const;
+    void setSource(Func func) { source_rgb_ = source_alpha_ = func; }
+    Func getSource() const { return source_rgb_; }
 
-    void setSourceRGB(Func func) const;
-    Func getSourceRGB() const;
+    void setSourceRGB(Func func) { source_rgb_ = func; }
+    Func getSourceRGB() const { return source_rgb_; }
 
-    void setSourceAlpha(Func func) const;
-    Func getSourceAlpha() const;
+    void setSourceAlpha(Func func) { source_alpha_ = func; }
+    Func getSourceAlpha() const { return source_alpha_; }
 
-    void setDestination(Func func) const;
-    Func getDestination() const;
+    void setDestination(Func func) { dest_rgb_ = dest_alpha_ = func; }
+    Func getDestination() const { return dest_rgb_; }
 
-    void setDestinationRGB(Func func) const;
-    Func getDestinationRGB() const;
+    void setDestinationRGB(Func func) { dest_rgb_ = func; }
+    Func getDestinationRGB() const { return dest_rgb_; }
 
-    void setDestinationAlpha(Func func) const;
-    Func getDestinationAlpha() const;
+    void setDestinationAlpha(Func func) { dest_alpha_ = func; }
+    Func getDestinationAlpha() const { return dest_alpha_; }
 
   protected:
     virtual void apply(State& state) const override;
 
   private:
-    struct Data;
-    Data* const d;
-    ;
+    Func source_rgb_   = SRC_ALPHA;
+    Func source_alpha_ = SRC_ALPHA;
+    Func dest_rgb_     = ONE_MINUS_SRC_ALPHA;
+    Func dest_alpha_   = ONE_MINUS_SRC_ALPHA;
 };
 
 class IGL_CORE_API BlendFunci : public BlendFunc {
@@ -77,18 +78,16 @@ class IGL_CORE_API BlendFunci : public BlendFunc {
     virtual ~BlendFunci();
 
   public:
-    virtual Type getType() const override;
+    virtual Type getType() const override { return BLEND_FUNC; }
 
-    GLuint_t getIndex() const;
-    void     setIndex(GLuint_t index);
+    GLuint_t getIndex() const { return index_; }
+    void     setIndex(GLuint_t index) { index_ = index; }
 
   protected:
     virtual void apply(State& state) const override;
 
   private:
-    struct Data;
-    Data* const d;
-    ;
+    GLuint_t index_ = 0;
 };
 
 } // namespace glr

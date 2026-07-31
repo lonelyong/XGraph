@@ -22,11 +22,6 @@ class IGL_CORE_API BindableObject : public GLObject {
   protected:
     virtual bool onBind(State& state)   = 0;
     virtual bool onUnbind(State& state) = 0;
-
-  private:
-    struct Data;
-    Data* const d;
-    ;
 };
 
 } // namespace glr

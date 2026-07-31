@@ -13,39 +13,17 @@ namespace glr
 
 V_OBJECT_META_IMPL(Texture, PixelData);
 
-struct Texture::Data {
-    WrapMode wrap_s = CLAMP_TO_EDGE;
-    WrapMode wrap_t = CLAMP_TO_EDGE;
-    WrapMode wrap_r = CLAMP_TO_EDGE;
+Texture::Texture() = default;
 
-    FilterMode filter_min = LINEAR;
-    FilterMode filter_mag = LINEAR;
-
-    InternalFormat internal_format = IF_RGBA;
-
-    float max_anisotropy         = 1.0;
-    bool  generate_mipmap_levels = 1.0;
-
-    std::unordered_set<int> params_dirty_list;
-    std::unordered_set<int> storage_dirty_list;
-    std::unordered_set<int> mipmap_dirty_list;
-};
-
-Texture::Texture()
-  : d(new Data())
-{}
-
-Texture::~Texture()
-{ delete d; }
+Texture::~Texture() = default;
 
 void Texture::setGenerateMipmapLevels(bool val)
 {
     if (getType() == TEXTURE_RECTANGLE) {
         printf("\nThe current texture type does not support setting mipmap levels.");
-        // return;
     }
-    if (val != d->generate_mipmap_levels) {
-        d->generate_mipmap_levels = val;
+    if (val != generate_mipmap_levels_) {
+        generate_mipmap_levels_ = val;
         dirty();
     }
 }
@@ -54,7 +32,7 @@ bool Texture::getGenerateMipmapLevels() const
 {
     if (getType() == TEXTURE_RECTANGLE)
         return false;
-    return d->generate_mipmap_levels;
+    return generate_mipmap_levels_;
 }
 
 bool Texture::onBind(State& state)
@@ -85,32 +63,32 @@ void Texture::dirtyParameters()
 { dirty(); }
 
 bool Texture::isParametersDirty(State& state) const
-{ return d->params_dirty_list.contains(state.getContext()->getId()); }
+{ return params_dirty_list_.contains(state.getContext()->getId()); }
 
 void Texture::dirtyStorage()
 { dirty(); }
 
 bool Texture::isStorageDirty(State& state) const
-{ return d->storage_dirty_list.contains(state.getContext()->getId()); }
+{ return storage_dirty_list_.contains(state.getContext()->getId()); }
 
 void Texture::dirtyMipmapLevels()
 { dirty(); }
 
 bool Texture::isMipmapLevelsDirty(State& state) const
-{ return d->mipmap_dirty_list.contains(state.getContext()->getId()); }
+{ return mipmap_dirty_list_.contains(state.getContext()->getId()); }
 
 void Texture::setFilter(FilterParameter param, FilterMode mode)
 {
     if (param == MAG_FILTER) {
-        if (mode == d->filter_mag)
+        if (mode == filter_mag_)
             return;
-        d->filter_mag = mode;
+        filter_mag_ = mode;
         dirtyParameters();
     }
     else if (param == MIN_FILTER) {
-        if (mode == d->filter_min)
+        if (mode == filter_min_)
             return;
-        d->filter_min = mode;
+        filter_min_ = mode;
         dirtyParameters();
     }
 }
@@ -118,9 +96,9 @@ void Texture::setFilter(FilterParameter param, FilterMode mode)
 Texture::FilterMode Texture::getFilter(FilterParameter param) const
 {
     if (param == MAG_FILTER)
-        return d->filter_mag;
+        return filter_mag_;
     else if (param == MIN_FILTER)
-        return d->filter_min;
+        return filter_min_;
     else
         return FILTER_UNSET;
 }
@@ -128,21 +106,21 @@ Texture::FilterMode Texture::getFilter(FilterParameter param) const
 void Texture::setWrap(WrapParameter param, WrapMode mode)
 {
     if (param == WRAP_S) {
-        if (mode == d->wrap_s)
+        if (mode == wrap_s_)
             return;
-        d->wrap_s = mode;
+        wrap_s_ = mode;
         dirtyParameters();
     }
     else if (param == WRAP_T) {
-        if (mode == d->wrap_t)
+        if (mode == wrap_t_)
             return;
-        d->wrap_t = mode;
+        wrap_t_ = mode;
         dirtyParameters();
     }
     else if (param == WRAP_R) {
-        if (mode == d->wrap_r)
+        if (mode == wrap_r_)
             return;
-        d->wrap_r = mode;
+        wrap_r_ = mode;
         dirtyParameters();
     }
 }
@@ -150,24 +128,21 @@ void Texture::setWrap(WrapParameter param, WrapMode mode)
 Texture::WrapMode Texture::getWrap(WrapParameter param) const
 {
     if (param == WRAP_S)
-        return d->wrap_s;
+        return wrap_s_;
     else if (param == WRAP_T)
-        return d->wrap_t;
+        return wrap_t_;
     else if (param == WRAP_R)
-        return d->wrap_r;
+        return wrap_r_;
     return WRAP_UNSET;
 }
 
 void Texture::setInternalFormat(InternalFormat fmt)
 {
-    if (d->internal_format == fmt)
+    if (internal_format_ == fmt)
         return;
-    d->internal_format = fmt;
+    internal_format_ = fmt;
     dirtyStorage();
 }
-
-Texture::InternalFormat Texture::getInternalFormat() const
-{ return d->internal_format; }
 
 void Texture::setMaxAnisotropy(double val)
 {
@@ -176,17 +151,10 @@ void Texture::setMaxAnisotropy(double val)
         printf("\nThe current texture type does not support setting anisotropy.");
         // return;
     }
-    if (val != d->max_anisotropy) {
-        d->max_anisotropy = val;
+    if (val != max_anisotropy_) {
+        max_anisotropy_ = val;
         dirty();
     }
-}
-
-float Texture::getMaxAnisotropy() const
-{
-    if (getType() == TEXTURE_RECTANGLE)
-        return 1.0;
-    return d->max_anisotropy;
 }
 
 } // namespace glr

@@ -22,63 +22,59 @@ class IGL_CORE_API Sampler : public StateAttribute {
     virtual ~Sampler();
 
   public:
-    Type getType() const override;
+    Type getType() const override { return SAMPLER; }
 
     virtual bool isTextureAttribute() const
     { return true; }
 
     /** Sets the texture wrap mode. */
-    void setWrap(Texture::WrapParameter which, Texture::WrapMode wrap);
+    void setWrap(Texture::WrapParameter which, Texture::WrapMode wrap) {}
 
     /** Gets the texture wrap mode. */
-    Texture::WrapMode getWrap(Texture::WrapParameter which) const;
+    Texture::WrapMode getWrap(Texture::WrapParameter which) const { return Texture::WrapMode(); }
 
     /** Sets the texture filter mode. */
-    void setFilter(Texture::FilterParameter which, Texture::FilterMode filter);
+    void setFilter(Texture::FilterParameter which, Texture::FilterMode filter) {}
 
     /** Gets the texture filter mode. */
-    Texture::FilterMode getFilter(Texture::FilterParameter which) const;
+    Texture::FilterMode getFilter(Texture::FilterParameter which) const { return Texture::FilterMode(); }
 
-    /** Sets the border color. Only used when wrap mode is CLAMP_TO_BORDER.
-     * The border color will be casted to the appropriate type to match the
-     * internal pixel format of the texture. */
-    void setBorderColor(const Vec4d& color);
+    /** Sets the border color. */
+    void setBorderColor(const Vec4d& color) {}
 
     /** Gets the border color. */
-    const Vec4d& getBorderColor() const;
+    const Vec4d& getBorderColor() const { static Vec4d c; return c; }
 
-    /** Sets the maximum anisotropy value, default value is 1.0 for no
-     * anisotropic filtering. If hardware does not support anisotropic
-     * filtering, use normal filtering (equivalent to a max anisotropy
-     * value of 1.0. Valid range is 1.0f upwards.  The maximum value
-     * depends on the graphics system. */
-    void setMaxAnisotropy(float anis);
+    /** Sets the maximum anisotropy value. */
+    void setMaxAnisotropy(float anis) {}
 
     /** Gets the maximum anisotropy value. */
-    inline float getMaxAnisotropy() const;
+    inline float getMaxAnisotropy() const { return 0.0f; }
 
-    void setMinLOD(float anis);
-
-    /** Gets the maximum anisotropy value. */
-    inline float getMinLOD() const;
-
-    void setMaxLOD(float anis);
+    void setMinLOD(float anis) {}
 
     /** Gets the maximum anisotropy value. */
-    inline float getMaxLOD() const;
+    inline float getMinLOD() const { return 0.0f; }
 
-    void setLODBias(float anis);
+    void setMaxLOD(float anis) {}
 
     /** Gets the maximum anisotropy value. */
-    inline float getLODBias() const;
+    inline float getMaxLOD() const { return 0.0f; }
+
+    void setLODBias(float anis) {}
+
+    /** Gets the maximum anisotropy value. */
+    inline float getLODBias() const { return 0.0f; }
 
   protected:
     virtual void apply(State& state) const override;
 
   private:
-    struct Data;
-    Data* const d;
-    ;
+    Texture::WrapMode   wrap_s_ = Texture::WRAP_UNSET;
+    Texture::WrapMode   wrap_r_ = Texture::WRAP_UNSET;
+    Texture::WrapMode   wrap_t_ = Texture::WRAP_UNSET;
+    Texture::FilterMode min_filter_ = Texture::FILTER_UNSET;
+    Texture::FilterMode mag_filter_ = Texture::FILTER_UNSET;
 };
 
 } // namespace glr

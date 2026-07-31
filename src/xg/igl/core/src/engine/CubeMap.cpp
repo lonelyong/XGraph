@@ -13,19 +13,9 @@ namespace glr
 
 V_OBJECT_META_IMPL(CubeMap, Texture);
 
-struct CubeMap::Data {
-    std::vector<vine::RefPtr<Image>> imgs;
-};
+CubeMap::CubeMap() = default;
 
-CubeMap::CubeMap()
-  : d(new Data())
-{}
-
-CubeMap::~CubeMap()
-{}
-
-Texture::Type CubeMap::getType() const
-{ return Type::TEXTURE_CUBE_MAP; }
+CubeMap::~CubeMap() = default;
 
 void CubeMap::setImages(const std::vector<std::string>& imgs)
 {
@@ -38,17 +28,16 @@ void CubeMap::setImages(const std::vector<std::string>& imgs)
 
 void CubeMap::setImages(const std::vector<Image*>& imgs)
 {
-
     std::vector<vine::RefPtr<Image>> is;
     is.reserve(imgs.size());
     for (auto img : imgs) is.push_back(img);
-    d->imgs = std::move(is);
+    imgs_ = std::move(is);
     dirty();
 }
 
 GLuint_t CubeMap::onCreate(State& state)
 {
-    if (d->imgs.size() != 6)
+    if (imgs_.size() != 6)
         return 0;
 
     auto funcs = state.getContext()->getFuncs();
@@ -63,7 +52,7 @@ GLuint_t CubeMap::onCreate(State& state)
     funcs->oglTexParameteri(getType(), IGL_TEXTURE_WRAP_R, getWrap(WRAP_R));
 
     for (int i = 0; i < 6; i++) {
-        auto& img = d->imgs[i];
+        auto& img = imgs_[i];
 
         if (img->isNull())
             continue;
@@ -71,8 +60,8 @@ GLuint_t CubeMap::onCreate(State& state)
         auto w        = img->getWidth();
         auto h        = img->getHeight();
         auto fmt      = img->getInternalTextureFormat();
-        auto src_fmt  = d->imgs[i]->getDataFormat();
-        auto src_type = d->imgs[i]->getDataType();
+        auto src_fmt  = imgs_[i]->getDataFormat();
+        auto src_type = imgs_[i]->getDataType();
         auto img_data = img->data();
 
         funcs->oglTexImage2D(IGL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, fmt, w, h, 0, src_fmt, src_type, img_data);
@@ -122,7 +111,7 @@ void CubeMap::applyParams(GLfuncs* funcs)
 void CubeMap::applyStorage(GLfuncs* funcs)
 {
     for (int i = 0; i < 6; ++i) {
-        auto& img      = d->imgs[i];
+        auto& img      = imgs_[i];
         void* img_data = img->data();
 
         if (img->isNull())

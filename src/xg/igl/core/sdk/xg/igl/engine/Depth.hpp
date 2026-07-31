@@ -4,6 +4,8 @@
 
 #include <xg/igl/engine/StateAttribute.hpp>
 
+#include <vector>
+
 namespace xg
 {
 namespace glr
@@ -33,15 +35,16 @@ class IGL_CORE_API Depth : public StateAttribute {
     virtual ~Depth();
 
   public:
-    virtual Type getType() const override;
+    virtual Type getType() const override { return DEPTH; }
 
   protected:
     virtual void apply(State& state) const override;
 
   private:
-    struct Data;
-    Data* const d;
-    ;
+    GLdouble_t  near_ = 0.0;
+    GLdouble_t  far_  = 1.0;
+    GLint_t     func_ = LESS;
+    GLboolean_t mask_ = true;
 };
 
 /**
@@ -55,15 +58,15 @@ class IGL_CORE_API DepthRangeIndexed : public StateAttribute {
     virtual ~DepthRangeIndexed();
 
   public:
-    virtual Type getType() const override;
+    virtual Type getType() const override { return DEPTH_RANGE_INDEXED; }
 
   protected:
     virtual void apply(State& state) const override;
 
   private:
-    struct Data;
-    Data* const d;
-    ;
+    GLuint_t   index_ = 0;
+    GLdouble_t near_  = 0.0;
+    GLdouble_t far_   = 1.0;
 };
 
 /**
@@ -77,15 +80,15 @@ class IGL_CORE_API DepthRangeArray : public StateAttribute {
     virtual ~DepthRangeArray();
 
   public:
-    virtual Type getType() const override;
+    virtual Type getType() const override { return DEPTH_RANGE_ARRAY; }
 
   protected:
     virtual void apply(State& state) const override;
 
   private:
-    struct Data;
-    Data* const d;
-    ;
+    GLuint_t                  first_ = 0;
+    GLsizei_t                 count_ = 0;
+    std::vector<GLdouble_t>   near_far_pairs_;
 };
 
 } // namespace glr

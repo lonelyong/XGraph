@@ -49,9 +49,12 @@ class VertexAttribPointer : public Object {
     void apply(BufferObject* buffer);
 
   private:
-    struct Data;
-    Data* const d;
-    ;
+    GLuint_t        index_;
+    GLint_t         size_;
+    GLenum_t        type_;
+    GLboolean_t     normalized_;
+    GLsizei_t       stride_;
+    const GLvoid_t* pointer_;
 };
 
 /**
@@ -62,11 +65,6 @@ class VertexAttribFormat : public Object {
 
   public:
     VertexAttribFormat(GLuint_t attribindex, GLint_t size, GLenum_t type, GLboolean_t normalized, GLuint_t relativeoffset);
-
-  private:
-    struct Data;
-    Data* const d;
-    ;
 };
 
 class VertexAttribBinding : public Object {
@@ -74,11 +72,6 @@ class VertexAttribBinding : public Object {
 
   public:
     VertexAttribBinding();
-
-  private:
-    struct Data;
-    Data* const d;
-    ;
 };
 
 class VertexAttribDivisor : public Object {
@@ -86,11 +79,6 @@ class VertexAttribDivisor : public Object {
 
   public:
     VertexAttribDivisor();
-
-  private:
-    struct Data;
-    Data* const d;
-    ;
 };
 
 /**
@@ -119,11 +107,6 @@ class IGL_CORE_API VertexArrayObject : public BindableObject {
     virtual bool     onUnbind(State& state) override;
     virtual bool     onUpdate(State& state) override;
     virtual bool     onRelease(State& state) override;
-
-  private:
-    struct Data;
-    Data* const d;
-    ;
 };
 
 } // namespace glr

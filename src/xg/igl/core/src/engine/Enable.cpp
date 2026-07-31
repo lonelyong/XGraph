@@ -11,17 +11,9 @@ namespace glr
 
 V_OBJECT_META_IMPL(Enable, StateAttribute);
 
-struct Enable::Data {};
+Enable::Enable() = default;
 
-Enable::Enable()
-  : d(new Data())
-{}
-
-Enable::~Enable()
-{}
-
-Enable::Type Enable::getType() const
-{ return ENABLE; }
+Enable::~Enable() = default;
 
 void Enable::apply(State& state) const
 { auto funcs = state.getContext()->getFuncs(); }

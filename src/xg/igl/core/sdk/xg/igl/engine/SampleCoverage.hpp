@@ -16,21 +16,20 @@ class IGL_CORE_API SampleCoverage : public StateAttribute {
     virtual ~SampleCoverage();
 
   public:
-    virtual Type getType() const override;
+    virtual Type getType() const override { return SAMPLE_COVERAGE; }
 
-    GLfloat_t getValue() const;
-    void      setValue(GLfloat_t val);
+    GLfloat_t getValue() const { return value_; }
+    void      setValue(GLfloat_t val) { value_ = val; }
 
-    GLboolean_t getInvert() const;
-    void        setInvert(GLboolean_t val);
+    GLboolean_t getInvert() const { return invert_; }
+    void        setInvert(GLboolean_t val) { invert_ = val; }
 
   protected:
     virtual void apply(State& state) const override;
 
   private:
-    struct Data;
-    Data* const d;
-    ;
+    GLfloat_t   value_  = 0.f;
+    GLboolean_t invert_ = false;
 };
 
 } // namespace glr

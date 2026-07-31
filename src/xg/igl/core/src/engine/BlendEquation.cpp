@@ -12,90 +12,45 @@ namespace glr
 #pragma region BlendEquation
 V_OBJECT_META_IMPL(BlendEquation, StateAttribute);
 
-struct BlendEquation::Data {
-    Equation equation_rdb   = FUNC_ADD;
-    Equation equation_alpha = FUNC_ADD;
-};
-
-BlendEquation::BlendEquation()
-  : d(new Data())
-{}
+BlendEquation::BlendEquation() = default;
 
 BlendEquation::BlendEquation(Equation equation)
-  : d(new Data())
 { setEquation(equation); }
 
-BlendEquation::~BlendEquation()
-{ delete d; }
-
-BlendEquation::Type BlendEquation::getType() const
-{ return BLEND_EQUATION; }
-
-void BlendEquation::setEquation(Equation equation)
-{ d->equation_alpha = d->equation_rdb = equation; }
-
-BlendEquation::Equation BlendEquation::getEquation() const
-{ return d->equation_rdb; }
-
-BlendEquation::Equation BlendEquation::getEquationRGB() const
-{ return d->equation_rdb; }
-
-void BlendEquation::setEquationRGB(Equation equation)
-{ d->equation_rdb = equation; }
-
-BlendEquation::Equation BlendEquation::getEquationAlpha() const
-{ return d->equation_alpha; }
-
-void BlendEquation::setEquationAlpha(Equation equation)
-{ d->equation_alpha = equation; }
+BlendEquation::~BlendEquation() = default;
 
 void BlendEquation::apply(State& state) const
 {
     auto funcs = state.getContext()->getFuncs();
-    if (d->equation_alpha == d->equation_rdb) { funcs->oglBlendEquation(d->equation_rdb); }
+    if (equation_alpha_ == equation_rgb_) { funcs->oglBlendEquation(equation_rgb_); }
     else {
-        // funcs->oglBlendEquationSeparate(d->equation_rdb, d->equation_alpha);
+        // funcs->oglBlendEquationSeparate(equation_rgb_, equation_alpha_);
     }
 }
 
 #pragma endregion
 
 #pragma region BlendEquationi
-V_OBJECT_META_IMPL(BlendEquationi, StateAttribute);
+V_OBJECT_META_IMPL(BlendEquationi, BlendEquation);
 
-struct BlendEquationi::Data {
-    GLuint_t index = 0;
-};
-
-BlendEquationi::BlendEquationi()
-  : d(new Data())
-{}
+BlendEquationi::BlendEquationi() = default;
 
 BlendEquationi::BlendEquationi(GLuint_t buf, Equation equation)
   : BlendEquation(equation)
-  , d(new Data())
-{ d->index = buf; }
+  , index_(buf)
+{}
 
-BlendEquationi::~BlendEquationi()
-{ delete d; }
+BlendEquationi::~BlendEquationi() = default;
 
-BlendEquationi::Type BlendEquationi::getType() const
-{ return BLEND_EQUATION; }
-
-void BlendEquationi::setIndex(GLuint_t index)
-{ d->index = index; }
-
-GLuint_t BlendEquationi::getIndex() const
-{ return d->index; }
 
 void BlendEquationi::apply(State& state) const
 {
     auto funcs          = state.getContext()->getFuncs();
     auto equation_rgb   = getEquationRGB();
     auto equation_alpha = getEquationAlpha();
-    if (equation_rgb == equation_alpha) { funcs->oglBlendEquationi(d->index, equation_rgb); }
+    if (equation_rgb == equation_alpha) { funcs->oglBlendEquationi(index_, equation_rgb); }
     else {
-        funcs->oglBlendEquationSeparatei(d->index, equation_rgb, equation_alpha);
+        funcs->oglBlendEquationSeparatei(index_, equation_rgb, equation_alpha);
     }
 }
 

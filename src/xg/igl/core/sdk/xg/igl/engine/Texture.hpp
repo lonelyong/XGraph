@@ -2,6 +2,8 @@
 
 #include <xg/igl/glr_global.hpp>
 
+#include <unordered_set>
+
 #include <xg/igl/engine/PixelData.hpp>
 
 namespace xg
@@ -87,13 +89,13 @@ class IGL_CORE_API Texture : public PixelData {
 
     // 如果设置了IMAGE，将使用IMAGE的格式
     void           setInternalFormat(InternalFormat fmt);
-    InternalFormat getInternalFormat() const;
+    InternalFormat getInternalFormat() const { return internal_format_; }
 
     // default value is 1.0 for no anisotropic filtering.
     // only support 2D textures and 3D textures
     // cubemap not support
     void  setMaxAnisotropy(double val);
-    float getMaxAnisotropy() const;
+    float getMaxAnisotropy() const { return getType() == TEXTURE_RECTANGLE ? 1.0f : max_anisotropy_; }
 
     // only support 2D textures and 3D textures
     void setGenerateMipmapLevels(bool val);
@@ -122,9 +124,21 @@ class IGL_CORE_API Texture : public PixelData {
     bool isMipmapLevelsDirty(State& state) const;
 
   private:
-    struct Data;
-    Data* const d;
-    ;
+    WrapMode wrap_s_ = CLAMP_TO_EDGE;
+    WrapMode wrap_t_ = CLAMP_TO_EDGE;
+    WrapMode wrap_r_ = CLAMP_TO_EDGE;
+
+    FilterMode filter_min_ = LINEAR;
+    FilterMode filter_mag_ = LINEAR;
+
+    InternalFormat internal_format_ = IF_RGBA;
+
+    float max_anisotropy_         = 1.0;
+    bool  generate_mipmap_levels_ = true;
+
+    std::unordered_set<int> params_dirty_list_;
+    std::unordered_set<int> storage_dirty_list_;
+    std::unordered_set<int> mipmap_dirty_list_;
 };
 
 } // namespace glr
