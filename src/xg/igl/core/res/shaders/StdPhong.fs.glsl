@@ -38,7 +38,6 @@ struct PhongLight {
     float quadraticAttenuation; // K2
 };
 
-
 uniform PhongMaterial mate = PhongMaterial(vec4(0.0), vec4(0.2), vec4(0.8), vec4(0.0), 32.0);
 uniform PhongLight    lights[MAX_LIGHT];
 uniform int           lights_count = 0;
@@ -54,8 +53,8 @@ uniform bool          xg_is_lighting_enabled;
 // 如果sampler不赋值的话，不去使用是没问题的（NV\AMD\INTEL）
 // 在subroutine中引用了，实际没有执行该subroutine的话(NV警告)(MESA无法渲染)
 uniform sampler2D     tex_2d;
-uniform samplerCube   tex_cube;
 uniform sampler3D     tex_3d;
+uniform samplerCube   tex_cube;
 uniform int tex_mode = TEX_MODE_MATERIAL;
 
 /*
@@ -93,7 +92,7 @@ subroutine(FetchColor) vec4 fetchMaterialColor() {
  * Replaces the deprecated GLSL subroutine mechanism. The C++ side sets
  * tex_mode to select among vertex color, 2D/3D/cube texture, or material color.
  */
-vec4 fetchColorByMode() {
+vec4 fetchColor() {
     switch (tex_mode) {
     case TEX_MODE_VERTEX:       return frag_color;
     case TEX_MODE_TEXTURE_2D:   return texture(tex_2d, frag_tex_coord2);
@@ -110,7 +109,7 @@ vec4 get_directional_light_contribution(PhongLight l) {
     vec3 l_dir    = l.position.xyz;
     vec3 N        = normalize(frag_world_norm);
     vec4 a        = l.ambient * mate.ambient;
-    vec4 d        = l.diffuse * max(dot(-l_dir, N), 0) * fetchColorByMode();
+    vec4 d        = l.diffuse * max(dot(-l_dir, N), 0) * fetchColor();
     // Phong
     // vec3 reflect_dir = reflect(l_dir, N);
     // vec3 s = l.s.rgb * pow(max(dot(xg_view_dir, reflect_dir), 0.0), mate.sh) * mate.s.rgb;
@@ -125,8 +124,8 @@ vec4 get_point_light_contribution(PhongLight l) {
     vec3 l_dir    = normalize(frag_world_posi - l.position.xyz);
     vec3 N        = normalize(frag_world_norm);
     vec3 half_vec = normalize(-l_dir + xg_view_dir);
-    vec4 a        = l.ambient * fetchColorByMode();
-    vec4 d        = l.diffuse * max(dot(-l_dir, N), 0) * fetchColorByMode();
+    vec4 a        = l.ambient * fetchColor();
+    vec4 d        = l.diffuse * max(dot(-l_dir, N), 0) * fetchColor();
     vec4 s        = l.specular * pow(max(dot(N, half_vec), 0.0), mate.shininess) * mate.specular;
 
     float dist = length(l.position.xyz - frag_world_posi);
@@ -152,7 +151,7 @@ vec4 get_spot_light_contribution(PhongLight l) {
         if (ld_dot_sd > l.spotCosCutoff) {
             float spot_effect = pow(ld_dot_sd, l.spotExponent);
             vec3  half_vec    = normalize(-l_dir + xg_view_dir);
-            d                 = l.diffuse * n_dot_l * fetchColorByMode();
+            d                 = l.diffuse * n_dot_l * fetchColor();
             s = l.specular * pow(max(dot(N, half_vec), 0.0), mate.shininess) * mate.specular;
 
 
@@ -161,7 +160,7 @@ vec4 get_spot_light_contribution(PhongLight l) {
                           (l.constantAttenuation + l.linearAttenuation * dist + l.quadraticAttenuation * (dist * dist));
         }
     }
-    a = l.ambient * fetchColorByMode();
+    a = l.ambient * fetchColor();
 
 
     // a *= attenuation;
@@ -171,7 +170,7 @@ vec4 get_spot_light_contribution(PhongLight l) {
 }
 
 void main() {
-    vec4 color = fetchColorByMode();
+    vec4 color = fetchColor();
     if (xg_is_lighting_enabled && lights_count > 0) {
         vec4 c = vec4(0, 0, 0, 0);
         for (int i = 0; i < lights_count; i++) {

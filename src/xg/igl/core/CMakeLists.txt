@@ -81,11 +81,13 @@ target_compile_definitions(${TARGET_NAME}
     IGL_LIB
 )
 
-target_compile_options(
-    ${TARGET_NAME}
-    PRIVATE
-    -fopenmp
-)
+if(UNIX)
+    target_compile_options(
+        ${TARGET_NAME}
+        PRIVATE
+        -fopenmp
+    )
+endif()
 
 set_target_properties(${TARGET_NAME} PROPERTIES FOLDER src)
 

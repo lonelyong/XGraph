@@ -177,6 +177,7 @@ osg::MatrixTransform* BrepLoader::loadFile(const std::string& file)
     edge_colors->push_back(osg::Vec4(0.2f, 0.2f, 0.2f, 1.f));
 
     // see https://dev.opencascade.org/doc/occt-7.9.0/overview/html/occt_user_guides__mesh.html
+    // see https://occt3d.com/dev/doc/overview/html/occt_user_guides__mesh.html
     IMeshTools_Parameters params;
     // Maximum angular deviation (in radians) between the generated mesh segment and the tangent direction of the original geometric curve at the segment
     // endpoints.
