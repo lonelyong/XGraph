@@ -15,7 +15,9 @@
 #include <xg/xviewer/app/ConsoleNotifyHandler.hpp>
 
 
-#ifdef _WIN32
+// osgVerse's static osgVersePipeline.lib already defines and exports these two
+// symbols (see osgverse source), which would cause LNK2005 duplicates.
+#if defined(_WIN32) && !defined(XG_XVIEWER_BUILD_WITH_OSGVERSE)
 extern "C"
 {
     // Hint to Hybrid laptop drivers that our app would really rather use the NVidia/AMD GPU that you've got
